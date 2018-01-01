@@ -29,6 +29,8 @@
         <activity android:name=".COACHES.ActivityAddRequest" />
         <activity android:name=".COACHES.ActivityCurrentClass_coach" />
         <activity android:name=".COACHES.ActivityCourseSingleClass_coach"></activity>
+
+        <activity android:name=".ClassesDetailsActivity" />
     </application>
 
 </manifest>

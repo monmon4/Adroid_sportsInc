@@ -133,4 +133,20 @@
     <string name="attendance">Attendance</string>
 
 
+
+
+    <!-- Calendar Srtrings -->
+
+    <string name="current_date">June, 2016</string>
+    <string name="add_event">ADD CALENDAR EVENT</string>
+    <string name="sun">Sun</string>
+    <string name="mon">Mon</string>
+    <string name="tue">Tue</string>
+    <string name="wed">Wed</string>
+    <string name="thu">Thu</string>
+    <string name="fri">Fri</string>
+    <string name="sat">Sat</string>
+    <string name="last_date">30</string>
+
+
 </resources>

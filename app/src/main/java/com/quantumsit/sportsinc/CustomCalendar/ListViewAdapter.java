@@ -1,0 +1,82 @@
+package com.quantumsit.sportsinc.CustomCalendar;
+
+import android.content.Context;
+import android.support.annotation.NonNull;
+import android.support.v7.widget.RecyclerView;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.TextView;
+
+import com.quantumsit.sportsinc.Entities.classesEntity;
+import com.quantumsit.sportsinc.R;
+import com.quantumsit.sportsinc.Interfaces.MyItemClickListener;
+
+import java.util.List;
+
+/**
+ * Created by Bassam on 12/31/2017.
+ */
+
+public class ListViewAdapter extends RecyclerView.Adapter<ListViewAdapter.ViewHolder> {
+    private LayoutInflater mInflater;
+    Context context ;
+    List<classesEntity> myclasses;
+    MyItemClickListener clickListener;
+
+    public ListViewAdapter(@NonNull Context context, int resource, List<classesEntity> classeslist) {
+        this.context = context;
+        this.myclasses = classeslist;
+        mInflater = LayoutInflater.from(context);
+    }
+
+    @Override
+    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        View view = mInflater.inflate(R.layout.classes_list_items, parent,false);
+
+        ViewHolder mViewHolder = new ViewHolder(view);
+        return mViewHolder;
+    }
+
+    @Override
+    public void onBindViewHolder(ViewHolder viewHolder, final int position) {
+        classesEntity myclass = getItem(position);
+
+        viewHolder.Title.setText(myclass.getCourseName()+" "+myclass.getClassName());
+        viewHolder.Time.setText(myclass.getStartTime()+" to "+myclass.getEndTime());
+        viewHolder.status.setText(myclass.getStatus());
+    }
+    public classesEntity getItem(int position) {
+        return myclasses.get(position);
+    }
+
+    @Override
+    public int getItemCount() {
+        return myclasses.size();
+    }
+
+    public void setClickListener(MyItemClickListener clickListener) {
+        this.clickListener = clickListener;
+    }
+
+    /**
+     * View holder to display each RecylerView item
+     */
+    protected class ViewHolder extends RecyclerView.ViewHolder  implements View.OnClickListener {
+        private TextView Title ,Time ,status;
+
+        public ViewHolder(View view) {
+            super(view);
+            Title = view.findViewById(R.id.class_name);
+            Time = view.findViewById(R.id.class_start_end);
+            status = view.findViewById(R.id.class_status);
+            view.setTag(view);
+            view.setOnClickListener(this);
+        }
+
+        @Override
+        public void onClick(View view) {
+            if (clickListener != null) clickListener.onClick(view, getAdapterPosition());
+        }
+    }
+}
