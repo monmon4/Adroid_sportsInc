@@ -1,0 +1,43 @@
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.quantumsit.sportsinc.Side_menu_fragments.ComplainsFragment">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp">
+
+        <EditText
+            android:id="@+id/subjectEditText_complains"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="100"
+            android:layout_marginBottom="10dp"
+            android:inputType="textPersonName"
+            android:hint="@string/subject" />
+
+        <EditText
+            android:id="@+id/contentEditText_complains"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAlignment="textStart"
+            android:inputType="textMultiLine"
+            android:gravity="start"
+            android:layout_below="@id/subjectEditText_complains"
+            android:hint="@string/content"
+            />
+
+        <Button
+            android:id="@+id/sendButton_complains"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/contentEditText_complains"
+            android:layout_margin="10dp"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:text="@string/send" />
+    </RelativeLayout>
+
+</ScrollView>

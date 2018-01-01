@@ -1,0 +1,57 @@
+package com.quantumsit.sportsinc.COACHES.CurrentClassFragments;
+
+
+import android.os.Bundle;
+import android.support.annotation.Nullable;
+import android.support.design.widget.TabLayout;
+import android.support.v4.app.Fragment;
+import android.support.v4.view.ViewPager;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+
+import com.quantumsit.sportsinc.Adapters.SectionsPagerAdapter;
+import com.quantumsit.sportsinc.Home_fragments.CoursesFragment;
+import com.quantumsit.sportsinc.Home_fragments.EventFragment;
+import com.quantumsit.sportsinc.Home_fragments.MainFragment;
+import com.quantumsit.sportsinc.Home_fragments.NewsFragment;
+import com.quantumsit.sportsinc.Home_fragments.RulesFragment;
+import com.quantumsit.sportsinc.R;
+
+/**
+ * A simple {@link Fragment} subclass.
+ */
+public class TabsCoachCurrentClassFragment extends Fragment {
+
+    private SectionsPagerAdapter mSectionsPagerAdapter;
+
+    private ViewPager mViewPager;
+
+
+
+    @Nullable
+    @Override
+    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
+        View root = inflater.inflate(R.layout.fragment_tabs_coach_current_class,container,false);
+
+        mViewPager = root.findViewById(R.id.coach_current_class_viewpager);
+
+        setupViewPager(mViewPager);
+        TabLayout tabLayout = root.findViewById(R.id.coach_current_class_tabs);
+        tabLayout.setupWithViewPager(mViewPager);
+
+
+        return root;
+    }
+
+    public void setupViewPager(ViewPager mViewPager){
+        mSectionsPagerAdapter = new SectionsPagerAdapter(getChildFragmentManager());
+        mSectionsPagerAdapter.addFragment(new Coach_CurrentClassRulesFragment(),"Rules");
+        mSectionsPagerAdapter.addFragment(new Coach_CurrentClassAttendanceFragment(),"Attendance");
+        mSectionsPagerAdapter.addFragment(new Coach_CurrentClassScoresFragment(),"Scores");
+        mSectionsPagerAdapter.addFragment(new Coach_CurrentClassNoteFragment(),"Notes");
+
+        mViewPager.setAdapter(mSectionsPagerAdapter);
+    }
+
+}
