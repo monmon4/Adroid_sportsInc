@@ -8,12 +8,13 @@ import java.io.Serializable;
 
 public class classesEntity implements Serializable {
     String courseName, groupName, className, status, coachName, adminName, poolName;
-    String startTime, endTime, reason, postpondTime;
+    String startTime, endTime, reason, postpondTime,classdate;
 
     public classesEntity() {
     }
 
-    public classesEntity(String courseName, String groupName, String className, String status, String coachName, String adminName, String poolName, String startTime, String endTime) {
+    public classesEntity(String classdate ,String courseName, String groupName, String className, String status, String coachName, String adminName, String poolName, String startTime, String endTime) {
+        this.classdate = classdate;
         this.courseName = courseName;
         this.groupName = groupName;
         this.className = className;
@@ -24,7 +25,8 @@ public class classesEntity implements Serializable {
         this.startTime = startTime;
         this.endTime = endTime;
     }
-    public classesEntity(String courseName, String groupName, String className, String status, String coachName, String adminName, String poolName, String startTime, String endTime, String reason, String postpondTime) {
+    public classesEntity(String classdate ,String courseName, String groupName, String className, String status, String coachName, String adminName, String poolName, String startTime, String endTime, String reason, String postpondTime) {
+        this.classdate = classdate;
         this.courseName = courseName;
         this.groupName = groupName;
         this.className = className;
@@ -38,7 +40,8 @@ public class classesEntity implements Serializable {
         this.postpondTime = postpondTime;
     }
 
-    public classesEntity(String courseName, String groupName, String className, String status, String coachName, String adminName, String poolName, String startTime, String endTime, String reason) {
+    public classesEntity(String classdate ,String courseName, String groupName, String className, String status, String coachName, String adminName, String poolName, String startTime, String endTime, String reason) {
+        this.classdate = classdate;
         this.courseName = courseName;
         this.groupName = groupName;
         this.className = className;
@@ -137,5 +140,13 @@ public class classesEntity implements Serializable {
 
     public void setPostpondTime(String postpondTime) {
         this.postpondTime = postpondTime;
+    }
+
+    public String getClassdate() {
+        return classdate;
+    }
+
+    public void setClassdate(String classdate) {
+        this.classdate = classdate;
     }
 }

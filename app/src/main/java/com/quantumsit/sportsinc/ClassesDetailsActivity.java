@@ -10,7 +10,7 @@ import android.widget.TextView;
 import com.quantumsit.sportsinc.Entities.classesEntity;
 
 public class ClassesDetailsActivity extends AppCompatActivity {
-    TextView date ,start ,end ,coach ,admin ,classname ,coursename, postpond ,reason;
+    TextView date ,start ,end ,coach ,admin ,groupname ,pool ,classname ,coursename, postpond ,reason;
 
 
     @Override
@@ -29,6 +29,8 @@ public class ClassesDetailsActivity extends AppCompatActivity {
         admin = findViewById(R.id.class_admin_Text);
         classname = findViewById(R.id.class_name_Text);
         coursename = findViewById(R.id.class_course_Text);
+        groupname = findViewById(R.id.class_group_Text);
+        pool = findViewById(R.id.class_pool_Text);
         postpond = findViewById(R.id.class_postpond_Text);
         reason = findViewById(R.id.class_reason_Text);
 
@@ -43,21 +45,30 @@ public class ClassesDetailsActivity extends AppCompatActivity {
     }
 
     private void fillView(classesEntity myclass) {
+        date.setText(myclass.getClassdate());
         start.setText(myclass.getStartTime());
         end.setText(myclass.getEndTime());
         coach.setText(myclass.getCoachName());
         admin.setText(myclass.getAdminName());
         classname.setText(myclass.getClassName());
         coursename.setText(myclass.getCourseName());
+        groupname.setText(myclass.getGroupName());
+        pool.setText(myclass.getPoolName());
         if(myclass.getStatus().equals("Canceled")){
             LinearLayout reasonlayout = findViewById(R.id.canceled_reason);
             reasonlayout.setVisibility(View.VISIBLE);
             reason.setText(myclass.getReason());
+
+            LinearLayout buttons = findViewById(R.id.ChangeStatusButtons);
+            buttons.setVisibility(View.GONE);
         }
         else if(myclass.getStatus().equals("Postponded")){
             LinearLayout postpondlayout = findViewById(R.id.postponded_Time);
             postpondlayout.setVisibility(View.VISIBLE);
             postpond.setText(myclass.getPostpondTime());
+
+            LinearLayout buttons = findViewById(R.id.ChangeStatusButtons);
+            buttons.setVisibility(View.GONE);
 
             LinearLayout reasonlayout = findViewById(R.id.canceled_reason);
             reasonlayout.setVisibility(View.VISIBLE);

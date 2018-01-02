@@ -1,5 +1,6 @@
 package com.quantumsit.sportsinc;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.design.widget.FloatingActionButton;
@@ -16,6 +17,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.quantumsit.sportsinc.COACHES.CoachReportsAttendanceFragment;
@@ -34,6 +37,7 @@ public class HomeActivity extends AppCompatActivity
     public static FragmentManager fragmentManager;
     public NavigationView navigationView;
     private ActionBar actionBar;
+    private DrawerLayout drawer;
 
     boolean doubleBackToExitPressedOnce = false;
 
@@ -59,7 +63,7 @@ public class HomeActivity extends AppCompatActivity
             }
         });*/
 
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
@@ -67,6 +71,18 @@ public class HomeActivity extends AppCompatActivity
 
         navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+        RelativeLayout header = (RelativeLayout) navigationView.getHeaderView(0);
+        ImageView profileImage = header.findViewById(R.id.profile_image);
+
+        profileImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getApplicationContext(),ProfileActivity.class);
+                drawer.closeDrawer(GravityCompat.START);
+                startActivity(intent);
+            }
+        });
         actionBar = getSupportActionBar();
 
         if (savedInstanceState == null) {

@@ -133,8 +133,6 @@
     <string name="attendance">Attendance</string>
 
 
-
-
     <!-- Calendar Srtrings -->
 
     <string name="current_date">June, 2016</string>
@@ -148,5 +146,14 @@
     <string name="sat">Sat</string>
     <string name="last_date">30</string>
 
+    <string name="edit">Edit Profile</string>
+    <string name="save">Save</string>
+    <string name="cancel">Cancel</string>
+    <string name="old_password">Old Password</string>
+    <string name="new_password">New Password</string>
+    <string name="change_password">Change Password</string>
+    <string name="view_scores">View Scores</string>
+    <string name="full_name">Full Name</string>
+    <string name="postpond">Postpone</string>
 
 </resources>

@@ -28,9 +28,10 @@
         <activity android:name=".Request_addActivity" />
         <activity android:name=".COACHES.ActivityAddRequest" />
         <activity android:name=".COACHES.ActivityCurrentClass_coach" />
-        <activity android:name=".COACHES.ActivityCourseSingleClass_coach"></activity>
-
+        <activity android:name=".COACHES.ActivityCourseSingleClass_coach" />
         <activity android:name=".ClassesDetailsActivity" />
+        <activity android:name=".ProfileActivity"
+            android:windowSoftInputMode="stateAlwaysHidden"></activity>
     </application>
 
 </manifest>
