@@ -26,12 +26,13 @@
         <activity android:name=".MyClasses_scoresActivity" />
         <activity android:name=".Reports_coursesActivity" />
         <activity android:name=".Request_addActivity" />
-        <activity android:name=".COACHES.ActivityAddRequest" />
+        <activity android:name=".COACHES.ActivityAddRequest_coach" />
         <activity android:name=".COACHES.ActivityCurrentClass_coach" />
         <activity android:name=".COACHES.ActivityCourseSingleClass_coach" />
         <activity android:name=".ClassesDetailsActivity" />
         <activity android:name=".ProfileActivity"
             android:windowSoftInputMode="stateAlwaysHidden"></activity>
+        <activity android:name=".COACHES.ActivityFinishedCourseSingle_coach"></activity>
     </application>
 
 </manifest>

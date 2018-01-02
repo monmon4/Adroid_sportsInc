@@ -89,7 +89,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"
-                android:text="@string/couch_s_notes" />
+                android:text="@string/coach_s_notes" />
 
         </LinearLayout>
 

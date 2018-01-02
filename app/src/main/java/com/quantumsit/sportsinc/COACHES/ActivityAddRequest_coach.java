@@ -8,7 +8,7 @@ import android.widget.ArrayAdapter;
 import com.quantumsit.sportsinc.R;
 import com.weiwangcn.betterspinner.library.material.MaterialBetterSpinner;
 
-public class ActivityAddRequest extends AppCompatActivity {
+public class ActivityAddRequest_coach extends AppCompatActivity {
 
     MaterialBetterSpinner request_for_spinner, course_name_spinner, class_number_spinner;
 

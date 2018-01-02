@@ -109,7 +109,7 @@
     <string name="score">Score</string>
     <string name="group_number">Group number</string>
     <string name="coach_s_name">Coach\'s name</string>
-    <string name="couch_s_notes">Couch\'s notes</string>
+    <string name="coach_s_notes">Coach\'s notes</string>
     <string name="creation_date">Creation date</string>
     <string name="course_name_class_number">Course name, Class number</string>
     <string name="class_date">Class date</string>

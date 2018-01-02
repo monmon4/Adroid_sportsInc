@@ -59,6 +59,16 @@
 
         </LinearLayout>
 
+    <TextView
+        android:id="@+id/coachNotesTextView_coachCourseSingleClass"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginLeft="24dp"
+        android:layout_marginTop="10dp"
+        android:layout_below="@+id/ll_coachCourseSingleClass"
+        android:text="@string/coach_s_notes" />
+
         <TextView
             android:id="@+id/attendanceTextView_coachCourseSingleClass"
             android:layout_width="wrap_content"
@@ -68,7 +78,7 @@
             android:layout_marginTop="10dp"
             android:textSize="18sp"
             android:textColor="@color/colorTextDark"
-            android:layout_below="@+id/ll_coachCourseSingleClass"
+            android:layout_below="@+id/coachNotesTextView_coachCourseSingleClass"
             android:text="@string/attendance" />
 
     <LinearLayout
