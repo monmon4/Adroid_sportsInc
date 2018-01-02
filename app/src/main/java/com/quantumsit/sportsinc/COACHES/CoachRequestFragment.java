@@ -6,17 +6,12 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
 
-import com.quantumsit.sportsinc.Aaa_looks.ListView_Adapter_request;
-import com.quantumsit.sportsinc.Aaa_looks.MyCustomLayoutManager;
-import com.quantumsit.sportsinc.Aaa_looks.item_request;
 import com.quantumsit.sportsinc.R;
-import com.quantumsit.sportsinc.Request_addActivity;
 
 import java.util.ArrayList;
 
@@ -40,7 +35,7 @@ public class CoachRequestFragment extends Fragment {
         add_request_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getActivity(), ActivityAddRequest.class);
+                Intent intent = new Intent(getActivity(), ActivityAddRequest_coach.class);
                 startActivity(intent);
             }
         });

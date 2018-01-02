@@ -49,6 +49,6 @@
         android:layout_marginEnd="20dp"
         android:layout_marginStart="20dp"
 
-        android:text="@string/couch_s_notes" />
+        android:text="@string/coach_s_notes" />
 
 </LinearLayout>

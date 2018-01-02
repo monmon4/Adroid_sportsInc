@@ -19,6 +19,7 @@ import android.view.MenuItem;
 import android.widget.Toast;
 
 import com.quantumsit.sportsinc.COACHES.CoachReportsAttendanceFragment;
+import com.quantumsit.sportsinc.COACHES.CoachReportsFragment;
 import com.quantumsit.sportsinc.COACHES.CoachRequestFragment;
 import com.quantumsit.sportsinc.Side_menu_fragments.CertificatesFragment;
 import com.quantumsit.sportsinc.Side_menu_fragments.ComplainsFragment;
@@ -149,7 +150,7 @@ public class HomeActivity extends AppCompatActivity
             if (parent){
                 fragmentClass = ReportsFragment.class;
             } else if (coach) {
-                fragmentClass = CoachReportsAttendanceFragment.class;
+                fragmentClass = CoachReportsFragment.class;
             }
 
         } else if (id == R.id.nav_certificates) {

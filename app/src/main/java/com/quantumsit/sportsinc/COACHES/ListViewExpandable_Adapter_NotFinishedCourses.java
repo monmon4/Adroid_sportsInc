@@ -65,7 +65,7 @@ public class ListViewExpandable_Adapter_NotFinishedCourses extends BaseExpandabl
         if (convertView == null) {
             LayoutInflater infalInflater = (LayoutInflater) this.context
                     .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            convertView = infalInflater.inflate(R.layout.item_coach_header_notfinishedcourses, null);
+            convertView = infalInflater.inflate(R.layout.item_text_view, null);
         }
 
         TextView course_group_text_view =  convertView.findViewById(R.id.courseNameAndGroupTextView_notfinishedcourseheaderitem);
