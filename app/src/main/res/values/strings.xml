@@ -161,5 +161,8 @@
     <string name="full_name">Full Name</string>
     <string name="postpond">Postpone</string>
     <string name="no_Courses">No Courses Available</string>
+    <string name="no_Events">No New Events</string>
+    <string name="no_rules">No Rules</string>
+    <string name="no_news">No News</string>
 
 </resources>

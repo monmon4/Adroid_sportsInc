@@ -25,9 +25,10 @@
             <TextView
                 android:id="@+id/course_item_name"
                 android:text="Course#1"
-                android:paddingBottom="15dp"
+                android:paddingBottom="5dp"
                 android:paddingStart="20dp"
-                android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
+                android:textColor="@color/colorPrimaryDark"
+                android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
 
@@ -45,7 +46,8 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="2"
                 android:text="Beginner Level"
-                android:textAppearance="@style/Base.TextAppearance.AppCompat.Large" />
+                android:textColor="@color/colorBlack"
+                android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium" />
             <TextView
                 android:id="@+id/course_item_price"
                 android:gravity="end"
@@ -53,8 +55,9 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="100$"
-                android:textAppearance="@style/Base.TextAppearance.AppCompat.Large" />
+                android:text="100"
+                android:textColor="@color/colorBlack"
+                android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium" />
 
         </LinearLayout>
 

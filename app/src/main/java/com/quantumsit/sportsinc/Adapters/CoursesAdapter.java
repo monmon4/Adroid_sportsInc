@@ -55,7 +55,7 @@ public class CoursesAdapter extends ArrayAdapter<CourseEntity> {
 
         Title.setText(mycourse.getCourseName());
         level.setText(mycourse.getLevel());
-        price.setText(mycourse.getPrice());
+        price.setText("$ "+mycourse.getPrice());
 
         return  view;
     }
