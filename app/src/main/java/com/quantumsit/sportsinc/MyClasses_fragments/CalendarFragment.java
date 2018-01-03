@@ -30,6 +30,7 @@ public class CalendarFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_calendar,container,false);
 
+        calendarView = root.findViewById(R.id.custom_calendar);
 
         List<classesEntity> classesList = new ArrayList<>();
         classesList.add(new classesEntity("01/01/2018","Course#1","Group#1","Class#1","Current","Coach: Ahmed","Admin: Ali","Pool#1","12:00pm","3:00pm"));
