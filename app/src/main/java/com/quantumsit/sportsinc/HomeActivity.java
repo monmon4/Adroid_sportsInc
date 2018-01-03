@@ -79,9 +79,9 @@ public class HomeActivity extends AppCompatActivity
         profileImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(getApplicationContext(),ProfileActivity.class);
+                //Intent intent = new Intent(getApplicationContext(),ProfileActivity.class);
                 drawer.closeDrawer(GravityCompat.START);
-                startActivity(intent);
+                //startActivity(intent);
             }
         });
         actionBar = getSupportActionBar();
