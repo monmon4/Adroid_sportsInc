@@ -160,5 +160,6 @@
     <string name="view_scores">View Scores</string>
     <string name="full_name">Full Name</string>
     <string name="postpond">Postpone</string>
+    <string name="no_Courses">No Courses Available</string>
 
 </resources>
