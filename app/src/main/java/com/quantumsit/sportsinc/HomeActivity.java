@@ -1,6 +1,7 @@
 package com.quantumsit.sportsinc;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.design.widget.FloatingActionButton;
@@ -21,6 +22,7 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
+import com.quantumsit.sportsinc.Aaa_data.GlobalVars;
 import com.quantumsit.sportsinc.COACHES.CoachReportsAttendanceFragment;
 import com.quantumsit.sportsinc.COACHES.CoachReportsFragment;
 import com.quantumsit.sportsinc.COACHES.CoachRequestFragment;
@@ -42,30 +44,39 @@ public class HomeActivity extends AppCompatActivity
 
     boolean doubleBackToExitPressedOnce = false;
 
-    boolean coach, parent;
+    GlobalVars globalVars;
+
+    boolean coach = false, parent= false, non_register = false, admin= false ;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_home);
+
+        globalVars = (GlobalVars) getApplication();
+        int user = globalVars.getUser_is();
+        if (user == 0) {
+            parent = true;
+        } else if (user == 1){
+            coach = true;
+        } else if (user == 2){
+            admin = true;
+        } else {
+            non_register = true;
+        }
+
+
+        if (non_register){
+            setContentView(R.layout.activity_home_nonregister);
+        } else {
+            setContentView(R.layout.activity_home);
+        }
+
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
-
-        parent = false; coach = true;
-
-        /*FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });*/
 
         drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
 
@@ -83,9 +94,9 @@ public class HomeActivity extends AppCompatActivity
         profileImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //Intent intent = new Intent(getApplicationContext(),ProfileActivity.class);
+                Intent intent = new Intent(getApplicationContext(),ProfileActivity.class);
                 drawer.closeDrawer(GravityCompat.START);
-                //startActivity(intent);
+                startActivity(intent);
             }
         });
         actionBar = getSupportActionBar();
@@ -107,10 +118,13 @@ public class HomeActivity extends AppCompatActivity
 
     }
 
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.join_now_button, menu);
+        if(non_register){
+            getMenuInflater().inflate(R.menu.join_now_button, menu);
+        }
         return true;
     }
 
@@ -205,6 +219,8 @@ public class HomeActivity extends AppCompatActivity
             fragmentClass = CertificatesFragment.class;
         } else if (id == R.id.nav_website) {
             //link to the academy's page so opens a web page
+            Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://thesportsinc.com/"));
+            startActivity(browserIntent);
         } else if(id == R.id.nav_logout){
             //log out
 

@@ -14,6 +14,10 @@
     <color name="colorBlack">#000000</color>
 
     <color name="colorGray">#ed4e4d4d</color>
+    <color name="colorBlue">#001b51</color>
+    <color name="colorRed">#df1b1c</color>
+    <color name="colorMaroon">#650000</color>
+
 
 
 </resources>

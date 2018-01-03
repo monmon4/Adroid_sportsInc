@@ -2,13 +2,18 @@ package com.quantumsit.sportsinc.Aaa_data;
 
 import android.app.Application;
 
+import java.util.ArrayList;
+
 /**
  * Created by Mona on 31-Dec-17.
  */
 
 public class GlobalVars extends Application {
 
-    int user_is ; //1 parent, 2 coach, 3 admin
+    int user_is ; //1 parent, 2 coach, 3 admin, 4 non_registered
+
+    String name, phone, mail, gender, birth_date;
+    ArrayList<course_info> courses;
 
     boolean coach_currentclass_rules, coach_currentclass_attendance,
             coach_currentclass_scores, coach_currentclass_notes;

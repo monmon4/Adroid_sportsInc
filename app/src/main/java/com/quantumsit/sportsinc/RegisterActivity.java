@@ -20,6 +20,8 @@ import android.widget.Spinner;
 import android.widget.Toast;
 import android.view.ViewGroup.LayoutParams;
 
+import com.quantumsit.sportsinc.Aaa_data.GlobalVars;
+
 import java.util.Calendar;
 
 import static com.quantumsit.sportsinc.R.color.colorTextLight;
@@ -38,10 +40,14 @@ public class RegisterActivity extends AppCompatActivity {
     private Context register_Context;
     private RelativeLayout register_rl;
 
+    GlobalVars globalVars;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
+
+        globalVars = (GlobalVars) getApplication();
 
         register_Context = getApplicationContext();
         register_rl = (RelativeLayout) findViewById(R.id.register_rl);
@@ -145,6 +151,7 @@ public class RegisterActivity extends AppCompatActivity {
                 String verifcation = verify_edit_text.getText().toString();
                 show_toast("Success" + verifcation);
                 verfication_popup_window.dismiss();
+                globalVars.setUser_is(3);
                 Intent intent = new Intent(RegisterActivity.this , HomeActivity.class);
                 startActivity(intent);
                 finish();

@@ -31,8 +31,12 @@
 
         <Button
             android:id="@+id/sendButton_complains"
-            android:layout_width="wrap_content"
+            android:layout_width="100dp"
             android:layout_height="wrap_content"
+            android:background="@drawable/button_background"
+            android:textColor="@color/colorTextLight"
+            android:textAllCaps="false"
+            android:textSize="18sp"
             android:layout_below="@id/contentEditText_complains"
             android:layout_margin="10dp"
             android:layout_alignParentEnd="true"

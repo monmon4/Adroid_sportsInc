@@ -7,33 +7,39 @@
     tools:context="com.quantumsit.sportsinc.LoginActivity">
 
 
-    <TextView
-        android:id="@+id/registerTextView_login"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentRight="true"
-        android:layout_margin="16dp"
-        android:textColor="@color/colorAccent"
-        android:textStyle="bold"
-        android:textSize="18sp"
-        android:clickable="true"
-        android:focusable="true"
-        android:text="@string/register" />
-
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@drawable/sportslogo">
+        android:layout_height="match_parent">
 
         <LinearLayout
             android:id="@+id/ll_login"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="16dp"
-            android:layout_gravity="center"
             android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/registerTextView_login"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentTop="true"
+                android:layout_marginBottom="30dp"
+                android:clickable="true"
+                android:focusable="true"
+                android:focusableInTouchMode="true"
+                android:text="@string/register"
+                android:textColor="@color/colorBlue"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+
+            <ImageView
+                android:id="@+id/imageView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="70dp"
+                app:srcCompat="@drawable/sportlogo" />
 
             <EditText
                 android:id="@+id/phoneEditText_login"
@@ -54,14 +60,14 @@
 
             <Button
                 android:id="@+id/button2"
-                android:layout_width="200dp"
+                android:layout_width="150dp"
                 android:layout_height="wrap_content"
                 android:textAllCaps="false"
-                android:layout_gravity="center"
+                android:layout_gravity="end"
                 android:textSize="18sp"
                 android:textColor="@color/colorTextLight"
-                android:layout_marginTop="10dp"
-                android:background="@drawable/button_background"
+                android:layout_marginTop="24dp"
+                android:background="@drawable/button_red_background"
                 android:onClick="loginClicked"
                 android:text="@string/log_in" />
         </LinearLayout>
