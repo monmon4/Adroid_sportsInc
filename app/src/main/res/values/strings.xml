@@ -151,5 +151,14 @@
     <string name="time">Time</string>
     <string name="title_activity_maps">Map</string>
 
+    <string name="edit">Edit Profile</string>
+    <string name="save">Save</string>
+    <string name="cancel">Cancel</string>
+    <string name="old_password">Old Password</string>
+    <string name="new_password">New Password</string>
+    <string name="change_password">Change Password</string>
+    <string name="view_scores">View Scores</string>
+    <string name="full_name">Full Name</string>
+    <string name="postpond">Postpone</string>
 
 </resources>
