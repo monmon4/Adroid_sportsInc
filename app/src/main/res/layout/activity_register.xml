@@ -151,8 +151,10 @@
 
         <Button
             android:id="@+id/doneButton_register"
-            android:layout_width="wrap_content"
+            android:layout_width="130dp"
             android:layout_height="wrap_content"
+            android:textAllCaps="false"
+            android:textStyle="bold"
             android:textColor="@color/colorTextLight"
             android:textSize="16sp"
             android:background="@drawable/button_background"

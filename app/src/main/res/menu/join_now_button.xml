@@ -4,8 +4,8 @@
 
 
     <item
-        android:id="@+id/send_message"
-        android:title="@string/send"
-        android:icon="@drawable/ic_phone"
+        android:id="@+id/join_now_button"
+        android:title="@string/join_now"
+        android:icon="@drawable/ic_person_add"
         app:showAsAction="always"/>
 </menu>
