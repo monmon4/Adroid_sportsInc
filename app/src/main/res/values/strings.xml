@@ -164,5 +164,8 @@
     <string name="no_Events">No New Events</string>
     <string name="no_rules">No Rules</string>
     <string name="no_news">No News</string>
+    <string name="join_now">Join now</string>
+    <string name="register">Register</string>
+    <string name="log_in">Log in</string>
 
 </resources>

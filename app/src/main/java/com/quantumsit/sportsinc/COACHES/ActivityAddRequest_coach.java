@@ -23,8 +23,12 @@ public class ActivityAddRequest_coach extends AppCompatActivity {
 
 
         ArrayAdapter<CharSequence> request_for_spinner_adapter = ArrayAdapter.createFromResource(this, R.array.request_for_array, android.R.layout.simple_spinner_item);
+        request_for_spinner_adapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
         ArrayAdapter<CharSequence> course_name_adapter = ArrayAdapter.createFromResource(this, R.array.course_names_array, android.R.layout.simple_spinner_item);
+        course_name_adapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
         ArrayAdapter<CharSequence> class_number_adapter = ArrayAdapter.createFromResource(this, R.array.class_numbers_array, android.R.layout.simple_spinner_item);
+        class_number_adapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
+
 
         request_for_spinner.setAdapter(request_for_spinner_adapter);
         course_name_spinner.setAdapter(course_name_adapter);

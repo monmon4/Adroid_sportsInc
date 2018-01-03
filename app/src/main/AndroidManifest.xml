@@ -60,6 +60,8 @@
         <activity android:name=".CourseDetailsActivity" />
         <activity android:name=".EventsDetailsActivity" />
         <activity android:name=".NewsDetailsActivity"></activity>
+        <activity android:name=".CourseDetailsActivity">
+        </activity>
     </application>
 
 </manifest>

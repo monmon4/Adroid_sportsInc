@@ -3,6 +3,7 @@ package com.quantumsit.sportsinc;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Build;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -20,6 +21,8 @@ import android.widget.Toast;
 import android.view.ViewGroup.LayoutParams;
 
 import java.util.Calendar;
+
+import static com.quantumsit.sportsinc.R.color.colorTextLight;
 
 public class RegisterActivity extends AppCompatActivity {
 
