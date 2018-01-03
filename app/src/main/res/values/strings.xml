@@ -145,6 +145,11 @@
     <string name="fri">Fri</string>
     <string name="sat">Sat</string>
     <string name="last_date">30</string>
+    <string name="the_academy_welcomes_you_to_join">The Academy welcomes you to join</string>
+    <string name="location">Location</string>
+    <string name="times_available_to_join">Times available to join</string>
+    <string name="time">Time</string>
+    <string name="title_activity_maps">Map</string>
 
 
 </resources>
