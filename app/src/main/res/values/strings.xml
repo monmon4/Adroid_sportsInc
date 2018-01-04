@@ -167,5 +167,6 @@
     <string name="join_now">Join now</string>
     <string name="register">Register</string>
     <string name="log_in">Log in</string>
+    <string name="no_notifications">No Notifications</string>
 
 </resources>
