@@ -1,0 +1,46 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/rules_admin_rl"
+    tools:context="com.quantumsit.sportsinc.ADMINS.Admin_CurrentClassRulesFragment">
+
+    <!--ImageView
+        android:id="@+id/checkedImageView_coachcurrentclassrulesfragment"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:src="@drawable/ic_check_faded" /-->
+
+    <TextView
+        android:id="@+id/textView_admincurrentclassrulesfragment"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/colorTextDark"
+        android:textStyle="bold"
+        android:layout_margin="16dp"
+        android:text="@string/class_rules" />
+
+    <ListView
+        android:id="@+id/rulesCheckListView_admincurrentclassrulesfragment"
+        android:layout_below="@+id/textView_admincurrentclassrulesfragment"
+        android:layout_marginStart="20dp"
+        android:layout_marginLeft="20dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
+
+
+    </ListView>
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/doneFloatingActionButton_admincurrentclassrulesfragment"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:clickable="true"
+        android:focusable="true"
+        android:layout_margin="16dp"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:src="@drawable/ic_arrow_forward" />
+
+</RelativeLayout>

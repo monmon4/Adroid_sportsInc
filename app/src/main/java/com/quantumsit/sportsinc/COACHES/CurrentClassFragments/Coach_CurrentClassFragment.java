@@ -10,6 +10,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.quantumsit.sportsinc.ADMINS.Admin_CurrentClassAttendanceFragment;
+import com.quantumsit.sportsinc.ADMINS.Admin_CurrentClassNoteFragment;
+import com.quantumsit.sportsinc.ADMINS.Admin_CurrentClassRulesFragment;
+import com.quantumsit.sportsinc.Aaa_data.GlobalVars;
 import com.quantumsit.sportsinc.Adapters.SectionsPagerAdapter;
 import com.quantumsit.sportsinc.R;
 
@@ -20,15 +24,17 @@ public class Coach_CurrentClassFragment extends Fragment {
 
     private ViewPager mViewPager;
 
-
+    GlobalVars globalVars;
+    int user_is;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-
         View root = inflater.inflate(R.layout.fragment_coach__current_class, container, false);
+
+        globalVars = (GlobalVars) getActivity().getApplication();
+        user_is = globalVars.getUser_is();
 
         mViewPager = (ViewPager) root.findViewById(R.id.coach_current_class_viewpager);
 
@@ -41,10 +47,21 @@ public class Coach_CurrentClassFragment extends Fragment {
 
     public void setupViewPager(ViewPager mViewPager){
         mSectionsPagerAdapter = new SectionsPagerAdapter(getChildFragmentManager());
-        mSectionsPagerAdapter.addFragment(new Coach_CurrentClassRulesFragment(),"Rules");
-        mSectionsPagerAdapter.addFragment(new Coach_CurrentClassAttendanceFragment(),"Attendance");
-        mSectionsPagerAdapter.addFragment(new Coach_CurrentClassScoresFragment(),"Scores");
-        mSectionsPagerAdapter.addFragment(new Coach_CurrentClassNoteFragment(),"Notes");
+
+        if (user_is == 1) {
+            mSectionsPagerAdapter.addFragment(new Coach_CurrentClassRulesFragment(),"Rules");
+            mSectionsPagerAdapter.addFragment(new Coach_CurrentClassAttendanceFragment(),"Attendance");
+            mSectionsPagerAdapter.addFragment(new Coach_CurrentClassScoresFragment(),"Scores");
+            mSectionsPagerAdapter.addFragment(new Coach_CurrentClassNoteFragment(),"Notes");
+
+        } else {
+            mSectionsPagerAdapter.addFragment(new Admin_CurrentClassAttendanceFragment(),"Attendance");
+            mSectionsPagerAdapter.addFragment(new Admin_CurrentClassRulesFragment(),"Rules");
+            mSectionsPagerAdapter.addFragment(new Admin_CurrentClassNoteFragment(),"Notes");
+
+        }
+
+
 
         mViewPager.setAdapter(mSectionsPagerAdapter);
     }
