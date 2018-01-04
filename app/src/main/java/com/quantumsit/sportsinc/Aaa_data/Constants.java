@@ -1,0 +1,17 @@
+package com.quantumsit.sportsinc.Aaa_data;
+
+/**
+ * Created by Mona on 04-Jan-18.
+ */
+
+public interface Constants {
+
+    String server = "http://192.168.1.11/sport_inc/api/";
+
+    String selectData = server + "selectdata";
+    String updateData = server + "updatedata";
+    String deleteData = server + "deletedata";
+    String join = server + "joindata";
+    String sendSMS = server + "sendSMS";
+    String notification = server + "pushNotificationAndroid";
+}
