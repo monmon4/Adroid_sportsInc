@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.quantumsit.sportsinc.Aaa_data.GlobalVars;
@@ -30,6 +31,7 @@ public class Coach_CurrentClassAttendanceFragment extends Fragment {
     ImageView checked_image_view;
 
     CheckBoxListView_Adapter checkBoxListView_adapter;
+    RelativeLayout attendance_rl;
     ListView listView;
 
     ArrayList<item_checkbox> list_items;
@@ -56,6 +58,8 @@ public class Coach_CurrentClassAttendanceFragment extends Fragment {
         }
 
         checkBoxListView_adapter = new CheckBoxListView_Adapter(getContext(), R.layout.item_checkbox, list_items);
+        attendance_rl = root.findViewById(R.id.attendance_rl);
+        checkBoxListView_adapter.setRL(attendance_rl);
         listView.setAdapter(checkBoxListView_adapter);
 
         if (global.isCoach_currentclass_attendance()){

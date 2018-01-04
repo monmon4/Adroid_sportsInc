@@ -1,9 +1,7 @@
 package com.quantumsit.sportsinc;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Build;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -21,10 +19,6 @@ import android.widget.Toast;
 import android.view.ViewGroup.LayoutParams;
 
 import com.quantumsit.sportsinc.Aaa_data.GlobalVars;
-
-import java.util.Calendar;
-
-import static com.quantumsit.sportsinc.R.color.colorTextLight;
 
 public class RegisterActivity extends AppCompatActivity {
 
@@ -129,7 +123,7 @@ public class RegisterActivity extends AppCompatActivity {
     private void verfication(){
 
         LayoutInflater inflater = (LayoutInflater) register_Context.getSystemService(LAYOUT_INFLATER_SERVICE);
-        View customView = inflater.inflate(R.layout.verficationcode_window_layout,null);
+        View customView = inflater.inflate(R.layout.window_verficationcode_layout,null);
 
         verfication_popup_window = new PopupWindow(
                 customView,

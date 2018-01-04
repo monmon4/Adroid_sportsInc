@@ -26,6 +26,7 @@
             android:layout_height="wrap_content"
             android:layout_margin="5dp"
             android:textStyle="bold"
+            android:textColor="@color/colorTextDark"
             android:text="@string/course_name" />
 
         <RelativeLayout
@@ -37,12 +38,14 @@
                 android:id="@+id/attendanceTextView_reportscourses"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:textColor="@color/colorText"
                 android:text="@string/class_number" />
 
             <TextView
                 android:id="@+id/scoreTextView_reportscourses"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:textColor="@color/colorText"
                 android:layout_marginLeft="16dp"
                 android:layout_marginStart="16dp"
                 android:layout_toEndOf="@+id/attendanceTextView_reportscourses"

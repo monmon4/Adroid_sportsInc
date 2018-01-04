@@ -30,12 +30,14 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/course_name"
+                android:textColor="@color/colorTextDark"
                 android:textStyle="bold"/>
 
             <TextView
                 android:id="@+id/dateTextView_scoresitem"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:textColor="@color/colorGray"
                 android:layout_alignParentEnd="true"
                 android:layout_alignParentRight="true"
                 android:text="@string/date" />
@@ -51,12 +53,15 @@
                 android:id="@+id/attendanveTextView_reportscourses"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:textColor="@color/colorText"
                 android:text="@string/class_number" />
 
             <TextView
                 android:id="@+id/scoreTextView_scoresitem"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:textColor="@color/colorText"
                 android:layout_toRightOf="@+id/attendanveTextView_reportscourses"
                 android:layout_toEndOf="@+id/attendanveTextView_reportscourses"
                 android:layout_marginStart="16dp"

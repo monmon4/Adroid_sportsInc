@@ -1,13 +1,22 @@
 package com.quantumsit.sportsinc;
 
+import android.Manifest;
+import android.content.ActivityNotFoundException;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.net.Uri;
+import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.weiwangcn.betterspinner.library.material.MaterialBetterSpinner;
+
+import javax.xml.datatype.Duration;
 
 public class JoinNowActivity extends AppCompatActivity {
 
@@ -39,5 +48,24 @@ public class JoinNowActivity extends AppCompatActivity {
 
         Intent intent = new Intent(JoinNowActivity.this, MapsActivity.class);
         startActivity(intent);
+    }
+
+    //call btn is pressed
+    public void on_call(View view) {
+
+        String academy_phone = "0115703711";
+
+        try {
+            Intent callIntent = new Intent(Intent.ACTION_CALL);
+            callIntent.setData(Uri.parse("tel:" + academy_phone));
+            if (ActivityCompat.checkSelfPermission(this, Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
+                // TODO: Consider calling
+                Toast.makeText(JoinNowActivity.this,"need a permission to call", Toast.LENGTH_SHORT).show();
+                return;
+            }
+            startActivity(callIntent);
+        } catch (ActivityNotFoundException activityException) {
+            Log.e("Calling a Phone Number", "Call failed", activityException);
+        }
     }
 }

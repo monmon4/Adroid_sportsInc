@@ -11,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.quantumsit.sportsinc.Aaa_data.GlobalVars;
 import com.quantumsit.sportsinc.Adapters.SectionsPagerAdapter;
 import com.quantumsit.sportsinc.COACHES.CoachClassesFragment;
 import com.quantumsit.sportsinc.MyClasses_fragments.CalendarFragment;
@@ -24,14 +25,24 @@ public class MyClassesFragment extends Fragment {
     private ViewPager myclasses_view_pager;
     TabLayout tabLayout;
 
-    boolean parent, coach;
+    GlobalVars globalVars;
+    boolean parent = false, coach = false, admin = false;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_my_classes,container,false);
 
-        parent = false; coach = true;
+        globalVars =  (GlobalVars) getActivity().getApplication();
+        int user_is = globalVars.getUser_is();
+
+        if (user_is == 1) {
+            parent = true;
+        } else if (user_is == 2) {
+            coach = true;
+        } else {
+            admin = true;
+        }
 
         myclasses_view_pager = (ViewPager) root.findViewById(R.id.my_classes_viewpager);
         tabLayout = (TabLayout) root.findViewById(R.id.my_classes_tabs);
@@ -47,7 +58,7 @@ public class MyClassesFragment extends Fragment {
         myclasses_sectionsPagerAdapter.addFragment(new CalendarFragment(),"Calender");
         if(parent){
             myclasses_sectionsPagerAdapter.addFragment(new ScoresFragment(),"Scores");
-        }else if(coach) {
+        }else{
             myclasses_sectionsPagerAdapter.addFragment(new CoachClassesFragment(),"Classes");
         }
 

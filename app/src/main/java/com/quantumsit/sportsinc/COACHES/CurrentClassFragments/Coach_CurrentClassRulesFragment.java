@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.quantumsit.sportsinc.Aaa_data.GlobalVars;
@@ -33,6 +34,7 @@ public class Coach_CurrentClassRulesFragment extends Fragment {
     ImageView checked_image_view;
 
     CheckBoxListView_Adapter checkBoxListView_adapter;
+    RelativeLayout rules_rl;
     ListView listView;
 
     ArrayList<item_checkbox> list_items;
@@ -58,6 +60,8 @@ public class Coach_CurrentClassRulesFragment extends Fragment {
         }
 
         checkBoxListView_adapter = new CheckBoxListView_Adapter(getContext(), R.layout.item_checkbox, list_items);
+        rules_rl = root.findViewById(R.id.rules_rl);
+        checkBoxListView_adapter.setRL(rules_rl);
         listView.setAdapter(checkBoxListView_adapter);
 
         if(global.isCoach_currentclass_rules()){
