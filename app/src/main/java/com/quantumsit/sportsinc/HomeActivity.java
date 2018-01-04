@@ -199,7 +199,7 @@ public class HomeActivity extends AppCompatActivity
             actionBar.setTitle(R.string.request);
             if (parent){
                 fragmentClass = RequestsFragment.class;
-            } else if (coach) {
+            } else {
                 fragmentClass = CoachRequestFragment.class;
             }
 
@@ -210,7 +210,7 @@ public class HomeActivity extends AppCompatActivity
             actionBar.setTitle(R.string.reports);
             if (parent){
                 fragmentClass = ReportsFragment.class;
-            } else if (coach) {
+            } else {
                 fragmentClass = CoachReportsFragment.class;
             }
 

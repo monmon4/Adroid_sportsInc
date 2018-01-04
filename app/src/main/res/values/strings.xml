@@ -13,13 +13,13 @@
 
     <string-array name="course_names_array">
         <item>Course 1</item>
-        <item>Course 1</item>
-        <item>Course 1</item>
-        <item>Course 1</item>
-        <item>Course 1</item>
-        <item>Course 1</item>
-        <item>Course 1</item>
-        <item>Course 1</item>
+        <item>Course 2</item>
+        <item>Course 3</item>
+        <item>Course 4</item>
+        <item>Course 5</item>
+        <item>Course 6</item>
+        <item>Course 7</item>
+        <item>Course 8</item>
         <item>Course 1</item>
         <item>Course 1</item>
         <item>Course 1</item>
@@ -96,7 +96,7 @@
     <string name="certificates">Certificates</string>
     <string name="academy_s_website">Academy\'s website</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
+
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="log_out">Log out</string>
     <string name="subject">Subject</string>
@@ -127,7 +127,7 @@
     <string name="checkbox">CheckBox</string>
     <string name="trainees_attendance">Trainees\' attendance</string>
     <string name="trainee_s_name">Trainee\'s name</string>
-    <string name="write_notes_anout_the_class">Write notes anout the class</string>
+    <string name="write_notes_anout_the_class">Write notes about the class</string>
     <string name="_5_5_2017">5/5/2017</string>
     <string name="pool_number">Pool number</string>
     <string name="attendance">Attendance</string>
@@ -167,6 +167,13 @@
     <string name="join_now">Join now</string>
     <string name="register">Register</string>
     <string name="log_in">Log in</string>
+    <string name="write_a_note">Write a note</string>
+    <string name="_100">100</string>
+
     <string name="no_notifications">No Notifications</string>
+    <string name="start_class">Start class</string>
+    <string name="postpone_class">Postpone class</string>
+    <string name="cancel_class">Cancel class</string>
+
 
 </resources>

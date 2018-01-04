@@ -10,6 +10,7 @@
             android:id="@+id/creationDate_requestitem"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:textColor="@color/colorTextDark"
             android:layout_margin="10dp"
             android:text="@string/creation_date" />
 
@@ -23,6 +24,7 @@
             android:id="@+id/courseNameAndClassNumberTextView_coachrequestitem"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:textColor="@color/colorText"
             android:layout_marginStart="25dp"
             android:layout_marginLeft="25dp"
             android:text="@string/course_name_class_number" />
@@ -31,10 +33,12 @@
             android:id="@+id/classDate_requestitem"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:textColor="@color/colorGray"
             android:layout_below="@id/courseNameAndClassNumberTextView_coachrequestitem"
             android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"
             android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp"
             android:layout_marginEnd="20dp"
             android:layout_marginRight="20dp"
             android:text="@string/class_date" />

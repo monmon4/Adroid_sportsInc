@@ -9,17 +9,17 @@ import android.widget.EditText;
 public class item_score {
 
     String name;
-    EditText score;
+    String score;
 
     public item_score(String name) {
         this.name = name;
     }
 
-    public EditText getScore() {
+    public String getScore() {
         return score;
     }
 
-    public void setScore(EditText score) {
+    public void setScore(String score) {
         this.score = score;
     }
 }

@@ -6,7 +6,7 @@
     android:layout_margin="16dp">
 
     <TextView
-        android:id="@+id/classNumberTextView_coachFinishedCoursesSingleItem"
+        android:id="@+id/classNumberTextView_adminCurrentClassesItem"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_weight="1"
@@ -15,7 +15,7 @@
         android:text="@string/class_number" />
 
     <TextView
-        android:id="@+id/dateTextView_coachFinishedCoursesSingleItem"
+        android:id="@+id/dateTextView_adminCurrentClassesItem"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_weight="1"
@@ -24,11 +24,11 @@
         android:text="@string/date" />
 
     <TextView
-        android:id="@+id/attendanceTextView_coachFinishedCoursesSingleItem"
+        android:id="@+id/timeTextView_adminCurrentClassesItem"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:textSize="16sp"
         android:textColor="@color/colorGray"
-        android:text="@string/attendance" />
+        android:text="@string/time" />
 </LinearLayout>

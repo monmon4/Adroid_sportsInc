@@ -29,7 +29,7 @@ public class Coach_CurrentClassScoresFragment extends Fragment {
     FloatingActionButton done_button;
     ImageView checked_image_view;
 
-    ListViewScores_Adapter adapter_scores_listview;
+    ListView_scores_Adapter adapter_scores_listview;
     ListView listView;
 
     ArrayList<item_score> list_items;
@@ -55,7 +55,7 @@ public class Coach_CurrentClassScoresFragment extends Fragment {
             list_items.add(new item_score("Trainee " + i));
         }
 
-        adapter_scores_listview = new ListViewScores_Adapter(getContext(), list_items);
+        adapter_scores_listview = new ListView_scores_Adapter(getContext(),R.layout.item_coach_trainee_score, list_items);
         listView.setAdapter(adapter_scores_listview);
 
         if(global.isCoach_currentclass_scores()){
@@ -78,11 +78,12 @@ public class Coach_CurrentClassScoresFragment extends Fragment {
                 ArrayList<item_score> list = adapter_scores_listview.list_items;
                 for(int i=0;i<list.size();i++){
                     item_score item = list.get(i);
-                    String score = item.score.getText().toString();
+                    String score = item.score;
 
                     if (score.equals("")){
                         allgood = false;
                         Toast.makeText(getContext(), item.name + " score is missing", Toast.LENGTH_SHORT).show();
+                        break;
                     } else {
                         responseText.append(item.name+ " score is " + score + "\n");
                         allgood = true;

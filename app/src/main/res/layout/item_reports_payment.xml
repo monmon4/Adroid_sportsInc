@@ -24,6 +24,7 @@
             android:id="@+id/imageButton_paymentitem"
             android:layout_width="70dp"
             android:layout_height="70dp"
+            android:layout_margin="10dp"
             android:background="@drawable/ic_warning" />
 
         <LinearLayout
@@ -41,6 +42,7 @@
                     android:id="@+id/courseNameTextView_paymentitem"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:textColor="@color/colorTextDark"
                     android:text="@string/course_name"
                     android:textStyle="bold" />
 
@@ -48,6 +50,7 @@
                     android:id="@+id/dateTextView_paymentitem"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:textColor="@color/colorGray"
                     android:layout_marginLeft="10dp"
                     android:layout_marginStart="10dp"
                     android:text="@string/date" />
@@ -65,12 +68,14 @@
                     android:id="@+id/totalpayTextView_paymentitem"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:textColor="@color/colorText"
                     android:text="@string/_500" />
 
                 <TextView
                     android:id="@+id/dueTextView_paymentitem"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:textColor="@color/colorText"
                     android:layout_marginStart="10dp"
                     android:layout_marginLeft="10dp"
                     android:text="@string/due_5_5_2017" />

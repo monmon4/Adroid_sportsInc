@@ -5,7 +5,7 @@
     android:id="@+id/reportsAttendanceCoachCardView"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="10dp"
+    android:layout_margin="5dp"
     android:orientation="vertical"
     card_view:cardCornerRadius="8dp"
     card_view:cardElevation="@dimen/cardview_default_elevation"
@@ -36,6 +36,7 @@
                 android:id="@+id/dateTextView_coachreposrtattendanceitem"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:textColor="@color/colorTextDark"
                 android:textStyle="bold"
                 android:text="@string/date" />
 
@@ -51,12 +52,14 @@
                     android:id="@+id/courseNameTextView_coachreposrtattendanceitem"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:textColor="@color/colorText"
                     android:text="@string/course_name" />
 
                 <TextView
                     android:id="@+id/classNumberTextView_coachreposrtattendanceitem"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:textColor="@color/colorText"
                     android:layout_marginStart="10dp"
                     android:layout_marginLeft="10dp"
                     android:text="@string/class_number" />

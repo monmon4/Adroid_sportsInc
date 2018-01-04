@@ -6,6 +6,8 @@ package com.quantumsit.sportsinc.Adapters;
 
 public class item_checkbox {
 
+    int id;
+    String note = "";
     String name;
     boolean selected;
 
@@ -26,5 +28,19 @@ public class item_checkbox {
 
     public boolean getSelected() {
         return selected;
+    }
+
+    public int getId() {return id;}
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public String getNote() {
+        return note;
+    }
+
+    public void setNote(String note) {
+        this.note = note;
     }
 }

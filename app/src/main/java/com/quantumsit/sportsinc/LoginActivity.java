@@ -7,13 +7,19 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
 
+import com.quantumsit.sportsinc.Aaa_data.GlobalVars;
+
 public class LoginActivity extends AppCompatActivity {
+
+    GlobalVars globalVars;
 
     TextView register_textview;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+
+        globalVars = (GlobalVars) getApplication();
 
         register_textview = findViewById(R.id.registerTextView_login);
         register_textview.setPaintFlags(register_textview.getPaintFlags() |   Paint.UNDERLINE_TEXT_FLAG);
@@ -29,6 +35,8 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     public void loginClicked(View view) {
+
+        globalVars.setUser_is(2);
         Intent intent= new Intent(LoginActivity.this, HomeActivity.class);
         startActivity(intent);
     }
