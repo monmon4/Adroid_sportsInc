@@ -1,17 +1,19 @@
 package com.quantumsit.sportsinc.Entities;
 
 import java.io.Serializable;
+import java.util.Date;
 
 /**
  * Created by Bassam on 1/3/2018.
  */
 
 public class EventEntity implements Serializable {
-    String title,date,time,description;
+    String title,time,description;
+    Date date;
 
     EventEntity(){}
 
-    public EventEntity(String title, String date, String time, String description) {
+    public EventEntity(String title, Date date, String time, String description) {
         this.title = title;
         this.date = date;
         this.time = time;
@@ -26,11 +28,11 @@ public class EventEntity implements Serializable {
         this.title = title;
     }
 
-    public String getDate() {
+    public Date getDate() {
         return date;
     }
 
-    public void setDate(String date) {
+    public void setDate(Date date) {
         this.date = date;
     }
 

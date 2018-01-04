@@ -18,6 +18,7 @@ import com.quantumsit.sportsinc.EventsDetailsActivity;
 import com.quantumsit.sportsinc.R;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 
@@ -33,9 +34,10 @@ public class EventFragment extends Fragment {
         ListView listView = root.findViewById(R.id.events_listview);
         listView.setEmptyView(root.findViewById(R.id.empty_text));
         eventsList = new ArrayList<>();
-        eventsList.add(new EventEntity("Event #1 Title","21/01/2018","10:00 am","hello from the pool num 1"));
-        eventsList.add(new EventEntity("Event #2 Title","31/01/2018","12:00 pm","hello from the pool num 2"));
-
+        Date date1 = new Date("01/11/2018");
+        Date date2 = new Date("01/21/2018");
+        eventsList.add(new EventEntity("Event #1 Title",date1,"10:00 am","hello from the pool num 1"));
+        eventsList.add(new EventEntity("Event #2 Title",date2,"12:00 pm","hello from the pool num 2"));
         adapter = new EventAdapter(getContext(),R.layout.list_item_event,eventsList);
 
         listView.setAdapter(adapter);

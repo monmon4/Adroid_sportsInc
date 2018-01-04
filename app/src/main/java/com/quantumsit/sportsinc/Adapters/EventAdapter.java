@@ -12,6 +12,8 @@ import android.widget.TextView;
 import com.quantumsit.sportsinc.Entities.EventEntity;
 import com.quantumsit.sportsinc.R;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -48,13 +50,24 @@ public class EventAdapter  extends ArrayAdapter<EventEntity> {
         EventEntity eventEntity = getItem(position);
 
         TextView Title = view.findViewById(R.id.eventTitle);
+        TextView Month = view.findViewById(R.id.eventMonth);
+        TextView Day = view.findViewById(R.id.eventDay);
         TextView time = view.findViewById(R.id.eventTime);
         TextView date = view.findViewById(R.id.eventDate);
+        TextView content = view.findViewById(R.id.eventContent);
+
+        Date mDate = eventEntity.getDate();
+        SimpleDateFormat df = new SimpleDateFormat("E MMM dd yyyy");
+        String formattedDate = df.format(mDate);
+        String[] data = formattedDate.split(" ");
+
+        Month.setText(data[1]);
+        Day.setText(data[2]);
 
         Title.setText(eventEntity.getTitle());
         time.setText(eventEntity.getTime());
-        date.setText(eventEntity.getDate());
-
+        date.setText(formattedDate);
+        content.setText(eventEntity.getDescription());
         return  view;
     }
 }

@@ -6,6 +6,8 @@ import android.widget.TextView;
 
 import com.quantumsit.sportsinc.Entities.EventEntity;
 
+import java.text.SimpleDateFormat;
+
 public class EventsDetailsActivity extends AppCompatActivity {
 
     TextView title ,date ,time ,description;
@@ -31,9 +33,11 @@ public class EventsDetailsActivity extends AppCompatActivity {
     }
 
     private void fillView(EventEntity eventEntity) {
+        SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy");
+        String formattedDate = df.format(eventEntity.getDate());
         title.setText(eventEntity.getTitle());
         time.setText(eventEntity.getTime());
-        date.setText(eventEntity.getDate());
+        date.setText(formattedDate);
         description.setText(eventEntity.getDescription());
     }
     @Override

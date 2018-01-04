@@ -53,6 +53,7 @@ public class ProfileActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 makeProfileEditable(true);
+                ChangePassword.setVisibility(View.VISIBLE);
                 EditButtons.setVisibility(View.VISIBLE);
                 Edit.setVisibility(View.GONE);
             }
@@ -62,6 +63,7 @@ public class ProfileActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 makeProfileEditable(false);
+                ChangePassword.setVisibility(View.GONE);
                 EditButtons.setVisibility(View.GONE);
                 Edit.setVisibility(View.VISIBLE);
             }
@@ -71,6 +73,7 @@ public class ProfileActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 makeProfileEditable(false);
+                ChangePassword.setVisibility(View.GONE);
                 EditButtons.setVisibility(View.GONE);
                 Edit.setVisibility(View.VISIBLE);
             }
