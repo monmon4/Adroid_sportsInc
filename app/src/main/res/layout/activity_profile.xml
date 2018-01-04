@@ -49,34 +49,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
+            android:paddingTop="10dp"
             android:paddingBottom="10dp">
-            <TextView
-                android:layout_width="0dp"
-                android:layout_weight="1"
-                android:layout_height="wrap_content"
-                android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
-                android:text="Course#1"
-                android:textColor="@color/colorGray"/>
-            <TextView
-                android:layout_width="0dp"
-                android:layout_weight="1"
-                android:layout_height="wrap_content"
-                android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
-                android:text="Group#1"
-                android:textColor="@color/colorGray"/>
-        </LinearLayout>
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textColor="@color/colorPrimaryDark"
-            android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
-            android:text="@string/phone"/>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
         <EditText
             android:id="@+id/profile_userPhone"
             android:layout_width="0dp"
@@ -98,18 +72,12 @@
                 android:background="@drawable/ic_phone"/>
         </LinearLayout>
 
-
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textColor="@color/colorPrimaryDark"
-            android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
-            android:text="@string/email"/>
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp">
         <EditText
             android:id="@+id/profile_userMail"
             android:layout_width="0dp"

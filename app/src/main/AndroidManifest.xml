@@ -68,9 +68,9 @@
             android:label="@string/title_activity_maps" />
         <activity android:name=".CourseDetailsActivity" />
         <activity android:name=".EventsDetailsActivity" />
-        <activity android:name=".NewsDetailsActivity"></activity>
-        <activity android:name=".CourseDetailsActivity">
-        </activity>
+        <activity android:name=".NewsDetailsActivity" />
+        <activity android:name=".CourseDetailsActivity"></activity>
+        <activity android:name=".NotificationDetailsActivity"></activity>
     </application>
 
 </manifest>
