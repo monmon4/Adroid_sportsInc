@@ -145,7 +145,7 @@ public class RegisterActivity extends AppCompatActivity {
                 String verifcation = verify_edit_text.getText().toString();
                 show_toast("Success" + verifcation);
                 verfication_popup_window.dismiss();
-                globalVars.setUser_is(3);
+                globalVars.setUser_is(4);
                 Intent intent = new Intent(RegisterActivity.this , HomeActivity.class);
                 startActivity(intent);
                 finish();

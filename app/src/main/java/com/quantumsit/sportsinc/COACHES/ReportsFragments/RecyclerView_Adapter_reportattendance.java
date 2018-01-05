@@ -1,7 +1,6 @@
-package com.quantumsit.sportsinc.COACHES;
+package com.quantumsit.sportsinc.COACHES.ReportsFragments;
 
 import android.content.Context;
-import android.content.Intent;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -10,9 +9,7 @@ import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
-import com.quantumsit.sportsinc.Aaa_looks.item_single_reports_courses;
 import com.quantumsit.sportsinc.R;
-import com.quantumsit.sportsinc.Reports_coursesActivity;
 
 import java.util.List;
 

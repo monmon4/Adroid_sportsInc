@@ -1,8 +1,7 @@
-package com.quantumsit.sportsinc.COACHES;
+package com.quantumsit.sportsinc.COACHES.ReportsFragments;
 
 import android.content.Context;
 import android.graphics.Typeface;
-import android.support.v4.media.RatingCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;

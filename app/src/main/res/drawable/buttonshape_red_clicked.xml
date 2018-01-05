@@ -22,7 +22,7 @@
         android:height="60dp"
         /-->
     <stroke
-        android:width="5dp"
+        android:width="0dp"
         android:color="@color/colorBlue"
         />
 </shape>

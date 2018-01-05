@@ -8,8 +8,10 @@
     tools:context="com.quantumsit.sportsinc.ADMINS.Admin_CurrentClassesFragment">
 
 
-    <ListView
-        android:id="@+id/listView_admincurrentclasses"
+    <ExpandableListView
+        android:id="@+id/expandableListView_admincurrentclasses"
+        android:groupIndicator="@drawable/expandable_listview_arrow"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
+
 </RelativeLayout>

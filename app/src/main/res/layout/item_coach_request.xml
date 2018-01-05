@@ -15,6 +15,7 @@
             android:id="@+id/creationDate_coachrequestitem"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginStart="14dp"
             android:textColor="@color/colorGray"
             android:text="@string/creation_date" />
 
