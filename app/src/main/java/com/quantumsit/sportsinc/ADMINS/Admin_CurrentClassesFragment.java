@@ -36,7 +36,7 @@ public class Admin_CurrentClassesFragment extends Fragment {
                              Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_admin__current_classes, container, false);
 
-        
+
 
         return root;
     }
