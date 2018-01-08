@@ -1,14 +1,12 @@
 package com.quantumsit.sportsinc.Backend;
 
-/**
- * Created by Bassam on 12/28/2017.
- */
-
 import android.os.AsyncTask;
+import android.util.Log;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.json.JSONTokener;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -24,18 +22,21 @@ import java.net.URLEncoder;
 import java.util.HashMap;
 import java.util.Map;
 
-public class  HttpRequest extends AsyncTask<HttpCall, String, JSONObject>{
+/**
+ * Created by Bassam on 1/8/2018.
+ */
+
+public class HttpRequest extends AsyncTask<HttpCall, String, JSONArray> {
+    private static final String TAG = HttpRequest.class.getSimpleName();
 
     private static final String UTF_8 = "UTF-8";
-    static JSONObject jObj = null;
-    static JSONArray jArr = null;
-    static String json = "";
 
     @Override
-    protected JSONObject doInBackground(HttpCall... params) {
+    protected JSONArray doInBackground(HttpCall... params) {
         HttpURLConnection urlConnection = null;
         HttpCall httpCall = params[0];
         StringBuilder response = new StringBuilder();
+        JSONArray object = null;
         try{
             String dataParams = getDataString(httpCall.getParams(), httpCall.getMethodtype());
             URL url = new URL(httpCall.getMethodtype() == HttpCall.GET ? httpCall.getUrl() + dataParams : httpCall.getUrl());
@@ -59,6 +60,11 @@ public class  HttpRequest extends AsyncTask<HttpCall, String, JSONObject>{
                 while ((line = br.readLine()) != null){
                     response.append(line);
                 }
+                JSONTokener tokener = new JSONTokener(response.toString());
+                JSONObject data = new JSONObject(tokener);
+                Log.d(TAG,String.valueOf(data));
+                object = data.getJSONArray("data");
+                Log.d(TAG,String.valueOf(object));
             }
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
@@ -66,26 +72,21 @@ public class  HttpRequest extends AsyncTask<HttpCall, String, JSONObject>{
             e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
-        }finally {
-            urlConnection.disconnect();
-        }
-
-        json = response.toString();
-        try {
-            jObj = new JSONObject(json);
         } catch (JSONException e) {
             e.printStackTrace();
+        } finally {
+            urlConnection.disconnect();
         }
-        return jObj;
+        return object;
     }
 
     @Override
-    protected void onPostExecute(JSONObject s) {
+    protected void onPostExecute(JSONArray s) {
         super.onPostExecute(s);
         onResponse(s);
     }
 
-    public void onResponse(JSONObject response){
+    public void onResponse(JSONArray response){
 
     }
 

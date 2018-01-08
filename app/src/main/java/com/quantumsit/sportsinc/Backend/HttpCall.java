@@ -1,10 +1,12 @@
 package com.quantumsit.sportsinc.Backend;
 
-
 import java.util.HashMap;
 
-public class HttpCall {
+/**
+ * Created by Bassam on 1/8/2018.
+ */
 
+public class HttpCall {
     public static final int GET = 1;
     public static final int POST = 2;
 
