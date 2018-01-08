@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.quantumsit.sportsinc.COACHES.CoachReportsAttendanceFragment">
+    tools:context="com.quantumsit.sportsinc.COACHES.ReportsFragments.CoachReportsAttendanceFragment">
 
         <com.weiwangcn.betterspinner.library.material.MaterialBetterSpinner
             android:id="@+id/monthSpinner_reportsattendance"

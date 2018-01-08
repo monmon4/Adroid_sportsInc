@@ -36,7 +36,7 @@ public class LoginActivity extends AppCompatActivity {
 
     public void loginClicked(View view) {
 
-        globalVars.setUser_is(2);
+        globalVars.setUser_is(3);
         Intent intent= new Intent(LoginActivity.this, HomeActivity.class);
         startActivity(intent);
     }

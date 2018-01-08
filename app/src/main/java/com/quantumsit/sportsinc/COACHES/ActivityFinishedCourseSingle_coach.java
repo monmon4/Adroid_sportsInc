@@ -10,6 +10,8 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.quantumsit.sportsinc.COACHES.ReportsFragments.ListViewFinishedCoursesSingle_Adapter;
+import com.quantumsit.sportsinc.COACHES.ReportsFragments.item_finsihed_course_single;
 import com.quantumsit.sportsinc.R;
 
 import java.util.ArrayList;

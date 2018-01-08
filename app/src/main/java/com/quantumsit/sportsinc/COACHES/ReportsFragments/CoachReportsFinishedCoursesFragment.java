@@ -1,4 +1,4 @@
-package com.quantumsit.sportsinc.COACHES;
+package com.quantumsit.sportsinc.COACHES.ReportsFragments;
 
 
 import android.content.Intent;
@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
+import com.quantumsit.sportsinc.COACHES.ActivityFinishedCourseSingle_coach;
 import com.quantumsit.sportsinc.R;
 
 import java.util.ArrayList;
