@@ -1,4 +1,4 @@
-package com.quantumsit.sportsinc.COACHES;
+package com.quantumsit.sportsinc.COACHES.ReportsFragments;
 
 /**
  * Created by Mona on 01-Jan-18.

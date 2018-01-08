@@ -24,17 +24,12 @@ public class ActivityCurrentClass_coach extends AppCompatActivity {
 
         global = (GlobalVars) getApplication();
 
-        global.setCoach_currentclass_rules(true);
-        global.setCoach_currentclass_attendance(true);
-        global.setCoach_currentclass_scores(true);
-        global.setCoach_currentclass_notes(true);
-
         actionBar = getSupportActionBar();
 
         if (savedInstanceState == null) {
             Fragment fragment = null;
-            Class fragmentClass = null;
-            fragmentClass = Coach_CurrentClassFragment.class;
+            Class fragmentClass = Coach_CurrentClassFragment.class;
+
             try {
                 fragment = (Fragment) fragmentClass.newInstance();
             } catch (Exception e) {

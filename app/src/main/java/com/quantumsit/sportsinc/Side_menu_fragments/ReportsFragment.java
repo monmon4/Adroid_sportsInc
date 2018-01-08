@@ -10,7 +10,6 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.quantumsit.sportsinc.Adapters.SectionsPagerAdapter;
-import com.quantumsit.sportsinc.COACHES.CoachReportsAttendanceFragment;
 import com.quantumsit.sportsinc.R;
 import com.quantumsit.sportsinc.Reports_fragments.CorsesFragment;
 import com.quantumsit.sportsinc.Reports_fragments.PaymentFragment;

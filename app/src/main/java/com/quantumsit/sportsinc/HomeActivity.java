@@ -4,8 +4,6 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.ActionBar;
@@ -23,8 +21,7 @@ import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.quantumsit.sportsinc.Aaa_data.GlobalVars;
-import com.quantumsit.sportsinc.COACHES.CoachReportsAttendanceFragment;
-import com.quantumsit.sportsinc.COACHES.CoachReportsFragment;
+import com.quantumsit.sportsinc.COACHES.ReportsFragments.CoachReportsFragment;
 import com.quantumsit.sportsinc.COACHES.CoachRequestFragment;
 import com.quantumsit.sportsinc.Side_menu_fragments.CertificatesFragment;
 import com.quantumsit.sportsinc.Side_menu_fragments.ComplainsFragment;
@@ -55,11 +52,11 @@ public class HomeActivity extends AppCompatActivity
 
         globalVars = (GlobalVars) getApplication();
         int user = globalVars.getUser_is();
-        if (user == 0) {
+        if (user == 1) {
             parent = true;
-        } else if (user == 1){
-            coach = true;
         } else if (user == 2){
+            coach = true;
+        } else if (user == 3){
             admin = true;
         } else {
             non_register = true;

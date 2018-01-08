@@ -3,15 +3,17 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="horizontal"
-    android:layout_margin="16dp">
+    android:padding="16dp">
 
     <TextView
         android:id="@+id/classNumberTextView_adminCurrentClassesItem"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_weight="1"
+        android:layout_marginStart="16dp"
         android:textSize="16sp"
         android:textColor="@color/colorTextDark"
+        android:textStyle="bold"
         android:text="@string/class_number" />
 
     <TextView
@@ -21,6 +23,7 @@
         android:layout_weight="1"
         android:textSize="16sp"
         android:textColor="@color/colorText"
+        android:textStyle="bold"
         android:text="@string/date" />
 
     <TextView
@@ -30,5 +33,6 @@
         android:layout_weight="1"
         android:textSize="16sp"
         android:textColor="@color/colorGray"
+        android:textStyle="bold"
         android:text="@string/time" />
 </LinearLayout>

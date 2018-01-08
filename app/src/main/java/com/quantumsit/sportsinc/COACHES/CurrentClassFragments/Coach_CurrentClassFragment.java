@@ -48,7 +48,7 @@ public class Coach_CurrentClassFragment extends Fragment {
     public void setupViewPager(ViewPager mViewPager){
         mSectionsPagerAdapter = new SectionsPagerAdapter(getChildFragmentManager());
 
-        if (user_is == 1) {
+        if (user_is == 2) {
             mSectionsPagerAdapter.addFragment(new Coach_CurrentClassRulesFragment(),"Rules");
             mSectionsPagerAdapter.addFragment(new Coach_CurrentClassAttendanceFragment(),"Attendance");
             mSectionsPagerAdapter.addFragment(new Coach_CurrentClassScoresFragment(),"Scores");
@@ -60,8 +60,6 @@ public class Coach_CurrentClassFragment extends Fragment {
             mSectionsPagerAdapter.addFragment(new Admin_CurrentClassNoteFragment(),"Notes");
 
         }
-
-
 
         mViewPager.setAdapter(mSectionsPagerAdapter);
     }
