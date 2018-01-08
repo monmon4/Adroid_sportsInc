@@ -1,6 +1,7 @@
 package com.quantumsit.sportsinc.CustomCalendar;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -42,9 +43,17 @@ public class ListViewAdapter extends RecyclerView.Adapter<ListViewAdapter.ViewHo
     public void onBindViewHolder(ViewHolder viewHolder, final int position) {
         classesEntity myclass = getItem(position);
 
+        String classStatus = myclass.getStatus();
+        if (classStatus.equals("Current"))
+            viewHolder.status.setTextColor(Color.parseColor("#22a630"));
+        else if (classStatus.equals("Canceled"))
+            viewHolder.status.setTextColor(Color.parseColor("#df1b1c"));
+        else if (classStatus.equals("Postponded"))
+            viewHolder.status.setTextColor(Color.parseColor("#f98a03"));
+
+        viewHolder.status.setText(classStatus);
         viewHolder.Title.setText(myclass.getCourseName()+" "+myclass.getClassName());
         viewHolder.Time.setText(myclass.getStartTime()+" to "+myclass.getEndTime());
-        viewHolder.status.setText(myclass.getStatus());
     }
     public classesEntity getItem(int position) {
         return myclasses.get(position);

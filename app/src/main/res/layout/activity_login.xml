@@ -63,7 +63,7 @@
                 android:layout_width="150dp"
                 android:layout_height="wrap_content"
                 android:textAllCaps="false"
-                android:layout_gravity="end"
+                android:layout_gravity="center"
                 android:textSize="18sp"
                 android:textColor="@color/colorTextLight"
                 android:layout_marginTop="24dp"

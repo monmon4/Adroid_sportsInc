@@ -26,16 +26,6 @@
                 android:saveEnabled="false"
                 android:focusable="false" />
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:textColor="@color/colorAccent"
-                android:textStyle="italic|bold"
-                android:paddingBottom="16dp"
-                android:textAppearance="@style/Base.TextAppearance.AppCompat.Headline"
-                android:text="Welcome to The Sports Inc"/>
-
 
             <TextView
                 android:id="@+id/Academybrief"
