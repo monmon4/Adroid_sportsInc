@@ -46,7 +46,7 @@ public class MainFragment extends Fragment {
             @Override
             public void onResponse(JSONArray response) {
                 super.onResponse(response);
-                fillView(response);
+                //fillView(response);
             }
         }.execute(httpCall);
 

@@ -1,5 +1,6 @@
 package com.quantumsit.sportsinc;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.graphics.Paint;
 import android.support.v7.app.AppCompatActivity;
@@ -27,7 +28,12 @@ public class LoginActivity extends AppCompatActivity {
     TextView register_textview;
 
     EditText phone_edittext, pass_edittext;
-    String recieved_pass;
+    String phone, pass;
+
+    String received_pass, received_mail, received_name, received_date_of_birth;
+    int received_id, received_gender, received_type;
+
+    boolean all_good;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -51,11 +57,12 @@ public class LoginActivity extends AppCompatActivity {
 
     }
 
+    @SuppressLint("StaticFieldLeak")
     public void loginClicked(View view) {
 
-        String phone = phone_edittext.getText().toString();
-        String pass = pass_edittext.getText().toString();
-        boolean all_good = true;
+        phone = phone_edittext.getText().toString();
+        pass = pass_edittext.getText().toString();
+        all_good = true;
 
         if (phone.equals("1")){
             globalVars.setUser_is(1);
@@ -64,54 +71,87 @@ public class LoginActivity extends AppCompatActivity {
         } else if (phone.equals("3")){
             globalVars.setUser_is(3);
         } else {
-            Toast.makeText(LoginActivity.this, "Invalid phone", Toast.LENGTH_SHORT).show();
+            show_toast("Invalid phone number");
             all_good = false;
         }
 
+        if (phone.equals("") ){
+            show_toast("Phone is missing");
+            all_good = false;
+        } else if (pass.equals("")) {
+            show_toast("Password is missing");
+            all_good = false;
+        } else {
+            JSONObject where_info = new JSONObject();
+            try {
+                where_info.put("phone",phone);
 
-        JSONObject where_info = new JSONObject();
-        try {
-            where_info.put("phone",phone);
+                HttpCall httpCall = new HttpCall();
+                httpCall.setMethodtype(HttpCall.POST);
+                httpCall.setUrl(Constants.selectData);
+                HashMap<String,String> params = new HashMap<>();
+                params.put("table","users");
+                params.put("values",where_info.toString());
 
-            HttpCall httpCall = new HttpCall();
-            httpCall.setMethodtype(HttpCall.POST);
-            httpCall.setUrl(Constants.selectData);
-            HashMap<String,String> params = new HashMap<>();
-            params.put("table","users");
-            params.put("values",where_info.toString());
+                httpCall.setParams(params);
 
-            httpCall.setParams(params);
+                new HttpRequest(){
+                    @Override
+                    public void onResponse(JSONArray response) {
+                        super.onResponse(response);
+                        try {
 
-            new HttpRequest(){
-                @Override
-                public void onResponse(JSONObject response) {
-                    super.onResponse(response);
-                    /*try {
-
-                        JSONArray res_array = response.getJSONArray("data");
-                        JSONObject single_obj = res_array.getJSONObject(0);
-                        String pass = single_obj.getString("pass");
-
-                        recieved_pass = res.getString("pass");
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }*/
+                            JSONObject result = response.getJSONObject(0);
+                            received_pass = result.getString("pass");
 
 
-                }
-            }.execute(httpCall);
+                            if (received_pass.equals(pass)) {
+                                all_good = true;
+                                received_id = result.getInt("id");
+                                received_name = result.getString("name");
+                                received_gender= result.getInt("gender");
+                                received_type = result.getInt("type");
+                                received_mail = result.getString("email");
+                                received_date_of_birth = result.getString("pass");
 
-        } catch (JSONException e) {
-            e.printStackTrace();
+
+                            } else {
+                                show_toast("Password is incorrect");
+                                all_good = false;
+                            }
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+
+                    }
+                }.execute(httpCall);
+
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
         }
 
+
        if (all_good){
-           Intent intent= new Intent(LoginActivity.this, HomeActivity.class);
-           startActivity(intent);
-           finish();
+           go_to_home();
        }
 
     }
 
+    private void go_to_home(){
+
+        globalVars.settAll(received_name, phone, received_mail, received_date_of_birth,
+                            received_id, received_type, received_gender);
+
+        Intent intent= new Intent(LoginActivity.this, HomeActivity.class);
+        startActivity(intent);
+        finish();
+
+    }
+
+    public void show_toast(String msg){
+        Toast.makeText(LoginActivity.this, msg, Toast.LENGTH_SHORT).show();
+    }
 
 }

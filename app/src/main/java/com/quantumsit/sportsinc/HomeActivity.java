@@ -52,6 +52,7 @@ public class HomeActivity extends AppCompatActivity
 
         globalVars = (GlobalVars) getApplication();
         int user = globalVars.getUser_is();
+
         if (user == 1) {
             parent = true;
         } else if (user == 2){

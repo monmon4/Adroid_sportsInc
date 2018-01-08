@@ -23,6 +23,7 @@ import com.quantumsit.sportsinc.Aaa_data.GlobalVars;
 import com.quantumsit.sportsinc.Backend.HttpCall;
 import com.quantumsit.sportsinc.Backend.HttpRequest;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -156,7 +157,7 @@ public class RegisterActivity extends AppCompatActivity {
 
                 new HttpRequest(){
                     @Override
-                    public void onResponse(JSONObject response) {
+                    public void onResponse(JSONArray response) {
                         super.onResponse(response);
                         String res = response.toString();
                         show_toast("res");
