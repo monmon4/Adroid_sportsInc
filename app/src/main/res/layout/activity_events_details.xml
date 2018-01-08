@@ -24,7 +24,7 @@
             android:paddingTop="10dp"
             android:paddingBottom="20dp"
             android:text="Event Title"
-            android:textColor="@color/colorPrimaryDark"
+            android:textColor="@color/colorAccent"
             android:textAppearance="?android:textAppearanceLarge"
             android:textStyle="italic|bold"/>
 
