@@ -50,7 +50,7 @@
                 android:inputType="phone" />
 
             <EditText
-                android:id="@+id/loginButton_login"
+                android:id="@+id/passEditText_login"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/password"
@@ -59,7 +59,7 @@
                 android:inputType="textPassword" />
 
             <Button
-                android:id="@+id/button2"
+                android:id="@+id/loginButton_login"
                 android:layout_width="150dp"
                 android:layout_height="wrap_content"
                 android:textAllCaps="false"

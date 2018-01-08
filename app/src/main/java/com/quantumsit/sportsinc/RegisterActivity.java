@@ -18,7 +18,16 @@ import android.widget.Spinner;
 import android.widget.Toast;
 import android.view.ViewGroup.LayoutParams;
 
+import com.quantumsit.sportsinc.Aaa_data.Constants;
 import com.quantumsit.sportsinc.Aaa_data.GlobalVars;
+import com.quantumsit.sportsinc.Backend.HttpCall;
+import com.quantumsit.sportsinc.Backend.HttpRequest;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.Calendar;
+import java.util.HashMap;
 
 public class RegisterActivity extends AppCompatActivity {
 
@@ -71,7 +80,7 @@ public class RegisterActivity extends AppCompatActivity {
         show_toast(gender);
         verfication();
 
-        /*boolean all_good = false;
+        boolean all_good = false;
 
         user_name = name_edittext.getText().toString();
         phone = phone_edittext.getText().toString();
@@ -106,7 +115,7 @@ public class RegisterActivity extends AppCompatActivity {
             int year = Integer.valueOf(year_of_birth);
             int current_year = Calendar.getInstance().get(Calendar.YEAR);
 
-            if (day==0 || month==0 || year==0 || day>31 || month>12 || year>current_year-4) {
+            if (day==0 || month==0 || year==0 || day>31 || month>12 || year>current_year-4 || year < current_year-60) {
                 show_toast("not a valid birthday format");
             } else {
                 all_good = true;
@@ -114,9 +123,51 @@ public class RegisterActivity extends AppCompatActivity {
         }
 
         if (all_good) {
-            show_toast(gender);
+
+            int gender_int;
+            if (gender.equals("Male")){
+                gender_int = 0;
+            } else {
+                gender_int = 1;
+            }
+            int current_year = Calendar.getInstance().get(Calendar.YEAR);
+            int year = Integer.valueOf(year_of_birth);
+            int age = current_year - year;
+
+
+            JSONObject info = new JSONObject();
+            try {
+                info.put("name",user_name);
+                info.put("phone",phone);
+                info.put("email",mail);
+                info.put("gender",gender_int);
+                info.put("pass",pass);
+                info.put("age",age);
+                info.put("type",0);
+
+                HttpCall httpCall = new HttpCall();
+                httpCall.setMethodtype(HttpCall.POST);
+                httpCall.setUrl(Constants.insertData);
+                HashMap<String,String> params = new HashMap<>();
+                params.put("table","users");
+                params.put("values",info.toString());
+
+                httpCall.setParams(params);
+
+                new HttpRequest(){
+                    @Override
+                    public void onResponse(String response) {
+                        super.onResponse(response);
+                        String res = response;
+                        show_toast("res");
+                    }
+                }.execute(httpCall);
+
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
             verfication();
-        }*/
+        }
 
     }
 

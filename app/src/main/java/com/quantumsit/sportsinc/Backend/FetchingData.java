@@ -1,22 +1,16 @@
-package com.example.bassam.sporstincmanger.Backend;
+package com.quantumsit.sportsinc.Backend;
 
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.util.Log;
 
 import java.io.BufferedReader;
-import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.io.OutputStream;
-import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
-/**
- * Created by Bassam on 12/28/2017.
- */
 
 public class FetchingData extends AsyncTask<String, Void, String> {
     private final String LOG_TAG = FetchingData.class.getSimpleName();

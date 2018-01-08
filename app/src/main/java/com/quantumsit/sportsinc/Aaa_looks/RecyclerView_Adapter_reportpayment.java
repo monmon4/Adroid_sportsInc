@@ -50,7 +50,7 @@ public class RecyclerView_Adapter_reportpayment extends RecyclerView.Adapter<Rec
         holder.payment.setText(List_Item.get(position).payment);
         holder.due_date.setText(List_Item.get(position).due_date);
 
-        if (position != 0) {
+        if (position != 0 && position != 1) {
             holder.payment_image_button.setBackgroundResource(R.drawable.ic_done_all);
         }
     }

@@ -10,6 +10,7 @@ public interface Constants {
 
     String selectData = server + "selectdata";
     String updateData = server + "updatedata";
+    String insertData = server + "insertdata";
     String deleteData = server + "deletedata";
     String join = server + "joindata";
     String sendSMS = server + "sendSMS";

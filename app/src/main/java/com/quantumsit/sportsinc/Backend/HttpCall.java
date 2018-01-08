@@ -1,8 +1,6 @@
-package com.example.bassam.sporstincmanger.Backend;
+package com.quantumsit.sportsinc.Backend;
 
-/**
- * Created by Bassam on 12/28/2017.
- */
+
 import java.util.HashMap;
 
 public class HttpCall {

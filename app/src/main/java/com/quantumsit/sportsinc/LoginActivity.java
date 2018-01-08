@@ -5,7 +5,9 @@ import android.graphics.Paint;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.quantumsit.sportsinc.Aaa_data.GlobalVars;
 
@@ -14,12 +16,17 @@ public class LoginActivity extends AppCompatActivity {
     GlobalVars globalVars;
 
     TextView register_textview;
+
+    EditText phone_edittext, pass_edittext;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
         globalVars = (GlobalVars) getApplication();
+
+        phone_edittext = findViewById(R.id.phoneEditText_login);
+        pass_edittext = findViewById(R.id.passEditText_login);
 
         register_textview = findViewById(R.id.registerTextView_login);
         register_textview.setPaintFlags(register_textview.getPaintFlags() |   Paint.UNDERLINE_TEXT_FLAG);
@@ -36,9 +43,27 @@ public class LoginActivity extends AppCompatActivity {
 
     public void loginClicked(View view) {
 
-        globalVars.setUser_is(3);
-        Intent intent= new Intent(LoginActivity.this, HomeActivity.class);
-        startActivity(intent);
+        String phone = phone_edittext.getText().toString();
+        String pass = pass_edittext.getText().toString();
+        boolean all_good = true;
+
+        if (phone.equals("1")){
+            globalVars.setUser_is(1);
+        } else if (phone.equals("2")){
+            globalVars.setUser_is(2);
+        } else if (phone.equals("3")){
+            globalVars.setUser_is(3);
+        } else {
+            Toast.makeText(LoginActivity.this, "Invalid phone", Toast.LENGTH_SHORT).show();
+            all_good = false;
+        }
+
+       if (all_good){
+           Intent intent= new Intent(LoginActivity.this, HomeActivity.class);
+           startActivity(intent);
+           finish();
+       }
+
     }
 
 
