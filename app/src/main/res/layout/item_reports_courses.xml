@@ -45,7 +45,7 @@
                 android:id="@+id/scoreTextView_reportscourses"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="@color/colorText"
+                android:textColor="@color/colorScores"
                 android:layout_marginLeft="16dp"
                 android:layout_marginStart="16dp"
                 android:layout_toEndOf="@+id/attendanceTextView_reportscourses"

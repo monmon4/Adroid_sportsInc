@@ -9,7 +9,16 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.quantumsit.sportsinc.Aaa_data.Constants;
 import com.quantumsit.sportsinc.Aaa_data.GlobalVars;
+import com.quantumsit.sportsinc.Backend.HttpCall;
+import com.quantumsit.sportsinc.Backend.HttpRequest;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.HashMap;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -18,6 +27,7 @@ public class LoginActivity extends AppCompatActivity {
     TextView register_textview;
 
     EditText phone_edittext, pass_edittext;
+    String recieved_pass;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -56,6 +66,43 @@ public class LoginActivity extends AppCompatActivity {
         } else {
             Toast.makeText(LoginActivity.this, "Invalid phone", Toast.LENGTH_SHORT).show();
             all_good = false;
+        }
+
+
+        JSONObject where_info = new JSONObject();
+        try {
+            where_info.put("phone",phone);
+
+            HttpCall httpCall = new HttpCall();
+            httpCall.setMethodtype(HttpCall.POST);
+            httpCall.setUrl(Constants.selectData);
+            HashMap<String,String> params = new HashMap<>();
+            params.put("table","users");
+            params.put("values",where_info.toString());
+
+            httpCall.setParams(params);
+
+            new HttpRequest(){
+                @Override
+                public void onResponse(JSONObject response) {
+                    super.onResponse(response);
+                    /*try {
+
+                        JSONArray res_array = response.getJSONArray("data");
+                        JSONObject single_obj = res_array.getJSONObject(0);
+                        String pass = single_obj.getString("pass");
+
+                        recieved_pass = res.getString("pass");
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }*/
+
+
+                }
+            }.execute(httpCall);
+
+        } catch (JSONException e) {
+            e.printStackTrace();
         }
 
        if (all_good){

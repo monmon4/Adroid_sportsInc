@@ -178,7 +178,7 @@ public class ListViewExpandable_Adapter_currentClasses extends BaseExpandableLis
 
         SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy hh:mm");
         String date = df.format(dateCal.getTime());
-        Toast toast = Toast.makeText(context,""+header_list.get(CurrentPosition).class_number+" has been postponded to\n\t"+date,Toast.LENGTH_SHORT);
+        Toast toast = Toast.makeText(context,""+header_list.get(CurrentPosition).class_number+" has been postponded to\n\t"+date,Toast.LENGTH_LONG);
         toast.setGravity(Gravity.CENTER,0,0);
         toast.show();
 

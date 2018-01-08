@@ -20,9 +20,16 @@
         android:layout_margin="16dp"
         android:text="@string/attendance" />
 
+    <View
+        android:id="@+id/verticalLine_adminatendance"
+        android:layout_below="@+id/textView_admincurrentclassattendancefragment"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/colorTextDark"/>
+
     <ListView
         android:id="@+id/rulesCheckListView_admincurrentclassattendancefragment"
-        android:layout_below="@+id/textView_admincurrentclassattendancefragment"
+        android:layout_below="@+id/verticalLine_admin"
         android:layout_marginStart="20dp"
         android:layout_marginLeft="20dp"
         android:layout_width="match_parent"

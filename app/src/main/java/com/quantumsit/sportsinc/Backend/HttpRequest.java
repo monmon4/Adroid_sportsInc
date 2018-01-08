@@ -6,6 +6,10 @@ package com.quantumsit.sportsinc.Backend;
 
 import android.os.AsyncTask;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.IOException;
@@ -20,12 +24,15 @@ import java.net.URLEncoder;
 import java.util.HashMap;
 import java.util.Map;
 
-public class  HttpRequest extends AsyncTask<HttpCall, String, String>{
+public class  HttpRequest extends AsyncTask<HttpCall, String, JSONObject>{
 
     private static final String UTF_8 = "UTF-8";
+    static JSONObject jObj = null;
+    static JSONArray jArr = null;
+    static String json = "";
 
     @Override
-    protected String doInBackground(HttpCall... params) {
+    protected JSONObject doInBackground(HttpCall... params) {
         HttpURLConnection urlConnection = null;
         HttpCall httpCall = params[0];
         StringBuilder response = new StringBuilder();
@@ -62,16 +69,23 @@ public class  HttpRequest extends AsyncTask<HttpCall, String, String>{
         }finally {
             urlConnection.disconnect();
         }
-        return response.toString();
+
+        json = response.toString();
+        try {
+            jObj = new JSONObject(json);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return jObj;
     }
 
     @Override
-    protected void onPostExecute(String s) {
+    protected void onPostExecute(JSONObject s) {
         super.onPostExecute(s);
         onResponse(s);
     }
 
-    public void onResponse(String response){
+    public void onResponse(JSONObject response){
 
     }
 

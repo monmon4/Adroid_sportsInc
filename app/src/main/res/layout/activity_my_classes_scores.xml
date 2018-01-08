@@ -36,12 +36,14 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textStyle="bold"
+                    android:textColor="@color/colorTextDark"
                     android:text="@string/course_name" />
 
                 <TextView
                     android:id="@+id/dateTextView_my_classes_scores"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:textColor="@color/colorGray"
                     android:layout_alignParentRight="true"
                     android:layout_alignParentEnd="true"
                     android:text="@string/date" />
@@ -52,6 +54,7 @@
                 android:id="@+id/groupNumberTextView_my_classes_scores"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:textColor="@color/colorText"
                 android:layout_margin="10dp"
                 android:text="@string/group_number" />
 
@@ -65,31 +68,73 @@
                     android:id="@+id/classNumberTextView_my_classes_scores"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:textColor="@color/colorText"
                     android:text="@string/class_number" />
 
                 <TextView
                     android:id="@+id/scoreTextView_my_classes_scores"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:textColor="@color/colorScores"
+                    android:textStyle="bold"
                     android:layout_marginLeft="16dp"
                     android:layout_marginStart="16dp"
                     android:text="@string/score" />
 
             </LinearLayout>
 
-            <TextView
-                android:id="@+id/coachNameTextView_my_classes_scores"
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_margin="10dp"
-                android:text="@string/coach_s_name" />
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/textView4"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:textColor="@color/colorText"
+                    android:textStyle="bold"
+                    android:text="Coach:" />
+
+                <TextView
+                    android:id="@+id/coachNameTextView_my_classes_scores"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    android:textColor="@color/colorText"
+                    android:text="@string/coach_s_name" />
+            </LinearLayout>
 
             <TextView
-                android:id="@+id/coachNoteTextView_my_classes_scores"
+                android:id="@+id/TextView_my_classes_scores"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="10dp"
+                android:layout_marginEnd="10dp"
+                android:layout_marginStart="10dp"
+                android:textStyle="bold"
+                android:textColor="@color/colorText"
                 android:text="@string/coach_s_notes" />
+
+            <android.support.v7.widget.CardView
+                android:id="@+id/cardView_coachCourseSingleClass"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                card_view:cardCornerRadius="8dp"
+                android:layout_marginStart="18dp"
+                android:layout_marginEnd="18dp"
+                android:layout_marginBottom="18dp"
+                card_view:cardElevation="@dimen/cardview_default_elevation">
+
+                <TextView
+                    android:id="@+id/coachNoteTextView_my_classes_scores"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    android:textColor="@color/colorText"
+                    android:text="@string/a_coach_s_note" />
+            </android.support.v7.widget.CardView>
 
         </LinearLayout>
 

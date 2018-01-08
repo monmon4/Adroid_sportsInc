@@ -33,8 +33,8 @@
 
             <ImageButton
                 android:id="@+id/locationImageView_joinnow"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
+                android:layout_width="35dp"
+                android:layout_height="35dp"
                 android:onClick="go_to_maps"
                 android:background="@drawable/ic_location" />
 
@@ -57,8 +57,8 @@
 
             <ImageView
                 android:id="@+id/phoneImageView_joinnow"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
+                android:layout_width="35dp"
+                android:layout_height="35dp"
                 android:onClick="on_call"
                 android:src="@drawable/ic_phone" />
 

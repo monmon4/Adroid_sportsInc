@@ -50,7 +50,6 @@ public class Coach_CurrentClassRulesFragment extends Fragment {
         listView = root.findViewById(R.id.rulesCheckListView_coachcurrentclassrulesfragment);
         list_items = new ArrayList<>();
 
-        checked_image_view = root.findViewById(R.id.checkedImageView_coachcurrentclassrulesfragment);
         done_button = root.findViewById(R.id.doneFloatingActionButton_coachcurrentclassrulesfragment);
 
         for (int i=0; i<20; i++){

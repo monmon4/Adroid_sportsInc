@@ -61,11 +61,10 @@
                 android:id="@+id/scoreTextView_scoresitem"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="@color/colorText"
+                android:textColor="@color/colorScores"
                 android:layout_toRightOf="@+id/attendanveTextView_reportscourses"
                 android:layout_toEndOf="@+id/attendanveTextView_reportscourses"
                 android:layout_marginStart="16dp"
-                android:layout_marginLeft="16dp"
                 android:text="@string/score"
                  />
         </RelativeLayout>

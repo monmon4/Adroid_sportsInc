@@ -156,9 +156,9 @@ public class RegisterActivity extends AppCompatActivity {
 
                 new HttpRequest(){
                     @Override
-                    public void onResponse(String response) {
+                    public void onResponse(JSONObject response) {
                         super.onResponse(response);
-                        String res = response;
+                        String res = response.toString();
                         show_toast("res");
                     }
                 }.execute(httpCall);

@@ -21,9 +21,17 @@
         android:layout_margin="16dp"
         android:text="@string/class_rules" />
 
+    <View
+        android:id="@+id/verticalLine_adminrules"
+        android:layout_below="@+id/textView_admincurrentclassrulesfragment"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/colorTextDark"/>
+
+
     <ListView
         android:id="@+id/rulesCheckListView_admincurrentclassrulesfragment"
-        android:layout_below="@+id/textView_admincurrentclassrulesfragment"
+        android:layout_below="@+id/verticalLine_adminrules"
         android:layout_marginStart="20dp"
         android:layout_marginLeft="20dp"
         android:layout_width="match_parent"

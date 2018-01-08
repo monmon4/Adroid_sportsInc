@@ -4,11 +4,6 @@
     android:layout_height="match_parent"
     tools:context="com.quantumsit.sportsinc.COACHES.CurrentClassFragments.Coach_CurrentClassScoresFragment">
 
-    <ImageView
-        android:id="@+id/checkedImageView_coachcurrentclassscoresfragment"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:src="@drawable/ic_check_faded" />
 
     <TextView
         android:id="@+id/textView_coachcurrentclassscoresfragment"
@@ -19,9 +14,17 @@
         android:layout_margin="16dp"
         android:text="@string/score" />
 
+    <View
+        android:id="@+id/verticalLine_coachscores"
+        android:layout_below="@+id/textView_coachcurrentclassscoresfragment"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/colorTextDark"/>
+
+
     <ListView
         android:id="@+id/rulesCheckListView_coachcurrentclassscoresfragment"
-        android:layout_below="@+id/textView_coachcurrentclassscoresfragment"
+        android:layout_below="@+id/verticalLine_coachscores"
         android:layout_marginStart="20dp"
         android:layout_marginLeft="20dp"
         android:layout_width="match_parent"
@@ -39,6 +42,6 @@
         android:layout_margin="16dp"
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
-        android:src="@drawable/ic_done_all_white" />
+        android:src="@drawable/ic_arrow_forward" />
 
 </RelativeLayout>

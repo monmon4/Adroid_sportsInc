@@ -50,7 +50,6 @@ public class Coach_CurrentClassAttendanceFragment extends Fragment {
         listView = root.findViewById(R.id.rulesCheckListView_coachcurrentclassattendancefragment);
         list_items = new ArrayList<>();
 
-        checked_image_view = root.findViewById(R.id.checkedImageView_coachcurrentclassattendancefragment);
         done_button = root.findViewById(R.id.doneFloatingActionButton_coachcurrentclassattendancefragment);
 
         for (int i=1; i<20; i++){
