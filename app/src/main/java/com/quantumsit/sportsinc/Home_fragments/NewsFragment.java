@@ -12,12 +12,20 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
+import com.quantumsit.sportsinc.Aaa_data.Constants;
 import com.quantumsit.sportsinc.Adapters.NewsAdapter;
+import com.quantumsit.sportsinc.Backend.HttpCall;
+import com.quantumsit.sportsinc.Backend.HttpRequest;
 import com.quantumsit.sportsinc.Entities.NewsEntity;
 import com.quantumsit.sportsinc.NewsDetailsActivity;
 import com.quantumsit.sportsinc.R;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 
@@ -33,9 +41,7 @@ public class NewsFragment extends Fragment {
 
         NewsList = new ArrayList<>();
 
-        NewsList.add(new NewsEntity("this the news test number one please work from the first run mr compiler","http://thesportsinc.com/wp-content/uploads/2014/10/events.jpg"));
-        NewsList.add(new NewsEntity("this the news test number one please work from the first run mr compiler","http://thesportsinc.com/wp-content/uploads/revslider/FullWidth/events-3720x1200.jpg"));
-        NewsList.add(new NewsEntity("this the news test 2 number one please work from the first run mr compiler with an image","http://thesportsinc.com/wp-content/uploads/2014/10/gears.jpg"));
+        initilizeNews();
 
         adapter = new NewsAdapter(getContext(),R.layout.list_item_news,NewsList);
 
@@ -50,5 +56,33 @@ public class NewsFragment extends Fragment {
         });
 
         return root;
+    }
+
+    private void initilizeNews() {
+        HttpCall httpCall = new HttpCall();
+        httpCall.setMethodtype(HttpCall.POST);
+        httpCall.setUrl(Constants.selectData);
+        HashMap<String,String> params = new HashMap<>();
+        params.put("table","news");
+
+        httpCall.setParams(params);
+        new HttpRequest(){
+            @Override
+            public void onResponse(JSONArray response) {
+                super.onResponse(response);
+                fillAdapter(response);
+            }
+        }.execute(httpCall);
+    }
+
+    private void fillAdapter(JSONArray response) {
+        try {
+            for (int i=0 ; i<response.length() ;i++){
+                NewsList.add(new NewsEntity((JSONObject) response.get(i)));
+                adapter.notifyDataSetChanged();
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
     }
 }

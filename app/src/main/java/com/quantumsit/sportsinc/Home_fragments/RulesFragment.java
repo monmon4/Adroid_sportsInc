@@ -10,10 +10,18 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
 
+import com.quantumsit.sportsinc.Aaa_data.Constants;
 import com.quantumsit.sportsinc.Adapters.RuleAdapter;
+import com.quantumsit.sportsinc.Backend.HttpCall;
+import com.quantumsit.sportsinc.Backend.HttpRequest;
 import com.quantumsit.sportsinc.R;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 
@@ -29,11 +37,45 @@ public class RulesFragment extends Fragment {
         ListView listView = root.findViewById(R.id.rules_listview);
         listView.setEmptyView(root.findViewById(R.id.empty_text));
         rulesList = new ArrayList<>();
-        rulesList.add("Rule Number one in the academey\nis that no one care about your son");
-        rulesList.add("Rule Number two in the academey is that your son is a man not achild in our eyes");
+        initilizeRules();
 
         adapter = new RuleAdapter(getContext(),R.layout.list_item_rule,rulesList);
         listView.setAdapter(adapter);
+
         return root;
+    }
+    private void initilizeRules() {
+        HttpCall httpCall = new HttpCall();
+        httpCall.setMethodtype(HttpCall.POST);
+        httpCall.setUrl(Constants.selectData);
+        HashMap<String,Integer> Condition = new HashMap<>();
+        Condition.put("Type",4);
+        HashMap<String,String> params = new HashMap<>();
+        params.put("table","rules");
+        params.put("WHERE",Condition.toString());
+
+        httpCall.setParams(params);
+        new HttpRequest(){
+            @Override
+            public void onResponse(JSONArray response) {
+                super.onResponse(response);
+                fillAdapter(response);
+            }
+        }.execute(httpCall);
+    }
+
+    private void fillAdapter(JSONArray response) {
+        if (response != null) {
+            try {
+                for (int i = 0; i < response.length(); i++) {
+                    JSONObject object = (JSONObject) response.get(i);
+                    String Content = object.getString("Content");
+                    rulesList.add(Content);
+                    adapter.notifyDataSetChanged();
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
     }
 }

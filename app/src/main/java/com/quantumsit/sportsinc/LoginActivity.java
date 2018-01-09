@@ -30,8 +30,8 @@ public class LoginActivity extends AppCompatActivity {
     EditText phone_edittext, pass_edittext;
     String phone, pass;
 
-    String received_pass, received_mail, received_name, received_date_of_birth;
-    int received_id, received_gender, received_type;
+    String received_pass, received_mail, received_name;
+    int received_id, received_gender, received_type,received_age;
 
     boolean all_good;
     @Override
@@ -108,7 +108,7 @@ public class LoginActivity extends AppCompatActivity {
                                 received_gender= result.getInt("gender");
                                 received_type = result.getInt("type");
                                 received_mail = result.getString("email");
-                                received_date_of_birth = result.getString("pass");
+                                received_age = result.getInt("age");
                                 go_to_home();
 
 
@@ -132,8 +132,8 @@ public class LoginActivity extends AppCompatActivity {
 
     private void go_to_home(){
 
-        globalVars.settAll(received_name, phone, received_mail, received_date_of_birth,
-                            received_id, received_type, received_gender);
+        globalVars.settAll(received_name, phone, received_mail,
+                            received_id, received_type, received_gender,received_age);
 
         Intent intent= new Intent(LoginActivity.this, HomeActivity.class);
         startActivity(intent);

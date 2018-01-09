@@ -31,7 +31,7 @@ public class NewsDetailsActivity extends AppCompatActivity {
     }
 
     private void fillView(NewsEntity newsEntity) {
-        String ImageUrl = newsEntity.getImageurl();
+        String ImageUrl = newsEntity.getImg();
 
         if(!ImageUrl.equals("")) {
             Picasso.with(getApplicationContext()).load(ImageUrl).into(imageView);

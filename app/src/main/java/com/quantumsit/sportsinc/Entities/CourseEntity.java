@@ -1,7 +1,13 @@
 package com.quantumsit.sportsinc.Entities;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.Serializable;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -9,13 +15,18 @@ import java.util.List;
  */
 
 public class CourseEntity implements Serializable {
-    String CourseName ,StartDate ,EndDate ,price ,level ,classes_Num ,description;
+    String CourseName;
+    Date StartDate;
+    Date EndDate;
+    String price;
+    String level;
+    String classes_Num;
+    String description;
 
     public CourseEntity() {
     }
 
-
-    public CourseEntity(String courseName, String startDate, String endDate, String price, String level, String classes_Num, String description) {
+    public CourseEntity(String courseName, Date startDate, Date endDate, String price, String level, String classes_Num, String description) {
         CourseName = courseName;
         StartDate = startDate;
         EndDate = endDate;
@@ -25,6 +36,24 @@ public class CourseEntity implements Serializable {
         this.description = description;
     }
 
+    public CourseEntity(JSONObject object){
+        try {
+            CourseName = object.getString("name");
+            String dateFormated =  object.getString("start_date");
+            SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+            StartDate = formatter.parse(dateFormated);
+            dateFormated =  object.getString("end_date");
+            EndDate = formatter.parse(dateFormated);
+            this.price = object.getString("price");
+            this.level = object.getString("level");
+            this.classes_Num = object.getString("no_of_classes");;
+            this.description = object.getString("description");;
+        } catch (JSONException e) {
+            e.printStackTrace();
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+    }
     public String getCourseName() {
         return CourseName;
     }
@@ -33,19 +62,19 @@ public class CourseEntity implements Serializable {
         CourseName = courseName;
     }
 
-    public String getStartDate() {
+    public Date getStartDate() {
         return StartDate;
     }
 
-    public void setStartDate(String startDate) {
+    public void setStartDate(Date startDate) {
         StartDate = startDate;
     }
 
-    public String getEndDate() {
+    public Date getEndDate() {
         return EndDate;
     }
 
-    public void setEndDate(String endDate) {
+    public void setEndDate(Date endDate) {
         EndDate = endDate;
     }
 

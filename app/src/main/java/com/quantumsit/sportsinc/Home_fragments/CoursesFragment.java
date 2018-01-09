@@ -12,12 +12,19 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
+import com.quantumsit.sportsinc.Aaa_data.Constants;
 import com.quantumsit.sportsinc.Adapters.CoursesAdapter;
+import com.quantumsit.sportsinc.Backend.HttpCall;
+import com.quantumsit.sportsinc.Backend.HttpRequest;
 import com.quantumsit.sportsinc.CourseDetailsActivity;
 import com.quantumsit.sportsinc.Entities.CourseEntity;
 import com.quantumsit.sportsinc.R;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class CoursesFragment extends Fragment {
@@ -31,9 +38,7 @@ public class CoursesFragment extends Fragment {
         ListView listView = root.findViewById(R.id.courses_listview);
         listView.setEmptyView(root.findViewById(R.id.empty_text));
         courseList=new ArrayList<>();
-
-        courseList.add(new CourseEntity("Course 1","11/12/2018","12/01/2019","900","Beginner level","10","hello from the bottom of my heart"));
-        courseList.add(new CourseEntity("Course 3","11/02/2018","12/12/2017","2000","Expert level","17","hello from the bottom of my heart"));
+        initilizeCourses();
 
         adapter = new CoursesAdapter(getContext(),R.layout.course_list_item,courseList);
 
@@ -48,5 +53,34 @@ public class CoursesFragment extends Fragment {
             }
         });
         return root;
+    }
+    private void initilizeCourses() {
+        HttpCall httpCall = new HttpCall();
+        httpCall.setMethodtype(HttpCall.POST);
+        httpCall.setUrl(Constants.selectData);
+        HashMap<String,String> params = new HashMap<>();
+        params.put("table","courses");
+
+        httpCall.setParams(params);
+        new HttpRequest(){
+            @Override
+            public void onResponse(JSONArray response) {
+                super.onResponse(response);
+                fillAdapter(response);
+            }
+        }.execute(httpCall);
+    }
+
+    private void fillAdapter(JSONArray response) {
+        if (response != null) {
+            try {
+                for (int i = 0; i < response.length(); i++) {
+                    courseList.add(new CourseEntity( response.getJSONObject(i)));
+                    adapter.notifyDataSetChanged();
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
     }
 }
