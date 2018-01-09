@@ -29,12 +29,11 @@ public class GlobalVars extends Application {
         this.user_is = user_is;
     }
 
-    public void settAll (String name, String phone, String mail, String birth_date,
+    public void settAll (String name, String phone, String mail,
                             int id, int type, int gender, int age){
         this.name = name;
         this.phone = phone;
         this.mail = mail;
-        this.birth_date = birth_date;
 
         this.id = id;
         this.type = type;

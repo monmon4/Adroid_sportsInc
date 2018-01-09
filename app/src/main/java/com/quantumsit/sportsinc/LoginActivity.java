@@ -31,7 +31,7 @@ public class LoginActivity extends AppCompatActivity {
     String phone, pass;
 
     String received_pass, received_mail, received_name, received_date_of_birth;
-    int received_id, received_gender, received_type;
+    int received_id, received_gender, received_type, received_age;
 
     boolean all_good;
     @Override
@@ -98,23 +98,30 @@ public class LoginActivity extends AppCompatActivity {
                         super.onResponse(response);
                         try {
 
-                            JSONObject result = response.getJSONObject(0);
-                            received_pass = result.getString("pass");
+                            if (response != null) {
 
-                            if (received_pass.equals(pass)) {
-                                all_good = true;
-                                received_id = result.getInt("id");
-                                received_name = result.getString("name");
-                                received_gender= result.getInt("gender");
-                                received_type = result.getInt("type");
-                                received_mail = result.getString("email");
-                                received_date_of_birth = result.getString("pass");
-                                go_to_home();
+                                JSONObject result = response.getJSONObject(0);
+                                received_pass = result.getString("pass");
 
+                                if (received_pass.equals(pass)) {
+                                    all_good = true;
+                                    received_id = result.getInt("id");
+                                    received_name = result.getString("name");
+                                    received_gender= result.getInt("gender");
+                                    received_type = result.getInt("type");
+                                    received_mail = result.getString("email");
+                                    received_age = result.getInt("age");
+                                    go_to_home();
+
+
+                                } else {
+                                    show_toast("Password is incorrect");
+                                }
 
                             } else {
-                                show_toast("Password is incorrect");
+                                show_toast("Phone doesn't exist");
                             }
+
 
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -132,8 +139,8 @@ public class LoginActivity extends AppCompatActivity {
 
     private void go_to_home(){
 
-        globalVars.settAll(received_name, phone, received_mail, received_date_of_birth,
-                            received_id, received_type, received_gender);
+        globalVars.settAll(received_name, phone, received_mail,
+                            received_id, received_type, received_gender, received_age);
 
         Intent intent= new Intent(LoginActivity.this, HomeActivity.class);
         startActivity(intent);

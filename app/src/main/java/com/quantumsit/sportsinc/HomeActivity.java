@@ -63,12 +63,14 @@ public class HomeActivity extends AppCompatActivity
         globalVars = (GlobalVars) getApplication();
         int type = globalVars.getType();
 
-        if(!checkRegistered()){
-            globalVars.setType(5);
-            non_register = true;
-        } else if (type == 0) {
-            parent = true;
-        } else if (type == 1) {
+        if(type == 0) {
+            if (!checkRegistered()) {
+                globalVars.setType(5);
+                non_register = true;
+            } else {
+                parent = true;
+            }
+        }else if (type == 1) {
             coach = true;
         } else if (type == 2) {
             admin = true;
