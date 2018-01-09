@@ -1,5 +1,6 @@
 package com.quantumsit.sportsinc;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -20,7 +21,10 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
+import com.quantumsit.sportsinc.Aaa_data.Constants;
 import com.quantumsit.sportsinc.Aaa_data.GlobalVars;
+import com.quantumsit.sportsinc.Backend.HttpCall;
+import com.quantumsit.sportsinc.Backend.HttpRequest;
 import com.quantumsit.sportsinc.COACHES.ReportsFragments.CoachReportsFragment;
 import com.quantumsit.sportsinc.COACHES.CoachRequestFragment;
 import com.quantumsit.sportsinc.Side_menu_fragments.CertificatesFragment;
@@ -30,6 +34,12 @@ import com.quantumsit.sportsinc.Side_menu_fragments.MyClassesFragment;
 import com.quantumsit.sportsinc.Side_menu_fragments.NotificationsFragment;
 import com.quantumsit.sportsinc.Side_menu_fragments.ReportsFragment;
 import com.quantumsit.sportsinc.Side_menu_fragments.RequestsFragment;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.HashMap;
 
 public class HomeActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -51,16 +61,17 @@ public class HomeActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
 
         globalVars = (GlobalVars) getApplication();
-        int user = globalVars.getUser_is();
+        int type = globalVars.getType();
 
-        if (user == 1) {
-            parent = true;
-        } else if (user == 2){
-            coach = true;
-        } else if (user == 3){
-            admin = true;
-        } else {
+        if(!checkRegistered()){
+            globalVars.setType(5);
             non_register = true;
+        } else if (type == 0) {
+            parent = true;
+        } else if (type == 1) {
+            coach = true;
+        } else if (type == 2) {
+            admin = true;
         }
 
 
@@ -101,8 +112,7 @@ public class HomeActivity extends AppCompatActivity
 
         if (savedInstanceState == null) {
             Fragment fragment = null;
-            Class fragmentClass = null;
-            fragmentClass = HomeFragment.class;
+            Class fragmentClass = HomeFragment.class;
             try {
                 fragment = (Fragment) fragmentClass.newInstance();
             } catch (Exception e) {
@@ -114,6 +124,47 @@ public class HomeActivity extends AppCompatActivity
         }
 
 
+    }
+
+    @SuppressLint("StaticFieldLeak")
+    private boolean checkRegistered() {
+
+        final boolean[] check = {false};
+
+        JSONObject where_info = new JSONObject();
+        try {
+            where_info.put("user_id",globalVars.getId());
+
+            HttpCall httpCall = new HttpCall();
+            httpCall.setMethodtype(HttpCall.POST);
+            httpCall.setUrl(Constants.selectData);
+            HashMap<String,String> params = new HashMap<>();
+            params.put("table","info_trainee");
+            params.put("where",where_info.toString());
+
+            httpCall.setParams(params);
+
+            new HttpRequest(){
+                @Override
+                public void onResponse(JSONArray response) {
+                    super.onResponse(response);
+
+                        if (response != null){
+                            check[0] = true;
+                        } else {
+                            check[0] = false;
+                        }
+
+
+                }
+            }.execute(httpCall);
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+
+        return check[0];
     }
 
 

@@ -70,17 +70,14 @@ public class LoginActivity extends AppCompatActivity {
             globalVars.setUser_is(2);
         } else if (phone.equals("3")){
             globalVars.setUser_is(3);
-        } else {
-            show_toast("Invalid phone number");
-            all_good = false;
         }
 
         if (phone.equals("") ){
             show_toast("Phone is missing");
-            all_good = false;
+
         } else if (pass.equals("")) {
             show_toast("Password is missing");
-            all_good = false;
+
         } else {
             JSONObject where_info = new JSONObject();
             try {
@@ -91,7 +88,7 @@ public class LoginActivity extends AppCompatActivity {
                 httpCall.setUrl(Constants.selectData);
                 HashMap<String,String> params = new HashMap<>();
                 params.put("table","users");
-                params.put("values",where_info.toString());
+                params.put("where",where_info.toString());
 
                 httpCall.setParams(params);
 
@@ -104,7 +101,6 @@ public class LoginActivity extends AppCompatActivity {
                             JSONObject result = response.getJSONObject(0);
                             received_pass = result.getString("pass");
 
-
                             if (received_pass.equals(pass)) {
                                 all_good = true;
                                 received_id = result.getInt("id");
@@ -113,11 +109,11 @@ public class LoginActivity extends AppCompatActivity {
                                 received_type = result.getInt("type");
                                 received_mail = result.getString("email");
                                 received_date_of_birth = result.getString("pass");
+                                go_to_home();
 
 
                             } else {
                                 show_toast("Password is incorrect");
-                                all_good = false;
                             }
 
                         } catch (JSONException e) {
@@ -131,11 +127,6 @@ public class LoginActivity extends AppCompatActivity {
                 e.printStackTrace();
             }
         }
-
-
-       if (all_good){
-           go_to_home();
-       }
 
     }
 
