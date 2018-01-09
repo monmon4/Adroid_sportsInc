@@ -45,24 +45,29 @@ public class RulesFragment extends Fragment {
         return root;
     }
     private void initilizeRules() {
-        HttpCall httpCall = new HttpCall();
-        httpCall.setMethodtype(HttpCall.POST);
-        httpCall.setUrl(Constants.selectData);
-        HashMap<String,Integer> Condition = new HashMap<>();
-        Condition.put("Type",4);
-        HashMap<String,String> params = new HashMap<>();
-        params.put("table","rules");
-        params.put("WHERE",Condition.toString());
+        try {
+            HttpCall httpCall = new HttpCall();
+            httpCall.setMethodtype(HttpCall.POST);
+            httpCall.setUrl(Constants.selectData);
+            JSONObject Condition = new JSONObject();
+            Condition.put("Type", 4);
+            HashMap<String, String> params = new HashMap<>();
+            params.put("table", "rules");
+            params.put("where", Condition.toString());
 
-        httpCall.setParams(params);
-        new HttpRequest(){
-            @Override
-            public void onResponse(JSONArray response) {
-                super.onResponse(response);
-                fillAdapter(response);
-            }
-        }.execute(httpCall);
+            httpCall.setParams(params);
+            new HttpRequest() {
+                @Override
+                public void onResponse(JSONArray response) {
+                    super.onResponse(response);
+                    fillAdapter(response);
+                }
+            }.execute(httpCall);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
     }
+
 
     private void fillAdapter(JSONArray response) {
         if (response != null) {
