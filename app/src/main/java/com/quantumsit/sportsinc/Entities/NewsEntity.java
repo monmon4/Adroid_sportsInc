@@ -1,5 +1,8 @@
 package com.quantumsit.sportsinc.Entities;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.Serializable;
 
 /**
@@ -7,29 +10,38 @@ import java.io.Serializable;
  */
 
 public class NewsEntity implements Serializable {
-    String content ,imageurl;
+    String Content, img;
 
     public NewsEntity() {
     }
 
-    public NewsEntity(String content, String imageurl) {
-        this.content = content;
-        this.imageurl = imageurl;
+    public NewsEntity(String content, String img) {
+        this.Content = content;
+        this.img = img;
+    }
+
+    public NewsEntity(JSONObject object) {
+        try {
+            Content = object.getString("Content");
+            img = object.getString("img");
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
     }
 
     public String getContent() {
-        return content;
+        return Content;
     }
 
     public void setContent(String content) {
-        this.content = content;
+        this.Content = content;
     }
 
-    public String getImageurl() {
-        return imageurl;
+    public String getImg() {
+        return img;
     }
 
-    public void setImageurl(String imageurl) {
-        this.imageurl = imageurl;
+    public void setImg(String img) {
+        this.img = img;
     }
 }

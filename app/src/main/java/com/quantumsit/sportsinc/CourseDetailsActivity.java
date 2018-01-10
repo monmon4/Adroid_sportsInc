@@ -6,6 +6,8 @@ import android.widget.TextView;
 
 import com.quantumsit.sportsinc.Entities.CourseEntity;
 
+import java.text.SimpleDateFormat;
+
 public class CourseDetailsActivity extends AppCompatActivity {
     TextView CourseName ,ClassesNum ,CoursePrice ,description ,startDate ,endDate ,CourseLevel;
 
@@ -37,8 +39,11 @@ public class CourseDetailsActivity extends AppCompatActivity {
         CourseName.setText(courseEntity.getCourseName());
         ClassesNum.setText(courseEntity.getClasses_Num());
         CoursePrice.setText(courseEntity.getPrice());
-        startDate.setText(courseEntity.getStartDate());
-        endDate.setText(courseEntity.getEndDate());
+        SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy");
+        String date = df.format(courseEntity.getStartDate());
+        startDate.setText(date);
+        date = df.format(courseEntity.getEndDate());
+        endDate.setText(date);
         CourseLevel.setText(courseEntity.getLevel());
         description.setText(courseEntity.getDescription());
     }

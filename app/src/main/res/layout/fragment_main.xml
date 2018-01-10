@@ -30,7 +30,7 @@
 
             <TextView
                 android:id="@+id/Academybrief"
-                android:text="Sports Inc. is a company that offers diverse services in the sports field.\nWe provide a wide range of sports gear, in addition to providing eminent publicity for sports venues. Innovators as we are, Sports Inc.’s kickoff of the Sports Academy is undoubtedly a game-changer in the fitness arena."
+                android:text="loading..."
                 android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />

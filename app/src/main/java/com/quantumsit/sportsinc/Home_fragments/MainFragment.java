@@ -46,7 +46,7 @@ public class MainFragment extends Fragment {
             @Override
             public void onResponse(JSONArray response) {
                 super.onResponse(response);
-                //fillView(response);
+                fillView(response);
             }
         }.execute(httpCall);
 
@@ -54,20 +54,22 @@ public class MainFragment extends Fragment {
     }
 
     private void fillView(JSONArray response) {
+        if (response != null) {
+            try {
+                JSONObject object = response.getJSONObject(0);
 
-        try {
-            JSONObject object = response.getJSONObject(0);
+                String logo = object.getString("logo");
+                String brief = object.getString("about");
 
-            String logo = object.getString("logo");
-            String brief = object.getString("about");
+                if (!logo.equals("")) {
+                    Picasso.with(getContext()).load(logo).into(Logo);
+                }
 
-            if(!logo.equals("")) {
-                Picasso.with(getContext()).load(logo).into(Logo);
+                AboutAcademy.setText(brief);
+
+            } catch (JSONException e) {
+                e.printStackTrace();
             }
-
-            AboutAcademy.setText(brief);
-        } catch (JSONException e) {
-            e.printStackTrace();
         }
     }
 }

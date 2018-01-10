@@ -55,7 +55,7 @@ public class NewsAdapter  extends ArrayAdapter<NewsEntity> {
         TextView Title = view.findViewById(R.id.newsContent);
         ImageView imageView = view.findViewById(R.id.newsImage);
         final ProgressBar progressBar = (ProgressBar) view.findViewById(R.id.progressBar1);
-        String ImageUrl = eventEntity.getImageurl();
+        String ImageUrl = eventEntity.getImg();
 
         if(!ImageUrl.equals("")) {
             Picasso.with(context).load(ImageUrl).into(imageView, new com.squareup.picasso.Callback() {

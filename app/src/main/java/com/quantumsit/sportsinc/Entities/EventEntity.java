@@ -1,6 +1,11 @@
 package com.quantumsit.sportsinc.Entities;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.Serializable;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 /**
@@ -18,6 +23,22 @@ public class EventEntity implements Serializable {
         this.date = date;
         this.time = time;
         this.description = description;
+    }
+
+    public EventEntity(JSONObject object){
+        try {
+            this.title = object.getString("Title");
+            this.time = object.getString("time");
+            time = time.substring(0,time.length()-3);
+            String dateFormated =  object.getString("date");
+            SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+            date = formatter.parse(dateFormated);
+            this.description = object.getString("description");
+        } catch (JSONException e) {
+            e.printStackTrace();
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
     }
 
     public String getTitle() {

@@ -12,13 +12,20 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
+import com.quantumsit.sportsinc.Aaa_data.Constants;
 import com.quantumsit.sportsinc.Adapters.EventAdapter;
+import com.quantumsit.sportsinc.Backend.HttpCall;
+import com.quantumsit.sportsinc.Backend.HttpRequest;
 import com.quantumsit.sportsinc.Entities.EventEntity;
 import com.quantumsit.sportsinc.EventsDetailsActivity;
 import com.quantumsit.sportsinc.R;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 
 
@@ -34,10 +41,8 @@ public class EventFragment extends Fragment {
         ListView listView = root.findViewById(R.id.events_listview);
         listView.setEmptyView(root.findViewById(R.id.empty_text));
         eventsList = new ArrayList<>();
-        Date date1 = new Date("01/11/2018");
-        Date date2 = new Date("01/21/2018");
-        eventsList.add(new EventEntity("Event #1 Title",date1,"10:00 am","hello from the pool num 1"));
-        eventsList.add(new EventEntity("Event #2 Title",date2,"12:00 pm","hello from the pool num 2"));
+        initilizeEvents();
+
         adapter = new EventAdapter(getContext(),R.layout.list_item_event,eventsList);
 
         listView.setAdapter(adapter);
@@ -50,6 +55,36 @@ public class EventFragment extends Fragment {
                 startActivity(intent);
             }
         });
+
         return root;
+    }
+    private void initilizeEvents() {
+        HttpCall httpCall = new HttpCall();
+        httpCall.setMethodtype(HttpCall.POST);
+        httpCall.setUrl(Constants.selectData);
+        HashMap<String,String> params = new HashMap<>();
+        params.put("table","events");
+
+        httpCall.setParams(params);
+        new HttpRequest(){
+            @Override
+            public void onResponse(JSONArray response) {
+                super.onResponse(response);
+                fillAdapter(response);
+            }
+        }.execute(httpCall);
+    }
+
+    private void fillAdapter(JSONArray response) {
+        if (response != null) {
+            try {
+                for (int i = 0; i < response.length(); i++) {
+                    eventsList.add(new EventEntity(response.getJSONObject(i)));
+                    adapter.notifyDataSetChanged();
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
     }
 }
