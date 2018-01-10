@@ -55,19 +55,19 @@ public class RegisterActivity extends AppCompatActivity {
         globalVars = (GlobalVars) getApplication();
 
         register_Context = getApplicationContext();
-        register_rl = (RelativeLayout) findViewById(R.id.register_rl);
+        register_rl =  findViewById(R.id.register_rl);
 
-        name_edittext = (EditText) findViewById(R.id.nameEditText_register);
-        phone_edittext = (EditText) findViewById(R.id.phoneEditText_register);
-        mail_edittext = (EditText) findViewById(R.id.mailEditText_register);
-        pass_edittext = (EditText) findViewById(R.id.passEditText_register);
-        repass_edittext = (EditText) findViewById(R.id.repassEditText_register);
+        name_edittext =  findViewById(R.id.nameEditText_register);
+        phone_edittext =  findViewById(R.id.phoneEditText_register);
+        mail_edittext =  findViewById(R.id.mailEditText_register);
+        pass_edittext =  findViewById(R.id.passEditText_register);
+        repass_edittext =  findViewById(R.id.repassEditText_register);
 
-        day_edittext = (EditText) findViewById(R.id.dayEditText_register);
-        month_edittext = (EditText) findViewById(R.id.monthEditText_register);
-        year_edittext = (EditText) findViewById(R.id.yearEditText_register);
+        day_edittext =  findViewById(R.id.dayEditText_register);
+        month_edittext =  findViewById(R.id.monthEditText_register);
+        year_edittext =  findViewById(R.id.yearEditText_register);
 
-        gender_spinner = (Spinner) findViewById(R.id.genderSpinner_register);
+        gender_spinner =  findViewById(R.id.genderSpinner_register);
 
 
         ArrayAdapter<CharSequence> gender_spinner_adapter = ArrayAdapter.createFromResource(this, R.array.Gender_array, android.R.layout.simple_spinner_item);
@@ -162,7 +162,12 @@ public class RegisterActivity extends AppCompatActivity {
                     public void onResponse(JSONArray response) {
                         super.onResponse(response);
 
-                        verfication();
+                        if(response != null){
+                            verfication();
+                        } else {
+                            show_toast("An error occurred");
+                        }
+
                     }
                 }.execute(httpCall);
 
