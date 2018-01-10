@@ -10,7 +10,8 @@ import java.util.ArrayList;
 
 public class GlobalVars extends Application {
 
-    String name, phone, mail, birth_date;
+
+    String name, phone, mail;
 
     int id, type, gender, age; //TYPE 0 Trainee, 1 Coach, 2 Admin, 3 Manager, 4 Backend, 5 non_registered
                           //GENDER 0 Male, 1 Female
@@ -53,14 +54,6 @@ public class GlobalVars extends Application {
 
     public void setMail(String mail) {
         this.mail = mail;
-    }
-
-    public String getBirth_date() {
-        return birth_date;
-    }
-
-    public void setBirth_date(String birth_date) {
-        this.birth_date = birth_date;
     }
 
     public int getId() {
