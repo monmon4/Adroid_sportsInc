@@ -35,13 +35,13 @@ public class MyClassesFragment extends Fragment {
         View root = inflater.inflate(R.layout.fragment_my_classes,container,false);
 
         globalVars =  (GlobalVars) getActivity().getApplication();
-        int user_is = globalVars.getUser_is();
+        int type = globalVars.getType();
 
-        if (user_is == 1) {
+        if (type == 0) {
             parent = true;
-        } else if (user_is == 2) {
+        }else if (type == 1) {
             coach = true;
-        } else {
+        } else if (type == 2) {
             admin = true;
         }
 

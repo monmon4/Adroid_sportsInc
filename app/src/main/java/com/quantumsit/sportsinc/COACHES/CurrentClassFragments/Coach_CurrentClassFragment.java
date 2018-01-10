@@ -25,7 +25,7 @@ public class Coach_CurrentClassFragment extends Fragment {
     private ViewPager mViewPager;
 
     GlobalVars globalVars;
-    int user_is;
+    int type;
 
     @Nullable
     @Override
@@ -34,7 +34,7 @@ public class Coach_CurrentClassFragment extends Fragment {
         View root = inflater.inflate(R.layout.fragment_coach__current_class, container, false);
 
         globalVars = (GlobalVars) getActivity().getApplication();
-        user_is = globalVars.getUser_is();
+        type = globalVars.getType();
 
         mViewPager = (ViewPager) root.findViewById(R.id.coach_current_class_viewpager);
 
@@ -48,7 +48,7 @@ public class Coach_CurrentClassFragment extends Fragment {
     public void setupViewPager(ViewPager mViewPager){
         mSectionsPagerAdapter = new SectionsPagerAdapter(getChildFragmentManager());
 
-        if (user_is == 2) {
+        if (type == 1) {
             mSectionsPagerAdapter.addFragment(new Coach_CurrentClassRulesFragment(),"Rules");
             mSectionsPagerAdapter.addFragment(new Coach_CurrentClassAttendanceFragment(),"Attendance");
             mSectionsPagerAdapter.addFragment(new Coach_CurrentClassScoresFragment(),"Scores");

@@ -1,6 +1,7 @@
 package com.quantumsit.sportsinc;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -14,7 +15,17 @@ import android.widget.ArrayAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.quantumsit.sportsinc.Aaa_data.Academy_info;
+import com.quantumsit.sportsinc.Aaa_data.Constants;
+import com.quantumsit.sportsinc.Backend.HttpCall;
+import com.quantumsit.sportsinc.Backend.HttpRequest;
 import com.weiwangcn.betterspinner.library.material.MaterialBetterSpinner;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.HashMap;
 
 import javax.xml.datatype.Duration;
 
@@ -24,6 +35,8 @@ public class JoinNowActivity extends AppCompatActivity {
 
     MaterialBetterSpinner date_spinner, time_spinner ;
 
+    Academy_info academy_info;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -31,6 +44,8 @@ public class JoinNowActivity extends AppCompatActivity {
 
         location_textview = findViewById(R.id.locationTextView_joinnow);
         phone_textview = findViewById(R.id.phoneTextView_joinnow);
+
+        get_info();
 
         date_spinner = findViewById(R.id.dateSpinner_joinnow);
         time_spinner = findViewById(R.id.timeSpinner_joinnow);
@@ -44,10 +59,58 @@ public class JoinNowActivity extends AppCompatActivity {
 
     }
 
+    //map btn is pressed
     public void go_to_maps(View view) {
 
         Intent intent = new Intent(JoinNowActivity.this, MapsActivity.class);
+
         startActivity(intent);
+    }
+
+    @SuppressLint("StaticFieldLeak")
+    private void get_info() {
+
+        //JSONObject where_info = new JSONObject();
+        //try {
+            //where_info.put("phone",phone);
+
+            HttpCall httpCall = new HttpCall();
+            httpCall.setMethodtype(HttpCall.POST);
+            httpCall.setUrl(Constants.selectData);
+            HashMap<String, String> params = new HashMap<>();
+            params.put("table", "info_academy");
+            //params.put("where",where_info.toString());
+
+            httpCall.setParams(params);
+            //progressDialog.show();
+            new HttpRequest() {
+                @Override
+                public void onResponse(JSONArray response) {
+                    super.onResponse(response);
+                    try {
+
+                        if (response != null) {
+
+                            JSONObject result = response.getJSONObject(0);
+                            academy_info.setAddress(result.getString("address"));
+                            academy_info.setPhone(result.getString("phone"));
+
+                        } else {
+                            //progressDialog.dismiss();
+                            //show_toast("Phone doesn't exist");
+                        }
+
+
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+
+                }
+            }.execute(httpCall);
+
+            //} catch (JSONException e) {
+            //e.printStackTrace();
+            //}
     }
 
     //call btn is pressed

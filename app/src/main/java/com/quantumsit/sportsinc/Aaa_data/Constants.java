@@ -15,4 +15,8 @@ public interface Constants {
     String join = server + "joindata";
     String sendSMS = server + "sendSMS";
     String notification = server + "pushNotificationAndroid";
+
+
+    //SQLite DB
+    String TABLE_AcademyInfo = "info_academy";
 }

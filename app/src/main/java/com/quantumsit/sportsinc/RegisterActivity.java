@@ -1,5 +1,6 @@
 package com.quantumsit.sportsinc;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
@@ -76,6 +77,7 @@ public class RegisterActivity extends AppCompatActivity {
     }
 
 
+    @SuppressLint("StaticFieldLeak")
     public void done_register(View view) {
 
         show_toast(gender);
@@ -144,7 +146,7 @@ public class RegisterActivity extends AppCompatActivity {
                 info.put("gender",gender_int);
                 info.put("pass",pass);
                 info.put("age",age);
-                info.put("type",0);
+                info.put("type",5);
 
                 HttpCall httpCall = new HttpCall();
                 httpCall.setMethodtype(HttpCall.POST);
@@ -159,15 +161,15 @@ public class RegisterActivity extends AppCompatActivity {
                     @Override
                     public void onResponse(JSONArray response) {
                         super.onResponse(response);
-                        String res = response.toString();
-                        show_toast("res");
+
+                        verfication();
                     }
                 }.execute(httpCall);
 
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-            verfication();
+
         }
 
     }
@@ -197,7 +199,7 @@ public class RegisterActivity extends AppCompatActivity {
                 String verifcation = verify_edit_text.getText().toString();
                 show_toast("Success" + verifcation);
                 verfication_popup_window.dismiss();
-                globalVars.setUser_is(4);
+                globalVars.setType(5);
                 Intent intent = new Intent(RegisterActivity.this , HomeActivity.class);
                 startActivity(intent);
                 finish();

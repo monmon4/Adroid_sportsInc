@@ -10,8 +10,6 @@ import java.util.ArrayList;
 
 public class GlobalVars extends Application {
 
-    int user_is ; //1 parent, 2 coach, 3 admin, 4 non_registered
-
     String name, phone, mail, birth_date;
 
     int id, type, gender, age; //TYPE 0 Trainee, 1 Coach, 2 Admin, 3 Manager, 4 Backend, 5 non_registered
@@ -20,14 +18,6 @@ public class GlobalVars extends Application {
 
     ArrayList<course_info> courses;
 
-
-    public int getUser_is() {
-        return user_is;
-    }
-
-    public void setUser_is(int user_is) {
-        this.user_is = user_is;
-    }
 
     public void settAll (String name, String phone, String mail,
                             int id, int type, int gender, int age){

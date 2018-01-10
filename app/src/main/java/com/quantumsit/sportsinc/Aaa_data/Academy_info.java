@@ -5,12 +5,23 @@ package com.quantumsit.sportsinc.Aaa_data;
  */
 
 public class Academy_info {
+
+    int id;
     String address;
     String phone;
 
-    public Academy_info(String address, String phone) {
+    public Academy_info(int id, String address, String phone) {
+        this.id = id;
         this.address = address;
         this.phone = phone;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getAddress() {

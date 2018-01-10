@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.quantumsit.sportsinc.Aaa_data.GlobalVars;
 import com.quantumsit.sportsinc.Aaa_looks.MyCustomLayoutManager;
 import com.quantumsit.sportsinc.Aaa_looks.RecyclerView_Adapter_scores;
 import com.quantumsit.sportsinc.Aaa_looks.item_single_scores;
@@ -26,13 +27,18 @@ public class ScoresFragment extends Fragment {
     private RecyclerView_Adapter_scores recycler_view_adapter;
     public List<item_single_scores> list_item;
 
+    GlobalVars globalVars;
+    int user_id;
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_scores,container,false);
 
+        globalVars = (GlobalVars) getActivity().getApplication();
+        user_id = globalVars.getId();
 
-        recycler_view = (RecyclerView) root.findViewById(R.id.recyclerView_scores);
+        recycler_view = root.findViewById(R.id.recyclerView_scores);
         recycler_view.setHasFixedSize(false);
 
         list_item = new ArrayList<>();

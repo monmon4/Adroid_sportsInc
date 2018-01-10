@@ -63,13 +63,16 @@ public class HomeActivity extends AppCompatActivity
         globalVars = (GlobalVars) getApplication();
         int type = globalVars.getType();
 
-        if(type == 0) {
+        if(type == 5) {
             if (!checkRegistered()) {
-                globalVars.setType(5);
                 non_register = true;
             } else {
+                globalVars.setType(0);
                 parent = true;
+                updateDB_type_to_trainee();
             }
+        }else if (type == 0) {
+            parent = true;
         }else if (type == 1) {
             coach = true;
         } else if (type == 2) {
@@ -126,6 +129,38 @@ public class HomeActivity extends AppCompatActivity
         }
 
 
+    }
+
+    @SuppressLint("StaticFieldLeak")
+    private void updateDB_type_to_trainee() {
+
+        JSONObject where_info = new JSONObject();
+        JSONObject values_info = new JSONObject();
+        try {
+            where_info.put("id",globalVars.getId());
+            values_info.put("type", globalVars.getType());
+
+            HttpCall httpCall = new HttpCall();
+            httpCall.setMethodtype(HttpCall.POST);
+            httpCall.setUrl(Constants.selectData);
+            HashMap<String,String> params = new HashMap<>();
+            params.put("table","users");
+            params.put("where",where_info.toString());
+            params.put("values",values_info.toString());
+
+            httpCall.setParams(params);
+
+            new HttpRequest(){
+                @Override
+                public void onResponse(JSONArray response) {
+                    super.onResponse(response);
+
+                }
+            }.execute(httpCall);
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
     }
 
     @SuppressLint("StaticFieldLeak")

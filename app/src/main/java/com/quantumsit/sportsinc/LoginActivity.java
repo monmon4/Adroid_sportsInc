@@ -1,6 +1,7 @@
 package com.quantumsit.sportsinc;
 
 import android.annotation.SuppressLint;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Paint;
 import android.support.v7.app.AppCompatActivity;
@@ -30,8 +31,10 @@ public class LoginActivity extends AppCompatActivity {
     EditText phone_edittext, pass_edittext;
     String phone, pass;
 
-    String received_pass, received_mail, received_name, received_date_of_birth;
+    String received_pass, received_mail, received_name;
     int received_id, received_gender, received_type, received_age;
+
+    ProgressDialog progressDialog;
 
     boolean all_good;
     @Override
@@ -40,6 +43,9 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.activity_login);
 
         globalVars = (GlobalVars) getApplication();
+
+        progressDialog = new ProgressDialog(LoginActivity.this);
+        progressDialog.setMessage("Configuring user.....");
 
         phone_edittext = findViewById(R.id.phoneEditText_login);
         pass_edittext = findViewById(R.id.passEditText_login);
@@ -64,14 +70,6 @@ public class LoginActivity extends AppCompatActivity {
         pass = pass_edittext.getText().toString();
         all_good = true;
 
-        if (phone.equals("1")){
-            globalVars.setUser_is(1);
-        } else if (phone.equals("2")){
-            globalVars.setUser_is(2);
-        } else if (phone.equals("3")){
-            globalVars.setUser_is(3);
-        }
-
         if (phone.equals("") ){
             show_toast("Phone is missing");
 
@@ -91,7 +89,7 @@ public class LoginActivity extends AppCompatActivity {
                 params.put("where",where_info.toString());
 
                 httpCall.setParams(params);
-
+                progressDialog.show();
                 new HttpRequest(){
                     @Override
                     public void onResponse(JSONArray response) {
@@ -115,10 +113,12 @@ public class LoginActivity extends AppCompatActivity {
 
 
                                 } else {
+                                    progressDialog.dismiss();
                                     show_toast("Password is incorrect");
                                 }
 
                             } else {
+                                progressDialog.dismiss();
                                 show_toast("Phone doesn't exist");
                             }
 
@@ -141,7 +141,7 @@ public class LoginActivity extends AppCompatActivity {
 
         globalVars.settAll(received_name, phone, received_mail,
                             received_id, received_type, received_gender, received_age);
-
+        progressDialog.dismiss();
         Intent intent= new Intent(LoginActivity.this, HomeActivity.class);
         startActivity(intent);
         finish();
