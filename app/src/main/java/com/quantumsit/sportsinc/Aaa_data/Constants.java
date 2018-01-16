@@ -12,7 +12,7 @@ public interface Constants {
     String updateData = server + "updatedata";
     String insertData = server + "insertdata";
     String deleteData = server + "deletedata";
-    String join = server + "joindata";
+    String joinData = server + "joindata";
     String sendSMS = server + "sendSMS";
     String notification = server + "pushNotificationAndroid";
 

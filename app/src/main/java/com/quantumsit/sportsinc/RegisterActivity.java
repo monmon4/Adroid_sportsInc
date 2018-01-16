@@ -30,6 +30,7 @@ import org.json.JSONObject;
 
 import java.util.Calendar;
 import java.util.HashMap;
+import java.util.Random;
 
 public class RegisterActivity extends AppCompatActivity {
 
@@ -77,11 +78,7 @@ public class RegisterActivity extends AppCompatActivity {
     }
 
 
-    @SuppressLint("StaticFieldLeak")
     public void done_register(View view) {
-
-        show_toast(gender);
-        verfication();
 
         boolean all_good = false;
 
@@ -126,60 +123,19 @@ public class RegisterActivity extends AppCompatActivity {
         }
 
         if (all_good) {
-
-            int gender_int;
-            if (gender.equals("Male")){
-                gender_int = 0;
-            } else {
-                gender_int = 1;
-            }
-            int current_year = Calendar.getInstance().get(Calendar.YEAR);
-            int year = Integer.valueOf(year_of_birth);
-            int age = current_year - year;
-
-
-            JSONObject info = new JSONObject();
-            try {
-                info.put("name",user_name);
-                info.put("phone",phone);
-                info.put("email",mail);
-                info.put("gender",gender_int);
-                info.put("pass",pass);
-                info.put("age",age);
-                info.put("type",5);
-
-                HttpCall httpCall = new HttpCall();
-                httpCall.setMethodtype(HttpCall.POST);
-                httpCall.setUrl(Constants.insertData);
-                HashMap<String,String> params = new HashMap<>();
-                params.put("table","users");
-                params.put("values",info.toString());
-
-                httpCall.setParams(params);
-
-                new HttpRequest(){
-                    @Override
-                    public void onResponse(JSONArray response) {
-                        super.onResponse(response);
-
-                        if(response != null){
-                            verfication();
-                        } else {
-                            show_toast("An error occurred");
-                        }
-
-                    }
-                }.execute(httpCall);
-
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-
+            verfication();
         }
 
     }
 
+    @SuppressLint("StaticFieldLeak")
     private void verfication(){
+
+        String verification_msg;
+        Random random_num = new Random();
+        final int verfication_num = random_num.nextInt(9999 - 1000) + 1000;
+        verification_msg = "Your verfication code: " + verfication_num;
+
 
         LayoutInflater inflater = (LayoutInflater) register_Context.getSystemService(LAYOUT_INFLATER_SERVICE);
         View customView = inflater.inflate(R.layout.window_verficationcode_layout,null);
@@ -194,29 +150,106 @@ public class RegisterActivity extends AppCompatActivity {
             verfication_popup_window.setElevation(5.0f);
         }
 
-        final EditText verify_edit_text = (EditText) customView.findViewById(R.id.verficationEditText_verify);
-        Button done_button = (Button) customView.findViewById(R.id.doneButton_verify);
+        final EditText verify_edit_text =  customView.findViewById(R.id.verficationEditText_verify);
+        Button done_button =  customView.findViewById(R.id.doneButton_verify);
         verify_edit_text.setEnabled(true);
 
         done_button.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view){
-                String verifcation = verify_edit_text.getText().toString();
-                show_toast("Success" + verifcation);
-                verfication_popup_window.dismiss();
-                globalVars.setType(5);
-                Intent intent = new Intent(RegisterActivity.this , HomeActivity.class);
-                startActivity(intent);
-                finish();
+                String verifcation = verify_edit_text.getText().toString().trim();
+                if (verifcation.equals(String.valueOf(verfication_num))){
+                    insert_to_DB();
+                } else {
+                    show_toast("Wrong code");
+                }
+
             }
         } );
 
-        verfication_popup_window.showAtLocation(register_rl, Gravity.CENTER,0,0);
-        verfication_popup_window.setFocusable(true);
-        verify_edit_text.setFocusable(true);
-        verfication_popup_window.setOutsideTouchable(false);
-        verfication_popup_window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
-        verfication_popup_window.update();
+
+        HttpCall httpCall = new HttpCall();
+        httpCall.setMethodtype(HttpCall.POST);
+        httpCall.setUrl(Constants.sendSMS);
+        HashMap<String,String> params = new HashMap<>();
+        params.put("phone",phone);
+        params.put("MSG",verification_msg);
+        httpCall.setParams(params);
+
+        new HttpRequest(){
+            @Override
+            public void onResponse(JSONArray response) {
+                super.onResponse(response);
+
+                if(response != null){
+                    show_toast("Success");
+                    verfication_popup_window.showAtLocation(register_rl, Gravity.CENTER,0,0);
+                    verfication_popup_window.setFocusable(true);
+                    verify_edit_text.setFocusable(true);
+                    verfication_popup_window.setOutsideTouchable(false);
+                    verfication_popup_window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
+                    verfication_popup_window.update();
+                } else {
+                    show_toast("An error occurred");
+                }
+
+            }
+        }.execute(httpCall);
+    }
+
+    @SuppressLint("StaticFieldLeak")
+    public void insert_to_DB(){
+        int gender_int;
+        if (gender.equals("Male")){
+            gender_int = 0;
+        } else {
+            gender_int = 1;
+        }
+        int current_year = Calendar.getInstance().get(Calendar.YEAR);
+        int year = Integer.valueOf(year_of_birth);
+        int age = current_year - year;
+
+
+        JSONObject info = new JSONObject();
+        try {
+            info.put("name",user_name);
+            info.put("phone",phone);
+            info.put("email",mail);
+            info.put("gender",gender_int);
+            info.put("pass",pass);
+            info.put("age",age);
+            info.put("type",5);
+
+            HttpCall httpCall = new HttpCall();
+            httpCall.setMethodtype(HttpCall.POST);
+            httpCall.setUrl(Constants.insertData);
+            HashMap<String,String> params = new HashMap<>();
+            params.put("table","users");
+            params.put("values",info.toString());
+
+            httpCall.setParams(params);
+
+            new HttpRequest(){
+                @Override
+                public void onResponse(JSONArray response) {
+                    super.onResponse(response);
+
+                    if(response != null){
+                        verfication_popup_window.dismiss();
+                        globalVars.setType(5);
+                        Intent intent = new Intent(RegisterActivity.this , HomeActivity.class);
+                        startActivity(intent);
+                        finish();
+                    } else {
+                        show_toast("An error occurred");
+                    }
+
+                }
+            }.execute(httpCall);
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
     }
 
     public void show_toast(String msg){

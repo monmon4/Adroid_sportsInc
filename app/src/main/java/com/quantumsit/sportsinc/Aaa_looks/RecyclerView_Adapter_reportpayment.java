@@ -47,10 +47,11 @@ public class RecyclerView_Adapter_reportpayment extends RecyclerView.Adapter<Rec
 
         holder.course_name.setText(List_Item.get(position).course_name);
         holder.creation_date.setText(List_Item.get(position).creation_date);
-        holder.payment.setText(List_Item.get(position).payment);
-        holder.due_date.setText(List_Item.get(position).due_date);
+        String payment = "$" + List_Item.get(position).payment;
+        holder.payment.setText(payment);
+        holder.due_date.setText("Due: " + List_Item.get(position).due_date);
 
-        if (position != 0 && position != 1) {
+        if (List_Item.get(position).status != 0){
             holder.payment_image_button.setBackgroundResource(R.drawable.ic_done_all);
         }
     }
