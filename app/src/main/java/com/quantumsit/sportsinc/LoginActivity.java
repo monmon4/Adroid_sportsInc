@@ -139,7 +139,7 @@ public class LoginActivity extends AppCompatActivity {
 
     private void go_to_home(){
 
-        globalVars.settAll(received_name, phone, received_mail,
+        globalVars.settAll(received_name, phone,pass, received_mail,
                             received_id, received_type, received_gender, received_age);
         progressDialog.dismiss();
         Intent intent= new Intent(LoginActivity.this, HomeActivity.class);
