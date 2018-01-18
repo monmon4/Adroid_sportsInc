@@ -48,8 +48,12 @@ public class ListViewAdapter extends RecyclerView.Adapter<ListViewAdapter.ViewHo
             viewHolder.status.setTextColor(Color.parseColor("#22a630"));
         else if (classStatus.equals("Canceled"))
             viewHolder.status.setTextColor(Color.parseColor("#df1b1c"));
-        else if (classStatus.equals("Postponded"))
+        else if (classStatus.equals("Postponed"))
             viewHolder.status.setTextColor(Color.parseColor("#f98a03"));
+        else if (classStatus.equals("Finished"))
+            viewHolder.status.setTextColor(Color.parseColor("#ed4e4d4d"));
+        else
+            viewHolder.status.setTextColor(Color.parseColor("#2a388f"));
 
         viewHolder.status.setText(classStatus);
         viewHolder.Title.setText(myclass.getCourseName()+" "+myclass.getClassName());

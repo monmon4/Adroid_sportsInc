@@ -11,7 +11,7 @@ import java.util.ArrayList;
 public class GlobalVars extends Application {
 
 
-    String name, phone, mail;
+    String name, phone, pass, mail;
 
     int id, type, gender, age; //TYPE 0 Trainee, 1 Coach, 2 Admin, 3 Manager, 4 Backend, 5 non_registered
                           //GENDER 0 Male, 1 Female
@@ -19,6 +19,18 @@ public class GlobalVars extends Application {
 
     ArrayList<course_info> courses;
 
+    public void settAll (String name, String phone, String pass,String mail,
+                         int id, int type, int gender, int age){
+        this.name = name;
+        this.phone = phone;
+        this.pass = pass;
+        this.mail = mail;
+
+        this.id = id;
+        this.type = type;
+        this.gender = gender;
+        this.age = age;
+    }
 
     public void settAll (String name, String phone, String mail,
                             int id, int type, int gender, int age){
@@ -38,6 +50,14 @@ public class GlobalVars extends Application {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getPass() {
+        return pass;
+    }
+
+    public void setPass(String pass) {
+        this.pass = pass;
     }
 
     public String getPhone() {
@@ -74,6 +94,18 @@ public class GlobalVars extends Application {
 
     public int getGender() {
         return gender;
+    }
+
+    public String getPersonGender() {
+        String PersonGender = "";
+        switch (gender){
+            case 0:
+                PersonGender = "Male";
+                break;
+            case 1:
+                PersonGender = "Female";
+        }
+        return PersonGender;
     }
 
     public void setGender(int gender) {
