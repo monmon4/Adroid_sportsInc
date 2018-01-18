@@ -77,7 +77,9 @@ public class LoginActivity extends AppCompatActivity {
             show_toast("Password is missing");
 
         } else {
-            JSONObject where_info = new JSONObject();
+            all_good = true;
+            go_to_home();
+            /*JSONObject where_info = new JSONObject();
             try {
                 where_info.put("phone",phone);
 
@@ -132,15 +134,25 @@ public class LoginActivity extends AppCompatActivity {
 
             } catch (JSONException e) {
                 e.printStackTrace();
-            }
+            }*/
         }
 
     }
 
     private void go_to_home(){
 
-        globalVars.settAll(received_name, phone,pass, received_mail,
-                            received_id, received_type, received_gender, received_age);
+        //globalVars.settAll(received_name, phone, received_mail,
+                            //received_id, received_type, received_gender, received_age);
+        if (phone.equals("1")) {
+            received_type = 0;
+        } else if (phone.equals("2")) {
+            received_type = 1;
+        } else {
+            received_type = 2;
+        }
+
+        globalVars.settAll("name", "phone", "mail",
+                            2, received_type, 1, 20);
         progressDialog.dismiss();
         Intent intent= new Intent(LoginActivity.this, HomeActivity.class);
         startActivity(intent);

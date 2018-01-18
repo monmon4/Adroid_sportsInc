@@ -74,9 +74,9 @@ public class CertificatesFragment extends Fragment {
         list_items.add(R.drawable.img8);
 
         certificates_list = new ArrayList<>();
-        fill_certificates();
+        //fill_certificates();
 
-        certificates_recyclerView_adapter = new RecyclerView_Adapter_certificate(certificates_list, getContext());
+        certificates_recyclerView_adapter = new RecyclerView_Adapter_certificate(list_items, getContext());
         certificates_recyclerView.setAdapter(certificates_recyclerView_adapter);
 
         return root;
@@ -129,7 +129,7 @@ public class CertificatesFragment extends Fragment {
 
     private void set_recycler_view() {
         progressDialog.dismiss();
-        certificates_recyclerView_adapter = new RecyclerView_Adapter_certificate(certificates_list, getContext());
+        certificates_recyclerView_adapter = new RecyclerView_Adapter_certificate(list_items, getContext());
         certificates_recyclerView.setAdapter(certificates_recyclerView_adapter);
 
     }

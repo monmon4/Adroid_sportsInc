@@ -12,6 +12,10 @@ public class ActivityAddRequest_coach extends AppCompatActivity {
 
     MaterialBetterSpinner request_for_spinner, course_name_spinner, class_number_spinner;
 
+    //note en diii fi el admin w fii el coach booooth
+
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

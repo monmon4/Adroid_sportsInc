@@ -59,19 +59,26 @@ public class PaymentFragment extends Fragment {
         recyclerView.setHasFixedSize(false);
 
         list_item = new ArrayList<>();
-        fill_payment_list();
+        //fill_payment_list();
 
         layoutManager = new MyCustomLayoutManager(getActivity());
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.smoothScrollToPosition(recyclerView.getVerticalScrollbarPosition());
 
         //
-        //for(int i=0; i<10; i++){
-        //    list_item.add(new item_reports_payment("Course1", "1/5/5017", "$500", "Due: 20/5/2017"));
-        //}
+        for(int i=0; i<10; i++){
+            if (i == 0 || i == 1) {
+                list_item.add(new item_reports_payment("Course1", "1/5/5017", 500, "Due: 20/5/2017", 0));
+            } else {
+                list_item.add(new item_reports_payment("Course1", "1/5/5017", 500, "Due: 20/5/2017", 1));
 
-
+            }
+        }
         //
+
+        recyclerView_adapter_reportpayment = new RecyclerView_Adapter_reportpayment(list_item, getActivity());
+        recyclerView.setItemAnimator(new DefaultItemAnimator());
+        recyclerView.setAdapter(recyclerView_adapter_reportpayment);
 
 
 
@@ -125,9 +132,7 @@ public class PaymentFragment extends Fragment {
                                 list_item.add(new item_reports_payment(course_name, creation_date, amount, due_date, status));
                             }
 
-                            recyclerView_adapter_reportpayment = new RecyclerView_Adapter_reportpayment(list_item, getActivity());
-                            recyclerView.setItemAnimator(new DefaultItemAnimator());
-                            recyclerView.setAdapter(recyclerView_adapter_reportpayment);
+
 
                         } else {
                             Toast.makeText(getContext(), "An error occurred ", Toast.LENGTH_SHORT).show();

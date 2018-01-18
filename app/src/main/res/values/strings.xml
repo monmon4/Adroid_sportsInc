@@ -53,6 +53,18 @@
         <item>30/6/2017</item>
     </string-array>
 
+    <string-array name="time_array">
+        <item>10:00 am</item>
+        <item>10:30 am</item>
+        <item>11:00 am</item>
+        <item>12:00 pm</item>
+        <item>12:30 pm</item>
+        <item>01:00 pm</item>
+        <item>02:00 pm</item>
+        <item>02:30 pm</item>
+        <item>05:00 pm</item>
+    </string-array>
+
     <string-array name="month_array">
         <item>January</item>
         <item>February</item>
