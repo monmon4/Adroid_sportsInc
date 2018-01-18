@@ -20,9 +20,9 @@ public class ActivityFinishedCourseSingle_coach extends AppCompatActivity {
 
     TextView course_name_text_view, group_number_text_view, pool_number_text_view;
 
-    EditText coach_note_edit_text;
+    //EditText coach_note_edit_text;
 
-    FloatingActionButton done_button;
+    //FloatingActionButton done_button;
 
     ListView listView;
     ListViewFinishedCoursesSingle_Adapter listView_adapter;
@@ -38,19 +38,19 @@ public class ActivityFinishedCourseSingle_coach extends AppCompatActivity {
         group_number_text_view = findViewById(R.id.groupNumberTextView_singleFinishedCourse);
         pool_number_text_view = findViewById(R.id.poolNumberTextView_singleFinishedCourse);
 
-        coach_note_edit_text = findViewById(R.id.coachNoteEditText_singleFinishedCourse);
+        //coach_note_edit_text = findViewById(R.id.coachNoteEditText_singleFinishedCourse);
 
-        done_button = findViewById(R.id.floatingActionButton_singleFinishedCourse);
+        //done_button = findViewById(R.id.floatingActionButton_singleFinishedCourse);
 
-        setButtonEnabled(true, View.VISIBLE, true);
+        //setButtonEnabled(true, View.VISIBLE, true);
 
-        done_button.setOnClickListener(new View.OnClickListener() {
+        /*done_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 String note = coach_note_edit_text.getText().toString();
 
             }
-        });
+        });*/
 
 
         listView = findViewById(R.id.listView_singleFinishedCourse);
@@ -77,8 +77,8 @@ public class ActivityFinishedCourseSingle_coach extends AppCompatActivity {
     }
 
     private void setButtonEnabled(boolean edit_text, int button_vis, boolean button) {
-        coach_note_edit_text.setEnabled(edit_text);
-        done_button.setVisibility(button_vis);
-        done_button.setEnabled(button);
+        //coach_note_edit_text.setEnabled(edit_text);
+        //done_button.setVisibility(button_vis);
+        //done_button.setEnabled(button);
     }
 }

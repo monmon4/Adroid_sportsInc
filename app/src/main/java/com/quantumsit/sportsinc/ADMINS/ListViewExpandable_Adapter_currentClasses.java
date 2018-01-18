@@ -17,6 +17,7 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
+import com.quantumsit.sportsinc.AdminStartClassActivity;
 import com.quantumsit.sportsinc.COACHES.ActivityCurrentClass_coach;
 import com.quantumsit.sportsinc.COACHES.item2_notfinished_course_group;
 import com.quantumsit.sportsinc.R;
@@ -122,7 +123,7 @@ public class ListViewExpandable_Adapter_currentClasses extends BaseExpandableLis
             @Override
             public void onClick(View view) {
                 if(child.equals("Start class")) {
-                    Intent intent = new Intent(context, ActivityCurrentClass_coach.class);
+                    Intent intent = new Intent(context, AdminStartClassActivity.class);
                     context.startActivity(intent);
 
                 } else if (child.equals("Postpone class")){

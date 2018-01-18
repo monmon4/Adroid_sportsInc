@@ -45,7 +45,7 @@ public class JoinNowActivity extends AppCompatActivity {
         location_textview = findViewById(R.id.locationTextView_joinnow);
         phone_textview = findViewById(R.id.phoneTextView_joinnow);
 
-        get_info();
+        //get_info();
 
         date_spinner = findViewById(R.id.dateSpinner_joinnow);
         time_spinner = findViewById(R.id.timeSpinner_joinnow);
@@ -53,7 +53,7 @@ public class JoinNowActivity extends AppCompatActivity {
         ArrayAdapter<CharSequence> date_adapter = ArrayAdapter.createFromResource(JoinNowActivity.this, R.array.date_array,android.R.layout.simple_spinner_item );
         date_adapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
         date_spinner.setAdapter(date_adapter);
-        ArrayAdapter<CharSequence> time_adapter = ArrayAdapter.createFromResource(JoinNowActivity.this, R.array.date_array,android.R.layout.simple_spinner_item );
+        ArrayAdapter<CharSequence> time_adapter = ArrayAdapter.createFromResource(JoinNowActivity.this, R.array.time_array,android.R.layout.simple_spinner_item );
         time_adapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
         time_spinner.setAdapter(time_adapter);
 
@@ -116,7 +116,7 @@ public class JoinNowActivity extends AppCompatActivity {
     //call btn is pressed
     public void on_call(View view) {
 
-        String academy_phone = "0115703711";
+        String academy_phone = "01115703711";
 
         try {
             Intent callIntent = new Intent(Intent.ACTION_CALL);

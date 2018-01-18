@@ -54,12 +54,12 @@ public class Coach_CurrentClassFragment extends Fragment {
             mSectionsPagerAdapter.addFragment(new Coach_CurrentClassScoresFragment(),"Scores");
             mSectionsPagerAdapter.addFragment(new Coach_CurrentClassNoteFragment(),"Notes");
 
-        } else {
+        } /*else {
             mSectionsPagerAdapter.addFragment(new Admin_CurrentClassAttendanceFragment(),"Attendance");
             mSectionsPagerAdapter.addFragment(new Admin_CurrentClassRulesFragment(),"Rules");
             mSectionsPagerAdapter.addFragment(new Admin_CurrentClassNoteFragment(),"Notes");
 
-        }
+        }*/
 
         mViewPager.setAdapter(mSectionsPagerAdapter);
     }

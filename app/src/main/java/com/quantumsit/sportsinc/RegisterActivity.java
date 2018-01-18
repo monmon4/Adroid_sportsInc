@@ -154,21 +154,30 @@ public class RegisterActivity extends AppCompatActivity {
         Button done_button =  customView.findViewById(R.id.doneButton_verify);
         verify_edit_text.setEnabled(true);
 
+        verfication_popup_window.showAtLocation(register_rl, Gravity.CENTER,0,0);
+        verfication_popup_window.setFocusable(true);
+        verify_edit_text.setFocusable(true);
+        verfication_popup_window.setOutsideTouchable(false);
+        verfication_popup_window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
+        verfication_popup_window.update();
+
         done_button.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view){
                 String verifcation = verify_edit_text.getText().toString().trim();
-                if (verifcation.equals(String.valueOf(verfication_num))){
+
+                insert_to_DB();
+                /*if (verifcation.equals(String.valueOf(verfication_num))){
                     insert_to_DB();
                 } else {
                     show_toast("Wrong code");
-                }
+                }*/
 
             }
         } );
 
 
-        HttpCall httpCall = new HttpCall();
+       /* HttpCall httpCall = new HttpCall();
         httpCall.setMethodtype(HttpCall.POST);
         httpCall.setUrl(Constants.sendSMS);
         HashMap<String,String> params = new HashMap<>();
@@ -183,18 +192,13 @@ public class RegisterActivity extends AppCompatActivity {
 
                 if(response != null){
                     show_toast("Success");
-                    verfication_popup_window.showAtLocation(register_rl, Gravity.CENTER,0,0);
-                    verfication_popup_window.setFocusable(true);
-                    verify_edit_text.setFocusable(true);
-                    verfication_popup_window.setOutsideTouchable(false);
-                    verfication_popup_window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
-                    verfication_popup_window.update();
+
                 } else {
                     show_toast("An error occurred");
                 }
 
             }
-        }.execute(httpCall);
+        }.execute(httpCall);*/
     }
 
     @SuppressLint("StaticFieldLeak")
@@ -209,8 +213,14 @@ public class RegisterActivity extends AppCompatActivity {
         int year = Integer.valueOf(year_of_birth);
         int age = current_year - year;
 
+        verfication_popup_window.dismiss();
+        globalVars.setType(5);
+        Intent intent = new Intent(RegisterActivity.this , HomeActivity.class);
+        startActivity(intent);
+        finish();
 
-        JSONObject info = new JSONObject();
+
+       /* JSONObject info = new JSONObject();
         try {
             info.put("name",user_name);
             info.put("phone",phone);
@@ -249,7 +259,7 @@ public class RegisterActivity extends AppCompatActivity {
 
         } catch (JSONException e) {
             e.printStackTrace();
-        }
+        }*/
     }
 
     public void show_toast(String msg){

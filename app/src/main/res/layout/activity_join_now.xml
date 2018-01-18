@@ -70,7 +70,7 @@
                 android:layout_marginStart="5dp"
                 android:layout_marginLeft="5dp"
                 android:layout_gravity="center"
-                android:text="@string/phone" />
+                android:text="01115703711" />
         </LinearLayout>
 
         <TextView
