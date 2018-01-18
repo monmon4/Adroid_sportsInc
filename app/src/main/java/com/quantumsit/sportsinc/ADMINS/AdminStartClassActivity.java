@@ -1,10 +1,12 @@
-package com.quantumsit.sportsinc;
+package com.quantumsit.sportsinc.ADMINS;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.EditText;
+
+import com.quantumsit.sportsinc.R;
 
 public class AdminStartClassActivity extends AppCompatActivity {
 

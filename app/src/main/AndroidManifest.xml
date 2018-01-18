@@ -73,7 +73,7 @@
         <activity android:name=".NewsDetailsActivity" />
         <!--activity android:name=".CourseDetailsActivity" /-->
         <activity android:name=".NotificationDetailsActivity" />
-        <activity android:name=".AdminStartClassActivity"/>
+        <activity android:name=".ADMINS.AdminStartClassActivity"/>
     </application>
 
 </manifest>
