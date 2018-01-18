@@ -28,11 +28,20 @@ public class ListViewExpandable_Adapter_currentClasses extends BaseExpandableLis
 
     public Context context;
     public List<item_current_classes> header_list;
-    public HashMap<String, List<String>> child_hashmap;
-    int CurrentPosition;
+    public HashMap<Integer, List<String>> child_hashmap;
+
+    Admin_CurrentClassesFragment myFragment;
 
     public ListViewExpandable_Adapter_currentClasses(Context context, List<item_current_classes> listDataHeader,
-                                                     HashMap<String, List<String>> listChildData) {
+                                                     HashMap<Integer, List<String>> listChildData) {
+        this.context = context;
+        this.header_list = listDataHeader;
+        this.child_hashmap = listChildData;
+    }
+
+    public ListViewExpandable_Adapter_currentClasses(Context context, Admin_CurrentClassesFragment fragment, List<item_current_classes> listDataHeader,
+                                                     HashMap<Integer, List<String>> listChildData) {
+        this.myFragment = fragment;
         this.context = context;
         this.header_list = listDataHeader;
         this.child_hashmap = listChildData;
@@ -42,7 +51,7 @@ public class ListViewExpandable_Adapter_currentClasses extends BaseExpandableLis
     public int getGroupCount() {return this.header_list.size();}
 
     @Override
-    public int getChildrenCount(int groupPosition) {return this.child_hashmap.get(header_list.get(groupPosition).class_number).size();}
+    public int getChildrenCount(int groupPosition) {return this.child_hashmap.get(header_list.get(groupPosition).id).size();}
 
 
     @Override
@@ -60,7 +69,7 @@ public class ListViewExpandable_Adapter_currentClasses extends BaseExpandableLis
     @Override
     public Object getChild(int groupPosition, int childPosititon) {
 
-        return this.child_hashmap.get(this.header_list.get(groupPosition).class_number)
+        return this.child_hashmap.get(this.header_list.get(groupPosition).id)
                 .get(childPosititon);
     }
 
@@ -82,7 +91,7 @@ public class ListViewExpandable_Adapter_currentClasses extends BaseExpandableLis
 
         class_number.setText(header.class_number);
         class_date.setText(header.class_date);
-        class_time.setText(header.time);
+        class_time.setText(header.startTime+" ~ "+header.endTime);
         //class_text_view.setText(header.class_number);
 
         return convertView;
@@ -118,7 +127,8 @@ public class ListViewExpandable_Adapter_currentClasses extends BaseExpandableLis
         class_start.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(child.equals("Start class")) {
+                myFragment.clickChildListener(groupPosition,childPosition);
+                /*if(child.equals("Start class")) {
                     Intent intent = new Intent(context, ActivityCurrentClass_coach.class);
                     context.startActivity(intent);
 
@@ -129,13 +139,13 @@ public class ListViewExpandable_Adapter_currentClasses extends BaseExpandableLis
 
                 }else {
 
-                }
+                }*/
             }
         });
 
         return convertView;
     }
-
+/*
     int Year ,Month ,Day ,Hour ,Minute;
 
     private DatePickerDialog.OnDateSetListener dateSetListener;
@@ -210,7 +220,7 @@ public class ListViewExpandable_Adapter_currentClasses extends BaseExpandableLis
     private void myDatePicker() {
         DatePickerDialog datePickerDialog = new DatePickerDialog(context, dateSetListener,Year,Month,Day);
         datePickerDialog.show();
-    }
+    }*/
 
     @Override
     public boolean hasStableIds() {

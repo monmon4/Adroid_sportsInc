@@ -36,7 +36,7 @@ import java.util.HashMap;
 
 public class ClassesDetailsActivity extends AppCompatActivity {
 
-    PopupWindow verfication_popup_window;
+    PopupWindow popupWindow;
     ProgressDialog progressDialog;
 
     TextView date ,start ,end ,coach ,admin , groupName,pool ,classname , courseName, postponedDate,reason;
@@ -97,7 +97,7 @@ public class ClassesDetailsActivity extends AppCompatActivity {
     private void dismissButtons(){
         buttons = findViewById(R.id.ChangeStatusButtons);
         buttons.setVisibility(View.GONE);
-        verfication_popup_window.dismiss();
+        popupWindow.dismiss();
     }
 
     private void cancelClass(String note) {
@@ -209,14 +209,14 @@ public class ClassesDetailsActivity extends AppCompatActivity {
         LayoutInflater inflater = (LayoutInflater) getApplicationContext().getSystemService(LAYOUT_INFLATER_SERVICE);
         View customView = inflater.inflate(R.layout.window_write_note_layout,null);
 
-        verfication_popup_window = new PopupWindow(
+        popupWindow = new PopupWindow(
                 customView,
                 ViewGroup.LayoutParams.WRAP_CONTENT,
                 ViewGroup.LayoutParams.WRAP_CONTENT
         );
 
         if(Build.VERSION.SDK_INT>=21){
-            verfication_popup_window.setElevation(5.0f);
+            popupWindow.setElevation(5.0f);
         }
 
         final EditText note_edit_text =  customView.findViewById(R.id.noteEditText_notewindow);
@@ -238,12 +238,12 @@ public class ClassesDetailsActivity extends AppCompatActivity {
         } );
 
         LinearLayout parentView = findViewById(R.id.class_view);
-        verfication_popup_window.showAtLocation(parentView,Gravity.CENTER,0,0);
-        verfication_popup_window.setFocusable(true);
+        popupWindow.showAtLocation(parentView,Gravity.CENTER,0,0);
+        popupWindow.setFocusable(true);
         note_edit_text.setFocusable(true);
-        verfication_popup_window.setOutsideTouchable(false);
-        verfication_popup_window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
-        verfication_popup_window.update();
+        popupWindow.setOutsideTouchable(false);
+        popupWindow.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
+        popupWindow.update();
     }
 
     int Year ,Month ,Day ,Hour ,Minute;

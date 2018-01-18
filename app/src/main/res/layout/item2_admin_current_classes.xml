@@ -15,6 +15,7 @@
 
     <TextView
         android:id="@+id/class_adminCurrentClassesItem"
+        android:focusable="false"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
@@ -22,7 +23,6 @@
         android:textSize="14sp"
         android:clickable="true"
         android:textColor="@color/colorText"
-        android:text="@string/start_class"
-        android:focusable="true" />
+        android:text="@string/start_class"/>
 
 </LinearLayout>
