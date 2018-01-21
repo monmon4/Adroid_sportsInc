@@ -41,9 +41,16 @@ public class ListView_Adapter_request_coach extends ArrayAdapter<item_request_co
 
         // Populate the data into the template view using the data object
         creation_date.setText(request.creation_date);
-        coursename_and_class.setText(request.course_name_and_class_number);
+        coursename_and_class.setText(request.course_name+", "+request.class_name);
         date.setText(request.date);
         request_for.setText(request.request_for);
+
+        if (request.status == 0)
+            accept.setBackgroundResource(R.drawable.ic_not_checked);
+        else if (request.status == 2)
+            accept.setBackgroundResource(R.drawable.ic_waiting);
+        else
+            accept.setBackgroundResource(R.drawable.ic_check_circle);
         // Return the completed view to render on screen
         return convertView;
     }
