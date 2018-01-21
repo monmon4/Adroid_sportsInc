@@ -128,99 +128,11 @@ public class ListViewExpandable_Adapter_currentClasses extends BaseExpandableLis
             @Override
             public void onClick(View view) {
                 myFragment.clickChildListener(groupPosition,childPosition);
-                /*if(child.equals("Start class")) {
-                    Intent intent = new Intent(context, ActivityCurrentClass_coach.class);
-                    context.startActivity(intent);
-
-                } else if (child.equals("Postpone class")){
-
-                    CurrentPosition = groupPosition;
-                    postpondClass();
-
-                }else {
-
-                }*/
             }
         });
 
         return convertView;
     }
-/*
-    int Year ,Month ,Day ,Hour ,Minute;
-
-    private DatePickerDialog.OnDateSetListener dateSetListener;
-    private TimePickerDialog.OnTimeSetListener timeSetListener;
-
-    private void postpondClass(){
-        Calendar calendar = Calendar.getInstance();
-        Year = calendar.get(Calendar.YEAR);
-        Month = calendar.get(Calendar.MONTH);
-        Day = calendar.get(Calendar.DAY_OF_MONTH);
-        Hour = calendar.get(Calendar.HOUR_OF_DAY);
-        Minute = calendar.get(Calendar.MINUTE);
-        initialDateListener();
-        initialTimeListener();
-        myDatePicker();
-    }
-    private void initialTimeListener() {
-        timeSetListener = new TimePickerDialog.OnTimeSetListener() {
-            @Override
-            public void onTimeSet(TimePicker timePicker, int hour, int minute) {
-                Hour = hour;
-                Minute = minute;
-                showSavedTime();
-                savePostponedTime();
-            }
-
-        };
-    }
-
-    private void showSavedTime() {
-        Calendar dateCal = Calendar.getInstance();
-        dateCal.set(Calendar.YEAR,Year);
-        dateCal.set(Calendar.MONTH,Month);
-        dateCal.set(Calendar.DAY_OF_MONTH,Day);
-        dateCal.set(Calendar.HOUR,Hour);
-        dateCal.set(Calendar.MINUTE,Minute);
-
-        SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy hh:mm");
-        String date = df.format(dateCal.getTime());
-        Toast toast = Toast.makeText(context,""+header_list.get(CurrentPosition).class_number+" has been postponded to\n\t"+date,Toast.LENGTH_LONG);
-        toast.setGravity(Gravity.CENTER,0,0);
-        toast.show();
-
-        header_list.remove(CurrentPosition);
-
-        notifyDataSetChanged();
-    }
-
-    private void savePostponedTime() {
-        //Save Data to server
-
-    }
-
-    private void initialDateListener() {
-        dateSetListener = new DatePickerDialog.OnDateSetListener() {
-            @Override
-            public void onDateSet(DatePicker datePicker, int year, int month, int day) {
-                Year = year;
-                Month = month+1;
-                Day = day;
-
-                myTimePicker();
-            }
-        };
-    }
-
-    private void myTimePicker() {
-        TimePickerDialog timePickerDialog = new TimePickerDialog(context, timeSetListener ,Hour ,Minute ,true);
-        timePickerDialog.show();
-    }
-
-    private void myDatePicker() {
-        DatePickerDialog datePickerDialog = new DatePickerDialog(context, dateSetListener,Year,Month,Day);
-        datePickerDialog.show();
-    }*/
 
     @Override
     public boolean hasStableIds() {

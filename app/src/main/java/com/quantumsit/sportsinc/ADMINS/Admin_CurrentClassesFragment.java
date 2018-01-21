@@ -104,7 +104,7 @@ public class Admin_CurrentClassesFragment extends Fragment {
 
             HttpCall httpCall = new HttpCall();
             httpCall.setMethodtype(HttpCall.POST);
-            httpCall.setUrl("http://192.168.1.29/sport_inc/api/current_classes");
+            httpCall.setUrl(Constants.admin_cuurentClasses);
 
             HashMap<String, String> params = new HashMap<>();
             params.put("where", where_info.toString());
@@ -156,7 +156,8 @@ public class Admin_CurrentClassesFragment extends Fragment {
     }
 
     private void startClass() {
-        Intent intent = new Intent(getContext(), ActivityCurrentClass_coach.class);
+        Intent intent = new Intent(getContext(), AdminStartClassActivity.class);
+        intent.putExtra("adminClass",list_headers.get(CurrentPosition));
         startActivity(intent);
     }
 

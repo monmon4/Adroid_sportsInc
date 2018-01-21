@@ -47,7 +47,8 @@ public class RecyclerView_Adapter_reportattendance extends RecyclerView.Adapter<
         holder.date.setText(List_Item.get(position).date);
         holder.class_number.setText(List_Item.get(position).class_number);
 
-        if (position == 3 || position == 8){
+        int attend = List_Item.get(position).attend;
+        if (attend == 0){
             holder.attended_image_button.setBackgroundResource(R.drawable.ic_not_checked);
         }
 
