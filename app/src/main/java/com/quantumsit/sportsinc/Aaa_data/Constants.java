@@ -12,6 +12,13 @@ public interface Constants {
     String updateData = server + "updatedata";
     String insertData = server + "insertdata";
     String classesData = server + "class_Details";
+    String admin_cuurentClasses = server + "current_classes";
+    String coach_courses = server + "coach_coursesName";
+    String coach_classes = server + "coach_classesName";
+    String finished_groups = server + "finished_groups";
+    String finishedClasses = server + "class_attend";
+    String ClassesTrainee = server + "trainee_attendance";
+    String person_attend = server + "persons_Attendance";
     String deleteData = server + "deletedata";
     String joinData = server + "joindata";
     String sendSMS = server + "sendSMS";

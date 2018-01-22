@@ -1,6 +1,7 @@
 package com.quantumsit.sportsinc.COACHES.ReportsFragments;
 
 import android.content.Context;
+import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,19 +23,30 @@ public class ListViewFinishedCoursesSingle_Adapter extends ArrayAdapter<item_fin
     public ListViewFinishedCoursesSingle_Adapter(Context context, ArrayList<item_finsihed_course_single> list_items) {
         super(context, 0, list_items);
 
-        this.list_items = new ArrayList<>();
-        this.list_items.addAll(list_items);
+        this.list_items = list_items;
     }
 
     @Override
+    public int getCount() {
+        return list_items.size();
+    }
+
+    @Nullable
+    @Override
+    public item_finsihed_course_single getItem(int position) {
+        return list_items.get(position);
+    }
+    @Override
     public View getView(int position, View convertView, ViewGroup parent) {
 
-        // Get the data item for this position
-        item_finsihed_course_single item = list_items.get(position);
         // Check if an existing view is being reused, otherwise inflate the view
         if (convertView == null) {
             convertView = LayoutInflater.from(getContext()).inflate(R.layout.item_coach_finished_course_single, parent, false);
         }
+
+        // Get the data item for this position
+        item_finsihed_course_single item = list_items.get(position);
+
         // Lookup view for data population
         TextView class_number_textview =  convertView.findViewById(R.id.classNumberTextView_coachFinishedCoursesSingleItem);
         TextView class_date_textview =  convertView.findViewById(R.id.dateTextView_coachFinishedCoursesSingleItem);
@@ -42,7 +54,7 @@ public class ListViewFinishedCoursesSingle_Adapter extends ArrayAdapter<item_fin
 
         // Populate the data into the template view using the data object
 
-        class_number_textview.setText(item.class_number);
+        class_number_textview.setText(item.class_name);
         class_date_textview.setText(item.class_date);
         attendance_percentage_textview.setText(item.attendance_percentage);
 

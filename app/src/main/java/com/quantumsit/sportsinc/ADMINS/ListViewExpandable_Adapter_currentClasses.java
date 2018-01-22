@@ -15,6 +15,7 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
+import com.quantumsit.sportsinc.COACHES.ActivityCurrentClass_coach;
 import com.quantumsit.sportsinc.R;
 
 import java.text.SimpleDateFormat;
@@ -27,11 +28,20 @@ public class ListViewExpandable_Adapter_currentClasses extends BaseExpandableLis
 
     public Context context;
     public List<item_current_classes> header_list;
-    public HashMap<String, List<String>> child_hashmap;
-    int CurrentPosition;
+    public HashMap<Integer, List<String>> child_hashmap;
+
+    Admin_CurrentClassesFragment myFragment;
 
     public ListViewExpandable_Adapter_currentClasses(Context context, List<item_current_classes> listDataHeader,
-                                                     HashMap<String, List<String>> listChildData) {
+                                                     HashMap<Integer, List<String>> listChildData) {
+        this.context = context;
+        this.header_list = listDataHeader;
+        this.child_hashmap = listChildData;
+    }
+
+    public ListViewExpandable_Adapter_currentClasses(Context context, Admin_CurrentClassesFragment fragment, List<item_current_classes> listDataHeader,
+                                                     HashMap<Integer, List<String>> listChildData) {
+        this.myFragment = fragment;
         this.context = context;
         this.header_list = listDataHeader;
         this.child_hashmap = listChildData;
@@ -41,7 +51,7 @@ public class ListViewExpandable_Adapter_currentClasses extends BaseExpandableLis
     public int getGroupCount() {return this.header_list.size();}
 
     @Override
-    public int getChildrenCount(int groupPosition) {return this.child_hashmap.get(header_list.get(groupPosition).class_number).size();}
+    public int getChildrenCount(int groupPosition) {return this.child_hashmap.get(header_list.get(groupPosition).id).size();}
 
 
     @Override
@@ -59,7 +69,7 @@ public class ListViewExpandable_Adapter_currentClasses extends BaseExpandableLis
     @Override
     public Object getChild(int groupPosition, int childPosititon) {
 
-        return this.child_hashmap.get(this.header_list.get(groupPosition).class_number)
+        return this.child_hashmap.get(this.header_list.get(groupPosition).id)
                 .get(childPosititon);
     }
 
@@ -81,7 +91,7 @@ public class ListViewExpandable_Adapter_currentClasses extends BaseExpandableLis
 
         class_number.setText(header.class_number);
         class_date.setText(header.class_date);
-        class_time.setText(header.time);
+        class_time.setText(header.startTime+" ~ "+header.endTime);
         //class_text_view.setText(header.class_number);
 
         return convertView;
@@ -117,98 +127,11 @@ public class ListViewExpandable_Adapter_currentClasses extends BaseExpandableLis
         class_start.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(child.equals("Start class")) {
-                    Intent intent = new Intent(context, AdminStartClassActivity.class);
-                    context.startActivity(intent);
-
-                } else if (child.equals("Postpone class")){
-
-                    CurrentPosition = groupPosition;
-                    postpondClass();
-
-                }else {
-
-                }
+                myFragment.clickChildListener(groupPosition,childPosition);
             }
         });
 
         return convertView;
-    }
-
-    int Year ,Month ,Day ,Hour ,Minute;
-
-    private DatePickerDialog.OnDateSetListener dateSetListener;
-    private TimePickerDialog.OnTimeSetListener timeSetListener;
-
-    private void postpondClass(){
-        Calendar calendar = Calendar.getInstance();
-        Year = calendar.get(Calendar.YEAR);
-        Month = calendar.get(Calendar.MONTH);
-        Day = calendar.get(Calendar.DAY_OF_MONTH);
-        Hour = calendar.get(Calendar.HOUR_OF_DAY);
-        Minute = calendar.get(Calendar.MINUTE);
-        initialDateListener();
-        initialTimeListener();
-        myDatePicker();
-    }
-    private void initialTimeListener() {
-        timeSetListener = new TimePickerDialog.OnTimeSetListener() {
-            @Override
-            public void onTimeSet(TimePicker timePicker, int hour, int minute) {
-                Hour = hour;
-                Minute = minute;
-                showSavedTime();
-                savePostpondedTime();
-            }
-
-        };
-    }
-
-    private void showSavedTime() {
-        Calendar dateCal = Calendar.getInstance();
-        dateCal.set(Calendar.YEAR,Year);
-        dateCal.set(Calendar.MONTH,Month);
-        dateCal.set(Calendar.DAY_OF_MONTH,Day);
-        dateCal.set(Calendar.HOUR,Hour);
-        dateCal.set(Calendar.MINUTE,Minute);
-
-        SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy hh:mm");
-        String date = df.format(dateCal.getTime());
-        Toast toast = Toast.makeText(context,""+header_list.get(CurrentPosition).class_number+" has been postponded to\n\t"+date,Toast.LENGTH_LONG);
-        toast.setGravity(Gravity.CENTER,0,0);
-        toast.show();
-
-        header_list.remove(CurrentPosition);
-
-        notifyDataSetChanged();
-    }
-
-    private void savePostpondedTime() {
-        //Save Data to server
-
-    }
-
-    private void initialDateListener() {
-        dateSetListener = new DatePickerDialog.OnDateSetListener() {
-            @Override
-            public void onDateSet(DatePicker datePicker, int year, int month, int day) {
-                Year = year;
-                Month = month+1;
-                Day = day;
-
-                myTimePicker();
-            }
-        };
-    }
-
-    private void myTimePicker() {
-        TimePickerDialog timePickerDialog = new TimePickerDialog(context, timeSetListener ,Hour ,Minute ,true);
-        timePickerDialog.show();
-    }
-
-    private void myDatePicker() {
-        DatePickerDialog datePickerDialog = new DatePickerDialog(context, dateSetListener,Year,Month,Day);
-        datePickerDialog.show();
     }
 
     @Override
