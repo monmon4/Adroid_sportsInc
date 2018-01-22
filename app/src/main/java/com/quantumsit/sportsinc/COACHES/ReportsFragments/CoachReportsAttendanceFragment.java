@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 
 import com.quantumsit.sportsinc.ADMINS.item_current_classes;
@@ -41,6 +42,7 @@ public class CoachReportsAttendanceFragment extends Fragment {
     RecyclerView_Adapter_reportattendance recyclerView_adapter_reportattendance;
 
     ArrayList<item_report_attendance> list_items;
+    ArrayList<item_report_attendance> all_items;
 
     MaterialBetterSpinner month_spinner;
 
@@ -55,9 +57,10 @@ public class CoachReportsAttendanceFragment extends Fragment {
         layoutManager = new MyCustomLayoutManager(getActivity());
         recyclerView = root.findViewById(R.id.recyclerView_reportsattendance);
         list_items = new ArrayList<>();
+        all_items = new ArrayList<>();
 
         month_spinner = root.findViewById(R.id.monthSpinner_reportsattendance);
-        ArrayAdapter<CharSequence> month_spinner_adapter = ArrayAdapter.createFromResource(getActivity(), R.array.month_array, android.R.layout.simple_spinner_item);
+        final ArrayAdapter<CharSequence> month_spinner_adapter = ArrayAdapter.createFromResource(getActivity(), R.array.month_array, android.R.layout.simple_spinner_item);
         month_spinner.setAdapter(month_spinner_adapter);
 
         recyclerView.setLayoutManager(layoutManager);
@@ -69,9 +72,30 @@ public class CoachReportsAttendanceFragment extends Fragment {
         recyclerView_adapter_reportattendance = new RecyclerView_Adapter_reportattendance(list_items, getContext());
         recyclerView.setAdapter(recyclerView_adapter_reportattendance);
 
-
+        month_spinner.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
+                String text = month_spinner.getText().toString();
+                if (text.equals("None"))
+                    month_spinner.setText("");
+                filterMonths(position);
+            }
+        });
 
         return root;
+    }
+
+    private void filterMonths(int month) {
+        list_items.clear();
+        Calendar calendar = Calendar.getInstance();
+        for (item_report_attendance item:all_items){
+            calendar.setTime(item.class_date);
+            int AttendMonth = calendar.get(Calendar.MONTH);
+            if (AttendMonth == month || month == 12){
+                list_items.add(item);
+            }
+        }
+        recyclerView_adapter_reportattendance.notifyDataSetChanged();
     }
 
     private void initilizeAttendList() {
@@ -103,11 +127,13 @@ public class CoachReportsAttendanceFragment extends Fragment {
 
     private void fillAdapter(JSONArray response) {
         list_items.clear();
+        all_items.clear();
         if (response != null) {
             try {
                 for (int i = 0; i < response.length(); i++) {
                     item_report_attendance entity = new item_report_attendance(response.getJSONObject(i));
                     list_items.add(entity);
+                    all_items.add(entity);
                 }
             } catch (JSONException e) {
                 e.printStackTrace();

@@ -51,7 +51,8 @@ public class RecyclerView_Adapter_reportattendance extends RecyclerView.Adapter<
         if (attend == 0){
             holder.attended_image_button.setBackgroundResource(R.drawable.ic_not_checked);
         }
-
+        else
+            holder.attended_image_button.setBackgroundResource(R.drawable.ic_check_circle);
     }
 
     @Override
