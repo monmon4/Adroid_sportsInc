@@ -21,11 +21,11 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
-        android:layout_marginLeft="10dp"
         android:orientation="horizontal">
 
         <com.weiwangcn.betterspinner.library.material.MaterialBetterSpinner
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
+            android:layout_weight="1"
             android:layout_height="wrap_content"
             android:hint="@string/course_name"
             android:padding="10dp"
@@ -34,11 +34,11 @@
             android:id="@+id/courseNameSpinner_addreuestcoach"/>
 
         <com.weiwangcn.betterspinner.library.material.MaterialBetterSpinner
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="match_parent"
             android:hint="@string/class_number"
             android:layout_marginStart="10dp"
-            android:layout_marginLeft="10dp"
             android:padding="10dp"
             android:textColorHint="@color/colorAccent"
             app:met_floatingLabel="normal"
