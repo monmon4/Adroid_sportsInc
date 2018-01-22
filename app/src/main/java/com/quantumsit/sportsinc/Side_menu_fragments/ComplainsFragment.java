@@ -10,6 +10,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -20,6 +21,7 @@ import com.quantumsit.sportsinc.Backend.HttpCall;
 import com.quantumsit.sportsinc.Backend.HttpRequest;
 import com.quantumsit.sportsinc.HomeActivity;
 import com.quantumsit.sportsinc.R;
+import com.weiwangcn.betterspinner.library.material.MaterialBetterSpinner;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -33,6 +35,8 @@ public class ComplainsFragment extends Fragment {
     Button send_button;
     EditText title_edittext, content_edittext;
 
+    MaterialBetterSpinner regarding_spinner;
+
     GlobalVars globalVars;
     @Nullable
     @Override
@@ -44,6 +48,13 @@ public class ComplainsFragment extends Fragment {
         send_button = root.findViewById(R.id.sendButton_complains);
         title_edittext = root.findViewById(R.id.subjectEditText_complains);
         content_edittext = root.findViewById(R.id.contentEditText_complains);
+
+        regarding_spinner = root.findViewById(R.id.regardingSpinner_complains);
+
+        ArrayAdapter<CharSequence> regarding_spinner_adapter = ArrayAdapter.createFromResource(getActivity(), R.array.regarding_array, android.R.layout.simple_dropdown_item_1line);
+        regarding_spinner_adapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
+
+        regarding_spinner.setAdapter(regarding_spinner_adapter);
 
         send_button.setOnClickListener(new View.OnClickListener() {
             @Override

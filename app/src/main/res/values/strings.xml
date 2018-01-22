@@ -80,6 +80,19 @@
         <item>December</item>
     </string-array>
 
+    <string-array name="regarding_array">
+        <item>Trainee</item>
+        <item>Coach</item>
+        <item>Admin</item>
+        <item>Pool</item>
+        <item>Other</item>
+    </string-array>
+
+    <string-array name="empty_array">
+        <item>2017</item>
+
+    </string-array>
+
     <string name="app_name">Sports Inc</string>
     <string name="done">Done</string>
     <string name="user_name">User name</string>
@@ -188,6 +201,8 @@
     <string name="cancel_class">Cancel class</string>
 
     <string name="a_coach_s_note">this is just a sport</string>
+    <string name="regarding">Regarding</string>
+    <string name="class_date_spinner">Class, date</string>
 
 
 </resources>

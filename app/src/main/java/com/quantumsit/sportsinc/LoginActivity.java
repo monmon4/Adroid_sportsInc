@@ -143,7 +143,7 @@ public class LoginActivity extends AppCompatActivity {
 
         //globalVars.settAll(received_name, phone, received_mail,
                             //received_id, received_type, received_gender, received_age);
-        if (phone.equals("1")) {
+        if (phone.equals("1") || phone.equals("04")) {
             received_type = 0;
         } else if (phone.equals("2")) {
             received_type = 1;
@@ -152,7 +152,7 @@ public class LoginActivity extends AppCompatActivity {
         }
 
         globalVars.settAll("name", "phone", "mail",
-                            2, received_type, 1, 20);
+                            1, received_type, 1, 20);
         progressDialog.dismiss();
         Intent intent= new Intent(LoginActivity.this, HomeActivity.class);
         startActivity(intent);

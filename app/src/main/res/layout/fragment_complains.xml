@@ -2,12 +2,23 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context="com.quantumsit.sportsinc.Side_menu_fragments.ComplainsFragment">
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="16dp">
+
+        <com.weiwangcn.betterspinner.library.material.MaterialBetterSpinner
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:hint="@string/regarding"
+            android:padding="10dp"
+            android:textColorHint="@color/colorAccent"
+            app:met_floatingLabel="normal"
+            android:id="@+id/regardingSpinner_complains"/>
+
 
         <EditText
             android:id="@+id/subjectEditText_complains"
@@ -16,6 +27,7 @@
             android:ems="100"
             android:layout_marginBottom="10dp"
             android:inputType="textPersonName"
+            android:layout_below="@+id/regardingSpinner_complains"
             android:hint="@string/subject" />
 
         <EditText

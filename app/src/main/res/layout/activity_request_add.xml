@@ -13,27 +13,14 @@
         android:layout_margin="16dp"
         android:orientation="horizontal">
 
-        <com.weiwangcn.betterspinner.library.material.MaterialBetterSpinner
-            android:id="@+id/courseNameSpinner_requestadd"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingStart="5dp"
-            android:paddingLeft="5dp"
-            android:hint="Course name"
-            android:textColorHint="@color/colorAccent"
-            app:met_floatingLabel="normal"
-            android:layout_weight="1" />
 
         <com.weiwangcn.betterspinner.library.material.MaterialBetterSpinner
             android:id="@+id/dateSpinner_requestadd"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingStart="5dp"
-            android:paddingLeft="5dp"
-            android:hint="Date"
+            android:hint="@string/class_date_spinner"
             android:textColorHint="@color/colorAccent"
-            app:met_floatingLabel="normal"
-            android:layout_weight="1" />
+            app:met_floatingLabel="normal" />
 
     </LinearLayout>
 
