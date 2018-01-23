@@ -48,13 +48,10 @@ public class ActivityCourseSingleClass_coach extends AppCompatActivity {
         pool_number_textView  = findViewById(R.id.poolNumberTextView_coachCourseSingleClass);
         coach_note_textView = findViewById(R.id.coachNotesTextView_coachCourseSingleClass);
 
-
-        fillView(course_name,group_name,pool_name);
-
         listView = findViewById(R.id.traineesAttendanceListView_coachCourseSingleClass);
         list_items = new ArrayList<>();
 
-        initilizeTraineeList();
+        fillView(course_name,group_name,pool_name);
 
         adapter_listView = new ListView_Adapter_trainees_attendance_coach(ActivityCourseSingleClass_coach.this, list_items);
         listView.setAdapter(adapter_listView);
@@ -68,6 +65,7 @@ public class ActivityCourseSingleClass_coach extends AppCompatActivity {
         if (myClass!=null) {
             coach_note_textView.setText(myClass.getCoach_note());
             class_date_textView.setText(myClass.getClass_date());
+            initilizeTraineeList();
         }
     }
 
