@@ -1,5 +1,7 @@
 package com.quantumsit.sportsinc.Side_menu_fragments;
 
+import android.annotation.SuppressLint;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
@@ -13,6 +15,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.quantumsit.sportsinc.Aaa_data.Constants;
 import com.quantumsit.sportsinc.Aaa_data.GlobalVars;
@@ -27,7 +30,11 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 
 
@@ -41,6 +48,8 @@ public class RequestsFragment extends Fragment {
     ArrayList<item_request> list_items;
     ListView_Adapter_request arrayAdapter;
 
+    ProgressDialog progressDialog;
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
@@ -48,6 +57,8 @@ public class RequestsFragment extends Fragment {
         View root = inflater.inflate(R.layout.fragment_requests,container,false);
 
         globalVars = (GlobalVars) getActivity().getApplication();
+        progressDialog = new ProgressDialog(getActivity());
+        progressDialog.setMessage("Please wait ....");
 
         add_request_button = root.findViewById(R.id.floatingActionButton);
         add_request_button.setOnClickListener(new View.OnClickListener() {
@@ -68,10 +79,18 @@ public class RequestsFragment extends Fragment {
         arrayAdapter = new ListView_Adapter_request(getContext(), list_items);
         listView.setAdapter(arrayAdapter);
 
+        progressDialog.show();
+        getRequests();
+
         return root;
     }
 
-  /*  private void initilizeRequests() {
+   @SuppressLint("StaticFieldLeak")
+   private void getRequests() {
+
+
+
+        list_items.clear();
         try {
             HttpCall httpCall = new HttpCall();
             httpCall.setMethodtype(HttpCall.POST);
@@ -82,7 +101,6 @@ public class RequestsFragment extends Fragment {
 
             HashMap<String,String> params = new HashMap<>();
             params.put("table","requests");
-
             params.put("where",where_info.toString());
 
             httpCall.setParams(params);
@@ -90,7 +108,40 @@ public class RequestsFragment extends Fragment {
                 @Override
                 public void onResponse(JSONArray response) {
                     super.onResponse(response);
-                    fillAdapter(response);
+
+                    if(response!= null){
+                        Date date;
+                        DateFormat outdateFormat = new SimpleDateFormat("dd MMMM, yyyy");
+                        DateFormat creationDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                        DateFormat requestDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+                        for (int i=0; i<response.length(); i++){
+                            try {
+                                JSONObject result = response.getJSONObject(i);
+                                String creation_date = result.getString("c_date");
+                                date = creationDateFormat.parse(creation_date);
+                                creation_date = outdateFormat.format(date);
+                                String request_date = result.getString("date_request");
+                                date = requestDateFormat.parse(request_date);
+                                request_date = outdateFormat.format(date);
+
+                                String title = result.getString("title");
+                                String content = result.getString("content");
+                                list_items.add(new item_request(creation_date, title + ": " +request_date+"\n     " +content, ""));
+
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            } catch (ParseException e) {
+                                e.printStackTrace();
+                            }
+
+                        }
+
+                        arrayAdapter.notifyDataSetChanged();
+                        progressDialog.dismiss();
+                    } else {
+                        Toast.makeText(getContext(), "An error occurred", Toast.LENGTH_SHORT).show();
+                    }
+
                 }
             }.execute(httpCall);
         } catch (JSONException e) {
@@ -98,17 +149,4 @@ public class RequestsFragment extends Fragment {
         }
     }
 
-    private void fillAdapter(JSONArray response) {
-        list_items.clear();
-        if (response != null) {
-            try {
-                for (int i = 0; i < response.length(); i++) {
-                    list_items.add(new item_request(response.getJSONObject(i)));
-                }
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-        }
-        arrayAdapter.notifyDataSetChanged();
-    }*/
 }

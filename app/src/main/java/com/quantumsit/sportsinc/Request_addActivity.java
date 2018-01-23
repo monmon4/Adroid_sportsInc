@@ -154,8 +154,48 @@ public class Request_addActivity extends AppCompatActivity {
         progressDialog.dismiss();
     }
 
+
     @SuppressLint("StaticFieldLeak")
     public void send_clicked(View view) {
+
+        try {
+            JSONObject where_info = new JSONObject();
+            where_info.put("type",3);
+
+            HttpCall httpCall = new HttpCall();
+            httpCall.setMethodtype(HttpCall.POST);
+            httpCall.setUrl(Constants.selectData);
+            HashMap<String,String> params = new HashMap<>();
+            params.put("table","users");
+            params.put("where",where_info.toString());
+
+            httpCall.setParams(params);
+
+            new HttpRequest(){
+                @Override
+                public void onResponse(JSONArray response) {
+                    super.onResponse(response);
+                    if (response != null) {
+                        try {
+                            JSONObject object = response.getJSONObject(0);
+                            int user_id = object.getInt("id");
+                            insert_to_db(user_id);
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                    else
+                        show_toast("Error in sending");
+                }
+            }.execute(httpCall);
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @SuppressLint("StaticFieldLeak")
+    public void insert_to_db(int to_id) {
 
         Date date;
         DateFormat outdateFormat = new SimpleDateFormat("yyyy-MM-dd");
@@ -179,7 +219,6 @@ public class Request_addActivity extends AppCompatActivity {
             if (content.equals("")){ content = "none";}
             int type = 1;
             int from_id = globalVars.getId();
-            int to_id = 2;
 
             JSONObject values_info = new JSONObject();
             try {
@@ -191,7 +230,6 @@ public class Request_addActivity extends AppCompatActivity {
                 values_info.put("sub_course_name","");
                 values_info.put("content",content);
                 values_info.put("date_request",date_request);
-                values_info.put("read",0);
 
                 HttpCall httpCall = new HttpCall();
                 httpCall.setMethodtype(HttpCall.POST);
@@ -208,11 +246,11 @@ public class Request_addActivity extends AppCompatActivity {
                         super.onResponse(response);
 
                         if (response != null) {
-                            Toast.makeText(Request_addActivity.this, "Success ", Toast.LENGTH_SHORT).show();
+                            show_toast("Success ");
                             onBackPressed();
                             finish();
                         } else {
-                            Toast.makeText(Request_addActivity.this, "An error occurred ", Toast.LENGTH_SHORT).show();
+                            show_toast("An error occurred ");
                         }
                     }
 
@@ -224,6 +262,11 @@ public class Request_addActivity extends AppCompatActivity {
 
         }
 
+
+    }
+
+    private void show_toast(String msg){
+        Toast.makeText(Request_addActivity.this, msg, Toast.LENGTH_SHORT).show();
 
     }
 }
