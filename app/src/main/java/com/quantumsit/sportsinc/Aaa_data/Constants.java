@@ -16,6 +16,7 @@ public interface Constants {
     String coach_courses = server + "coach_coursesName";
     String coach_classes = server + "coach_classesName";
     String finished_groups = server + "finished_groups";
+    String finished_classes = server + "finished_classes";
     String finishedClasses = server + "class_attend";
     String ClassesTrainee = server + "trainee_attendance";
     String person_attend = server + "persons_Attendance";

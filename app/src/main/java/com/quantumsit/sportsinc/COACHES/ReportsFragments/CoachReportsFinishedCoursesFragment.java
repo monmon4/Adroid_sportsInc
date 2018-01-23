@@ -71,14 +71,24 @@ public class CoachReportsFinishedCoursesFragment extends Fragment {
 
     private void initilizeFinishedList() {
         try {
-            JSONObject where_info = new JSONObject();
-            where_info.put("admin_id",globalVars.getId());
+            HashMap<String, String> params = new HashMap<>();
 
+            JSONObject where_info = new JSONObject();
+
+            switch (globalVars.getType()){
+                case 1:
+                    where_info.put("coach_id", globalVars.getId());
+                    params.put("where",where_info.toString());
+                    break;
+                case 2:
+                    where_info.put("admin_id",globalVars.getId());
+                    params.put("where",where_info.toString());
+                    break;
+            }
             HttpCall httpCall = new HttpCall();
             httpCall.setMethodtype(HttpCall.POST);
             httpCall.setUrl(Constants.finished_groups);
 
-            HashMap<String, String> params = new HashMap<>();
             params.put("where", where_info.toString());
 
             httpCall.setParams(params);

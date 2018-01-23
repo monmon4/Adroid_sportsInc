@@ -68,6 +68,7 @@ public class ActivityFinishedCourseSingle_coach extends AppCompatActivity {
                 intent.putExtra("courseName",group.getCourse_name());
                 intent.putExtra("groupName",group.getGroup_name());
                 intent.putExtra("poolName",group.getPool_name());
+                intent.putExtra("UserType",2);
                 intent.putExtra("finishedClass",list_items.get(position));
                 startActivity(intent);
 
