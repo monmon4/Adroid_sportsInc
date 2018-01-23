@@ -21,12 +21,16 @@ import java.util.HashMap;
 
 public class ActivityCourseSingleClass_coach extends AppCompatActivity {
 
+    private static String TAG = ActivityCourseSingleClass_coach.class.getSimpleName();
+
     ListView listView;
     ListView_Adapter_trainees_attendance_coach adapter_listView;
 
     ArrayList<item_trainee_attendance> list_items;
 
-    item_finsihed_course_single myClass;
+    item_finsihed_course_single AdminClass;
+    item_finished_classes CoachClass;
+
     TextView class_date_textView, course_name_textView, group_number_textView,
              pool_number_textView, coach_note_textView;
 
@@ -40,7 +44,19 @@ public class ActivityCourseSingleClass_coach extends AppCompatActivity {
         String course_name = getIntent().getStringExtra("courseName");
         String group_name = getIntent().getStringExtra("groupName");
         String pool_name = getIntent().getStringExtra("poolName");
-        myClass = (item_finsihed_course_single) getIntent().getSerializableExtra("finishedClass");
+        int UserType = getIntent().getIntExtra("UserType",1);
+
+        Log.d(TAG,"Type : "+UserType);
+
+        switch (UserType){
+            case 1:
+                CoachClass = (item_finished_classes) getIntent().getSerializableExtra("finishedClass");
+                break;
+            case 2:
+                AdminClass = (item_finsihed_course_single) getIntent().getSerializableExtra("finishedClass");
+                break;
+        }
+
 
         class_date_textView = findViewById(R.id.classDateTextView_coachCourseSingleClass);
         course_name_textView = findViewById(R.id.courseNameTextView_coachCourseSingleClass);
@@ -51,28 +67,45 @@ public class ActivityCourseSingleClass_coach extends AppCompatActivity {
         listView = findViewById(R.id.traineesAttendanceListView_coachCourseSingleClass);
         list_items = new ArrayList<>();
 
-        fillView(course_name,group_name,pool_name);
+        fillView(course_name,group_name,pool_name,UserType);
 
         adapter_listView = new ListView_Adapter_trainees_attendance_coach(ActivityCourseSingleClass_coach.this, list_items);
         listView.setAdapter(adapter_listView);
 
     }
 
-    private void fillView(String course_name, String group_name, String pool_name) {
+    private void fillView(String course_name, String group_name, String pool_name,int Type) {
         course_name_textView.setText(course_name);
         group_number_textView.setText(group_name);
         pool_number_textView.setText(pool_name);
-        if (myClass!=null) {
-            coach_note_textView.setText(myClass.getCoach_note());
-            class_date_textView.setText(myClass.getClass_date());
-            initilizeTraineeList();
+        String class_note = "";
+        String class_date = "";
+        int class_id = 0;
+        switch (Type) {
+            case 1:
+                if (CoachClass !=null){
+                    class_note = CoachClass.getClass_note();
+                    class_date = CoachClass.getClass_date();
+                    class_id = CoachClass.getClass_id();
+                }
+                break;
+            case 2:
+                if (AdminClass != null) {
+                    class_note = AdminClass.getCoach_note();
+                    class_date = AdminClass.getClass_date();
+                    class_id = AdminClass.getClass_id();
+                }
+                break;
         }
+        coach_note_textView.setText(class_note);
+        class_date_textView.setText(class_date);
+        initilizeTraineeList(class_id);
     }
 
-    private void initilizeTraineeList() {
+    private void initilizeTraineeList(int class_id) {
         try {
             JSONObject where_info = new JSONObject();
-            where_info.put("class_info.class_id",myClass.getClass_id());
+            where_info.put("class_info.class_id", class_id);
 
             HttpCall httpCall = new HttpCall();
             httpCall.setMethodtype(HttpCall.POST);

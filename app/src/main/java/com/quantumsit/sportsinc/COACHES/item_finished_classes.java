@@ -40,4 +40,36 @@ public class item_finished_classes implements Serializable{
             e.printStackTrace();
         }
     }
+
+    public String getClass_name() {
+        return class_name;
+    }
+
+    public void setClass_name(String class_name) {
+        this.class_name = class_name;
+    }
+
+    public String getClass_date() {
+        return class_date;
+    }
+
+    public void setClass_date(String class_date) {
+        this.class_date = class_date;
+    }
+
+    public String getClass_note() {
+        return class_note;
+    }
+
+    public void setClass_note(String class_note) {
+        this.class_note = class_note;
+    }
+
+    public int getClass_id() {
+        return class_id;
+    }
+
+    public void setClass_id(int class_id) {
+        this.class_id = class_id;
+    }
 }

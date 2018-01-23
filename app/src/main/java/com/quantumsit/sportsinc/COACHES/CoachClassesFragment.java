@@ -83,6 +83,7 @@ public class CoachClassesFragment extends Fragment {
                 intent.putExtra("courseName",course_name);
                 intent.putExtra("groupName",group_name);
                 intent.putExtra("poolName",pool_name);
+                intent.putExtra("UserType",globalVars.getType());
                 intent.putExtra("finishedClass",myClass);
 
                 getActivity().startActivity(intent);
