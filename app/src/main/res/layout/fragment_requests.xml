@@ -5,6 +5,12 @@
     android:layout_height="match_parent"
     tools:context="com.quantumsit.sportsinc.Side_menu_fragments.RequestsFragment">
 
+    <ImageView
+        android:id="@+id/imageView_requests"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:src="@drawable/ic_fading_requests" />
+
     <ListView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
