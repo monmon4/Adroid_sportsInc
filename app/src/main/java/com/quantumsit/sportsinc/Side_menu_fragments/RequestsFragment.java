@@ -1,6 +1,7 @@
 package com.quantumsit.sportsinc.Side_menu_fragments;
 
 import android.annotation.SuppressLint;
+import android.app.LauncherActivity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -14,6 +15,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -49,6 +51,7 @@ public class RequestsFragment extends Fragment {
     ListView_Adapter_request arrayAdapter;
 
     ProgressDialog progressDialog;
+    ImageView imageView_requests;
 
     @Nullable
     @Override
@@ -70,11 +73,10 @@ public class RequestsFragment extends Fragment {
         });
 
         listView = root.findViewById(R.id.requests_listview);
+        imageView_requests = root.findViewById(R.id.imageView_requests);
         list_items = new ArrayList<>();
 
-        for (int j=0; j<10; j++){
-            list_items.add(new item_request("4/4/2017", "Course1, class 5", "10/4/2017"));
-        }
+        list_items.add(new item_request("", "", ""));
 
         arrayAdapter = new ListView_Adapter_request(getContext(), list_items);
         listView.setAdapter(arrayAdapter);
@@ -85,10 +87,8 @@ public class RequestsFragment extends Fragment {
         return root;
     }
 
-   @SuppressLint("StaticFieldLeak")
+    @SuppressLint("StaticFieldLeak")
    private void getRequests() {
-
-
 
         list_items.clear();
         try {
@@ -137,8 +137,13 @@ public class RequestsFragment extends Fragment {
                         }
 
                         arrayAdapter.notifyDataSetChanged();
+                        imageView_requests.setVisibility(View.INVISIBLE);
+                        listView.setVisibility(View.VISIBLE);
                         progressDialog.dismiss();
                     } else {
+                        imageView_requests.setVisibility(View.VISIBLE);
+                        listView.setVisibility(View.INVISIBLE);
+                        progressDialog.dismiss();
                         Toast.makeText(getContext(), "An error occurred", Toast.LENGTH_SHORT).show();
                     }
 

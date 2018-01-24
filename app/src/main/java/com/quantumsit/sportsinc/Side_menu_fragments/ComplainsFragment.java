@@ -1,7 +1,9 @@
 package com.quantumsit.sportsinc.Side_menu_fragments;
 
 import android.annotation.SuppressLint;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -59,20 +61,40 @@ public class ComplainsFragment extends Fragment {
         send_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String title = title_edittext.getText().toString();
-                String content = content_edittext.getText().toString();
+                final String title = title_edittext.getText().toString();
+                final String content = content_edittext.getText().toString();
 
                 if (title.equals("")){
                     Toast.makeText(getContext(), "Please enter a subject for the complain", Toast.LENGTH_SHORT).show();
                 } else if (content.equals("")){
                     Toast.makeText(getContext(), "There is no content for the complain", Toast.LENGTH_SHORT).show();
                 } else {
-                    send_to_DB(title, content);
+
+                    final AlertDialog.Builder builder = new AlertDialog.Builder(getActivity(),
+                            R.style.MyAlertDialogStyle);
+                    builder.setTitle(getActivity().getResources().getString(R.string.app_name));
+                    builder.setCancelable(false);
+                    builder.setMessage("     Are you sure?");
+                    builder.setPositiveButton("Yes",
+                            new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int i) {
+                                    send_to_DB(title, content);
+                                    dialogInterface.dismiss();
+                                }
+                            });
+                    builder.setNegativeButton("No",
+                            new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int i) {
+                                    dialogInterface.dismiss();
+                                }
+                            });
+                    builder.show();
                 }
-
-
             }
         });
+
 
         return root;
     }
