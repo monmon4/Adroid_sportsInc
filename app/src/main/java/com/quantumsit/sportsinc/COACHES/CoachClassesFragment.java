@@ -16,6 +16,7 @@ import android.widget.Toast;
 
 import com.quantumsit.sportsinc.Aaa_data.Constants;
 import com.quantumsit.sportsinc.Aaa_data.GlobalVars;
+import com.quantumsit.sportsinc.Aaa_data.MyClass_info;
 import com.quantumsit.sportsinc.Backend.HttpCall;
 import com.quantumsit.sportsinc.Backend.HttpRequest;
 import com.quantumsit.sportsinc.COACHES.ReportsFragments.item_reports_finished_courses;
@@ -171,7 +172,7 @@ public class CoachClassesFragment extends Fragment {
         HashMap<String, String> params = new HashMap<>();
         params.put("id", String.valueOf(globalVars.getId()));
         params.put("date",TodayDate);
-        params.put("time",TodayTime);
+        params.put("time","15:30:00");
 
         httpCall.setParams(params);
 
@@ -179,10 +180,34 @@ public class CoachClassesFragment extends Fragment {
             @Override
             public void onResponse(JSONArray response) {
                 super.onResponse(response);
-                Log.d(TAG,"Running :"+String.valueOf(response));
+                insertClassInSql(response);
             }
         }.execute(httpCall);
 
     }
+
+    private void insertClassInSql(JSONArray response) {
+        Log.d(TAG,"Response: "+String.valueOf(response));
+        String Tables = globalVars.getMyDB().DBTablesName();
+        Log.d(TAG ,"Tables: \n"+Tables);
+        if (response != null) {
+            try {
+                for (int i = 0; i < response.length(); i++) {
+                    MyClass_info info = new MyClass_info(response.getJSONObject(i));
+                    globalVars.getMyDB().addClass(info);
+                    
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+        List<MyClass_info> info = globalVars.getMyDB().getAllClasses();
+        String x = "";
+        for (int i=0;i<info.size();i++){
+            x = info.get(i).getClass_name()+" "+info.get(i).getClass_id()+" "+info.get(i).getClass_date()+"\n";
+        }
+        Log.d(TAG,"SQL Result: \n\t"+ x);
+    }
+
 
 }

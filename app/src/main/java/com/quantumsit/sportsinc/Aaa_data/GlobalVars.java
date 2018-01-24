@@ -126,4 +126,8 @@ public class GlobalVars extends Application {
     public void setAge(int age) {
         this.age = age;
     }
+
+    public DB_Sqlite_Handler getMyDB() {
+        return myDB;
+    }
 }
