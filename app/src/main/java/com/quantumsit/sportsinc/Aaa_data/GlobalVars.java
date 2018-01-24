@@ -10,6 +10,7 @@ import java.util.ArrayList;
 
 public class GlobalVars extends Application {
 
+    DB_Sqlite_Handler myDB;
 
     String name, phone, pass, mail;
 
@@ -18,6 +19,12 @@ public class GlobalVars extends Application {
 
 
     ArrayList<course_info> courses;
+
+    @Override
+    public void onCreate() {
+        super.onCreate();
+        myDB = new DB_Sqlite_Handler(getApplicationContext());
+    }
 
     public void settAll (String name, String phone, String pass,String mail,
                          int id, int type, int gender, int age){

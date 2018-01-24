@@ -64,6 +64,9 @@ public class CoachClassesFragment extends Fragment {
             }
         });
 
+        boolean current_class = true;
+        if (current_class)
+            current_class_button.setVisibility(View.VISIBLE);
         header_list = new ArrayList<>();
         child_hashmap = new HashMap<>();
         initilizeFinishedList();

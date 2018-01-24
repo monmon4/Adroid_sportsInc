@@ -21,18 +21,20 @@ public class DB_Sqlite_Handler extends SQLiteOpenHelper {
     private static final String DATABASE_NAME = "SportsInc";
 
 
-    // table name
-    private static final String TABLE_AcademyInfo = Constants.TABLE_AcademyInfo;
+    // academy table name
+    private String TABLE_AcademyInfo = Constants.TABLE_AcademyInfo;
     // Shops Table Columns names
-    private static final String KeyId = "id";
-    private static final String KeyAddress = "address";
-    private static final String KeyPhone = "phone";
+    private String KeyId = "id";
+    private String KeyAddress = "address";
+    private String KeyPhone = "phone";
+
+
+    //Coach Running Class Info...
 
 
 
-    public DB_Sqlite_Handler(Context context, String table_name) {
+    public DB_Sqlite_Handler(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
-        this.table_name = table_name;
     }
 
 
@@ -50,7 +52,7 @@ public class DB_Sqlite_Handler extends SQLiteOpenHelper {
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         // Drop older table if existed
-        db.execSQL("DROP TABLE IF EXISTS" + table_name);
+        db.execSQL("DROP TABLE IF EXISTS" + TABLE_AcademyInfo);
         // Creating tables again
         onCreate(db);
     }

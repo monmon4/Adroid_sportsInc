@@ -37,20 +37,7 @@ public class item_current_classes implements Serializable{
             class_date = df.format(theDate);
 
             startTime = jsonObject.getString("class_start_time");
-            double class_duration = jsonObject.getDouble("class_duration");
-            Calendar c = Calendar.getInstance();
-            int hourDuration = (int) class_duration;
-            class_duration = class_duration - hourDuration ;
-            class_duration = 60 * class_duration;
-            int MintueDuration = (int) class_duration;
-            df = new SimpleDateFormat("hh:mm:ss");
-            Date myDate = df.parse(startTime);
-            df = new SimpleDateFormat("hh:mm");
-            this.startTime = df.format(myDate);
-            c.setTime(myDate);
-            c.add(Calendar.HOUR,hourDuration);
-            c.add(Calendar.MINUTE,MintueDuration);
-            this.endTime = df.format(c.getTime());
+            this.endTime = jsonObject.getString("class_end_time");
 
         } catch (JSONException e) {
             e.printStackTrace();

@@ -49,9 +49,6 @@ public class classesEntity implements Serializable {
                 case 4:
                     this.status = "Finished";
                     break;
-                case 5:
-                    this.status = "Current";
-                    break;
 
             }
             this.Coach_id = jsonObject.getInt("coach_id");
@@ -60,20 +57,7 @@ public class classesEntity implements Serializable {
             this.adminName = jsonObject.getString("admin_name");
             this.poolName = jsonObject.getString("Pool_Name");
             this.startTime = jsonObject.getString("class_time");
-            double class_duration = jsonObject.getDouble("class_duration");
-            Calendar c = Calendar.getInstance();
-            int hourDuration = (int) class_duration;
-            class_duration = class_duration - hourDuration ;
-            class_duration = 60 * class_duration;
-            int MintueDuration = (int) class_duration;
-            SimpleDateFormat df = new SimpleDateFormat("hh:mm:ss");
-            Date myDate = df.parse(startTime);
-            df = new SimpleDateFormat("hh:mm");
-            this.startTime = df.format(myDate);
-            c.setTime(myDate);
-            c.add(Calendar.HOUR,hourDuration);
-            c.add(Calendar.MINUTE,MintueDuration);
-            this.endTime = df.format(c.getTime());
+            this.endTime= jsonObject.getString("class_end_time");
             this.reason = jsonObject.getString("class_notes");
             this.postpondDate = jsonObject.getString("postpone_date");
             this.postpondTime = jsonObject.getString("postpone_time");
