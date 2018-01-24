@@ -44,7 +44,7 @@ public class ListViewAdapter extends RecyclerView.Adapter<ListViewAdapter.ViewHo
         classesEntity myclass = getItem(position);
 
         String classStatus = myclass.getStatus();
-        if (classStatus.equals("Current"))
+        if (classStatus.equals("Running"))
             viewHolder.status.setTextColor(Color.parseColor("#22a630"));
         else if (classStatus.equals("Canceled"))
             viewHolder.status.setTextColor(Color.parseColor("#df1b1c"));

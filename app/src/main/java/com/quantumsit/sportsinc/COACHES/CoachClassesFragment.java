@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ExpandableListView;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.quantumsit.sportsinc.Aaa_data.Constants;
 import com.quantumsit.sportsinc.Aaa_data.GlobalVars;
@@ -24,7 +25,9 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 
@@ -64,11 +67,15 @@ public class CoachClassesFragment extends Fragment {
             }
         });
 
+
         boolean current_class = true;
         if (current_class)
             current_class_button.setVisibility(View.VISIBLE);
+
         header_list = new ArrayList<>();
         child_hashmap = new HashMap<>();
+
+        initilizeRunningClass();
         initilizeFinishedList();
 
         not_finished_courses_adapter = new ListViewExpandable_Adapter_NotFinishedCourses(getContext(), header_list, child_hashmap);
@@ -148,5 +155,34 @@ public class CoachClassesFragment extends Fragment {
         not_finished_courses_adapter.notifyDataSetChanged();
     }
 
+    private void initilizeRunningClass() {
+        HttpCall httpCall = new HttpCall();
+        httpCall.setMethodtype(HttpCall.POST);
+        httpCall.setUrl(Constants.coach_running_class);
+
+        Calendar c = Calendar.getInstance();
+
+        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+        String TodayDate = df.format(c.getTime());
+        df = new SimpleDateFormat("HH:mm:ss");
+        String TodayTime = df.format(c.getTime());
+
+        Toast.makeText(getContext(),TodayTime,Toast.LENGTH_SHORT).show();
+        HashMap<String, String> params = new HashMap<>();
+        params.put("id", String.valueOf(globalVars.getId()));
+        params.put("date",TodayDate);
+        params.put("time",TodayTime);
+
+        httpCall.setParams(params);
+
+        new HttpRequest() {
+            @Override
+            public void onResponse(JSONArray response) {
+                super.onResponse(response);
+                Log.d(TAG,"Running :"+String.valueOf(response));
+            }
+        }.execute(httpCall);
+
+    }
 
 }

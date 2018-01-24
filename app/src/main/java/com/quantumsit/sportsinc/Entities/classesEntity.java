@@ -57,7 +57,9 @@ public class classesEntity implements Serializable {
             this.adminName = jsonObject.getString("admin_name");
             this.poolName = jsonObject.getString("Pool_Name");
             this.startTime = jsonObject.getString("class_time");
+            this.startTime = startTime.substring(0,startTime.length()-3);
             this.endTime= jsonObject.getString("class_end_time");
+            this.endTime = endTime.substring(0,endTime.length()-3);
             this.reason = jsonObject.getString("class_notes");
             this.postpondDate = jsonObject.getString("postpone_date");
             this.postpondTime = jsonObject.getString("postpone_time");

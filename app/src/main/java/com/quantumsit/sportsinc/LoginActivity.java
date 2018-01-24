@@ -78,7 +78,6 @@ public class LoginActivity extends AppCompatActivity {
 
         } else {
             all_good = true;
-            go_to_home();
             JSONObject where_info = new JSONObject();
             try {
                 where_info.put("phone",phone);
