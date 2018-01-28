@@ -60,6 +60,16 @@ public class CalendarFragment extends Fragment {
                 MapList = new ArrayList<>();
             MapList.add(entity);
             EventsMap.put(ClassDate,MapList);
+
+            if (entity.getStatus().equals("Postponed") ){
+                String PostponedDate = entity.getPostpondDate();
+                MapList = EventsMap.get(PostponedDate);
+                if (MapList == null)
+                    MapList = new ArrayList<>();
+                classesEntity PostponedEntity = new classesEntity(entity);
+                MapList.add(PostponedEntity);
+                EventsMap.put(PostponedDate,MapList);
+            }
         }
         calendarView.setMyEvents(EventsMap);
     }

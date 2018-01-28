@@ -4,11 +4,13 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.Serializable;
+
 /**
  * Created by Bassam on 1/24/2018.
  */
 
-public class MyClass_info {
+public class MyClass_info implements Serializable {
     private int class_id;
     private String class_name;
     private String class_date;

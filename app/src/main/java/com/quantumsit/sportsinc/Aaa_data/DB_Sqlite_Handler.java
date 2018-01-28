@@ -188,11 +188,25 @@ public class DB_Sqlite_Handler extends SQLiteOpenHelper {
         return info;
     }
 
-    public List<Rule_info> getUncheckedRules(){
+    public List<Rule_info> getUncheckedRules(int class_id){
         SQLiteDatabase db = this.getReadableDatabase();
         List<Rule_info> rules = new ArrayList<>();
 
-        Cursor cursor = db.rawQuery("select * from "+TABLE_rules+" where rule_check = 0",null);
+        Cursor cursor = db.rawQuery("select * from "+TABLE_rules+" where "+KeyRuleClass+" = "+class_id+" And rule_check = 0",null);
+        if (cursor.getCount() !=0){
+            while (cursor.moveToNext()){
+                Rule_info info = new Rule_info(cursor.getInt(0),cursor.getInt(1),cursor.getString(2),cursor.getInt(3),cursor.getString(4));
+                rules.add(info);
+            }
+        }
+        return rules;
+    }
+
+    public List<Rule_info> getAllRules(int class_id){
+        SQLiteDatabase db = this.getReadableDatabase();
+        List<Rule_info> rules = new ArrayList<>();
+
+        Cursor cursor = db.rawQuery("select * from "+TABLE_rules+" where "+KeyRuleClass+" = "+class_id+" ",null);
         if (cursor.getCount() !=0){
             while (cursor.moveToNext()){
                 Rule_info info = new Rule_info(cursor.getInt(0),cursor.getInt(1),cursor.getString(2),cursor.getInt(3),cursor.getString(4));
@@ -215,6 +229,7 @@ public class DB_Sqlite_Handler extends SQLiteOpenHelper {
         }
         return trainees;
     }
+
 
     public List<MyClass_info> getAllClasses(){
         SQLiteDatabase db = this.getReadableDatabase();

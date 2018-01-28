@@ -177,7 +177,7 @@ public class ClassesDetailsActivity extends AppCompatActivity {
         else if(myclass.getStatus().equals("Postponed")){
             LinearLayout postpondlayout = findViewById(R.id.postponded_Time);
             postpondlayout.setVisibility(View.VISIBLE);
-            postponedDate.setText(myclass.getPostpondDate()+"\n\t"+myclass.getPostpondTime());
+            postponedDate.setText(myclass.getPostpondDate()+"\n\t"+myclass.getPostpondStartTime()+" ~ "+myclass.getPostpondEndTime());
 
             buttons = findViewById(R.id.ChangeStatusButtons);
             buttons.setVisibility(View.GONE);
@@ -195,6 +195,14 @@ public class ClassesDetailsActivity extends AppCompatActivity {
 
             TextView noteLable = findViewById(R.id.class_reason_Lable);
             noteLable.setText("Class note: ");
+            reason.setText(myclass.getReason());
+        }
+        else if (myclass.getState() == 2){
+            buttons = findViewById(R.id.ChangeStatusButtons);
+            buttons.setVisibility(View.GONE);
+
+            LinearLayout noteLayout = findViewById(R.id.canceled_reason);
+            noteLayout.setVisibility(View.VISIBLE);
             reason.setText(myclass.getReason());
         }
     }

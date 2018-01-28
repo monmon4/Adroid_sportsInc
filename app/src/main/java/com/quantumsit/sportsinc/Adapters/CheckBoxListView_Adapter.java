@@ -20,11 +20,13 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.quantumsit.sportsinc.Aaa_data.Rule_info;
 import com.quantumsit.sportsinc.HomeActivity;
 import com.quantumsit.sportsinc.R;
 import com.quantumsit.sportsinc.RegisterActivity;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import static android.content.Context.LAYOUT_INFLATER_SERVICE;
 
@@ -34,17 +36,16 @@ import static android.content.Context.LAYOUT_INFLATER_SERVICE;
 
 public class CheckBoxListView_Adapter extends ArrayAdapter<item_checkbox> {
 
-    public ArrayList<item_checkbox> list_items;
+    public List<item_checkbox> list_items;
 
     PopupWindow note_popup_window;
     private Context context;
     private RelativeLayout rl;
 
     public CheckBoxListView_Adapter(Context context, int textViewResourceId,
-                           ArrayList<item_checkbox> list_items) {
+                           List<item_checkbox> list_items) {
         super(context, textViewResourceId, list_items);
-        this.list_items = new ArrayList<item_checkbox>();
-        this.list_items.addAll(list_items);
+        this.list_items = list_items;
         this.context = context;
     }
 
@@ -81,7 +82,7 @@ public class CheckBoxListView_Adapter extends ArrayAdapter<item_checkbox> {
                 public void onClick(View v) {
 
                     CheckBox cb = (CheckBox) v ;
-                    item_checkbox item = (item_checkbox) cb.getTag();
+                    Rule_info item = (Rule_info) cb.getTag();
 
                     item.setSelected(cb.isChecked());
                     if(cb.isChecked()){
