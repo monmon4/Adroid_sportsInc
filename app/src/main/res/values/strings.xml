@@ -204,6 +204,8 @@
     <string name="a_coach_s_note">this is just a sport</string>
     <string name="regarding">Regarding</string>
     <string name="class_date_spinner">Class, date</string>
+    <string name="no_certificates">No certificates</string>
+    <string name="no_payment_reports">No payment reports</string>
 
 
 </resources>

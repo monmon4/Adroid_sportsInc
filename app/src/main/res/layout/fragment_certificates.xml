@@ -11,7 +11,8 @@
         android:layout_height="wrap_content"
         android:gravity="center"
         android:layout_gravity="center"
-        android:text="No certficates"
+        android:text="@string/no_certificates"
+        android:textSize="18sp"
         android:drawableTop="@drawable/ic_faded_certificates" />
 
     <android.support.v7.widget.RecyclerView

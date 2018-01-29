@@ -26,6 +26,11 @@ public interface Constants {
     String sendSMS = server + "sendSMS";
     String notification = server + "pushNotificationAndroid";
 
+    //Trainee
+    String traineeCoursesData = server + "trainee_finished_courses";
+    String traineeClassScores = server + "classes_scores";
+
+
 
     //SQLite DB
     String TABLE_AcademyInfo = "info_academy";
