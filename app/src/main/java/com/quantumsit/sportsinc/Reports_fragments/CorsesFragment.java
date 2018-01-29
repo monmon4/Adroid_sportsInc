@@ -106,6 +106,7 @@ public class CorsesFragment extends Fragment {
                             for (int i=0; i<response.length(); i++){
                                 JSONObject result = response.getJSONObject(i);
 
+                                
                             }
 
                         } else {
