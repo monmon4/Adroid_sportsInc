@@ -98,11 +98,12 @@ public class Coach_CurrentClassScoresFragment extends Fragment {
         return root;
     }
 
-    @Override
-    public void onResume() {
-        super.onResume();
-        if (info != null)
-            initializeTrainees(info.getClass_id());
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        super.setUserVisibleHint(isVisibleToUser);
+        if(isVisibleToUser) {
+            if (info != null)
+                initializeTrainees(info.getClass_id());
+        }
     }
 
     private void updateTrainee() {
@@ -114,7 +115,7 @@ public class Coach_CurrentClassScoresFragment extends Fragment {
     }
 
     private void initializeTrainees(int class_id) {
-        List<Trainees_info> trainees = global.getMyDB().getClassTrainees(class_id);
+        List<Trainees_info> trainees = global.getMyDB().getClassAttendTrainees(class_id);
         list_items.clear();
         for (Trainees_info item : trainees){
             list_items.add(item);

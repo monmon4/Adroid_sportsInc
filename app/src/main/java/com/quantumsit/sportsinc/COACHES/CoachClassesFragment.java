@@ -68,7 +68,6 @@ public class CoachClassesFragment extends Fragment {
             public void onClick(View v) {
                 Intent intent = new Intent(getActivity(), ActivityCurrentClass_coach.class);
                 intent.putExtra("MyRunningClass",current_class);
-                Toast.makeText(getContext(),"Class "+current_class.getClass_name() +" ,"+ current_class.getClass_id(),Toast.LENGTH_SHORT).show();
                 startActivity(intent);
             }
         });
@@ -183,46 +182,54 @@ public class CoachClassesFragment extends Fragment {
             }
         }.execute(httpCall);
 
-        initilizeAvailableClass();
     }
 
-    private void initilizeAvailableClass() {
+    private void initializeAvailableClass() {
         List<MyClass_info> info = globalVars.getMyDB().getAllClasses();
         if (info.size() != 0){
             current_class = info.get(0);
             current_class_button.setVisibility(View.VISIBLE);
         }
+        List<Rule_info> rules = globalVars.getMyDB().getRules();
+        List<Trainees_info> trainees = globalVars.getMyDB().getTrainees();
+
+       /* String value ="classes:\n";
+        for (MyClass_info item : info)
+            value += item.getClass_name()+"\n";
+
+        value += "Rules:\n";
+        for (Rule_info item :rules)
+            value += item.getRule_id()+" , ";
+
+        value += "Trainees:\n";
+        for (Trainees_info item : trainees)
+            value += item.getTrainee_name()+"\n";
+
+        Toast.makeText(getContext(),value,Toast.LENGTH_LONG).show();*/
     }
 
     private void insertClassInSql(JSONArray response) {
-        /*Log.d(TAG,"Response: "+String.valueOf(response));
-        S/tring Tables = globalVars.getMyDB().DBTablesName();
-        Log.d(TAG ,"Tables: \n"+Tables);*/
         if (response != null) {
             try {
                 for (int i = 0; i < response.length(); i++) {
                     MyClass_info info = new MyClass_info(response.getJSONObject(i));
-                    initilizeClassInfo(info.getClass_id(),info.getGroup_id());
-                    globalVars.getMyDB().addClass(info);
+                    boolean inserted = globalVars.getMyDB().addClass(info);
+                    if (inserted)
+                        initializeClassInfo(info.getClass_id(),info.getGroup_id());
                 }
             } catch (JSONException e) {
                 e.printStackTrace();
             }
         }
-        List<MyClass_info> info = globalVars.getMyDB().getAllClasses();
-       /* String x = "";
-        for (int i=0;i<info.size();i++){
-            x = info.get(i).getClass_name()+" "+info.get(i).getClass_id()+" "+info.get(i).getClass_date()+"\n";
-        }
-        Log.d(TAG,"SQL Result: \n\t"+ x);*/
+        initializeAvailableClass();
     }
 
-    private void initilizeClassInfo(int class_id, int group_id) {
-        initilizeClassRules(class_id);
-        initilizeClassTrainee(group_id,class_id);
+    private void initializeClassInfo(int class_id, int group_id) {
+        initializeClassRules(class_id);
+        initializeClassTrainee(group_id,class_id);
     }
 
-    private void initilizeClassRules(final int class_id) {
+    private void initializeClassRules(final int class_id) {
         try {
             HttpCall httpCall = new HttpCall();
             httpCall.setMethodtype(HttpCall.POST);
@@ -232,6 +239,8 @@ public class CoachClassesFragment extends Fragment {
             where.put("Type", 0);
 
             HashMap<String, String> params = new HashMap<>();
+            params.put("table","rules");
+            params.put("where",where.toString());
 
             httpCall.setParams(params);
 
@@ -248,6 +257,7 @@ public class CoachClassesFragment extends Fragment {
     }
 
     private void insertRulesInSql(JSONArray response, int class_id) {
+        Log.d(TAG,"Rules"+String.valueOf(response));
         if (response != null) {
             try {
                 for (int i = 0; i < response.length(); i++) {
@@ -260,7 +270,7 @@ public class CoachClassesFragment extends Fragment {
         }
     }
 
-    private void initilizeClassTrainee(int group_id, final int class_id) {
+    private void initializeClassTrainee(int group_id, final int class_id) {
         try {
             HttpCall httpCall = new HttpCall();
             httpCall.setMethodtype(HttpCall.POST);
@@ -268,11 +278,13 @@ public class CoachClassesFragment extends Fragment {
 
             JSONObject where = new JSONObject();
             where.put("group_id", group_id);
+
             String onCondition = "group_trainee.trainee_id = users.id";
             HashMap<String, String> params = new HashMap<>();
             params.put("table1", "group_trainee");
             params.put("table2", "users");
             params.put("on", onCondition);
+            params.put("where",where.toString());
 
             httpCall.setParams(params);
 

@@ -82,7 +82,7 @@ public class CheckBoxListView_Adapter extends ArrayAdapter<item_checkbox> {
                 public void onClick(View v) {
 
                     CheckBox cb = (CheckBox) v ;
-                    Rule_info item = (Rule_info) cb.getTag();
+                    item_checkbox item = (item_checkbox) cb.getTag();
 
                     item.setSelected(cb.isChecked());
                     if(cb.isChecked()){
@@ -142,6 +142,7 @@ public class CheckBoxListView_Adapter extends ArrayAdapter<item_checkbox> {
         final EditText note_edit_text = customView.findViewById(R.id.noteEditText_notewindow);
         Button done_button = customView.findViewById(R.id.doneButton_notewindow);
         note_edit_text.setEnabled(true);
+        note_edit_text.setText(item_checkbox.getNote());
 
         done_button.setOnClickListener(new View.OnClickListener(){
             @Override

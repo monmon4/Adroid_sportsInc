@@ -41,13 +41,9 @@ public class ListView_scores_Adapter extends ArrayAdapter<Trainees_info> {
     public ListView_scores_Adapter(Context context, int textViewResourceId,
                                    ArrayList<Trainees_info> list_items) {
         super(context, textViewResourceId, list_items);
-        this.list_items = new ArrayList<>();
-        this.list_items.addAll(list_items);
+        this.list_items = list_items;
         hashMap_edittext = new HashMap<>();
 
-        for(int i=0; i<list_items.size(); i++) {
-            hashMap_edittext.put(list_items.get(i).getID(), String.valueOf(list_items.get(i).getTrainee_score()));
-        }
     }
 
     private class ViewHolder {
@@ -79,6 +75,7 @@ public class ListView_scores_Adapter extends ArrayAdapter<Trainees_info> {
 
         holder.position = position;
         holder.trainee_name_textview.setText(list_items.get(position).getTrainee_name());
+        hashMap_edittext.put(list_items.get(position).getID(), String.valueOf(list_items.get(position).getTrainee_score()));
         holder.scores_edittext.setText(hashMap_edittext.get(list_items.get(position).getID()));
 
 
@@ -96,7 +93,8 @@ public class ListView_scores_Adapter extends ArrayAdapter<Trainees_info> {
             @Override
             public void afterTextChanged(Editable s) {
                 hashMap_edittext.put(list_items.get(holder.position).getID(), s.toString());
-                list_items.get(holder.position).setTrainee_score(Integer.parseInt(s.toString()));
+                if (!s.toString().equals(""))
+                    list_items.get(holder.position).setTrainee_score(Integer.parseInt(s.toString()));
             }
         });
 

@@ -24,14 +24,14 @@ public class item_checkbox {
 
     public item_checkbox(Rule_info rule_info){
         this.rule_info = rule_info;
-        name = rule_info.getRule_name();
-        selected = rule_info.getSelected();
+        this.name = rule_info.getRule_name();
+        this.selected = rule_info.getSelected();
     }
 
     public item_checkbox(Trainees_info trainee){
         this.trainee = trainee;
-        name = trainee.getTrainee_name();
-        selected = trainee.getSelected();
+        this.name = trainee.getTrainee_name();
+        this.selected = trainee.getSelected();
     }
 
     public void setName(String name) {

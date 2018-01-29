@@ -7,6 +7,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -30,6 +31,8 @@ import java.util.List;
 
 
 public class Coach_CurrentClassRulesFragment extends Fragment {
+
+    private static String TAG = Coach_CurrentClassRulesFragment.class.getSimpleName();
 
     ViewPager viewPager;
     FloatingActionButton done_button;
@@ -71,7 +74,7 @@ public class Coach_CurrentClassRulesFragment extends Fragment {
             @Override
             public void onClick(View view) {
 
-                updateRules();
+               updateRules();
                 /*StringBuffer responseText = new StringBuffer();
                 responseText.append("The following were selected...\n");
 
@@ -106,6 +109,7 @@ public class Coach_CurrentClassRulesFragment extends Fragment {
         List<Rule_info> rules = global.getMyDB().getAllRules(class_id);
         list_items.clear();
         for (Rule_info item : rules){
+            Log.d(TAG,"RuleNum: "+item.getRule_name());
             list_items.add(new item_checkbox(item));
         }
         checkBoxListView_adapter.notifyDataSetChanged();
