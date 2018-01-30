@@ -17,6 +17,8 @@ import android.widget.Toast;
 import com.quantumsit.sportsinc.Aaa_data.Constants;
 import com.quantumsit.sportsinc.Aaa_data.GlobalVars;
 import com.quantumsit.sportsinc.Aaa_data.MyClass_info;
+import com.quantumsit.sportsinc.Aaa_data.Rule_info;
+import com.quantumsit.sportsinc.Aaa_data.Trainees_info;
 import com.quantumsit.sportsinc.Backend.HttpCall;
 import com.quantumsit.sportsinc.Backend.HttpRequest;
 import com.quantumsit.sportsinc.COACHES.ReportsFragments.item_reports_finished_courses;
@@ -49,6 +51,7 @@ public class CoachClassesFragment extends Fragment {
     HashMap<Integer, List<item_finished_classes>> child_hashmap;
 
     FloatingActionButton current_class_button;
+    MyClass_info current_class;
 
     @Nullable
     @Override
@@ -64,14 +67,10 @@ public class CoachClassesFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getActivity(), ActivityCurrentClass_coach.class);
+                intent.putExtra("MyRunningClass",current_class);
                 startActivity(intent);
             }
         });
-
-
-        boolean current_class = true;
-        if (current_class)
-            current_class_button.setVisibility(View.VISIBLE);
 
         header_list = new ArrayList<>();
         child_hashmap = new HashMap<>();
@@ -168,11 +167,10 @@ public class CoachClassesFragment extends Fragment {
         df = new SimpleDateFormat("HH:mm:ss");
         String TodayTime = df.format(c.getTime());
 
-        Toast.makeText(getContext(),TodayTime,Toast.LENGTH_SHORT).show();
         HashMap<String, String> params = new HashMap<>();
         params.put("id", String.valueOf(globalVars.getId()));
         params.put("date",TodayDate);
-        params.put("time","15:30:00");
+        params.put("time",TodayTime);
 
         httpCall.setParams(params);
 
@@ -186,28 +184,133 @@ public class CoachClassesFragment extends Fragment {
 
     }
 
+    private void initializeAvailableClass() {
+        List<MyClass_info> info = globalVars.getMyDB().getAllClasses();
+        if (info.size() != 0){
+            current_class = info.get(0);
+            current_class_button.setVisibility(View.VISIBLE);
+        }
+        List<Rule_info> rules = globalVars.getMyDB().getRules();
+        List<Trainees_info> trainees = globalVars.getMyDB().getTrainees();
+
+       /* String value ="classes:\n";
+        for (MyClass_info item : info)
+            value += item.getClass_name()+"\n";
+
+        value += "Rules:\n";
+        for (Rule_info item :rules)
+            value += item.getRule_id()+" , ";
+
+        value += "Trainees:\n";
+        for (Trainees_info item : trainees)
+            value += item.getTrainee_name()+"\n";
+
+        Toast.makeText(getContext(),value,Toast.LENGTH_LONG).show();*/
+    }
+
     private void insertClassInSql(JSONArray response) {
-        Log.d(TAG,"Response: "+String.valueOf(response));
-        String Tables = globalVars.getMyDB().DBTablesName();
-        Log.d(TAG ,"Tables: \n"+Tables);
         if (response != null) {
             try {
                 for (int i = 0; i < response.length(); i++) {
                     MyClass_info info = new MyClass_info(response.getJSONObject(i));
-                    globalVars.getMyDB().addClass(info);
-                    
+                    boolean inserted = globalVars.getMyDB().addClass(info);
+                    if (inserted)
+                        initializeClassInfo(info.getClass_id(),info.getGroup_id());
                 }
             } catch (JSONException e) {
                 e.printStackTrace();
             }
         }
-        List<MyClass_info> info = globalVars.getMyDB().getAllClasses();
-        String x = "";
-        for (int i=0;i<info.size();i++){
-            x = info.get(i).getClass_name()+" "+info.get(i).getClass_id()+" "+info.get(i).getClass_date()+"\n";
-        }
-        Log.d(TAG,"SQL Result: \n\t"+ x);
+        initializeAvailableClass();
     }
 
+    private void initializeClassInfo(int class_id, int group_id) {
+        initializeClassRules(class_id);
+        initializeClassTrainee(group_id,class_id);
+    }
 
+    private void initializeClassRules(final int class_id) {
+        try {
+            HttpCall httpCall = new HttpCall();
+            httpCall.setMethodtype(HttpCall.POST);
+            httpCall.setUrl(Constants.selectData);
+
+            JSONObject where = new JSONObject();
+            where.put("Type", 0);
+
+            HashMap<String, String> params = new HashMap<>();
+            params.put("table","rules");
+            params.put("where",where.toString());
+
+            httpCall.setParams(params);
+
+            new HttpRequest() {
+                @Override
+                public void onResponse(JSONArray response) {
+                    super.onResponse(response);
+                    insertRulesInSql(response, class_id);
+                }
+            }.execute(httpCall);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void insertRulesInSql(JSONArray response, int class_id) {
+        Log.d(TAG,"Rules"+String.valueOf(response));
+        if (response != null) {
+            try {
+                for (int i = 0; i < response.length(); i++) {
+                    Rule_info info = new Rule_info(response.getJSONObject(i),class_id);
+                    globalVars.getMyDB().addRule(info);
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    private void initializeClassTrainee(int group_id, final int class_id) {
+        try {
+            HttpCall httpCall = new HttpCall();
+            httpCall.setMethodtype(HttpCall.POST);
+            httpCall.setUrl(Constants.joinData);
+
+            JSONObject where = new JSONObject();
+            where.put("group_id", group_id);
+
+            String onCondition = "group_trainee.trainee_id = users.id";
+            HashMap<String, String> params = new HashMap<>();
+            params.put("table1", "group_trainee");
+            params.put("table2", "users");
+            params.put("on", onCondition);
+            params.put("where",where.toString());
+
+            httpCall.setParams(params);
+
+            new HttpRequest() {
+                @Override
+                public void onResponse(JSONArray response) {
+                    super.onResponse(response);
+                    insertTraineesInSql(response,class_id);
+                }
+            }.execute(httpCall);
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void insertTraineesInSql(JSONArray response, int class_id) {
+        if (response != null) {
+            try {
+                for (int i = 0; i < response.length(); i++) {
+                    Trainees_info info = new Trainees_info(response.getJSONObject(i),class_id);
+                    globalVars.getMyDB().addTrainee(info);
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+    }
 }
