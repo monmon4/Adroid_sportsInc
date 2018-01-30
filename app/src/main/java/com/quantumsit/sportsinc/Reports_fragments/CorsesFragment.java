@@ -66,15 +66,10 @@ public class CorsesFragment extends Fragment {
 
         fill_list_items();
 
-
-        //
-        for(int i=0; i<20; i++){
-            list_item.add(new item_single_reports_courses("Course 1", "Attendance: 100%", "Score: 100"));
-        }
-
         recycler_view_adapter = new RecyclerView_Adapter_reportcourses(list_item, getActivity());
         recycler_view.setAdapter(recycler_view_adapter);
-        //
+        recycler_view.setVisibility(View.INVISIBLE);
+        corses_tevtView.setVisibility(View.VISIBLE);
 
 
         return root;
@@ -105,13 +100,21 @@ public class CorsesFragment extends Fragment {
                         if (response != null) {
                             for (int i=0; i<response.length(); i++){
                                 JSONObject result = response.getJSONObject(i);
-
-
+                                int course_id = result.getInt("course_id");
+                                int group_id = result.getInt("group_id");
+                                String course_name = result.getString("course_name");
+                                String group_name = result.getString("group_name");
+                                int classes_num = result.getInt("Num_classes");
+                                int attend_num = result.getInt("attend_num");
+                                double attendance = ((double) attend_num/(double) classes_num) *100.0;                                int total_score = result.getInt("total_score");
+                                list_item.add(new item_single_reports_courses(course_name, group_name, course_id, group_id, attendance, total_score));
                             }
+                            fill_recycler_view();
 
                         } else {
                             progressDialog.dismiss();
                             corses_tevtView.setVisibility(View.VISIBLE);
+                            recycler_view.setVisibility(View.INVISIBLE);
                         }
 
                     } catch (JSONException e) {
@@ -124,5 +127,12 @@ public class CorsesFragment extends Fragment {
         } catch (JSONException e) {
             e.printStackTrace();
         }
+    }
+
+    private void fill_recycler_view() {
+        recycler_view_adapter.notifyDataSetChanged();
+        recycler_view.setVisibility(View.VISIBLE);
+        corses_tevtView.setVisibility(View.INVISIBLE);
+        progressDialog.dismiss();
     }
 }

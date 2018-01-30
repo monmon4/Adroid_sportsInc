@@ -28,7 +28,11 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Random;
 
@@ -199,7 +203,7 @@ public class RegisterActivity extends AppCompatActivity {
             @Override
             public void onClick(View view){
                 String verifcation = verify_edit_text.getText().toString().trim();
-
+                insert_to_DB();
                 if (verifcation.equals(String.valueOf(verfication_num))){
                     insert_to_DB();
                 } else {
@@ -243,8 +247,22 @@ public class RegisterActivity extends AppCompatActivity {
             gender_int = 1;
         }
         int current_year = Calendar.getInstance().get(Calendar.YEAR);
+        int day = Integer.valueOf(day_of_birth);
+        int month = Integer.valueOf(month_of_birth);
         int year = Integer.valueOf(year_of_birth);
         int age = current_year - year;
+
+        String date_of_birth = year + "-" + month + "-" + day;
+        Date date;
+        DateFormat outdateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        DateFormat DateFormat = new SimpleDateFormat("yyyy-MM-dd");
+
+        try {
+            date = DateFormat.parse(date_of_birth);
+            date_of_birth = outdateFormat.format(date);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
 
         verfication_popup_window.dismiss();
         globalVars.setType(5);
@@ -258,7 +276,7 @@ public class RegisterActivity extends AppCompatActivity {
             info.put("email",mail);
             info.put("gender",gender_int);
             info.put("pass",pass);
-            info.put("age",age);
+            info.put("date_of_birth",date_of_birth);
             info.put("type",5);
 
             HttpCall httpCall = new HttpCall();

@@ -2,6 +2,7 @@ package com.quantumsit.sportsinc.Reports_fragments;
 
 
 import android.annotation.SuppressLint;
+import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -10,6 +11,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.quantumsit.sportsinc.Aaa_data.Constants;
@@ -44,6 +46,8 @@ public class PaymentFragment extends Fragment {
     RecyclerView_Adapter_reportpayment recyclerView_adapter_reportpayment;
 
     ArrayList<item_reports_payment> list_item;
+    ProgressDialog progressDialog;
+    TextView payment_textView;
 
     GlobalVars globalVars;
 
@@ -54,18 +58,24 @@ public class PaymentFragment extends Fragment {
         View root = inflater.inflate(R.layout.fragment_payment,container,false);
 
         globalVars = (GlobalVars) getActivity().getApplication();
+        progressDialog = new ProgressDialog(getActivity());
+        progressDialog.setMessage("Please wait.....");
+        payment_textView = root.findViewById(R.id.textView_payment);
 
         recyclerView = root.findViewById(R.id.recyclerView_reportspayment);
         recyclerView.setHasFixedSize(false);
 
         list_item = new ArrayList<>();
-        //fill_payment_list();
 
         layoutManager = new MyCustomLayoutManager(getActivity());
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.smoothScrollToPosition(recyclerView.getVerticalScrollbarPosition());
 
-        //
+        recyclerView.setVisibility(View.INVISIBLE);
+        payment_textView.setVisibility(View.VISIBLE);
+        fill_payment_list();
+
+        /*
         for(int i=0; i<10; i++){
             if (i == 0 || i == 1) {
                 list_item.add(new item_reports_payment("Course1", "1/5/5017", 500, "Due: 20/5/2017", 0));
@@ -74,7 +84,7 @@ public class PaymentFragment extends Fragment {
 
             }
         }
-        //
+        */
 
         recyclerView_adapter_reportpayment = new RecyclerView_Adapter_reportpayment(list_item, getActivity());
         recyclerView.setItemAnimator(new DefaultItemAnimator());
@@ -87,7 +97,7 @@ public class PaymentFragment extends Fragment {
 
     @SuppressLint("StaticFieldLeak")
     private void fill_payment_list() {
-
+        progressDialog.show();
         JSONObject where_info = new JSONObject();
         String on_condition;
         try {
@@ -130,6 +140,7 @@ public class PaymentFragment extends Fragment {
                                 int status = result.getInt("status");
 
                                 list_item.add(new item_reports_payment(course_name, creation_date, amount, due_date, status));
+                                fill_recycler_view();
                             }
 
 
@@ -138,13 +149,11 @@ public class PaymentFragment extends Fragment {
                             Toast.makeText(getContext(), "An error occurred ", Toast.LENGTH_SHORT).show();
                         }
 
-
                     } catch (JSONException e) {
                         e.printStackTrace();
                     } catch (ParseException e) {
                         e.printStackTrace();
                     }
-
                 }
 
 
@@ -155,6 +164,13 @@ public class PaymentFragment extends Fragment {
         }
     }
 
+    private  void fill_recycler_view(){
+
+        recyclerView_adapter_reportpayment.notifyDataSetChanged();
+        recyclerView.setVisibility(View.VISIBLE);
+        payment_textView.setVisibility(View.INVISIBLE);
+        progressDialog.dismiss();
+    }
 
 
 }

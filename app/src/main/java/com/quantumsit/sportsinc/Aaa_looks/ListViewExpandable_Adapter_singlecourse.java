@@ -22,10 +22,10 @@ public class ListViewExpandable_Adapter_singlecourse extends BaseExpandableListA
 
     private Context context;
     private List<String> item1_list;
-    private HashMap<String, List<item1_reports_courses>> item2_hashmap;
+    private HashMap<String, item1_reports_courses> item2_hashmap;
 
     public ListViewExpandable_Adapter_singlecourse(Context context, List<String> listDataHeader,
-                                                   HashMap<String, List<item1_reports_courses>> listChildData) {
+                                                   HashMap<String, item1_reports_courses> listChildData) {
         this.context = context;
         this.item1_list = listDataHeader;
         this.item2_hashmap = listChildData;
@@ -35,7 +35,7 @@ public class ListViewExpandable_Adapter_singlecourse extends BaseExpandableListA
     public int getGroupCount() {return this.item1_list.size();}
 
     @Override
-    public int getChildrenCount(int groupPosition) {return this.item2_hashmap.get(item1_list.get(groupPosition)).size();}
+    public int getChildrenCount(int groupPosition) {return 1;}
 
 
     @Override
@@ -53,8 +53,7 @@ public class ListViewExpandable_Adapter_singlecourse extends BaseExpandableListA
     @Override
     public Object getChild(int groupPosition, int childPosititon) {
 
-        return this.item2_hashmap.get(this.item1_list.get(groupPosition))
-                .get(childPosititon);
+        return this.item2_hashmap.get(this.item1_list.get(groupPosition));
     }
 
     @Override
@@ -96,8 +95,15 @@ public class ListViewExpandable_Adapter_singlecourse extends BaseExpandableListA
         TextView score_text_view = convertView.findViewById(R.id.scoreTextView_singlecoursereportitem2);
         TextView coach_note_text_view = convertView.findViewById(R.id.coachNoteTextView_singlecoursereportitem2);
 
-        score_text_view.setText(child.score);
-        coach_note_text_view.setText(child.coach_note);
+        if (child.attend == 1) {
+            attendance_image_button.setBackgroundResource(R.drawable.ic_check_circle);
+        } else {
+            attendance_image_button.setBackgroundResource(R.drawable.ic_not_checked);
+        }
+        String score_string = "Score: " + String.valueOf(child.score);
+        String coach_note_string = "Coach's note: \n    " + String.valueOf(child.coach_note);
+        score_text_view.setText(score_string);
+        coach_note_text_view.setText(coach_note_string);
         class_number.setText(child.class_number);
         return convertView;
     }

@@ -16,6 +16,7 @@ import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.GridView;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.quantumsit.sportsinc.Aaa_data.Constants;
@@ -48,6 +49,8 @@ public class CertificatesFragment extends Fragment {
     List<String> certificates_list;
     GlobalVars globalVars;
 
+    TextView certficate_textView;
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
@@ -56,6 +59,7 @@ public class CertificatesFragment extends Fragment {
         globalVars = (GlobalVars) getActivity().getApplication();
         progressDialog = new ProgressDialog(getContext());
         progressDialog.setMessage("Please wait ....");
+        certficate_textView = root.findViewById(R.id.textView_certficates);
 
         layoutManager = new MyCustomLayoutManager(getActivity());
         certificates_recyclerView = root.findViewById(R.id.recyclerView_certificates);
@@ -64,17 +68,11 @@ public class CertificatesFragment extends Fragment {
 
         list_items = new ArrayList<>();
 
-        list_items.add(R.drawable.img1);
-        list_items.add(R.drawable.img2);
-        list_items.add(R.drawable.img3);
-        list_items.add(R.drawable.img4);
-        list_items.add(R.drawable.img5);
-        list_items.add(R.drawable.img6);
-        list_items.add(R.drawable.img7);
-        list_items.add(R.drawable.img8);
 
         certificates_list = new ArrayList<>();
-        //fill_certificates();
+        fill_certificates();
+        certficate_textView.setVisibility(View.VISIBLE);
+        certificates_recyclerView.setVisibility(View.INVISIBLE);
 
         certificates_recyclerView_adapter = new RecyclerView_Adapter_certificate(list_items, getContext());
         certificates_recyclerView.setAdapter(certificates_recyclerView_adapter);
@@ -116,7 +114,9 @@ public class CertificatesFragment extends Fragment {
                        set_recycler_view();
 
                     } else {
-                        Toast.makeText(getContext(), "An error occurred", Toast.LENGTH_SHORT).show();
+                        certficate_textView.setVisibility(View.VISIBLE);
+                        certificates_recyclerView.setVisibility(View.INVISIBLE);
+                        progressDialog.dismiss();
                     }
 
                 }
@@ -128,9 +128,10 @@ public class CertificatesFragment extends Fragment {
     }
 
     private void set_recycler_view() {
+        certificates_recyclerView_adapter.notifyDataSetChanged();
         progressDialog.dismiss();
-        certificates_recyclerView_adapter = new RecyclerView_Adapter_certificate(list_items, getContext());
-        certificates_recyclerView.setAdapter(certificates_recyclerView_adapter);
+        certficate_textView.setVisibility(View.INVISIBLE);
+        certificates_recyclerView.setVisibility(View.VISIBLE);
 
     }
 

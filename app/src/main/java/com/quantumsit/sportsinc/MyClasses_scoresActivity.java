@@ -9,7 +9,8 @@ public class MyClasses_scoresActivity extends AppCompatActivity {
     TextView course_name_textview, date_textview,group_number_textview, class_number_textview,
                 score_textview, coach_name_textview, coach_note_textview;
 
-    String course_name, date, group_number, class_number, score, coach_name, couch_note;
+    String course_name = "", class_date = "", group_name = "", coach_name = "", coach_notes = "";
+    int score = 0, class_number = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,6 +25,27 @@ public class MyClasses_scoresActivity extends AppCompatActivity {
         coach_name_textview = findViewById(R.id.coachNameTextView_my_classes_scores);
         coach_note_textview = findViewById(R.id.coachNoteTextView_my_classes_scores);
 
+
+        course_name = getIntent().getExtras().getString("course_name");
+        group_name = getIntent().getExtras().getString("group_name");
+        class_date = getIntent().getExtras().getString("class_date");
+        coach_name = getIntent().getExtras().getString("coach_name");
+        coach_notes = getIntent().getExtras().getString("coach_notes");
+        score = getIntent().getExtras().getInt("score");
+        class_number = getIntent().getExtras().getInt("class_number");
+
+        String course = "Course: " + course_name;
+        String group = "Group: " + group_name;
+        String class_name = "Class" + String.valueOf(class_number);
+        String score_text = "Score: " + String.valueOf(score);
+
+        course_name_textview.setText(course);
+        date_textview.setText(class_date);
+        group_number_textview.setText(group);
+        class_number_textview.setText(class_name);
+        score_textview.setText(score_text);
+        coach_name_textview.setText(coach_name);
+        coach_note_textview.setText(coach_notes);
 
 
     }
