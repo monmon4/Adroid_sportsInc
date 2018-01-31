@@ -44,6 +44,8 @@ public class Request_addActivity extends AppCompatActivity {
     ProgressDialog progressDialog;
     String[] empty = {""};
 
+    int group_id;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -95,6 +97,8 @@ public class Request_addActivity extends AppCompatActivity {
                     try {
 
                         if (response != null) {
+                            JSONObject first_result = response.getJSONObject(0);
+                            group_id = first_result.getInt("group_id");
                             //status = 2 postponed, 3 upcoming, 5 current;
                             JSONObject result;
                             Date date;
@@ -110,6 +114,7 @@ public class Request_addActivity extends AppCompatActivity {
                                     date_class = result.getString("class_date");
                                     date = DateFormat.parse(date_class);
                                     date_class = outdateFormat.format(date);
+
 
                                 } else if (status == 2) {
                                     date_class = result.getString("postpone_date");
@@ -158,16 +163,20 @@ public class Request_addActivity extends AppCompatActivity {
     @SuppressLint("StaticFieldLeak")
     public void send_clicked(View view) {
 
-        try {
-            JSONObject where_info = new JSONObject();
-            where_info.put("type",3);
+        JSONObject where_info = new JSONObject();
+        String on_condition;
 
+        try {
+            where_info.put("groups.id",group_id);
+            on_condition = "groups.coach_id = users.id";
             HttpCall httpCall = new HttpCall();
             httpCall.setMethodtype(HttpCall.POST);
-            httpCall.setUrl(Constants.selectData);
+            httpCall.setUrl(Constants.joinData);
             HashMap<String,String> params = new HashMap<>();
-            params.put("table","users");
+            params.put("table1","groups");
+            params.put("table2","users");
             params.put("where",where_info.toString());
+            params.put("on",on_condition);
 
             httpCall.setParams(params);
 

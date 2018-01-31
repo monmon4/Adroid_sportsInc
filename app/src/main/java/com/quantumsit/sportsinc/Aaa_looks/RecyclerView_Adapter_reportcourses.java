@@ -30,7 +30,6 @@ public class RecyclerView_Adapter_reportcourses extends RecyclerView.Adapter<Rec
     public RecyclerView_Adapter_reportcourses(List<item_single_reports_courses> list_Item, Context context) {
         List_Item = list_Item;
         this.context = context;
-        //clientGlobal = (ClientGlobal) context.getApplicationContext();
     }
 
     @Override
@@ -46,17 +45,19 @@ public class RecyclerView_Adapter_reportcourses extends RecyclerView.Adapter<Rec
 
 
         holder.course_name.setText(List_Item.get(position).course_name);
-        holder.attendance.setText(List_Item.get(position).attendance);
-        holder.score.setText(List_Item.get(position).score);
+        String attendance_string = "Attendance: " + String.valueOf(List_Item.get(position).attendance) + "%";
+        holder.attendance.setText(attendance_string);
+        String score_string = "Score: " + String.valueOf(List_Item.get(position).score);
+        holder.score.setText(score_string);
 
         holder.course_card.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
                 Intent intent = new Intent(context, Reports_coursesActivity.class);
-                //intent.putExtra("course_name", List_Item.get(position).course_name);
-                //intent.putExtra("attendance", List_Item.get(position).attendance);
-                //intent.putExtra("score", List_Item.get(position).score);
+                intent.putExtra("course_id", List_Item.get(position).course_id);
+                intent.putExtra("group_name", List_Item.get(position).group_name);
+                intent.putExtra("course_name", List_Item.get(position).course_name);
                 context.startActivity(intent);
 
             }

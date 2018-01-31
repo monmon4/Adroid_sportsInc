@@ -28,7 +28,11 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Random;
 
@@ -69,7 +73,6 @@ public class RegisterActivity extends AppCompatActivity {
         year_edittext =  findViewById(R.id.yearEditText_register);
 
         gender_spinner =  findViewById(R.id.genderSpinner_register);
-
 
         ArrayAdapter<CharSequence> gender_spinner_adapter = ArrayAdapter.createFromResource(this, R.array.Gender_array, android.R.layout.simple_dropdown_item_1line);
         gender_spinner_adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -123,9 +126,44 @@ public class RegisterActivity extends AppCompatActivity {
         }
 
         if (all_good) {
-            verfication();
+            checkPhone();
+
+        }
+    }
+
+    @SuppressLint("StaticFieldLeak")
+    private void checkPhone() {
+
+        JSONObject where_info = new JSONObject();
+
+        try {
+            where_info.put("phone",phone);
+        } catch (JSONException e) {
+            e.printStackTrace();
         }
 
+        HttpCall httpCall = new HttpCall();
+        httpCall.setMethodtype(HttpCall.POST);
+        httpCall.setUrl(Constants.selectData);
+        HashMap<String,String> params = new HashMap<>();
+        params.put("table","users");
+        params.put("where",where_info.toString());
+        httpCall.setParams(params);
+
+        new HttpRequest(){
+            @Override
+            public void onResponse(JSONArray response) {
+                super.onResponse(response);
+
+                if(response != null){
+                    show_toast("Phone already exists");
+
+                } else {
+                    verfication();
+                }
+
+            }
+        }.execute(httpCall);
     }
 
     @SuppressLint("StaticFieldLeak")
@@ -165,19 +203,18 @@ public class RegisterActivity extends AppCompatActivity {
             @Override
             public void onClick(View view){
                 String verifcation = verify_edit_text.getText().toString().trim();
-
                 insert_to_DB();
-                /*if (verifcation.equals(String.valueOf(verfication_num))){
+                if (verifcation.equals(String.valueOf(verfication_num))){
                     insert_to_DB();
                 } else {
                     show_toast("Wrong code");
-                }*/
+                }
 
             }
         } );
 
 
-       /* HttpCall httpCall = new HttpCall();
+        HttpCall httpCall = new HttpCall();
         httpCall.setMethodtype(HttpCall.POST);
         httpCall.setUrl(Constants.sendSMS);
         HashMap<String,String> params = new HashMap<>();
@@ -198,7 +235,7 @@ public class RegisterActivity extends AppCompatActivity {
                 }
 
             }
-        }.execute(httpCall);*/
+        }.execute(httpCall);
     }
 
     @SuppressLint("StaticFieldLeak")
@@ -210,24 +247,36 @@ public class RegisterActivity extends AppCompatActivity {
             gender_int = 1;
         }
         int current_year = Calendar.getInstance().get(Calendar.YEAR);
+        int day = Integer.valueOf(day_of_birth);
+        int month = Integer.valueOf(month_of_birth);
         int year = Integer.valueOf(year_of_birth);
         int age = current_year - year;
 
+        String date_of_birth = year + "-" + month + "-" + day;
+        Date date;
+        DateFormat outdateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        DateFormat DateFormat = new SimpleDateFormat("yyyy-MM-dd");
+
+        try {
+            date = DateFormat.parse(date_of_birth);
+            date_of_birth = outdateFormat.format(date);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
         verfication_popup_window.dismiss();
         globalVars.setType(5);
-        Intent intent = new Intent(RegisterActivity.this , HomeActivity.class);
-        startActivity(intent);
         finish();
 
 
-       /* JSONObject info = new JSONObject();
+       JSONObject info = new JSONObject();
         try {
             info.put("name",user_name);
             info.put("phone",phone);
             info.put("email",mail);
             info.put("gender",gender_int);
             info.put("pass",pass);
-            info.put("age",age);
+            info.put("date_of_birth",date_of_birth);
             info.put("type",5);
 
             HttpCall httpCall = new HttpCall();
@@ -259,7 +308,7 @@ public class RegisterActivity extends AppCompatActivity {
 
         } catch (JSONException e) {
             e.printStackTrace();
-        }*/
+        }
     }
 
     public void show_toast(String msg){

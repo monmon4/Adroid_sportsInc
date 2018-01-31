@@ -31,7 +31,7 @@ public class LoginActivity extends AppCompatActivity {
     EditText phone_edittext, pass_edittext;
     String phone, pass;
 
-    String received_pass, received_mail, received_name , received_date_of_birth;
+    String received_pass, received_mail, received_name, received_date_of_birth;
     int received_id, received_gender, received_type;
 
     ProgressDialog progressDialog;
