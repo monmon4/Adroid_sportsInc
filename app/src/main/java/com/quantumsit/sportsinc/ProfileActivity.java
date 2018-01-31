@@ -34,7 +34,7 @@ public class ProfileActivity extends AppCompatActivity {
     ProgressDialog progressDialog;
 
     EditText Name ,Phone ,Mail;
-    TextView ChangePassword,Gender;
+    TextView ChangePassword,Gender , DateOfBirth;
     Button Edit, Save ,Cancel;
     LinearLayout EditButtons;
 
@@ -54,6 +54,7 @@ public class ProfileActivity extends AppCompatActivity {
         Phone = findViewById(R.id.profile_userPhone);
         Mail = findViewById(R.id.profile_userMail);
         Gender = findViewById(R.id.profile_gender);
+        DateOfBirth = findViewById(R.id.profile_date_birth);
 
         ChangePassword = findViewById(R.id.profile_change_password);
 
@@ -112,6 +113,7 @@ public class ProfileActivity extends AppCompatActivity {
         Phone.setText(globalVars.getPhone());
         Mail.setText(globalVars.getMail());
         Gender.setText(globalVars.getPersonGender());
+        DateOfBirth.setText(globalVars.getDate_of_birth());
     }
 
     private void changeProfilePassword() {

@@ -12,7 +12,7 @@ public class GlobalVars extends Application {
 
     DB_Sqlite_Handler myDB;
 
-    String name, phone, pass, mail;
+    String name, phone, pass, mail ,date_of_birth;
 
     int id, type, gender, age; //TYPE 0 Trainee, 1 Coach, 2 Admin, 3 Manager, 4 Backend, 5 non_registered
                           //GENDER 0 Male, 1 Female
@@ -26,8 +26,8 @@ public class GlobalVars extends Application {
         myDB = new DB_Sqlite_Handler(getApplicationContext());
     }
 
-    public void settAll (String name, String phone, String pass,String mail,
-                         int id, int type, int gender, int age){
+    public void settAll (String name, String phone, String pass, String mail,
+                         int id, int type, int gender, String date_of_birth){
         this.name = name;
         this.phone = phone;
         this.pass = pass;
@@ -36,7 +36,7 @@ public class GlobalVars extends Application {
         this.id = id;
         this.type = type;
         this.gender = gender;
-        this.age = age;
+        this.date_of_birth = date_of_birth;
     }
 
     public void settAll (String name, String phone, String mail,
@@ -129,5 +129,13 @@ public class GlobalVars extends Application {
 
     public DB_Sqlite_Handler getMyDB() {
         return myDB;
+    }
+
+    public String getDate_of_birth() {
+        return date_of_birth;
+    }
+
+    public void setDate_of_birth(String date_of_birth) {
+        this.date_of_birth = date_of_birth;
     }
 }

@@ -19,6 +19,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.quantumsit.sportsinc.Aaa_data.Constants;
@@ -106,6 +107,10 @@ public class HomeActivity extends AppCompatActivity
 
         RelativeLayout header = (RelativeLayout) navigationView.getHeaderView(0);
         ImageView profileImage = header.findViewById(R.id.profile_image);
+        TextView userName = header.findViewById(R.id.user_name);
+        TextView userPhone = header.findViewById(R.id.user_phone);
+        userName.setText(globalVars.getName());
+        userPhone.setText(globalVars.getPhone());
 
         profileImage.setOnClickListener(new View.OnClickListener() {
             @Override
