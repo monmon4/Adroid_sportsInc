@@ -2,6 +2,8 @@ package com.quantumsit.sportsinc.Aaa_data;
 
 import android.app.Application;
 
+import com.quantumsit.sportsinc.Entities.UserEntity;
+
 import java.util.ArrayList;
 
 /**
@@ -49,6 +51,18 @@ public class GlobalVars extends Application {
         this.type = type;
         this.gender = gender;
         this.age = age;
+    }
+
+    public void setUser(UserEntity user) {
+        this.name = user.getName();
+        this.phone = user.getPhone();
+        this.pass = user.getPass();
+        this.mail = user.getMail();
+
+        this.id = user.getId();
+        this.type = user.getType();
+        this.gender = user.getGender();
+        this.date_of_birth = user.getDate_of_birth();
     }
 
     public String getName() {

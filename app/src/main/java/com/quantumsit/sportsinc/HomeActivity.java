@@ -2,6 +2,7 @@ package com.quantumsit.sportsinc;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
@@ -315,9 +316,8 @@ public class HomeActivity extends AppCompatActivity
             Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://thesportsinc.com/"));
             startActivity(browserIntent);
         } else if(id == R.id.nav_logout){
-            //log out
-
-            finish();
+            // LogOut From the System
+            unActiveUser(globalVars.getId());
         }
 
         try {
@@ -333,6 +333,64 @@ public class HomeActivity extends AppCompatActivity
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    private void unActiveUser(int user_id) {
+        try {
+            JSONObject where_info = new JSONObject();
+            where_info.put("id",user_id);
+
+            JSONObject values = new JSONObject();
+            values.put("active",0);
+
+            HttpCall httpCall = new HttpCall();
+            httpCall.setMethodtype(HttpCall.POST);
+            httpCall.setUrl(Constants.updateData);
+            HashMap<String,String> params = new HashMap<>();
+            params.put("table","users");
+            params.put("values",values.toString());
+            params.put("where",where_info.toString());
+
+            httpCall.setParams(params);
+
+            new HttpRequest(){
+                @Override
+                public void onResponse(JSONArray response) {
+                    super.onResponse(response);
+                    logOut(response);
+                }
+            }.execute(httpCall);
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void logOut(JSONArray response) {
+        if(response == null) {
+            show_toast("fail to logout");
+            return;
+        }
+        try {
+            String result = String.valueOf(response.get(0));
+            if (result.equals("ERROR")) {
+                show_toast("fail to logout");
+                return;
+            }
+            SharedPreferences.Editor preferences = getSharedPreferences("UserFile", MODE_PRIVATE).edit();
+            preferences.clear();
+            preferences.apply();
+
+            finish();
+            startActivity(new Intent(HomeActivity.this, LoginActivity.class));
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
+
+    private void show_toast(String msg) {
+        Toast.makeText(getApplicationContext(),msg,Toast.LENGTH_SHORT).show();
     }
 
 }

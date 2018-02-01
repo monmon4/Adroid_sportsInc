@@ -3,6 +3,7 @@ package com.quantumsit.sportsinc;
 import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Paint;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -11,10 +12,13 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.gson.Gson;
+import com.quantumsit.sportsinc.Aaa_data.Config;
 import com.quantumsit.sportsinc.Aaa_data.Constants;
 import com.quantumsit.sportsinc.Aaa_data.GlobalVars;
 import com.quantumsit.sportsinc.Backend.HttpCall;
 import com.quantumsit.sportsinc.Backend.HttpRequest;
+import com.quantumsit.sportsinc.Entities.UserEntity;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -96,7 +100,6 @@ public class LoginActivity extends AppCompatActivity {
                     public void onResponse(JSONArray response) {
                         super.onResponse(response);
                         try {
-
                             if (response != null) {
 
                                 JSONObject result = response.getJSONObject(0);
@@ -110,9 +113,7 @@ public class LoginActivity extends AppCompatActivity {
                                     received_type = result.getInt("type");
                                     received_mail = result.getString("email");
                                     received_date_of_birth = result.getString("date_of_birth");
-                                    go_to_home();
-
-
+                                    ActiveUser();
                                 } else {
                                     progressDialog.dismiss();
                                     show_toast("Password is incorrect");
@@ -138,10 +139,50 @@ public class LoginActivity extends AppCompatActivity {
 
     }
 
+    private void ActiveUser() {
+        try {
+            JSONObject where_info = new JSONObject();
+            where_info.put("id",received_id);
+
+            JSONObject values = new JSONObject();
+            values.put("active",1);
+
+            HttpCall httpCall = new HttpCall();
+            httpCall.setMethodtype(HttpCall.POST);
+            httpCall.setUrl(Constants.updateData);
+            HashMap<String,String> params = new HashMap<>();
+            params.put("table","users");
+            params.put("values",values.toString());
+            params.put("where",where_info.toString());
+
+            httpCall.setParams(params);
+
+            new HttpRequest(){
+                @Override
+                public void onResponse(JSONArray response) {
+                    super.onResponse(response);
+                    go_to_home();
+                }
+            }.execute(httpCall);
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
     private void go_to_home(){
 
         globalVars.settAll(received_name, phone, pass, received_mail,
                             received_id, received_type, received_gender, received_date_of_birth);
+
+        UserEntity userEntity = new UserEntity(received_name, phone,pass, received_mail,
+                received_id, received_type, received_gender,received_date_of_birth);
+
+        SharedPreferences.Editor preferences = getSharedPreferences("UserFile", MODE_PRIVATE).edit();
+        Gson gson = new Gson();
+        String json = gson.toJson(userEntity);
+        preferences.putString("CurrentUser", json);
+        preferences.apply();
 
         progressDialog.dismiss();
         Intent intent= new Intent(LoginActivity.this, HomeActivity.class);
