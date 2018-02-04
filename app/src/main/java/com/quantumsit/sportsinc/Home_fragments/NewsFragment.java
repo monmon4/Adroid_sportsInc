@@ -76,13 +76,15 @@ public class NewsFragment extends Fragment {
     }
 
     private void fillAdapter(JSONArray response) {
-        try {
-            for (int i=0 ; i<response.length() ;i++){
-                NewsList.add(new NewsEntity((JSONObject) response.get(i)));
-                adapter.notifyDataSetChanged();
+        if (response != null) {
+            try {
+                for (int i = 0; i < response.length(); i++) {
+                    NewsList.add(new NewsEntity((JSONObject) response.get(i)));
+                    adapter.notifyDataSetChanged();
+                }
+            } catch(JSONException e){
+                e.printStackTrace();
             }
-        } catch (JSONException e) {
-            e.printStackTrace();
         }
     }
 }

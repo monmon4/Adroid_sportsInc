@@ -23,6 +23,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.quantumsit.sportsinc.Aaa_data.Config;
 import com.quantumsit.sportsinc.Aaa_data.Constants;
 import com.quantumsit.sportsinc.Aaa_data.GlobalVars;
 import com.quantumsit.sportsinc.Backend.HttpCall;
@@ -126,6 +127,11 @@ public class HomeActivity extends AppCompatActivity
         if (savedInstanceState == null) {
             Fragment fragment = null;
             Class fragmentClass = HomeFragment.class;
+            int Notifi = getIntent().getIntExtra("HomePosition",0);
+
+            if(Notifi == Config.NOTIFICATION_ID)
+                fragmentClass = NotificationsFragment.class;
+
             try {
                 fragment = (Fragment) fragmentClass.newInstance();
             } catch (Exception e) {

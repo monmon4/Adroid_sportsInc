@@ -107,6 +107,7 @@ public class ComplainsFragment extends Fragment {
             values_info.put("title",title);
             values_info.put("user_id",globalVars.getId());
             values_info.put("Content",content);
+            values_info.put("related_to",regarding_spinner.getText().toString());
             values_info.put("readable",0);
 
             HttpCall httpCall = new HttpCall();
@@ -114,6 +115,7 @@ public class ComplainsFragment extends Fragment {
             httpCall.setUrl(Constants.insertData);
             HashMap<String,String> params = new HashMap<>();
             params.put("table","complains");
+            params.put("notify","1");
             params.put("values",values_info.toString());
 
             httpCall.setParams(params);
