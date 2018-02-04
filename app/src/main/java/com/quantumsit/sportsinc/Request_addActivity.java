@@ -1,7 +1,9 @@
 package com.quantumsit.sportsinc;
 
 import android.annotation.SuppressLint;
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.provider.Settings;
 import android.support.v7.app.AppCompatActivity;
@@ -154,9 +156,33 @@ public class Request_addActivity extends AppCompatActivity {
         progressDialog.dismiss();
     }
 
+    public void send_clicked(View view) {
+        final AlertDialog.Builder builder = new AlertDialog.Builder(Request_addActivity.this,
+                R.style.MyAlertDialogStyle);
+        builder.setTitle(Request_addActivity.this.getResources().getString(R.string.app_name));
+        builder.setCancelable(false);
+        builder.setMessage("     Are you sure?");
+        builder.setPositiveButton("Yes",
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        send_to_DB();
+                        dialogInterface.dismiss();
+                    }
+                });
+        builder.setNegativeButton("No",
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        dialogInterface.dismiss();
+                    }
+                });
+        builder.show();
+    }
+
 
     @SuppressLint("StaticFieldLeak")
-    public void send_clicked(View view) {
+    private void send_to_DB() {
 
         try {
             JSONObject where_info = new JSONObject();
@@ -259,14 +285,10 @@ public class Request_addActivity extends AppCompatActivity {
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-
         }
-
-
     }
 
     private void show_toast(String msg){
         Toast.makeText(Request_addActivity.this, msg, Toast.LENGTH_SHORT).show();
-
     }
 }
