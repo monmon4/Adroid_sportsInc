@@ -28,9 +28,11 @@ public class DB_Sqlite_Handler extends SQLiteOpenHelper {
     private String TABLE_AcademyInfo = Constants.TABLE_AcademyInfo;
     // Shops Table Columns names
     private String KeyId = "id";
+    private String KeyName = "name";
     private String KeyAddress = "address";
     private String KeyPhone = "phone";
-
+    private String KeyLat = "Address_Lat";
+    private String KeyLng = "Address_Lng";
 
     //Coach Running Class Info...
 
@@ -73,7 +75,8 @@ public class DB_Sqlite_Handler extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
 
         String CREATE_ACADEMY_INFO_TABLE = "CREATE Table " + TABLE_AcademyInfo + "("
-        + KeyId + " INTEGER PRIMARY KEY," + KeyAddress + " TEXT,"
+        + KeyId + " INTEGER PRIMARY KEY AUTOINCREMENT," + KeyName + " TEXT," + KeyAddress + " TEXT,"
+        + KeyLat + " TEXT, " + KeyLng + " TEXT,"
         + KeyPhone + " TEXT" + ")";
 
         String CREATE_Class_TABLE = "CREATE Table " + TABLE_classes + "("
@@ -126,7 +129,10 @@ public class DB_Sqlite_Handler extends SQLiteOpenHelper {
     public void addAcademyInfo(Academy_info info) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
+        values.put(KeyName, info.getName());
         values.put(KeyAddress, info.getAddress());
+        values.put(KeyLat, info.getLat());
+        values.put(KeyLng, info.getLng());
         values.put(KeyPhone, info.getPhone());
         // Inserting Row
         db.insert(Constants.TABLE_AcademyInfo, null, values);
@@ -179,16 +185,25 @@ public class DB_Sqlite_Handler extends SQLiteOpenHelper {
         db.close();
     }
 
-    public Academy_info getAcademyInfo (int id) {
+    public boolean Academy_empty(){
+        SQLiteDatabase db = this.getWritableDatabase();
+        String count = "SELECT count(*) FROM "+TABLE_AcademyInfo;
+        Cursor mcursor = db.rawQuery(count, null);
+        mcursor.moveToFirst();
+        int icount = mcursor.getInt(0);
+        if(icount>0)
+            return false;
+        return true;
+    }
+
+    public Academy_info getAcademyInfo () {
         SQLiteDatabase db = this.getReadableDatabase();
-        Cursor cursor = db.query(Constants.TABLE_AcademyInfo, new String[] { KeyId,
-                        KeyAddress, KeyPhone }, KeyId + "=?",
-                new String[] { String.valueOf(id) }, null, null, null, null);
+        Cursor cursor = db.rawQuery("select * from "+TABLE_AcademyInfo, null);
 
         if (cursor != null)
             cursor.moveToFirst();
         Academy_info info = new Academy_info(Integer.parseInt(cursor.getString(0)),
-                cursor.getString(1), cursor.getString(2));
+                cursor.getString(1), cursor.getString(2) , cursor.getString(3), cursor.getString(4),cursor.getString(5));
 
         return info;
     }

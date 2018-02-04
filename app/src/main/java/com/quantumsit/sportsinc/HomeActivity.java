@@ -107,6 +107,10 @@ public class HomeActivity extends AppCompatActivity
         navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
+        Menu navigationMenu = navigationView.getMenu();
+        if (parent)
+            navigationMenu.findItem(R.id.nav_certificates).setVisible(true);
+
         RelativeLayout header = (RelativeLayout) navigationView.getHeaderView(0);
         ImageView profileImage = header.findViewById(R.id.profile_image);
         TextView userName = header.findViewById(R.id.user_name);

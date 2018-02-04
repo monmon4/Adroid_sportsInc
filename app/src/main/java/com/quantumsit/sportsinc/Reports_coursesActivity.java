@@ -78,12 +78,13 @@ public class Reports_coursesActivity extends AppCompatActivity {
         JSONObject where_info = new JSONObject();
         try {
             where_info.put("trainee_id",globalVars.getId());
-            where_info.put("course_id",course_id);
+            where_info.put("classes_details.course_id",course_id);
 
             HttpCall httpCall = new HttpCall();
             httpCall.setMethodtype(HttpCall.POST);
             httpCall.setUrl(Constants.traineeClassScores);
             HashMap<String,String> params = new HashMap<>();
+            params.put("report","1");
             params.put("where",where_info.toString());
 
             httpCall.setParams(params);
@@ -110,12 +111,9 @@ public class Reports_coursesActivity extends AppCompatActivity {
                                 item2_hashmap.put(class_name, new item1_reports_courses("", attend, score, coach_note));
 
                             }
-                            fill_list_view();
-
-                        } else {
-                            progressDialog.dismiss();
 
                         }
+                        fill_list_view();
 
                     } catch (JSONException e) {
                         e.printStackTrace();

@@ -2,6 +2,7 @@ package com.quantumsit.sportsinc;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
+import android.app.ProgressDialog;
 import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -17,6 +18,7 @@ import android.widget.Toast;
 
 import com.quantumsit.sportsinc.Aaa_data.Academy_info;
 import com.quantumsit.sportsinc.Aaa_data.Constants;
+import com.quantumsit.sportsinc.Aaa_data.GlobalVars;
 import com.quantumsit.sportsinc.Backend.HttpCall;
 import com.quantumsit.sportsinc.Backend.HttpRequest;
 import com.weiwangcn.betterspinner.library.material.MaterialBetterSpinner;
@@ -31,6 +33,9 @@ import javax.xml.datatype.Duration;
 
 public class JoinNowActivity extends AppCompatActivity {
 
+    GlobalVars globalVars;
+    ProgressDialog progressDialog;
+
     TextView location_textview, phone_textview;
 
     MaterialBetterSpinner date_spinner, time_spinner ;
@@ -41,11 +46,18 @@ public class JoinNowActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_join_now);
+        globalVars = (GlobalVars) getApplication();
+        progressDialog = new ProgressDialog(this);
+        progressDialog.setMessage("Please wait......");
 
         location_textview = findViewById(R.id.locationTextView_joinnow);
         phone_textview = findViewById(R.id.phoneTextView_joinnow);
 
-        //get_info();
+        if (globalVars.getMyDB().Academy_empty())
+            get_info();
+
+        else
+            academy_info = globalVars.getMyDB().getAcademyInfo();
 
         date_spinner = findViewById(R.id.dateSpinner_joinnow);
         time_spinner = findViewById(R.id.timeSpinner_joinnow);
@@ -63,60 +75,60 @@ public class JoinNowActivity extends AppCompatActivity {
     public void go_to_maps(View view) {
 
         Intent intent = new Intent(JoinNowActivity.this, MapsActivity.class);
-
+        intent.putExtra("Academy_Lat",academy_info.getLat());
+        intent.putExtra("Academy_Lng",academy_info.getLng());
+        intent.putExtra("Academy_Name",academy_info.getName());
         startActivity(intent);
     }
 
     @SuppressLint("StaticFieldLeak")
     private void get_info() {
+        HttpCall httpCall = new HttpCall();
+        httpCall.setMethodtype(HttpCall.POST);
+        httpCall.setUrl(Constants.selectData);
+        HashMap<String, String> params = new HashMap<>();
+        params.put("table", "info_academy");
 
-        //JSONObject where_info = new JSONObject();
-        //try {
-            //where_info.put("phone",phone);
+        httpCall.setParams(params);
+        progressDialog.show();
+        new HttpRequest() {
+            @Override
+            public void onResponse(JSONArray response) {
+                super.onResponse(response);
+                try {
 
-            HttpCall httpCall = new HttpCall();
-            httpCall.setMethodtype(HttpCall.POST);
-            httpCall.setUrl(Constants.selectData);
-            HashMap<String, String> params = new HashMap<>();
-            params.put("table", "info_academy");
-            //params.put("where",where_info.toString());
+                    if (response != null) {
 
-            httpCall.setParams(params);
-            //progressDialog.show();
-            new HttpRequest() {
-                @Override
-                public void onResponse(JSONArray response) {
-                    super.onResponse(response);
-                    try {
+                        JSONObject result = response.getJSONObject(0);
+                        academy_info = new Academy_info();
+                        academy_info.setAddress(result.getString("name"));
+                        academy_info.setAddress(result.getString("address"));
+                        academy_info.setLat(result.getString("address_Lat"));
+                        academy_info.setLng(result.getString("address_Lng"));
+                        academy_info.setPhone(result.getString("phone"));
 
-                        if (response != null) {
+                        globalVars.getMyDB().addAcademyInfo(academy_info);
 
-                            JSONObject result = response.getJSONObject(0);
-                            academy_info.setAddress(result.getString("address"));
-                            academy_info.setPhone(result.getString("phone"));
-
-                        } else {
-                            //progressDialog.dismiss();
-                            //show_toast("Phone doesn't exist");
-                        }
-
-
-                    } catch (JSONException e) {
-                        e.printStackTrace();
+                    } else {
+                        show_toast("Error will get Academy Information.");
                     }
-
+                    progressDialog.dismiss();
+                } catch (JSONException e) {
+                    e.printStackTrace();
                 }
-            }.execute(httpCall);
 
-            //} catch (JSONException e) {
-            //e.printStackTrace();
-            //}
+            }
+        }.execute(httpCall);
+    }
+
+    private void show_toast(String s) {
+        Toast.makeText(getApplicationContext(),s,Toast.LENGTH_LONG).show();
     }
 
     //call btn is pressed
     public void on_call(View view) {
 
-        String academy_phone = "01115703711";
+        String academy_phone = academy_info.getPhone();
 
         try {
             Intent callIntent = new Intent(Intent.ACTION_CALL);
