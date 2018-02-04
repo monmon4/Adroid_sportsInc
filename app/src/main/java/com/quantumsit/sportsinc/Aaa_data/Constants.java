@@ -24,7 +24,12 @@ public interface Constants {
     String deleteData = server + "deletedata";
     String joinData = server + "joindata";
     String sendSMS = server + "sendSMS";
-    String notification = server + "pushNotificationAndroid";
+    String notification = server + "selectNotification";
+
+    //Trainee
+    String traineeCoursesData = server + "trainee_finished_courses";
+    String traineeClassScores = server + "classes_scores";
+
 
 
     //SQLite DB

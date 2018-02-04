@@ -20,11 +20,13 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.quantumsit.sportsinc.Aaa_data.Rule_info;
 import com.quantumsit.sportsinc.HomeActivity;
 import com.quantumsit.sportsinc.R;
 import com.quantumsit.sportsinc.RegisterActivity;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import static android.content.Context.LAYOUT_INFLATER_SERVICE;
 
@@ -34,17 +36,16 @@ import static android.content.Context.LAYOUT_INFLATER_SERVICE;
 
 public class CheckBoxListView_Adapter extends ArrayAdapter<item_checkbox> {
 
-    public ArrayList<item_checkbox> list_items;
+    public List<item_checkbox> list_items;
 
     PopupWindow note_popup_window;
     private Context context;
     private RelativeLayout rl;
 
     public CheckBoxListView_Adapter(Context context, int textViewResourceId,
-                           ArrayList<item_checkbox> list_items) {
+                           List<item_checkbox> list_items) {
         super(context, textViewResourceId, list_items);
-        this.list_items = new ArrayList<item_checkbox>();
-        this.list_items.addAll(list_items);
+        this.list_items = list_items;
         this.context = context;
     }
 
@@ -141,6 +142,7 @@ public class CheckBoxListView_Adapter extends ArrayAdapter<item_checkbox> {
         final EditText note_edit_text = customView.findViewById(R.id.noteEditText_notewindow);
         Button done_button = customView.findViewById(R.id.doneButton_notewindow);
         note_edit_text.setEnabled(true);
+        note_edit_text.setText(item_checkbox.getNote());
 
         done_button.setOnClickListener(new View.OnClickListener(){
             @Override

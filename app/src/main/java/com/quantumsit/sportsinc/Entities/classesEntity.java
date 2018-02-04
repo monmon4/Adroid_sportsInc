@@ -15,8 +15,8 @@ import java.util.Date;
 
 public class classesEntity implements Serializable {
     String courseName, groupName, className, status, coachName, adminName, poolName;
-    String startTime, endTime, reason, postpondTime,postpondDate ,classdate;
-    int class_id ,Group_id ,Course_id ,Admin_id ,Coach_id;
+    String startTime, endTime, reason, postpondStartTime, postpondEndTime ,postpondDate ,classdate;
+    int class_id ,Group_id ,Course_id ,Admin_id ,Coach_id , state;
 
     public classesEntity() {
     }
@@ -32,7 +32,7 @@ public class classesEntity implements Serializable {
             this.classdate = formatter.format(date);
             this.courseName = jsonObject.getString("Courses_name");
             this.groupName = jsonObject.getString("Groups_Name");
-            int state = jsonObject.getInt("status");
+            state = jsonObject.getInt("status");
             switch (state) {
                 case 0:
                     this.status = "Running";
@@ -61,14 +61,39 @@ public class classesEntity implements Serializable {
             this.endTime= jsonObject.getString("class_end_time");
             this.endTime = endTime.substring(0,endTime.length()-3);
             this.reason = jsonObject.getString("class_notes");
-            this.postpondDate = jsonObject.getString("postpone_date");
-            this.postpondTime = jsonObject.getString("postpone_time");
-            postpondTime = postpondTime.substring(0,postpondTime.length()-3);
+            dateFormated = jsonObject.getString("postpone_date");
+            formatter = new SimpleDateFormat("yyyy-MM-dd");
+            date = formatter.parse(dateFormated);
+            formatter = new SimpleDateFormat("dd/MM/yyyy");
+            this.postpondDate = formatter.format(date);
+            this.postpondStartTime = jsonObject.getString("postpone_start_time");
+            postpondStartTime = postpondStartTime.substring(0,postpondStartTime.length()-3);
+            this.postpondEndTime = jsonObject.getString("postpone_end_time");
+            postpondEndTime = postpondEndTime.substring(0,postpondEndTime.length()-3);
         } catch (JSONException e) {
             e.printStackTrace();
         } catch (ParseException e) {
             e.printStackTrace();
         }
+    }
+
+    public classesEntity(classesEntity entity) {
+        this.class_id = entity.class_id;
+        this.className = entity.className;
+        this.classdate = entity.postpondDate;
+        this.courseName = entity.courseName;
+        this.groupName = entity.groupName;
+        this.state = entity.state;
+        this.status = "UpComing";
+        this.Coach_id = entity.Coach_id;
+        this.coachName = entity.coachName;
+        this.Admin_id = entity.Admin_id;
+        this.adminName = entity.adminName;
+        this.poolName = entity.poolName;
+        this.startTime = entity.postpondStartTime;
+        this.endTime= entity.postpondEndTime;
+        this.reason = entity.reason;
+        this.postpondDate = entity.postpondDate;
     }
 
     @Override
@@ -210,12 +235,20 @@ public class classesEntity implements Serializable {
         this.reason = reason;
     }
 
-    public String getPostpondTime() {
-        return postpondTime;
+    public String getPostpondStartTime() {
+        return postpondStartTime;
     }
 
-    public void setPostpondTime(String postpondTime) {
-        this.postpondTime = postpondTime;
+    public void setPostpondStartTime(String postpondStartTime) {
+        this.postpondStartTime = postpondStartTime;
+    }
+
+    public String getPostpondEndTime() {
+        return postpondEndTime;
+    }
+
+    public void setPostpondEndTime(String postpondEndTime) {
+        this.postpondEndTime = postpondEndTime;
     }
 
     public String getClassdate() {
@@ -224,5 +257,13 @@ public class classesEntity implements Serializable {
 
     public void setClassdate(String classdate) {
         this.classdate = classdate;
+    }
+
+    public int getState() {
+        return state;
+    }
+
+    public void setState(int state) {
+        this.state = state;
     }
 }

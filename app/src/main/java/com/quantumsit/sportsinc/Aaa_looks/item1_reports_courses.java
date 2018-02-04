@@ -6,14 +6,12 @@ package com.quantumsit.sportsinc.Aaa_looks;
 
 public class item1_reports_courses {
 
-    String date, class_number, attendance, score, coach_note;
+    String class_number, coach_note;
 
-    public item1_reports_courses(String date) {
-        this.date = date;
-    }
+    int score, attend;
 
-    public item1_reports_courses(String class_number, String attendance, String score, String coach_note) {
-        this.attendance = attendance;
+    public item1_reports_courses(String class_number, int attend, int score, String coach_note) {
+        this.attend = attend;
         this.score = score;
         this.coach_note = coach_note;
         this.class_number = class_number;

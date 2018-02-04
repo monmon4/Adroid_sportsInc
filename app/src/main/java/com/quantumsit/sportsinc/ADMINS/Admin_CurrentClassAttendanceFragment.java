@@ -20,6 +20,7 @@ import com.quantumsit.sportsinc.Adapters.item_checkbox;
 import com.quantumsit.sportsinc.R;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -76,7 +77,7 @@ public class Admin_CurrentClassAttendanceFragment extends Fragment {
                 StringBuffer responseText = new StringBuffer();
                 responseText.append("The following were selected...\n");
 
-                ArrayList<item_checkbox> list = checkBoxListView_adapter.list_items;
+                List<item_checkbox> list = checkBoxListView_adapter.list_items;
                 for(int i=0;i<list.size();i++){
                     item_checkbox item = list.get(i);
                     if(item.getSelected()){

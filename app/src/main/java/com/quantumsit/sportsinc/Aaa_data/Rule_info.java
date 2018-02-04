@@ -1,5 +1,8 @@
 package com.quantumsit.sportsinc.Aaa_data;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 /**
  * Created by Bassam on 1/24/2018.
  */
@@ -17,6 +20,18 @@ public class Rule_info {
         this.rule_name = rule_name;
         this.rule_check = rule_check;
         this.rule_note = rule_note;
+    }
+
+    public Rule_info(JSONObject jsonObject , int class_id) {
+        try {
+            this.rule_id = jsonObject.getInt("id");
+            this.class_id = class_id;
+            this.rule_name = jsonObject.getString("Content");
+            this.rule_check = 0;
+            this.rule_note = "";
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
     }
 
     public String getRule_name() {
@@ -55,6 +70,19 @@ public class Rule_info {
         return rule_check;
     }
 
+    public boolean getSelected(){
+        if (rule_check == 1)
+            return true;
+        else
+            return false;
+    }
+
+    public void setSelected(boolean status){
+        if (status)
+            setRule_check(1);
+        else
+            setRule_check(0);
+    }
     public void setRule_check(int rule_check) {
         this.rule_check = rule_check;
     }

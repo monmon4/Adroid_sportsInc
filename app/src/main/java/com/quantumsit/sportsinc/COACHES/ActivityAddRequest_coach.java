@@ -318,6 +318,7 @@ public class ActivityAddRequest_coach extends AppCompatActivity {
             httpCall.setUrl(Constants.insertData);
             HashMap<String,String> params = new HashMap<>();
             params.put("table","requests");
+            params.put("notify","1");
             params.put("values",values.toString());
 
             httpCall.setParams(params);
@@ -328,11 +329,15 @@ public class ActivityAddRequest_coach extends AppCompatActivity {
                     super.onResponse(response);
 
                     try {
-                        String result = String.valueOf(response.get(0));
-                        if(result.equals("Error"))
-                            show_toast("Faild to send");
-                        else
-                            show_toast("Successfully sent");
+                        if (response != null) {
+                            String result = String.valueOf(response.get(0));
+                            if (result.equals("ERROR"))
+                                show_toast("Failed to send");
+                            else
+                                show_toast("Successfully sent");
+                        }else {
+                            show_toast("Failed to send");
+                        }
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }

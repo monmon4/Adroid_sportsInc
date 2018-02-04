@@ -4,6 +4,19 @@
     android:layout_height="match_parent"
     tools:context="com.quantumsit.sportsinc.Reports_fragments.CorsesFragment">
 
+    <TextView
+        android:id="@+id/textView_corses"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:layout_centerInParent="true"
+        android:text="@string/no_courses_reports"
+        android:alpha="0.30"
+        android:textColor="@color/colorRed"
+        android:textSize="18sp"
+        android:drawableTop="@drawable/ic_faded_reports" />
+
+
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recyclerView_reportscourses"
         android:layout_width="match_parent"

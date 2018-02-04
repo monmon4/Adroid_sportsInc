@@ -9,6 +9,7 @@ import android.provider.Settings;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
+import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
@@ -45,6 +46,8 @@ public class Request_addActivity extends AppCompatActivity {
 
     ProgressDialog progressDialog;
     String[] empty = {""};
+
+    int group_id;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -97,6 +100,8 @@ public class Request_addActivity extends AppCompatActivity {
                     try {
 
                         if (response != null) {
+                            JSONObject first_result = response.getJSONObject(0);
+                            group_id = first_result.getInt("group_id");
                             //status = 2 postponed, 3 upcoming, 5 current;
                             JSONObject result;
                             Date date;
@@ -112,6 +117,7 @@ public class Request_addActivity extends AppCompatActivity {
                                     date_class = result.getString("class_date");
                                     date = DateFormat.parse(date_class);
                                     date_class = outdateFormat.format(date);
+
 
                                 } else if (status == 2) {
                                     date_class = result.getString("postpone_date");
@@ -184,16 +190,20 @@ public class Request_addActivity extends AppCompatActivity {
     @SuppressLint("StaticFieldLeak")
     private void send_to_DB() {
 
-        try {
-            JSONObject where_info = new JSONObject();
-            where_info.put("type",3);
+        JSONObject where_info = new JSONObject();
+        String on_condition;
 
+        try {
+            where_info.put("groups.id",group_id);
+            on_condition = "groups.coach_id = users.id";
             HttpCall httpCall = new HttpCall();
             httpCall.setMethodtype(HttpCall.POST);
-            httpCall.setUrl(Constants.selectData);
+            httpCall.setUrl(Constants.joinData);
             HashMap<String,String> params = new HashMap<>();
-            params.put("table","users");
+            params.put("table1","groups");
+            params.put("table2","users");
             params.put("where",where_info.toString());
+            params.put("on",on_condition);
 
             httpCall.setParams(params);
 
@@ -262,6 +272,8 @@ public class Request_addActivity extends AppCompatActivity {
                 httpCall.setUrl(Constants.insertData);
                 HashMap<String,String> params = new HashMap<>();
                 params.put("table","requests");
+                params.put("notify","1");
+                params.put("manager","1");
                 params.put("values",values_info.toString());
 
                 httpCall.setParams(params);
@@ -270,7 +282,7 @@ public class Request_addActivity extends AppCompatActivity {
                     @Override
                     public void onResponse(JSONArray response) {
                         super.onResponse(response);
-
+                        Log.d("AddRequest","response : "+String.valueOf(response));
                         if (response != null) {
                             show_toast("Success ");
                             onBackPressed();

@@ -86,12 +86,15 @@ public class ListViewExpandable_Adapter_currentClasses extends BaseExpandableLis
         }
 
         TextView class_number =  convertView.findViewById(R.id.classNumberTextView_adminCurrentClassesItem);
-        TextView class_date =  convertView.findViewById(R.id.dateTextView_adminCurrentClassesItem);
+        TextView class_pool =  convertView.findViewById(R.id.dateTextView_adminCurrentClassesItem);
         TextView class_time =  convertView.findViewById(R.id.timeTextView_adminCurrentClassesItem);
 
         class_number.setText(header.class_number);
-        class_date.setText(header.class_date);
-        class_time.setText(header.startTime+" ~ "+header.endTime);
+        class_pool.setText(header.poolName);
+        if (header.status == 2)
+            class_time.setText(header.postpone_startTime+" ~ "+header.postpone_endTime);
+        else
+            class_time.setText(header.startTime+" ~ "+header.endTime);
         //class_text_view.setText(header.class_number);
 
         return convertView;

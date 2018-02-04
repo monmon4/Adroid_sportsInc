@@ -92,36 +92,29 @@ public class Admin_CurrentClassesFragment extends Fragment {
 
 
     private void initilizeCurrentClasses() {
-        try {
-            Calendar c = Calendar.getInstance();
-            SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
-            String Today = df.format(c.getTime());
+        Calendar c = Calendar.getInstance();
+        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+        String Today = df.format(c.getTime());
 
-            JSONObject where_info = new JSONObject();
-            where_info.put("groups.admin_id",globalVars.getId());
-            where_info.put("classes.class_date",Today);
-            where_info.put("classes.status",5);
+        HttpCall httpCall = new HttpCall();
+        httpCall.setMethodtype(HttpCall.POST);
+        httpCall.setUrl(Constants.admin_cuurentClasses);
 
-            HttpCall httpCall = new HttpCall();
-            httpCall.setMethodtype(HttpCall.POST);
-            httpCall.setUrl(Constants.admin_cuurentClasses);
+        HashMap<String, String> params = new HashMap<>();
+        params.put("id",String.valueOf(globalVars.getId()));
+        params.put("date",Today);
 
-            HashMap<String, String> params = new HashMap<>();
-            params.put("where", where_info.toString());
+        httpCall.setParams(params);
 
-            httpCall.setParams(params);
+        new HttpRequest() {
+            @Override
+            public void onResponse(JSONArray response) {
+                super.onResponse(response);
+                Log.d(TAG,String.valueOf(response));
+                fillAdapter(response);
+            }
+        }.execute(httpCall);
 
-            new HttpRequest() {
-                @Override
-                public void onResponse(JSONArray response) {
-                    super.onResponse(response);
-                    Log.d(TAG,String.valueOf(response));
-                    fillAdapter(response);
-                }
-            }.execute(httpCall);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
     }
 
     private void fillAdapter(JSONArray response) {
@@ -294,6 +287,8 @@ public class Admin_CurrentClassesFragment extends Fragment {
 
             final HashMap<String,String> params = new HashMap<>();
             params.put("table","classes");
+            params.put("notify","1");
+            params.put("admin_id",String.valueOf(globalVars.getId()));
             params.put("where",where.toString());
             params.put("values",values.toString());
 
@@ -335,6 +330,8 @@ public class Admin_CurrentClassesFragment extends Fragment {
             httpCall.setUrl(Constants.updateData);
             final HashMap<String,String> params = new HashMap<>();
             params.put("table","classes");
+            params.put("notify","1");
+            params.put("admin_id",String.valueOf(globalVars.getId()));
             params.put("where",where.toString());
             params.put("values",values.toString());
 
