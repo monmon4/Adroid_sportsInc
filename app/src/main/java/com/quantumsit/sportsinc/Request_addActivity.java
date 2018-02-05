@@ -7,6 +7,7 @@ import android.provider.Settings;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
+import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
@@ -245,6 +246,8 @@ public class Request_addActivity extends AppCompatActivity {
                 httpCall.setUrl(Constants.insertData);
                 HashMap<String,String> params = new HashMap<>();
                 params.put("table","requests");
+                params.put("notify","1");
+                params.put("manager","1");
                 params.put("values",values_info.toString());
 
                 httpCall.setParams(params);
@@ -253,7 +256,7 @@ public class Request_addActivity extends AppCompatActivity {
                     @Override
                     public void onResponse(JSONArray response) {
                         super.onResponse(response);
-
+                        Log.d("AddRequest","response : "+String.valueOf(response));
                         if (response != null) {
                             show_toast("Success ");
                             onBackPressed();

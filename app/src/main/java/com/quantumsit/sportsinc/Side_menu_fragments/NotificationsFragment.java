@@ -6,21 +6,36 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
+import com.quantumsit.sportsinc.Aaa_data.Constants;
+import com.quantumsit.sportsinc.Aaa_data.GlobalVars;
 import com.quantumsit.sportsinc.Adapters.NotificationAdapter;
+import com.quantumsit.sportsinc.Backend.HttpCall;
+import com.quantumsit.sportsinc.Backend.HttpRequest;
 import com.quantumsit.sportsinc.Entities.NotificationEntity;
 import com.quantumsit.sportsinc.NotificationDetailsActivity;
 import com.quantumsit.sportsinc.R;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class NotificationsFragment extends Fragment {
+
+    private static String TAG = NotificationsFragment.class.getSimpleName();
+
+    GlobalVars globalVars;
+
 
     private NotificationAdapter adapter ;
     private List<NotificationEntity> notificationList;
@@ -29,14 +44,13 @@ public class NotificationsFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_notifications,container,false);
+        globalVars = (GlobalVars) getActivity().getApplication();
+
         notificationList = new ArrayList<>();
+        initializeNotifications();
         ListView listView = root.findViewById(R.id.notification_listview);
         listView.setEmptyView(root.findViewById(R.id.empty_text));
 
-        notificationList.add(new NotificationEntity("Class 1 has been Postponed","the class canceled by admin","21 Jun","Ahmed Ali","notification",0));
-        notificationList.add(new NotificationEntity("Complain from trainee","Ahmed Ali request an abcent","11 Jun","Ahmed Ali","Request",0));
-        notificationList.add(new NotificationEntity("Class 1 has been canceled","the class canceled by admin","31 Dec","Ahmed Ali","notification",1));
-        notificationList.add(new NotificationEntity("Ahmed ali request an abcent","Ahmed Ali request an abcent","21 Dec","Ahmed Ali","Request",1));
         adapter = new NotificationAdapter(getContext(),R.layout.list_item_notification,notificationList);
 
         listView.setAdapter(adapter);
@@ -51,4 +65,47 @@ public class NotificationsFragment extends Fragment {
         });
         return root;
     }
+
+    private void initializeNotifications() {
+        try {
+            JSONObject where_info = new JSONObject();
+            where_info.put("notification.to_id",globalVars.getId());
+
+            HttpCall httpCall = new HttpCall();
+            httpCall.setMethodtype(HttpCall.POST);
+            httpCall.setUrl(Constants.notification);
+            HashMap<String,String> params = new HashMap<>();
+            params.put("where",where_info.toString());
+            httpCall.setParams(params);
+
+            new HttpRequest(){
+                @Override
+                public void onResponse(JSONArray response) {
+                    super.onResponse(response);
+                    fillAdapter(response);
+                }
+            }.execute(httpCall);
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void fillAdapter(JSONArray response) {
+        Log.d(TAG,String.valueOf(response));
+        notificationList.clear();
+        if (response != null) {
+            try {
+                for (int i = 0; i < response.length(); i++) {
+                    NotificationEntity entity = new NotificationEntity(response.getJSONObject(i));
+                    notificationList.add(entity);
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+        adapter.notifyDataSetChanged();
+    }
+
+
 }

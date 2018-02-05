@@ -106,7 +106,8 @@ public class CorsesFragment extends Fragment {
                                 String group_name = result.getString("group_name");
                                 int classes_num = result.getInt("Num_classes");
                                 int attend_num = result.getInt("attend_num");
-                                double attendance = ((double) attend_num/(double) classes_num) *100.0;                                int total_score = result.getInt("total_score");
+                                double attendance = ((double) attend_num/(double) classes_num) *100.0;
+                                int total_score = result.getInt("total_score");
                                 list_item.add(new item_single_reports_courses(course_name, group_name, course_id, group_id, attendance, total_score));
                             }
                             fill_recycler_view();

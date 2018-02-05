@@ -287,6 +287,8 @@ public class Admin_CurrentClassesFragment extends Fragment {
 
             final HashMap<String,String> params = new HashMap<>();
             params.put("table","classes");
+            params.put("notify","1");
+            params.put("admin_id",String.valueOf(globalVars.getId()));
             params.put("where",where.toString());
             params.put("values",values.toString());
 
@@ -328,6 +330,8 @@ public class Admin_CurrentClassesFragment extends Fragment {
             httpCall.setUrl(Constants.updateData);
             final HashMap<String,String> params = new HashMap<>();
             params.put("table","classes");
+            params.put("notify","1");
+            params.put("admin_id",String.valueOf(globalVars.getId()));
             params.put("where",where.toString());
             params.put("values",values.toString());
 

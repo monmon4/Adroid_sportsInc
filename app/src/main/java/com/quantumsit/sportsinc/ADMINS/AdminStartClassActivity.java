@@ -1,11 +1,13 @@
 package com.quantumsit.sportsinc.ADMINS;
 
+import android.app.ProgressDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.quantumsit.sportsinc.Aaa_data.Constants;
@@ -30,10 +32,14 @@ public class AdminStartClassActivity extends AppCompatActivity {
     String note;
     int coach_id , class_id , attend;
 
+    ProgressDialog progressDialog;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_admin_start_class);
+
+        progressDialog = new ProgressDialog(AdminStartClassActivity.this);
+        progressDialog.setMessage("Please wait......");
 
         note_editText = findViewById(R.id.notesEditText_admincurrentclass);
         coach_name_checkBox = findViewById(R.id.coachNameCheckBox_admincurrentclass);
@@ -54,7 +60,7 @@ public class AdminStartClassActivity extends AppCompatActivity {
     }
 
     public void done_pressed(View view) {
-
+        progressDialog.show();
         note = note_editText.getText().toString();
         boolean checked = coach_name_checkBox.isChecked();
         if (checked)
@@ -92,6 +98,7 @@ public class AdminStartClassActivity extends AppCompatActivity {
                     if(checkResponse(response)) {
                         updateClassStatus();
                     }else {
+                        progressDialog.dismiss();
                         Toast.makeText(AdminStartClassActivity.this, "Failed To Attend the coach", Toast.LENGTH_SHORT).show();
                     }
                 }
@@ -131,6 +138,7 @@ public class AdminStartClassActivity extends AppCompatActivity {
                     }else {
                         Toast.makeText(AdminStartClassActivity.this, "Failed To start the class", Toast.LENGTH_SHORT).show();
                     }
+                    progressDialog.dismiss();
                 }
             }.execute(httpCall);
         } catch (JSONException e) {
@@ -142,7 +150,7 @@ public class AdminStartClassActivity extends AppCompatActivity {
         if (response != null){
             try {
                 String result = response.getString(0);
-                if (result.equals("DONE"))
+                if (!result.equals("ERROR"))
                     return true;
             } catch (JSONException e) {
                 e.printStackTrace();

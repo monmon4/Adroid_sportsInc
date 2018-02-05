@@ -31,6 +31,7 @@
             android:title="@string/reports" />
         <item
             android:id="@+id/nav_certificates"
+            android:visible="false"
             android:icon="@drawable/ic_side_certificates"
             android:title="@string/certificates" />
         <item
