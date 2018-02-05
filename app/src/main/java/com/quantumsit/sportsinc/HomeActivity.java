@@ -19,6 +19,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.quantumsit.sportsinc.Aaa_data.Constants;
@@ -54,6 +55,7 @@ public class HomeActivity extends AppCompatActivity
     GlobalVars globalVars;
 
     boolean coach = false, parent= false, non_register = false, admin= false ;
+    TextView name_textView, phone_textView;
 
 
     @Override
@@ -62,6 +64,14 @@ public class HomeActivity extends AppCompatActivity
 
         globalVars = (GlobalVars) getApplication();
         int type = globalVars.getType();
+        String user_name = globalVars.getName();
+        String user_phone = globalVars.getPhone();
+
+        name_textView = findViewById(R.id.user_name);
+        phone_textView = findViewById(R.id.user_phone);
+
+        name_textView.setText(user_name);
+        phone_textView.setText(user_phone);
 
         if(type == 5) {
             non_register = true;
