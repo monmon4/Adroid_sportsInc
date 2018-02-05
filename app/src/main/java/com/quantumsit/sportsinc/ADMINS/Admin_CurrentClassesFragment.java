@@ -100,6 +100,7 @@ public class Admin_CurrentClassesFragment extends Fragment {
 
     @SuppressLint("StaticFieldLeak")
     private void initilizeCurrentClasses() {
+        progressDialog.show();
         Calendar c = Calendar.getInstance();
         SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
         String Today = df.format(c.getTime());
@@ -132,55 +133,60 @@ public class Admin_CurrentClassesFragment extends Fragment {
             try {
                 for (int i = 0; i < response.length(); i++) {
                     item_current_classes entity = new item_current_classes( response.getJSONObject(i));
-                    check_time(entity);
+                    list_headers.add(entity);
                 }
+                check_time();
 
             } catch (JSONException e) {
                 e.printStackTrace();
             }
         }
-        expandableListView_adapter.notifyDataSetChanged();
     }
 
-    private void check_time(item_current_classes entity) {
+    private void check_time() {
 
-        String startTime = entity.startTime;
-        String endTime = entity.endTime;
-        int status = entity.status;
+        for (int i=0; i<list_headers.size(); i++){
+            item_current_classes entity = list_headers.get(i);
+            String startTime = entity.startTime;
+            String endTime = entity.endTime;
+            int status = entity.status;
 
-        double current_time_double = 0;
-        double start_time_double = Double.valueOf(startTime.replace(":", "."));
-        double end_time_double = Double.valueOf(endTime.replace(":", "."));
-        current_time = Calendar.getInstance().getTime();
-        DateFormat time_format = new SimpleDateFormat("hh:mm a");
-        String time = time_format.format(current_time);
-        String[] splitin_time = time.split(" ");
-        if ( splitin_time[1].equals("AM")) {
-            current_time_double = Double.valueOf(splitin_time[0].replace(":", "."));
+            double current_time_double = 0;
+            double start_time_double = Double.valueOf(startTime.replace(":", "."));
+            double end_time_double = Double.valueOf(endTime.replace(":", "."));
+            current_time = Calendar.getInstance().getTime();
+            DateFormat time_format = new SimpleDateFormat("hh:mm a");
+            String time = time_format.format(current_time);
+            String[] splitin_time = time.split(" ");
+            if ( splitin_time[1].equals("AM")) {
+                current_time_double = Double.valueOf(splitin_time[0].replace(":", "."));
 
-        } else {
-            current_time_double = Double.valueOf(splitin_time[0].replace(":", "."));
-            current_time_double += 12.00;
-        }
-
-        if (status == 3) {
-            if (start_time_double - current_time_double > 1.0) {
-                list_children.clear();
-                list_children.add("Postpone class");
-                list_children.add("Cancel class");
-            } else if (start_time_double - current_time_double < 0.11) {
-                list_children.clear();
-                list_children.add("Start class");
+            } else {
+                current_time_double = Double.valueOf(splitin_time[0].replace(":", "."));
+                current_time_double += 12.00;
             }
-        } else if (status == 0) {
-            list_children.clear();
-            list_children.add("End class");
-        } else {
-            list_children.clear();
+
+            if (status == 3) {
+                if (start_time_double - current_time_double > 1.0) {
+                    list_children.clear();
+                    list_children.add("Postpone class");
+                    list_children.add("Cancel class");
+                } else if (start_time_double - current_time_double < 0.11) {
+                    list_children.clear();
+                    list_children.add("Start class");
+                }
+            } else if (status == 0) {
+                list_children.clear();
+                list_children.add("End class");
+            } else {
+                list_children.clear();
+            }
+
+            hash_children.put(entity.getId(),list_children);
         }
 
-        list_headers.add(entity);
-        hash_children.put(entity.getId(),list_children);
+        expandableListView_adapter.notifyDataSetChanged();
+        progressDialog.dismiss();
     }
 
     ////// me4 b el child position b l name eih!
