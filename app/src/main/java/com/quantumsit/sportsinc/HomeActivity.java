@@ -72,8 +72,8 @@ public class HomeActivity extends AppCompatActivity
         name_textView = findViewById(R.id.user_name);
         phone_textView = findViewById(R.id.user_phone);
 
-        name_textView.setText(user_name);
-        phone_textView.setText(user_phone);
+        //name_textView.setText(user_name);
+        //phone_textView.setText(user_phone);
 
         if(type == 5) {
             non_register = true;

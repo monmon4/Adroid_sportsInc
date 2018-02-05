@@ -130,7 +130,7 @@ public class ListViewExpandable_Adapter_currentClasses extends BaseExpandableLis
         class_start.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                myFragment.clickChildListener(groupPosition,childPosition);
+                myFragment.clickChildListener(groupPosition,child);
             }
         });
 

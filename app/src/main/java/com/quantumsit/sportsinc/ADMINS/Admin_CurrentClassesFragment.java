@@ -1,6 +1,7 @@
 package com.quantumsit.sportsinc.ADMINS;
 
 
+import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
 import android.app.ProgressDialog;
 import android.app.TimePickerDialog;
@@ -37,6 +38,8 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.sql.Time;
+import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -64,6 +67,8 @@ public class Admin_CurrentClassesFragment extends Fragment {
     View root;
     int CurrentPosition = 0;
 
+    Date current_time;
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -71,6 +76,8 @@ public class Admin_CurrentClassesFragment extends Fragment {
 
         root = inflater.inflate(R.layout.fragment_admin__current_classes, container, false);
         globalVars = (GlobalVars) getActivity().getApplication();
+
+        current_time = Calendar.getInstance().getTime();
 
         progressDialog = new ProgressDialog(getContext());
         expandableListView = root.findViewById(R.id.expandableListView_admincurrentclasses);
@@ -91,6 +98,7 @@ public class Admin_CurrentClassesFragment extends Fragment {
     }
 
 
+    @SuppressLint("StaticFieldLeak")
     private void initilizeCurrentClasses() {
         Calendar c = Calendar.getInstance();
         SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
@@ -119,13 +127,14 @@ public class Admin_CurrentClassesFragment extends Fragment {
 
     private void fillAdapter(JSONArray response) {
         list_headers.clear();
+
         if (response != null) {
             try {
                 for (int i = 0; i < response.length(); i++) {
                     item_current_classes entity = new item_current_classes( response.getJSONObject(i));
-                    list_headers.add(entity);
-                    hash_children.put(entity.getId(),list_children);
+                    check_time(entity);
                 }
+
             } catch (JSONException e) {
                 e.printStackTrace();
             }
@@ -133,18 +142,62 @@ public class Admin_CurrentClassesFragment extends Fragment {
         expandableListView_adapter.notifyDataSetChanged();
     }
 
-    public void clickChildListener(int groupPosition ,int childPosition){
+    private void check_time(item_current_classes entity) {
+
+        String startTime = entity.startTime;
+        String endTime = entity.endTime;
+        int status = entity.status;
+
+        double current_time_double = 0;
+        double start_time_double = Double.valueOf(startTime.replace(":", "."));
+        double end_time_double = Double.valueOf(endTime.replace(":", "."));
+        current_time = Calendar.getInstance().getTime();
+        DateFormat time_format = new SimpleDateFormat("hh:mm a");
+        String time = time_format.format(current_time);
+        String[] splitin_time = time.split(" ");
+        if ( splitin_time[1].equals("AM")) {
+            current_time_double = Double.valueOf(splitin_time[0].replace(":", "."));
+
+        } else {
+            current_time_double = Double.valueOf(splitin_time[0].replace(":", "."));
+            current_time_double += 12.00;
+        }
+
+        if (status == 3) {
+            if (start_time_double - current_time_double > 1.0) {
+                list_children.clear();
+                list_children.add("Postpone class");
+                list_children.add("Cancel class");
+            } else if (start_time_double - current_time_double < 0.11) {
+                list_children.clear();
+                list_children.add("Start class");
+            }
+        } else if (status == 0) {
+            list_children.clear();
+            list_children.add("End class");
+        } else {
+            list_children.clear();
+        }
+
+        list_headers.add(entity);
+        hash_children.put(entity.getId(),list_children);
+    }
+
+    ////// me4 b el child position b l name eih!
+    public void clickChildListener(int groupPosition ,String child){
         CurrentPosition = groupPosition;
-        switch (childPosition){
-            case 0:
+        switch (child){
+            case "Start class":
                 startClass();
                 break;
-            case 1:
+            case "Postpone class":
                 postpondClass();
                 break;
-            case 2:
+            case "Cancel class":
                 writeNote(1);
                 break;
+            case "End class":
+                endClass();
         }
     }
 
@@ -369,6 +422,12 @@ public class Admin_CurrentClassesFragment extends Fragment {
             }
         }
         return false;
+    }
+
+    private void endClass() {
+
+
+
     }
 
     private void show_toast(String msg){
