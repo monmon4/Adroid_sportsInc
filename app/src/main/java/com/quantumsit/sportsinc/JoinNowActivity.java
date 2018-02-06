@@ -28,6 +28,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.HashMap;
+import java.util.Locale;
 
 import javax.xml.datatype.Duration;
 
@@ -53,6 +54,8 @@ public class JoinNowActivity extends AppCompatActivity {
         location_textview = findViewById(R.id.locationTextView_joinnow);
         phone_textview = findViewById(R.id.phoneTextView_joinnow);
 
+
+
         if (globalVars.getMyDB().Academy_empty())
             get_info();
 
@@ -74,10 +77,23 @@ public class JoinNowActivity extends AppCompatActivity {
     //map btn is pressed
     public void go_to_maps(View view) {
 
-        Intent intent = new Intent(JoinNowActivity.this, MapsActivity.class);
-        intent.putExtra("Academy_Lat",academy_info.getLat());
-        intent.putExtra("Academy_Lng",academy_info.getLng());
-        intent.putExtra("Academy_Name",academy_info.getName());
+        //Intent intent = new Intent(JoinNowActivity.this, MapsActivity.class);
+        //intent.putExtra("Academy_Lat",academy_info.getLat());
+        //intent.putExtra("Academy_Lng",academy_info.getLng());
+        //intent.putExtra("Academy_Name",academy_info.getName());
+        //startActivity(intent);
+
+        double lat = 0.0 , lng = 0.0;
+
+        if (!academy_info.getLat().equals(""))
+            lat = Double.parseDouble(academy_info.getLat());
+
+        if (!academy_info.getLng().equals(""))
+            lng = Double.parseDouble(academy_info.getLng());
+
+        String geoUri = "http://maps.google.com/maps?q=loc:" + lat + "," + lng + " (" + academy_info.getName() + ")";
+        String uri = String.format(Locale.ENGLISH, "geo:%f,%f", lat, lng);
+        Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(uri));
         startActivity(intent);
     }
 

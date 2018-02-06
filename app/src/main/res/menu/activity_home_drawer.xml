@@ -44,6 +44,12 @@
     <group
         android:id="@+id/menu_bottom"
         android:checkableBehavior="none">
+
+        <item
+            android:id="@+id/nav_contact_us"
+            android:icon="@drawable/ic_side_info"
+            android:title="Contact us" />
+
         <item
             android:id="@+id/nav_logout"
             android:icon="@drawable/ic_side_logout"
