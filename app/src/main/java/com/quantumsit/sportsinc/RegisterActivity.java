@@ -219,7 +219,7 @@ public class RegisterActivity extends AppCompatActivity {
         httpCall.setUrl(Constants.sendSMS);
         HashMap<String,String> params = new HashMap<>();
         params.put("phone",phone);
-        params.put("MSG",verification_msg);
+        params.put("message",verification_msg);
         httpCall.setParams(params);
 
         new HttpRequest(){

@@ -208,6 +208,10 @@
     <string name="no_payment_reports">No payment reports</string>
     <string name="no_courses_reports">No courses reports</string>
     <string name="no_scores">No scores</string>
+    <string name="absent">Absent</string>
+    <string name="no_classes">No Classes Today</string>
+    <string name="no_finished">No finished Courses</string>
+    <string name="no_requests">No Requests</string>
 
 
 </resources>

@@ -39,7 +39,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="200dp"
                 android:layout_marginBottom="40dp"
-                app:srcCompat="@drawable/sportlogo" />
+                app:srcCompat="@drawable/sh_logo" />
 
             <EditText
                 android:id="@+id/phoneEditText_login"

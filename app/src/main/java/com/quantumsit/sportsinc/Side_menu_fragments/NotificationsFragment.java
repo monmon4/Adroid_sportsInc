@@ -6,10 +6,12 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
@@ -18,9 +20,11 @@ import com.quantumsit.sportsinc.Aaa_data.GlobalVars;
 import com.quantumsit.sportsinc.Adapters.NotificationAdapter;
 import com.quantumsit.sportsinc.Backend.HttpCall;
 import com.quantumsit.sportsinc.Backend.HttpRequest;
+import com.quantumsit.sportsinc.CustomView.myCustomListView;
 import com.quantumsit.sportsinc.Entities.NotificationEntity;
 import com.quantumsit.sportsinc.NotificationDetailsActivity;
 import com.quantumsit.sportsinc.R;
+import com.quantumsit.sportsinc.util.ConnectionUtilities;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -38,6 +42,9 @@ public class NotificationsFragment extends Fragment {
 
 
     private NotificationAdapter adapter ;
+    ListView listView;
+    myCustomListView customListView;
+    SwipeRefreshLayout mSwipeRefreshLayout;
     private List<NotificationEntity> notificationList;
 
     @Nullable
@@ -48,8 +55,37 @@ public class NotificationsFragment extends Fragment {
 
         notificationList = new ArrayList<>();
         initializeNotifications();
-        ListView listView = root.findViewById(R.id.notification_listview);
-        listView.setEmptyView(root.findViewById(R.id.empty_text));
+        mSwipeRefreshLayout = root.findViewById(R.id.swipeRefresh);
+        mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                initializeNotifications();
+            }
+        });
+        customListView = root.findViewById(R.id.customListView);
+        customListView.setmEmptyView(R.drawable.ic_assignment,R.string.no_notifications);
+
+        customListView.setOnRetryClick(new myCustomListView.OnRetryClick() {
+            @Override
+            public void onRetry() {
+                initializeNotifications();
+            }
+        });
+        listView = customListView.getListView();
+        listView.setOnScrollListener(new AbsListView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(AbsListView absListView, int scrollState) {
+
+            }
+
+            @Override
+            public void onScroll(AbsListView absListView, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+                int topRowVerticalPosition =
+                        (listView == null || listView.getChildCount() == 0) ?
+                                0 : listView.getChildAt(0).getTop();
+                mSwipeRefreshLayout.setEnabled(firstVisibleItem == 0 && topRowVerticalPosition >= 0);
+            }
+        });
 
         adapter = new NotificationAdapter(getContext(),R.layout.list_item_notification,notificationList);
 
@@ -65,8 +101,20 @@ public class NotificationsFragment extends Fragment {
         });
         return root;
     }
+    private boolean checkConnection() {
+        // first, check connectivity
+        if (ConnectionUtilities
+                .checkInternetConnection(getContext())) {
+            return true;
+        }
+        return false;
+    }
 
     private void initializeNotifications() {
+        if (!checkConnection()){
+            customListView.retry();
+            return;
+        }
         try {
             JSONObject where_info = new JSONObject();
             where_info.put("notification.to_id",globalVars.getId());
@@ -93,18 +141,21 @@ public class NotificationsFragment extends Fragment {
 
     private void fillAdapter(JSONArray response) {
         Log.d(TAG,String.valueOf(response));
+        mSwipeRefreshLayout.setRefreshing(false);
         notificationList.clear();
         if (response != null) {
             try {
                 for (int i = 0; i < response.length(); i++) {
                     NotificationEntity entity = new NotificationEntity(response.getJSONObject(i));
                     notificationList.add(entity);
+                    Log.d("NotificationEntityTest",entity.toString());
                 }
             } catch (JSONException e) {
                 e.printStackTrace();
             }
         }
         adapter.notifyDataSetChanged();
+        customListView.notifyChange(notificationList.size());
     }
 
 

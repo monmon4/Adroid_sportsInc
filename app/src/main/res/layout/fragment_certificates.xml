@@ -5,22 +5,23 @@
     android:layout_height="match_parent"
     tools:context="com.quantumsit.sportsinc.Side_menu_fragments.CertificatesFragment">
 
-    <TextView
-        android:id="@+id/textView_certficates"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:layout_gravity="center"
-        android:text="@string/no_certificates"
-        android:textSize="18sp"
-        android:alpha="0.30"
-        android:textColor="@color/colorRed"
-        android:drawableTop="@drawable/ic_faded_certificates" />
-
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recyclerView_certificates"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:scrollbars="vertical" />
+
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/swipeRefresh"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <com.quantumsit.sportsinc.CustomView.myCustomRecyclerView
+            android:id="@+id/customRecyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+        </com.quantumsit.sportsinc.CustomView.myCustomRecyclerView>
+
+    </android.support.v4.widget.SwipeRefreshLayout>
 
 </FrameLayout>

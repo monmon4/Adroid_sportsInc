@@ -5,19 +5,19 @@
     android:layout_height="match_parent"
     tools:context="com.quantumsit.sportsinc.Side_menu_fragments.RequestsFragment">
 
-    <ImageView
-        android:id="@+id/imageView_requests"
+
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/swipeRefresh"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:src="@drawable/ic_fading_requests" />
+        android:layout_height="match_parent">
 
-    <ListView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:id="@+id/requests_listview">
+        <com.quantumsit.sportsinc.CustomView.myCustomListView
+            android:id="@+id/customListView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+        </com.quantumsit.sportsinc.CustomView.myCustomListView>
 
-
-    </ListView>
+    </android.support.v4.widget.SwipeRefreshLayout>
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/floatingActionButton"

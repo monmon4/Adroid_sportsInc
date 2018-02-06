@@ -7,6 +7,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -21,7 +22,9 @@ import com.quantumsit.sportsinc.Aaa_looks.item1_reports_courses;
 import com.quantumsit.sportsinc.Aaa_looks.item_single_scores;
 import com.quantumsit.sportsinc.Backend.HttpCall;
 import com.quantumsit.sportsinc.Backend.HttpRequest;
+import com.quantumsit.sportsinc.CustomView.myCustomRecyclerView;
 import com.quantumsit.sportsinc.R;
+import com.quantumsit.sportsinc.util.ConnectionUtilities;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -36,14 +39,14 @@ public class ScoresFragment extends Fragment {
 
     private MyCustomLayoutManager layoutManager;
     private RecyclerView recycler_view;
+    myCustomRecyclerView customRecyclerView;
+    SwipeRefreshLayout mSwipeRefreshLayout;
     private RecyclerView_Adapter_scores recycler_view_adapter;
     public List<item_single_scores> list_item;
 
     GlobalVars globalVars;
     int user_id;
 
-    ProgressDialog progressDialog;
-    TextView scores_textView;
 
     @Nullable
     @Override
@@ -52,11 +55,31 @@ public class ScoresFragment extends Fragment {
 
         globalVars = (GlobalVars) getActivity().getApplication();
         user_id = globalVars.getId();
-        progressDialog = new ProgressDialog(getActivity());
-        progressDialog.setMessage("Please wait.....");
-        scores_textView = root.findViewById(R.id.textView_scores);
 
-        recycler_view = root.findViewById(R.id.recyclerView_scores);
+        mSwipeRefreshLayout = root.findViewById(R.id.swipeRefresh);
+        mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                fill_list();
+            }
+        });
+        customRecyclerView = root.findViewById(R.id.customRecyclerView);
+        customRecyclerView.setmEmptyView(R.drawable.ic_faded_my_classes,R.string.no_scores);
+
+        customRecyclerView.setOnRetryClick(new myCustomRecyclerView.OnRetryClick() {
+            @Override
+            public void onRetry() {
+                fill_list();
+            }
+        });
+        recycler_view = customRecyclerView.getRecyclerView();
+        recycler_view.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+
+            }
+        });
 
         recycler_view.setHasFixedSize(false);
 
@@ -65,9 +88,6 @@ public class ScoresFragment extends Fragment {
         layoutManager = new MyCustomLayoutManager(getActivity());
         recycler_view.setLayoutManager(layoutManager);
         recycler_view.smoothScrollToPosition(recycler_view.getVerticalScrollbarPosition());
-
-        scores_textView.setVisibility(View.VISIBLE);
-        recycler_view.setVisibility(View.INVISIBLE);
         fill_list();
 
 
@@ -77,9 +97,21 @@ public class ScoresFragment extends Fragment {
         return root;
     }
 
+    private boolean checkConnection() {
+        // first, check connectivity
+        if (ConnectionUtilities
+                .checkInternetConnection(getContext())) {
+            return true;
+        }
+        return false;
+    }
+
     @SuppressLint("StaticFieldLeak")
     private void fill_list() {
-        progressDialog.show();
+        if (!checkConnection()){
+            customRecyclerView.retry();
+            return;
+        }
 
         JSONObject where_info = new JSONObject();
         try {
@@ -96,32 +128,8 @@ public class ScoresFragment extends Fragment {
                 @Override
                 public void onResponse(JSONArray response) {
                     super.onResponse(response);
-                    try {
+                    fill_recycler_view(response);
 
-                        if (response != null) {
-
-                            for (int i=0; i<response.length(); i++){
-                                JSONObject result = response.getJSONObject(i);
-                                String course_name = result.getString("Course_name");
-                                String group_name = result.getString("Groups_Name");
-                                String class_date = result.getString("class_date");
-                                int class_number = result.getInt("class_num");
-                                int score = result.getInt("score");
-                                String coach_name = result.getString("coach_name");
-                                String coach_notes = result.getString("coach_notes");
-                                list_item.add(new item_single_scores(course_name, group_name, class_date, coach_name, coach_notes, score, class_number));
-                            }
-                            fill_recycler_view();
-
-                        } else {
-                            progressDialog.dismiss();
-                            scores_textView.setVisibility(View.VISIBLE);
-                            recycler_view.setVisibility(View.INVISIBLE);
-
-                        }
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
                 }
             }.execute(httpCall);
 
@@ -130,11 +138,30 @@ public class ScoresFragment extends Fragment {
         }
     }
 
-    private void fill_recycler_view(){
+    private void fill_recycler_view(JSONArray response){
+        list_item.clear();
+        mSwipeRefreshLayout.setRefreshing(false);
+        try {
+            if (response != null) {
+                for (int i=0; i<response.length(); i++){
+                    JSONObject result = response.getJSONObject(i);
+                    String course_name = result.getString("course_name");
+                    String group_name = result.getString("group_name");
+                    String class_date = result.getString("class_date");
+                    int class_number = result.getInt("class_number");
+                    int score = result.getInt("attend");
+                    int attend = result.getInt("score");
+                    String coach_name = result.getString("coach_name");
+                    String coach_notes = result.getString("coach_note");
+                    list_item.add(new item_single_scores(course_name, group_name, class_date, coach_name, coach_notes, attend, score, class_number));
+                }
+
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
         recycler_view_adapter.notifyDataSetChanged();
-        scores_textView.setVisibility(View.INVISIBLE);
-        recycler_view.setVisibility(View.VISIBLE);
-        progressDialog.dismiss();
+        customRecyclerView.notifyChange(list_item.size());
 
     }
 }

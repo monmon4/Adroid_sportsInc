@@ -8,7 +8,6 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
-import com.quantumsit.sportsinc.Aaa_looks.item_request;
 import com.quantumsit.sportsinc.R;
 
 import java.util.ArrayList;
@@ -48,7 +47,7 @@ public class ListView_Adapter_request_coach extends ArrayAdapter<item_request_co
         if (request.status == 0)
             accept.setBackgroundResource(R.drawable.ic_not_checked);
         else if (request.status == 2)
-            accept.setBackgroundResource(R.drawable.ic_waiting);
+            accept.setBackgroundResource(R.drawable.ic_class_waitingg);
         else
             accept.setBackgroundResource(R.drawable.ic_check_circle);
         // Return the completed view to render on screen

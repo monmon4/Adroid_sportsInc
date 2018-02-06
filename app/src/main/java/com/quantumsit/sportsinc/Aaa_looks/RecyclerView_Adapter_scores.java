@@ -46,8 +46,8 @@ public class RecyclerView_Adapter_scores extends RecyclerView.Adapter<RecyclerVi
 
         holder.course_name.setText(List_Item.get(position).course_name);
         holder.date.setText(List_Item.get(position).class_date);
-        holder.class_number.setText(String.valueOf(List_Item.get(position).class_number));
-        holder.score.setText(String.valueOf(List_Item.get(position).score));
+        holder.class_number.setText("Class"+String.valueOf(List_Item.get(position).class_number));
+        holder.score.setText("Score = "+String.valueOf(List_Item.get(position).score));
 
         holder.scores_card.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -58,6 +58,7 @@ public class RecyclerView_Adapter_scores extends RecyclerView.Adapter<RecyclerVi
                 intent.putExtra("class_date", List_Item.get(position).class_date);
                 intent.putExtra("coach_name", List_Item.get(position).coach_name);
                 intent.putExtra("coach_notes", List_Item.get(position).coach_notes);
+                intent.putExtra("attend", List_Item.get(position).attend);
                 intent.putExtra("score", List_Item.get(position).score);
                 intent.putExtra("class_number", List_Item.get(position).class_number);
                 context.startActivity(intent);

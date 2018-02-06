@@ -7,6 +7,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -22,7 +23,9 @@ import com.quantumsit.sportsinc.Aaa_looks.item_single_reports_courses;
 import com.quantumsit.sportsinc.Aaa_looks.item_single_scores;
 import com.quantumsit.sportsinc.Backend.HttpCall;
 import com.quantumsit.sportsinc.Backend.HttpRequest;
+import com.quantumsit.sportsinc.CustomView.myCustomRecyclerView;
 import com.quantumsit.sportsinc.R;
+import com.quantumsit.sportsinc.util.ConnectionUtilities;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -36,12 +39,12 @@ import java.util.List;
 public class CorsesFragment extends Fragment {
 
     private MyCustomLayoutManager layoutManager;
+    myCustomRecyclerView customRecyclerView;
+    SwipeRefreshLayout mSwipeRefreshLayout;
     private RecyclerView recycler_view;
     private RecyclerView_Adapter_reportcourses recycler_view_adapter;
     public List<item_single_reports_courses> list_item;
 
-    TextView corses_tevtView;
-    ProgressDialog progressDialog;
     GlobalVars globalVars;
 
     @Nullable
@@ -51,12 +54,31 @@ public class CorsesFragment extends Fragment {
 
         globalVars = (GlobalVars) getActivity().getApplication();
 
-        recycler_view = root.findViewById(R.id.recyclerView_reportscourses);
-        recycler_view.setHasFixedSize(false);
+        mSwipeRefreshLayout = root.findViewById(R.id.swipeRefresh);
+        mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                fill_list_items();
+            }
+        });
+        customRecyclerView = root.findViewById(R.id.customRecyclerView);
+        customRecyclerView.setmEmptyView(R.drawable.ic_faded_reports,R.string.no_courses_reports);
 
-        corses_tevtView = root.findViewById(R.id.textView_corses);
-        progressDialog = new ProgressDialog(getActivity());
-        progressDialog.setMessage("Please wait......");
+        customRecyclerView.setOnRetryClick(new myCustomRecyclerView.OnRetryClick() {
+            @Override
+            public void onRetry() {
+                fill_list_items();
+            }
+        });
+        recycler_view = customRecyclerView.getRecyclerView();
+        recycler_view.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+
+            }
+        });
+        recycler_view.setHasFixedSize(false);
 
         list_item = new ArrayList<>();
 
@@ -68,16 +90,26 @@ public class CorsesFragment extends Fragment {
 
         recycler_view_adapter = new RecyclerView_Adapter_reportcourses(list_item, getActivity());
         recycler_view.setAdapter(recycler_view_adapter);
-        recycler_view.setVisibility(View.INVISIBLE);
-        corses_tevtView.setVisibility(View.VISIBLE);
 
 
         return root;
     }
 
+    private boolean checkConnection() {
+        // first, check connectivity
+        if (ConnectionUtilities
+                .checkInternetConnection(getContext())) {
+            return true;
+        }
+        return false;
+    }
+
     @SuppressLint("StaticFieldLeak")
     private void fill_list_items() {
-        progressDialog.show();
+        if (!checkConnection()){
+            customRecyclerView.retry();
+            return;
+        }
 
         JSONObject where_info = new JSONObject();
         try {
@@ -90,36 +122,11 @@ public class CorsesFragment extends Fragment {
             params.put("where",where_info.toString());
 
             httpCall.setParams(params);
-            progressDialog.show();
             new HttpRequest(){
                 @Override
                 public void onResponse(JSONArray response) {
                     super.onResponse(response);
-                    try {
-
-                        if (response != null) {
-                            for (int i=0; i<response.length(); i++){
-                                JSONObject result = response.getJSONObject(i);
-                                int course_id = result.getInt("course_id");
-                                int group_id = result.getInt("group_id");
-                                String course_name = result.getString("course_name");
-                                String group_name = result.getString("group_name");
-                                int classes_num = result.getInt("Num_classes");
-                                int attend_num = result.getInt("attend_num");
-                                double attendance = ((double) attend_num/(double) classes_num) *100.0;                                int total_score = result.getInt("total_score");
-                                list_item.add(new item_single_reports_courses(course_name, group_name, course_id, group_id, attendance, total_score));
-                            }
-                            fill_recycler_view();
-
-                        } else {
-                            progressDialog.dismiss();
-                            corses_tevtView.setVisibility(View.VISIBLE);
-                            recycler_view.setVisibility(View.INVISIBLE);
-                        }
-
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
+                    fill_recycler_view(response);
 
                 }
             }.execute(httpCall);
@@ -129,10 +136,28 @@ public class CorsesFragment extends Fragment {
         }
     }
 
-    private void fill_recycler_view() {
+    private void fill_recycler_view(JSONArray response) {
+        list_item.clear();
+        mSwipeRefreshLayout.setRefreshing(false);
+        try {
+            if (response != null) {
+                for (int i=0; i<response.length(); i++){
+                    JSONObject result = response.getJSONObject(i);
+                    int course_id = result.getInt("course_id");
+                    int group_id = result.getInt("group_id");
+                    String course_name = result.getString("course_name");
+                    String group_name = result.getString("group_name");
+                    int classes_num = result.getInt("Num_classes");
+                    int attend_num = result.getInt("attend_num");
+                    double attendance = ((double) attend_num/(double) classes_num) *100.0;
+                    int total_score = result.getInt("total_score");
+                    list_item.add(new item_single_reports_courses(course_name, group_name, course_id, group_id, attendance, total_score));
+                }
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
         recycler_view_adapter.notifyDataSetChanged();
-        recycler_view.setVisibility(View.VISIBLE);
-        corses_tevtView.setVisibility(View.INVISIBLE);
-        progressDialog.dismiss();
+        customRecyclerView.notifyChange(list_item.size());
     }
 }

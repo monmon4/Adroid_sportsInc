@@ -12,7 +12,7 @@ public interface Constants {
     String updateData = server + "updatedata";
     String insertData = server + "insertdata";
     String classesData = server + "class_Details";
-    String admin_cuurentClasses = server + "current_classes";
+    String admin_currentClasses = server + "current_classes";
     String coach_running_class = server + "running_classes";
     String coach_courses = server + "coach_coursesName";
     String coach_classes = server + "coach_classesName";

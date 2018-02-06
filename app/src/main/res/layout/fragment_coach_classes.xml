@@ -50,13 +50,19 @@
                     android:textColor="@color/colorTextDark"
                     android:textSize="18dp"
                     android:textStyle="bold" />
-
-                <ExpandableListView
-                    android:id="@+id/notFinishedCoursesExpandableListView_coachclasses"
+                <android.support.v4.widget.SwipeRefreshLayout
+                    android:id="@+id/swipeRefresh"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:groupIndicator="@drawable/expandable_listview_arrow"
-                    android:layout_margin="10dp" />
+                    android:layout_height="match_parent">
+
+                    <com.quantumsit.sportsinc.CustomView.myCustomExpandableListView
+                        android:id="@+id/customExpandableListView"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_margin="10dp">
+                    </com.quantumsit.sportsinc.CustomView.myCustomExpandableListView>
+
+                </android.support.v4.widget.SwipeRefreshLayout>
             </LinearLayout>
         </android.support.v7.widget.CardView>
 

@@ -16,7 +16,7 @@ import java.util.Date;
 public class item_current_classes implements Serializable{
 
     String class_number, class_date, startTime ,endTime , postpone_date, postpone_startTime ,postpone_endTime ,coach_Name , poolName;
-    int id,coach_id , status;
+    int id,coach_id , group_id , status;
 
     public item_current_classes(String class_number, String class_date, String startTime ) {
         this.class_number = class_number;
@@ -28,6 +28,7 @@ public class item_current_classes implements Serializable{
         try {
             id = jsonObject.getInt("class_ID");
             coach_id = jsonObject.getInt("coach_id");
+            group_id = jsonObject.getInt("group_id");
             class_number = " Class "+jsonObject.getString("class_Name");
             coach_Name = jsonObject.getString("coach_name");
             poolName = jsonObject.getString("pool_name");
@@ -117,6 +118,14 @@ public class item_current_classes implements Serializable{
 
     public int getCoach_id() {
         return coach_id;
+    }
+
+    public int getGroup_id() {
+        return group_id;
+    }
+
+    public void setGroup_id(int group_id) {
+        this.group_id = group_id;
     }
 
     public void setCoach_id(int coach_id) {

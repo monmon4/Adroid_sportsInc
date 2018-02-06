@@ -10,9 +10,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.quantumsit.sportsinc.ADMINS.Admin_CurrentClassAttendanceFragment;
-import com.quantumsit.sportsinc.ADMINS.Admin_CurrentClassNoteFragment;
-import com.quantumsit.sportsinc.ADMINS.Admin_CurrentClassRulesFragment;
 import com.quantumsit.sportsinc.Aaa_data.GlobalVars;
 import com.quantumsit.sportsinc.Adapters.SectionsPagerAdapter;
 import com.quantumsit.sportsinc.R;

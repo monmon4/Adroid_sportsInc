@@ -4,6 +4,7 @@ import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -68,7 +69,6 @@ public class ListViewExpandable_Adapter_currentClasses extends BaseExpandableLis
 
     @Override
     public Object getChild(int groupPosition, int childPosititon) {
-
         return this.child_hashmap.get(this.header_list.get(groupPosition).id)
                 .get(childPosititon);
     }
@@ -118,19 +118,26 @@ public class ListViewExpandable_Adapter_currentClasses extends BaseExpandableLis
 
         class_start.setText(child);
 
-        if (childPosition == 0){
+        if (child.equals("Start class")){
             class_image.setBackgroundResource(R.drawable.ic_class_swim);
-        } else if (childPosition == 1) {
+        } else if (child.equals("Postpone class")) {
             class_image.setBackgroundResource(R.drawable.ic_class_time);
-        } else {
+        } else if (child.equals("Cancel class")){
             class_image.setBackgroundResource(R.drawable.ic_class_cancel);
+        } else if (child.equals("End class")){
+            class_image.setBackgroundResource(R.drawable.ic_class_end);
+        } else if (child.equals("Up coming")){
+            class_image.setBackgroundResource(R.drawable.ic_class_waitingg);
+            class_start.setTextColor(Color.parseColor("#ed4e4d4d"));
+        } else if (child.equals("Check rules and attendance")){
+            class_image.setBackgroundResource(R.drawable.ic_class_rules);
         }
 
 
         class_start.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                myFragment.clickChildListener(groupPosition,childPosition);
+                myFragment.clickChildListener(groupPosition,child);
             }
         });
 
