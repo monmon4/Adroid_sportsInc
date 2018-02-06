@@ -129,6 +129,8 @@ public class ListViewExpandable_Adapter_currentClasses extends BaseExpandableLis
         } else if (child.equals("Up coming")){
             class_image.setBackgroundResource(R.drawable.ic_class_waitingg);
             class_start.setTextColor(Color.parseColor("#ed4e4d4d"));
+        } else if (child.equals("Check rules and attendance")){
+            class_image.setBackgroundResource(R.drawable.ic_class_rules);
         }
 
 

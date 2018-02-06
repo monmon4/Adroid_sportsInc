@@ -214,6 +214,7 @@ public class Admin_CurrentClassesFragment extends Fragment {
             if (status == 3) {
                 if (start_time_double - current_time_double > 1.0) {
                     //list_children.clear();
+                    list_new_child.add("Check rules and attendance");
                     list_new_child.add("Postpone class");
                     list_new_child.add("Cancel class");
                 } else if (start_time_double - current_time_double < 0.11) {
@@ -248,10 +249,12 @@ public class Admin_CurrentClassesFragment extends Fragment {
                 break;
             case "End class":
                 endClass();
+            case "Check rules and attendance":
+                checkClass();
         }
     }
 
-    private void startClass() {
+    private void checkClass() {
         Intent intent = new Intent(getContext(), AdminStartClassActivity.class);
         intent.putExtra("adminClass",list_headers.get(CurrentPosition));
         startActivity(intent);
@@ -512,18 +515,6 @@ public class Admin_CurrentClassesFragment extends Fragment {
         }
     }
 
-    private boolean checkResponse(JSONArray response) {
-        if (response != null){
-            try {
-                String result = response.getString(0);
-                if (!result.equals("ERROR"))
-                    return true;
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-        }
-        return false;
-    }
 
     @SuppressLint("StaticFieldLeak")
     private void endClass() {
@@ -540,35 +531,84 @@ public class Admin_CurrentClassesFragment extends Fragment {
             httpCall.setUrl(Constants.updateData);
             final HashMap<String,String> params = new HashMap<>();
             params.put("table","classes");
-            params.put("notify","1");
-            params.put("admin_id",String.valueOf(globalVars.getId()));
+            //params.put("notify","1");
+            //params.put("admin_id",String.valueOf(globalVars.getId()));
             params.put("where",where.toString());
             params.put("values",values.toString());
 
             httpCall.setParams(params);
 
-            progressDialog.show();
             new HttpRequest(){
                 @Override
                 public void onResponse(JSONArray response) {
                     super.onResponse(response);
                     if(checkResponse(response)) {
-                        show_toast(list_headers.get(CurrentPosition).class_number+" has been canceled");
+                        show_toast(list_headers.get(CurrentPosition).class_number+" has been closed");
                         list_headers.remove(CurrentPosition);
                         expandableListView_adapter.notifyDataSetChanged();
                     }else {
                         show_toast("Fail To end class...");
                     }
-                    progressDialog.dismiss();
                 }
             }.execute(httpCall);
 
         } catch (JSONException e) {
             e.printStackTrace();
         }
-
-
     }
+
+    private void startClass() {
+        try {
+            JSONObject where_info = new JSONObject();
+            where_info.put("id",list_headers.get(CurrentPosition).getId());
+
+            JSONObject values = new JSONObject();
+            values.put("status",0);
+
+            HttpCall httpCall = new HttpCall();
+            httpCall.setMethodtype(HttpCall.POST);
+            httpCall.setUrl(Constants.updateData);
+
+            HashMap<String, String> params = new HashMap<>();
+            params.put("table","classes");
+            params.put("values",values.toString());
+            params.put("where", where_info.toString());
+
+            httpCall.setParams(params);
+
+            new HttpRequest() {
+                @Override
+                public void onResponse(JSONArray response) {
+                    super.onResponse(response);
+                    if(checkResponse(response)) {
+                        Toast.makeText(getActivity(),"class is started",Toast.LENGTH_SHORT).show();
+                        initializeCurrentClasses();
+
+                    }else {
+                        Toast.makeText(getActivity(), "Failed To start the class", Toast.LENGTH_SHORT).show();
+                    }
+                    progressDialog.dismiss();
+                }
+            }.execute(httpCall);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private boolean checkResponse(JSONArray response) {
+        if (response != null){
+            try {
+                String result = response.getString(0);
+                if (!result.equals("ERROR"))
+                    return true;
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+        return false;
+    }
+
+
 
     private void show_toast(String msg){
         Toast.makeText(getContext(),msg,Toast.LENGTH_SHORT).show();

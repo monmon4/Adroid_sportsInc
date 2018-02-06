@@ -13,30 +13,57 @@
         android:orientation="vertical">
 
         <TextView
-            android:id="@+id/textView5"
+            android:id="@+id/textView6"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:text="@string/attendance"
             android:textColor="@color/colorText"
-            android:textStyle="bold"
-            android:text="@string/attendance" />
+            android:textStyle="bold" />
 
         <CheckBox
-            android:id="@+id/coachNameCheckBox_admincurrentclass"
+            android:id="@+id/coachNameCheckBox_admincurrentclass2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="10dp"
-            android:layout_marginStart="10dp"
             android:layout_marginEnd="10dp"
-            android:textColor="@color/colorText"
-            android:text="@string/coach_s_name" />
+            android:layout_marginStart="10dp"
+            android:text="@string/coach_s_name"
+            android:textColor="@color/colorText" />
 
         <EditText
-            android:id="@+id/notesEditText_admincurrentclass"
+            android:id="@+id/attendancenotesEditText_admincurrentclass2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_margin="10dp"
             android:ems="10"
             android:hint="Notes"
+            android:inputType="textMultiLine" />
+
+        <TextView
+            android:id="@+id/Rules"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Rules"
+            android:textColor="@color/colorText"
+            android:textStyle="bold" />
+
+        <CheckBox
+            android:id="@+id/rulesCheckBox_admincurrentclass"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:layout_marginEnd="10dp"
+            android:layout_marginStart="10dp"
+            android:text="Rules are checked"
+            android:textColor="@color/colorText" />
+
+        <EditText
+            android:id="@+id/rulesnotesEditText_admincurrentclass"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:layout_margin="10dp"
+            android:ems="10"
+            android:hint="Notes"
             android:inputType="textMultiLine" />
 
         <Button
