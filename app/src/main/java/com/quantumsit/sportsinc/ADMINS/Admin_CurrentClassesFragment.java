@@ -84,9 +84,7 @@ public class Admin_CurrentClassesFragment extends Fragment {
 
         list_headers = new ArrayList<>();
         list_children = new ArrayList<>();
-        list_children.add("Start class");
-        list_children.add("Postpone class");
-        list_children.add("Cancel class");
+        list_children.add(" ");
         hash_children = new HashMap<>();
 
         initilizeCurrentClasses();
@@ -145,11 +143,14 @@ public class Admin_CurrentClassesFragment extends Fragment {
 
     private void check_time() {
 
+        ArrayList <String> list = new ArrayList<>();
+
         for (int i=0; i<list_headers.size(); i++){
             item_current_classes entity = list_headers.get(i);
             String startTime = entity.startTime;
             String endTime = entity.endTime;
             int status = entity.status;
+            ArrayList <String> list_new_child = new ArrayList<>();
 
             double current_time_double = 0;
             double start_time_double = Double.valueOf(startTime.replace(":", "."));
@@ -158,31 +159,31 @@ public class Admin_CurrentClassesFragment extends Fragment {
             DateFormat time_format = new SimpleDateFormat("hh:mm a");
             String time = time_format.format(current_time);
             String[] splitin_time = time.split(" ");
-            if ( splitin_time[1].equals("AM")) {
-                current_time_double = Double.valueOf(splitin_time[0].replace(":", "."));
 
-            } else {
-                current_time_double = Double.valueOf(splitin_time[0].replace(":", "."));
+            current_time_double = Double.valueOf(splitin_time[0].replace(":", "."));
+            if ( splitin_time[1].equals("PM") && current_time_double - 12 > 1) {
                 current_time_double += 12.00;
             }
 
             if (status == 3) {
                 if (start_time_double - current_time_double > 1.0) {
-                    list_children.clear();
-                    list_children.add("Postpone class");
-                    list_children.add("Cancel class");
+                    //list_children.clear();
+                    list_new_child.add("Postpone class");
+                    list_new_child.add("Cancel class");
                 } else if (start_time_double - current_time_double < 0.11) {
-                    list_children.clear();
-                    list_children.add("Start class");
+                    //list_children.clear();
+                    list_new_child.add("Start class");
+                } else {
+                    list_new_child.add("Up coming");
                 }
             } else if (status == 0) {
-                list_children.clear();
-                list_children.add("End class");
+                //list_children.clear();
+                list_new_child.add("End class");
             } else {
-                list_children.clear();
+                list_new_child.add("Up coming");
             }
 
-            hash_children.put(entity.getId(),list_children);
+            hash_children.put(entity.getId(),list_new_child);
         }
 
         expandableListView_adapter.notifyDataSetChanged();
@@ -430,8 +431,47 @@ public class Admin_CurrentClassesFragment extends Fragment {
         return false;
     }
 
+    @SuppressLint("StaticFieldLeak")
     private void endClass() {
 
+        try {
+            JSONObject values = new JSONObject();
+            values.put("status",4);
+
+            JSONObject where = new JSONObject();
+            where.put("id",list_headers.get(CurrentPosition).getId());
+
+            HttpCall httpCall = new HttpCall();
+            httpCall.setMethodtype(HttpCall.POST);
+            httpCall.setUrl(Constants.updateData);
+            final HashMap<String,String> params = new HashMap<>();
+            params.put("table","classes");
+            params.put("notify","1");
+            params.put("admin_id",String.valueOf(globalVars.getId()));
+            params.put("where",where.toString());
+            params.put("values",values.toString());
+
+            httpCall.setParams(params);
+
+            progressDialog.show();
+            new HttpRequest(){
+                @Override
+                public void onResponse(JSONArray response) {
+                    super.onResponse(response);
+                    if(checkResponse(response)) {
+                        show_toast(list_headers.get(CurrentPosition).class_number+" has been canceled");
+                        list_headers.remove(CurrentPosition);
+                        expandableListView_adapter.notifyDataSetChanged();
+                    }else {
+                        show_toast("Fail To end class...");
+                    }
+                    progressDialog.dismiss();
+                }
+            }.execute(httpCall);
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
 
 
     }
