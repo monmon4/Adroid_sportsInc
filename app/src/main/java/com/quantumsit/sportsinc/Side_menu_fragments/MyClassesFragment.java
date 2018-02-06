@@ -56,8 +56,6 @@ public class MyClassesFragment extends Fragment {
 
     public void setupViewPager(ViewPager viewPager) {
         myclasses_sectionsPagerAdapter = new SectionsPagerAdapter(getChildFragmentManager());
-        myclasses_sectionsPagerAdapter.addFragment(new CalendarFragment(),"Calender");
-
         if(parent){
             myclasses_sectionsPagerAdapter.addFragment(new ScoresFragment(),"Scores");
         }else if (coach){
@@ -65,7 +63,7 @@ public class MyClassesFragment extends Fragment {
         } else {
             myclasses_sectionsPagerAdapter.addFragment(new Admin_CurrentClassesFragment(),"Current classes");
         }
-
+        myclasses_sectionsPagerAdapter.addFragment(new CalendarFragment(),"Calender");
 
         myclasses_view_pager.setAdapter(myclasses_sectionsPagerAdapter);
 

@@ -6,6 +6,7 @@ import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -23,7 +24,9 @@ import com.quantumsit.sportsinc.Aaa_looks.item_reports_payment;
 import com.quantumsit.sportsinc.Aaa_looks.item_single_reports_courses;
 import com.quantumsit.sportsinc.Backend.HttpCall;
 import com.quantumsit.sportsinc.Backend.HttpRequest;
+import com.quantumsit.sportsinc.CustomView.myCustomRecyclerView;
 import com.quantumsit.sportsinc.R;
+import com.quantumsit.sportsinc.util.ConnectionUtilities;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -42,12 +45,12 @@ import java.util.HashMap;
 public class PaymentFragment extends Fragment {
 
     private MyCustomLayoutManager layoutManager;
+    myCustomRecyclerView customRecyclerView;
+    SwipeRefreshLayout mSwipeRefreshLayout;
     RecyclerView recyclerView;
     RecyclerView_Adapter_reportpayment recyclerView_adapter_reportpayment;
 
     ArrayList<item_reports_payment> list_item;
-    ProgressDialog progressDialog;
-    TextView payment_textView;
 
     GlobalVars globalVars;
 
@@ -58,11 +61,31 @@ public class PaymentFragment extends Fragment {
         View root = inflater.inflate(R.layout.fragment_payment,container,false);
 
         globalVars = (GlobalVars) getActivity().getApplication();
-        progressDialog = new ProgressDialog(getActivity());
-        progressDialog.setMessage("Please wait.....");
-        payment_textView = root.findViewById(R.id.textView_payment);
 
-        recyclerView = root.findViewById(R.id.recyclerView_reportspayment);
+        mSwipeRefreshLayout = root.findViewById(R.id.swipeRefresh);
+        mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                fill_payment_list();
+            }
+        });
+        customRecyclerView = root.findViewById(R.id.customRecyclerView);
+        customRecyclerView.setmEmptyView(R.drawable.ic_faded_reports,R.string.no_payment_reports);
+
+        customRecyclerView.setOnRetryClick(new myCustomRecyclerView.OnRetryClick() {
+            @Override
+            public void onRetry() {
+                fill_payment_list();
+            }
+        });
+        recyclerView = customRecyclerView.getRecyclerView();
+        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+
+            }
+        });
         recyclerView.setHasFixedSize(false);
 
         list_item = new ArrayList<>();
@@ -71,8 +94,6 @@ public class PaymentFragment extends Fragment {
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.smoothScrollToPosition(recyclerView.getVerticalScrollbarPosition());
 
-        recyclerView.setVisibility(View.INVISIBLE);
-        payment_textView.setVisibility(View.VISIBLE);
         fill_payment_list();
 
         /*
@@ -95,9 +116,21 @@ public class PaymentFragment extends Fragment {
         return root;
     }
 
+    private boolean checkConnection() {
+        // first, check connectivity
+        if (ConnectionUtilities
+                .checkInternetConnection(getContext())) {
+            return true;
+        }
+        return false;
+    }
+
     @SuppressLint("StaticFieldLeak")
     private void fill_payment_list() {
-        progressDialog.show();
+        if (!checkConnection()){
+            customRecyclerView.retry();
+            return;
+        }
         JSONObject where_info = new JSONObject();
         String on_condition;
         try {
@@ -118,42 +151,8 @@ public class PaymentFragment extends Fragment {
                 @Override
                 public void onResponse(JSONArray response) {
                     super.onResponse(response);
-                    try {
+                    fill_recycler_view(response);
 
-                        if (response != null) {
-                            JSONObject result;
-                            Date date_due, date_creation;
-                            DateFormat outdateFormat = new SimpleDateFormat("dd/MM/yyyy");
-                            DateFormat creationDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-                            DateFormat dueDateFormat = new SimpleDateFormat("yyyy-MM-dd");
-
-                            for (int i=0; i<response.length(); i++){
-                                result = response.getJSONObject(i);
-                                String course_name = result.getString("name");
-                                String due_date = result.getString("due_date");
-                                date_due = dueDateFormat.parse(due_date);
-                                due_date = outdateFormat.format(date_due);
-                                String creation_date = result.getString("c_date");
-                                date_creation = creationDateFormat.parse(creation_date);
-                                creation_date = outdateFormat.format(date_creation);
-                                int amount = result.getInt("due_amount");
-                                int status = result.getInt("status");
-
-                                list_item.add(new item_reports_payment(course_name, creation_date, amount, due_date, status));
-                                fill_recycler_view();
-                            }
-
-
-
-                        } else {
-                            Toast.makeText(getContext(), "An error occurred ", Toast.LENGTH_SHORT).show();
-                        }
-
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    } catch (ParseException e) {
-                        e.printStackTrace();
-                    }
                 }
 
 
@@ -164,12 +163,39 @@ public class PaymentFragment extends Fragment {
         }
     }
 
-    private  void fill_recycler_view(){
+    private  void fill_recycler_view(JSONArray response){
+        list_item.clear();
+        mSwipeRefreshLayout.setRefreshing(false);
+        try {
+            if (response != null) {
+                JSONObject result;
+                Date date_due, date_creation;
+                DateFormat outdateFormat = new SimpleDateFormat("dd/MM/yyyy");
+                DateFormat creationDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                DateFormat dueDateFormat = new SimpleDateFormat("yyyy-MM-dd");
 
+                for (int i = 0; i < response.length(); i++) {
+                    result = response.getJSONObject(i);
+                    String course_name = result.getString("name");
+                    String due_date = result.getString("due_date");
+                    date_due = dueDateFormat.parse(due_date);
+                    due_date = outdateFormat.format(date_due);
+                    String creation_date = result.getString("c_date");
+                    date_creation = creationDateFormat.parse(creation_date);
+                    creation_date = outdateFormat.format(date_creation);
+                    int amount = result.getInt("due_amount");
+                    int status = result.getInt("status");
+
+                    list_item.add(new item_reports_payment(course_name, creation_date, amount, due_date, status));
+                }
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
         recyclerView_adapter_reportpayment.notifyDataSetChanged();
-        recyclerView.setVisibility(View.VISIBLE);
-        payment_textView.setVisibility(View.INVISIBLE);
-        progressDialog.dismiss();
+        customRecyclerView.notifyChange(list_item.size());
     }
 
 

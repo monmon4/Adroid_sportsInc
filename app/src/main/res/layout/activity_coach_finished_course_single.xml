@@ -49,19 +49,6 @@
 
         </LinearLayout>
 
-        <!--EditText
-            android:id="@+id/coachNoteEditText_singleFinishedCourse"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="24dp"
-            android:layout_marginLeft="24dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginBottom="10dp"
-            android:layout_marginEnd="24dp"
-            android:layout_marginRight="24dp"
-            android:hint="@string/coach_s_notes"
-            android:inputType="textMultiLine" /-->
-
         <ListView
             android:id="@+id/listView_singleFinishedCourse"
             android:layout_width="match_parent"
@@ -70,17 +57,5 @@
             android:layout_marginLeft="24dp"/>
 
     </LinearLayout>
-
-    <!--android.support.design.widget.FloatingActionButton
-        android:id="@+id/floatingActionButton_singleFinishedCourse"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentRight="true"
-        android:layout_marginTop="30dp"
-        android:layout_marginRight="5dp"
-        android:layout_marginEnd="5dp"
-        android:clickable="true"
-        android:src="@drawable/ic_done_all_white" /-->
 
 </RelativeLayout>

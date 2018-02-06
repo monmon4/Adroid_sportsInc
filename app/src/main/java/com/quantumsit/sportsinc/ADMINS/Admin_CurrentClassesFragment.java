@@ -10,12 +10,14 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.widget.AbsListView;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
@@ -29,7 +31,9 @@ import com.quantumsit.sportsinc.Aaa_data.Constants;
 import com.quantumsit.sportsinc.Aaa_data.GlobalVars;
 import com.quantumsit.sportsinc.Backend.HttpCall;
 import com.quantumsit.sportsinc.Backend.HttpRequest;
+import com.quantumsit.sportsinc.CustomView.myCustomExpandableListView;
 import com.quantumsit.sportsinc.R;
+import com.quantumsit.sportsinc.util.ConnectionUtilities;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -52,6 +56,8 @@ public class Admin_CurrentClassesFragment extends Fragment {
     PopupWindow popupWindow;
     ProgressDialog progressDialog;
 
+    myCustomExpandableListView customExpandableListView;
+    SwipeRefreshLayout mSwipeRefreshLayout;
     ExpandableListView expandableListView;
     ListViewExpandable_Adapter_currentClasses expandableListView_adapter;
 
@@ -76,7 +82,37 @@ public class Admin_CurrentClassesFragment extends Fragment {
         current_time = Calendar.getInstance().getTime();
 
         progressDialog = new ProgressDialog(getContext());
-        expandableListView = root.findViewById(R.id.expandableListView_admincurrentclasses);
+        mSwipeRefreshLayout = root.findViewById(R.id.swipeRefresh);
+        mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                initializeCurrentClasses();
+            }
+        });
+        customExpandableListView = root.findViewById(R.id.customExpandableListView);
+        customExpandableListView.setmEmptyView(R.drawable.ic_assignment,R.string.no_classes);
+
+        customExpandableListView.setOnRetryClick(new myCustomExpandableListView.OnRetryClick() {
+            @Override
+            public void onRetry() {
+                initializeCurrentClasses();
+            }
+        });
+        expandableListView = customExpandableListView.getExpandableListView();
+        expandableListView.setOnScrollListener(new AbsListView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(AbsListView absListView, int scrollState) {
+
+            }
+
+            @Override
+            public void onScroll(AbsListView absListView, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+                int topRowVerticalPosition =
+                        (expandableListView == null || expandableListView.getChildCount() == 0) ?
+                                0 : expandableListView.getChildAt(0).getTop();
+                mSwipeRefreshLayout.setEnabled(firstVisibleItem == 0 && topRowVerticalPosition >= 0);
+            }
+        });
 
         list_headers = new ArrayList<>();
         list_children = new ArrayList<>();
@@ -91,10 +127,21 @@ public class Admin_CurrentClassesFragment extends Fragment {
         return root;
     }
 
+    private boolean checkConnection() {
+        // first, check connectivity
+        if (ConnectionUtilities
+                .checkInternetConnection(getContext())) {
+            return true;
+        }
+        return false;
+    }
 
     @SuppressLint("StaticFieldLeak")
     private void initializeCurrentClasses() {
-        progressDialog.show();
+        if (!checkConnection()){
+            customExpandableListView.retry();
+            return;
+        }
         Calendar c = Calendar.getInstance();
         SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
         String Today = df.format(c.getTime());
@@ -121,6 +168,7 @@ public class Admin_CurrentClassesFragment extends Fragment {
     }
 
     private void fillAdapter(JSONArray response) {
+        mSwipeRefreshLayout.setRefreshing(false);
         list_headers.clear();
 
         if (response != null) {
@@ -135,6 +183,8 @@ public class Admin_CurrentClassesFragment extends Fragment {
                 e.printStackTrace();
             }
         }
+        expandableListView_adapter.notifyDataSetChanged();
+        customExpandableListView.notifyChange(list_headers.size());
     }
 
     private void check_time() {
@@ -181,9 +231,6 @@ public class Admin_CurrentClassesFragment extends Fragment {
 
             hash_children.put(entity.getId(),list_new_child);
         }
-
-        expandableListView_adapter.notifyDataSetChanged();
-        progressDialog.dismiss();
     }
 
     ////// me4 b el child position b l name eih!
@@ -319,16 +366,16 @@ public class Admin_CurrentClassesFragment extends Fragment {
         try {
             item_current_classes postponed_class = list_headers.get(CurrentPosition);
             Date PostponeDate = showPostponedTime();
-            SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy hh:mm");
+            SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy HH:mm");
             String date = df.format(PostponeDate);
 
             df = new SimpleDateFormat("yyyy-MM-dd");
             String postponedDate = df.format(PostponeDate);
-            df = new SimpleDateFormat("hh:mm");
+            df = new SimpleDateFormat("HH:mm");
             String postponedTime = df.format(PostponeDate);
 
             JSONObject values_info = new JSONObject();
-            values_info.put("class_number",postponed_class.getClass_number());
+            values_info.put("class_number",postponed_class.class_number);
             values_info.put("class_date",postponedDate);
             values_info.put("class_time",postponedTime);
             values_info.put("group_id",postponed_class.getGroup_id());
@@ -342,6 +389,7 @@ public class Admin_CurrentClassesFragment extends Fragment {
             params.put("values",values_info.toString());
 
             httpCall.setParams(params);
+            progressDialog.show();
 
             new HttpRequest(){
                 @Override
@@ -350,6 +398,7 @@ public class Admin_CurrentClassesFragment extends Fragment {
                     if(checkResponse(response)){
                         try {
                             int id = response.getInt(0);
+                            Log.d(TAG,String.valueOf(id));
                             savePostponedTime(id,notes);
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -369,12 +418,12 @@ public class Admin_CurrentClassesFragment extends Fragment {
     private void savePostponedTime(int class_postponed_id ,String note) {
         try {
             Date PostponeDate = showPostponedTime();
-            SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy hh:mm");
+            SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy HH:mm");
             String date = df.format(PostponeDate);
             final String msg = list_headers.get(CurrentPosition).class_number+" has been postponed to\n\t"+date;
             df = new SimpleDateFormat("yyyy-MM-dd");
             String postponedDate = df.format(PostponeDate);
-            df = new SimpleDateFormat("hh:mm");
+            df = new SimpleDateFormat("HH:mm");
             String postponedTime = df.format(PostponeDate);
 
             JSONObject values = new JSONObject();
@@ -400,7 +449,6 @@ public class Admin_CurrentClassesFragment extends Fragment {
 
             httpCall.setParams(params);
 
-            progressDialog.show();
             new HttpRequest(){
                 @Override
                 public void onResponse(JSONArray response) {

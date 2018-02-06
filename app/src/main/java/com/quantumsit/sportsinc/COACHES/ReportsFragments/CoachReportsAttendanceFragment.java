@@ -1,9 +1,11 @@
 package com.quantumsit.sportsinc.COACHES.ReportsFragments;
 
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -18,7 +20,9 @@ import com.quantumsit.sportsinc.Aaa_data.GlobalVars;
 import com.quantumsit.sportsinc.Aaa_looks.MyCustomLayoutManager;
 import com.quantumsit.sportsinc.Backend.HttpCall;
 import com.quantumsit.sportsinc.Backend.HttpRequest;
+import com.quantumsit.sportsinc.CustomView.myCustomRecyclerView;
 import com.quantumsit.sportsinc.R;
+import com.quantumsit.sportsinc.util.ConnectionUtilities;
 import com.weiwangcn.betterspinner.library.material.MaterialBetterSpinner;
 
 import org.json.JSONArray;
@@ -38,6 +42,8 @@ public class CoachReportsAttendanceFragment extends Fragment {
     GlobalVars globalVars;
 
     MyCustomLayoutManager layoutManager;
+    myCustomRecyclerView customRecyclerView;
+    SwipeRefreshLayout mSwipeRefreshLayout;
     RecyclerView recyclerView;
     RecyclerView_Adapter_reportattendance recyclerView_adapter_reportattendance;
 
@@ -55,7 +61,30 @@ public class CoachReportsAttendanceFragment extends Fragment {
         globalVars = (GlobalVars) getActivity().getApplication();
 
         layoutManager = new MyCustomLayoutManager(getActivity());
-        recyclerView = root.findViewById(R.id.recyclerView_reportsattendance);
+        mSwipeRefreshLayout = root.findViewById(R.id.swipeRefresh);
+        mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                initilizeAttendList();
+            }
+        });
+        customRecyclerView = root.findViewById(R.id.customRecyclerView);
+        customRecyclerView.setmEmptyView(R.drawable.ic_faded_certificates,R.string.no_certificates);
+
+        customRecyclerView.setOnRetryClick(new myCustomRecyclerView.OnRetryClick() {
+            @Override
+            public void onRetry() {
+                initilizeAttendList();
+            }
+        });
+        recyclerView = customRecyclerView.getRecyclerView();
+        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+
+            }
+        });
         list_items = new ArrayList<>();
         all_items = new ArrayList<>();
 
@@ -97,8 +126,20 @@ public class CoachReportsAttendanceFragment extends Fragment {
         }
         recyclerView_adapter_reportattendance.notifyDataSetChanged();
     }
+    private boolean checkConnection() {
+        // first, check connectivity
+        if (ConnectionUtilities
+                .checkInternetConnection(getContext())) {
+            return true;
+        }
+        return false;
+    }
 
     private void initilizeAttendList() {
+        if (!checkConnection()){
+            customRecyclerView.retry();
+            return;
+        }
         try {
             JSONObject where_info = new JSONObject();
             where_info.put("user_id",globalVars.getId());
@@ -126,6 +167,7 @@ public class CoachReportsAttendanceFragment extends Fragment {
     }
 
     private void fillAdapter(JSONArray response) {
+        mSwipeRefreshLayout.setRefreshing(false);
         list_items.clear();
         all_items.clear();
         if (response != null) {
@@ -140,6 +182,7 @@ public class CoachReportsAttendanceFragment extends Fragment {
             }
         }
         recyclerView_adapter_reportattendance.notifyDataSetChanged();
+        customRecyclerView.notifyChange(list_items.size());
     }
 
 }

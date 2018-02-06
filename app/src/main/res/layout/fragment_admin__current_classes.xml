@@ -8,10 +8,17 @@
     tools:context="com.quantumsit.sportsinc.ADMINS.Admin_CurrentClassesFragment">
 
 
-    <ExpandableListView
-        android:id="@+id/expandableListView_admincurrentclasses"
-        android:groupIndicator="@drawable/expandable_listview_arrow"
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/swipeRefresh"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent">
+
+        <com.quantumsit.sportsinc.CustomView.myCustomExpandableListView
+            android:id="@+id/customExpandableListView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+        </com.quantumsit.sportsinc.CustomView.myCustomExpandableListView>
+
+    </android.support.v4.widget.SwipeRefreshLayout>
 
 </RelativeLayout>

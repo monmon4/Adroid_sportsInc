@@ -21,7 +21,7 @@ public class SplashScreenActivity extends AppCompatActivity {
 
 
     // Splash screen timer
-    private static int SPLASH_TIME_OUT = 2500;
+    private static int SPLASH_TIME_OUT = 4500;
 
     //Intent
     private Intent intent;
