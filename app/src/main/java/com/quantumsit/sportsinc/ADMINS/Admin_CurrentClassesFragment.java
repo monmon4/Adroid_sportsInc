@@ -20,7 +20,6 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ExpandableListView;
-import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.TimePicker;
@@ -30,15 +29,12 @@ import com.quantumsit.sportsinc.Aaa_data.Constants;
 import com.quantumsit.sportsinc.Aaa_data.GlobalVars;
 import com.quantumsit.sportsinc.Backend.HttpCall;
 import com.quantumsit.sportsinc.Backend.HttpRequest;
-import com.quantumsit.sportsinc.COACHES.ActivityCurrentClass_coach;
-import com.quantumsit.sportsinc.ClassesDetailsActivity;
 import com.quantumsit.sportsinc.R;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.sql.Time;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -87,7 +83,7 @@ public class Admin_CurrentClassesFragment extends Fragment {
         list_children.add(" ");
         hash_children = new HashMap<>();
 
-        initilizeCurrentClasses();
+        initializeCurrentClasses();
 
         expandableListView_adapter = new ListViewExpandable_Adapter_currentClasses(getContext(),Admin_CurrentClassesFragment.this, list_headers, hash_children );
         expandableListView.setAdapter(expandableListView_adapter);
@@ -97,7 +93,7 @@ public class Admin_CurrentClassesFragment extends Fragment {
 
 
     @SuppressLint("StaticFieldLeak")
-    private void initilizeCurrentClasses() {
+    private void initializeCurrentClasses() {
         progressDialog.show();
         Calendar c = Calendar.getInstance();
         SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
@@ -105,7 +101,7 @@ public class Admin_CurrentClassesFragment extends Fragment {
 
         HttpCall httpCall = new HttpCall();
         httpCall.setMethodtype(HttpCall.POST);
-        httpCall.setUrl(Constants.admin_cuurentClasses);
+        httpCall.setUrl(Constants.admin_currentClasses);
 
         HashMap<String, String> params = new HashMap<>();
         params.put("id",String.valueOf(globalVars.getId()));
@@ -246,7 +242,7 @@ public class Admin_CurrentClassesFragment extends Fragment {
                         cancelClass(note);
                         break;
                     case 2:
-                        savePostponedTime(note);
+                        insertPostponedClass(note);
                         break;
                 }
             }
@@ -319,14 +315,63 @@ public class Admin_CurrentClassesFragment extends Fragment {
         return dateCal.getTime();
     }
 
-    private void savePostponedTime(String note) {
+    private void insertPostponedClass(final String notes){
+        try {
+            item_current_classes postponed_class = list_headers.get(CurrentPosition);
+            Date PostponeDate = showPostponedTime();
+            SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy hh:mm");
+            String date = df.format(PostponeDate);
+
+            df = new SimpleDateFormat("yyyy-MM-dd");
+            String postponedDate = df.format(PostponeDate);
+            df = new SimpleDateFormat("hh:mm");
+            String postponedTime = df.format(PostponeDate);
+
+            JSONObject values_info = new JSONObject();
+            values_info.put("class_number",postponed_class.getClass_number());
+            values_info.put("class_date",postponedDate);
+            values_info.put("class_time",postponedTime);
+            values_info.put("group_id",postponed_class.getGroup_id());
+            values_info.put("status",3);
+
+            HttpCall httpCall = new HttpCall();
+            httpCall.setMethodtype(HttpCall.POST);
+            httpCall.setUrl(Constants.insertData);
+            HashMap<String,String> params = new HashMap<>();
+            params.put("table","classes");
+            params.put("values",values_info.toString());
+
+            httpCall.setParams(params);
+
+            new HttpRequest(){
+                @Override
+                public void onResponse(JSONArray response) {
+                    super.onResponse(response);
+                    if(checkResponse(response)){
+                        try {
+                            int id = response.getInt(0);
+                            savePostponedTime(id,notes);
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }else {
+                    show_toast("Fail to postpone class...");
+                    }
+                }
+
+            }.execute(httpCall);
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void savePostponedTime(int class_postponed_id ,String note) {
         try {
             Date PostponeDate = showPostponedTime();
-
             SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy hh:mm");
             String date = df.format(PostponeDate);
             final String msg = list_headers.get(CurrentPosition).class_number+" has been postponed to\n\t"+date;
-
             df = new SimpleDateFormat("yyyy-MM-dd");
             String postponedDate = df.format(PostponeDate);
             df = new SimpleDateFormat("hh:mm");
@@ -336,6 +381,7 @@ public class Admin_CurrentClassesFragment extends Fragment {
             values.put("status",2);
             values.put("postpone_date",postponedDate);
             values.put("postpone_time",postponedTime);
+            values.put("postponed_class_id",class_postponed_id);
             values.put("class_notes",note);
 
             JSONObject where = new JSONObject();
@@ -422,7 +468,7 @@ public class Admin_CurrentClassesFragment extends Fragment {
         if (response != null){
             try {
                 String result = response.getString(0);
-                if (result.equals("DONE"))
+                if (!result.equals("ERROR"))
                     return true;
             } catch (JSONException e) {
                 e.printStackTrace();
