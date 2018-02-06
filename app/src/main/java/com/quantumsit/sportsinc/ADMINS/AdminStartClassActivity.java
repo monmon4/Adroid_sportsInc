@@ -41,8 +41,8 @@ public class AdminStartClassActivity extends AppCompatActivity {
         progressDialog = new ProgressDialog(AdminStartClassActivity.this);
         progressDialog.setMessage("Please wait......");
 
-        note_editText = findViewById(R.id.notesEditText_admincurrentclass);
-        coach_name_checkBox = findViewById(R.id.coachNameCheckBox_admincurrentclass);
+        note_editText = findViewById(R.id.attendancenotesEditText_admincurrentclass2);
+        coach_name_checkBox = findViewById(R.id.coachNameCheckBox_admincurrentclass2);
 
         attend = 0;
 
@@ -96,7 +96,7 @@ public class AdminStartClassActivity extends AppCompatActivity {
                 public void onResponse(JSONArray response) {
                     super.onResponse(response);
                     if(checkResponse(response)) {
-                        updateClassStatus();
+                        //updateClassStatus();
                     }else {
                         progressDialog.dismiss();
                         Toast.makeText(AdminStartClassActivity.this, "Failed To Attend the coach", Toast.LENGTH_SHORT).show();
@@ -108,43 +108,7 @@ public class AdminStartClassActivity extends AppCompatActivity {
         }
     }
 
-    private void updateClassStatus() {
-        try {
-            JSONObject where_info = new JSONObject();
-            where_info.put("id",class_id);
 
-            JSONObject values = new JSONObject();
-            values.put("status",0);
-
-            HttpCall httpCall = new HttpCall();
-            httpCall.setMethodtype(HttpCall.POST);
-            httpCall.setUrl(Constants.updateData);
-
-            HashMap<String, String> params = new HashMap<>();
-            params.put("table","classes");
-            params.put("values",values.toString());
-            params.put("where", where_info.toString());
-
-            httpCall.setParams(params);
-
-            new HttpRequest() {
-                @Override
-                public void onResponse(JSONArray response) {
-                    super.onResponse(response);
-                    if(checkResponse(response)) {
-                        Toast.makeText(AdminStartClassActivity.this,"class has been started",Toast.LENGTH_SHORT).show();
-                        onBackPressed();
-                        finish();
-                    }else {
-                        Toast.makeText(AdminStartClassActivity.this, "Failed To start the class", Toast.LENGTH_SHORT).show();
-                    }
-                    progressDialog.dismiss();
-                }
-            }.execute(httpCall);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-    }
 
     private boolean checkResponse(JSONArray response) {
         if (response != null){
