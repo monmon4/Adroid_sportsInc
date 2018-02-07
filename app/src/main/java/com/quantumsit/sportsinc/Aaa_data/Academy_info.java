@@ -20,7 +20,7 @@ public class Academy_info {
         this.phone = phone;
     }
 
-    public Academy_info(int id,String name , String address, String phone, String lat, String lng) {
+    public Academy_info(int id,String name , String address, String lat, String lng, String phone) {
         this.id = id;
         this.name = name;
         this.address = address;

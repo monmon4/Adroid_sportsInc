@@ -6,7 +6,7 @@ package com.quantumsit.sportsinc.Aaa_data;
 
 public interface Constants {
 
-    String server = "http://192.168.1.14:8080/sport_inc/api/";
+    String server = "http://173.212.198.28:8010/sport_inc/api/";
 
     String selectData = server + "selectdata";
     String updateData = server + "updatedata";

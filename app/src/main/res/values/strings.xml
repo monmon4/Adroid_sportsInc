@@ -209,9 +209,9 @@
     <string name="no_courses_reports">No courses reports</string>
     <string name="no_scores">No scores</string>
     <string name="absent">Absent</string>
-    <string name="directions">Directions</string>
-    <string name="email">Email</string>
-    <string name="call_us">Call us</string>
+    <string name="no_classes">No Classes Today</string>
+    <string name="no_finished">No finished Courses</string>
+    <string name="no_requests">No Requests</string>
 
 
 </resources>

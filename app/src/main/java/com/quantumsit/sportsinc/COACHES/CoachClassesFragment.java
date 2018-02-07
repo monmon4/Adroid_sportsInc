@@ -6,10 +6,12 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AbsListView;
 import android.widget.ExpandableListView;
 import android.widget.ListView;
 import android.widget.Toast;
@@ -22,7 +24,9 @@ import com.quantumsit.sportsinc.Aaa_data.Trainees_info;
 import com.quantumsit.sportsinc.Backend.HttpCall;
 import com.quantumsit.sportsinc.Backend.HttpRequest;
 import com.quantumsit.sportsinc.COACHES.ReportsFragments.item_reports_finished_courses;
+import com.quantumsit.sportsinc.CustomView.myCustomExpandableListView;
 import com.quantumsit.sportsinc.R;
+import com.quantumsit.sportsinc.util.ConnectionUtilities;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -43,6 +47,8 @@ public class CoachClassesFragment extends Fragment {
 
     GlobalVars globalVars;
 
+    myCustomExpandableListView customExpandableListView;
+    SwipeRefreshLayout mSwipeRefreshLayout;
     ExpandableListView not_finished_courses_expandable_listview;
 
     ListViewExpandable_Adapter_NotFinishedCourses not_finished_courses_adapter;
@@ -60,7 +66,39 @@ public class CoachClassesFragment extends Fragment {
 
         globalVars = (GlobalVars) getActivity().getApplication();
 
-        not_finished_courses_expandable_listview = root.findViewById(R.id.notFinishedCoursesExpandableListView_coachclasses);
+        mSwipeRefreshLayout = root.findViewById(R.id.swipeRefresh);
+        mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                initilizeRunningClass();
+                initilizeFinishedList();
+            }
+        });
+        customExpandableListView = root.findViewById(R.id.customExpandableListView);
+        customExpandableListView.setmEmptyView(R.drawable.ic_assignment,R.string.no_finished);
+
+        customExpandableListView.setOnRetryClick(new myCustomExpandableListView.OnRetryClick() {
+            @Override
+            public void onRetry() {
+                initilizeRunningClass();
+                initilizeFinishedList();
+            }
+        });
+        not_finished_courses_expandable_listview = customExpandableListView.getExpandableListView();
+        not_finished_courses_expandable_listview.setOnScrollListener(new AbsListView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(AbsListView absListView, int scrollState) {
+
+            }
+
+            @Override
+            public void onScroll(AbsListView absListView, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+                int topRowVerticalPosition =
+                        (not_finished_courses_expandable_listview == null || not_finished_courses_expandable_listview.getChildCount() == 0) ?
+                                0 : not_finished_courses_expandable_listview.getChildAt(0).getTop();
+                mSwipeRefreshLayout.setEnabled(firstVisibleItem == 0 && topRowVerticalPosition >= 0);
+            }
+        });
         current_class_button = root.findViewById(R.id.currentClassFloatingActionButton);
 
         current_class_button.setOnClickListener(new View.OnClickListener() {
@@ -104,8 +142,21 @@ public class CoachClassesFragment extends Fragment {
 
         return root;
     }
+    private boolean checkConnection() {
+        // first, check connectivity
+        if (ConnectionUtilities
+                .checkInternetConnection(getContext())) {
+            return true;
+        }
+        return false;
+    }
+
 
     private void initilizeFinishedList() {
+        if (!checkConnection()){
+            customExpandableListView.retry();
+            return;
+        }
         try {
             JSONObject where_info = new JSONObject();
             where_info.put("coach_id", globalVars.getId());
@@ -133,6 +184,7 @@ public class CoachClassesFragment extends Fragment {
     }
 
     private void fillAdapter(JSONArray response) {
+        mSwipeRefreshLayout.setRefreshing(false);
         header_list.clear();
         child_hashmap.clear();
         if (response != null) {
@@ -153,6 +205,7 @@ public class CoachClassesFragment extends Fragment {
             }
         }
         not_finished_courses_adapter.notifyDataSetChanged();
+        customExpandableListView.notifyChange(header_list.size());
     }
 
     private void initilizeRunningClass() {
