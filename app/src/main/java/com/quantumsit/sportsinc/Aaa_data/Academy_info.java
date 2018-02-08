@@ -11,9 +11,11 @@ public class Academy_info {
     String phone, email;
     String Lat , Lng;
 
+    public Academy_info() {
 
+    }
 
-    public Academy_info(int id,String name , String address, String lat, String lng, String phone, String email) {
+    public Academy_info(int id, String name , String address, String lat, String lng, String phone, String email) {
         this.id = id;
         this.name = name;
         this.address = address;

@@ -176,7 +176,7 @@
                 android:text="@string/edit"
                 android:layout_margin="16dp"
                 android:textColor="#FFFFFF"
-                android:background="@drawable/buttonshape_notclicked"
+                android:background="@drawable/button_red_background"
                 />
             <LinearLayout
                 android:layout_width="match_parent"

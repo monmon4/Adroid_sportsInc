@@ -14,6 +14,7 @@ import android.support.v4.app.Fragment;
 import android.transition.Fade;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
@@ -47,7 +48,7 @@ import java.util.Locale;
 public class MapsActivity extends Fragment implements OnMapReadyCallback {
 
     private GoogleMap mMap;
-    private Double lat = 0.0,lng=0.0;
+    private Double lat=0.0, lng=0.0;
     private String Title;
 
     ListView openingHours_listView;
@@ -57,7 +58,6 @@ public class MapsActivity extends Fragment implements OnMapReadyCallback {
     Academy_info academy_info;
     GlobalVars globalVars;
 
-    SupportMapFragment mapFragment, mMapFragment;
     MapView mapView;
     TextView maps_textView;
 
@@ -66,7 +66,6 @@ public class MapsActivity extends Fragment implements OnMapReadyCallback {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
 
         View root = inflater.inflate(R.layout.activity_maps,container,false);
-
 
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         //mapFragment = (SupportMapFragment) root.getSupportFragmentManager().findFragmentById(R.id.map);
@@ -89,6 +88,7 @@ public class MapsActivity extends Fragment implements OnMapReadyCallback {
         else
             academy_info = globalVars.getMyDB().getAcademyInfo();
             setLatandLng();
+            mapView.onStart();
 
         openingHours_listView = root.findViewById(R.id.openingHoursListView_maps);
         list_items = new ArrayList<>();
@@ -150,12 +150,8 @@ public class MapsActivity extends Fragment implements OnMapReadyCallback {
         mMap.addMarker(new MarkerOptions().position(academy).title(Title));
         //mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(sydney, 12.0f));
         mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(academy, 12.0f));
-
-        if(lat == 0.0 && lng == 0.0) {
-            maps_textView.setVisibility(View.VISIBLE);
-        } else {
-            maps_textView.setVisibility(View.INVISIBLE);
-        }
+        mMap.getUiSettings().setScrollGesturesEnabled(false);
+        Checklatlng();
     }
 
     @SuppressLint("StaticFieldLeak")
@@ -177,14 +173,18 @@ public class MapsActivity extends Fragment implements OnMapReadyCallback {
                     if (response != null) {
 
                         JSONObject result = response.getJSONObject(0);
-                        academy_info.setAddress(result.getString("name"));
+                        academy_info.setName(result.getString("name"));
                         academy_info.setAddress(result.getString("address"));
                         academy_info.setLat(result.getString("address_Lat"));
                         academy_info.setLng(result.getString("address_Lng"));
                         academy_info.setPhone(result.getString("phone"));
+                        academy_info.setEmail(result.getString("email"));
 
                         globalVars.getMyDB().addAcademyInfo(academy_info);
                         setLatandLng();
+                        mapView.onStart();
+
+
 
                     } else {
                         show_toast("Error will get Academy Information.");
@@ -202,9 +202,13 @@ public class MapsActivity extends Fragment implements OnMapReadyCallback {
 
         if (!academy_info.getLat().equals(""))
             lat = Double.parseDouble(academy_info.getLat());
+        else
+            lat = 0.0;
 
         if (!academy_info.getLng().equals(""))
             lng = Double.parseDouble(academy_info.getLng());
+        else
+            lng = 0.0;
 
         Title = academy_info.getName();
     }
@@ -261,6 +265,7 @@ public class MapsActivity extends Fragment implements OnMapReadyCallback {
     public void onResume() {
         mapView.onResume();
         super.onResume();
+        //Checklatlng();
     }
 
 
@@ -268,6 +273,7 @@ public class MapsActivity extends Fragment implements OnMapReadyCallback {
     public void onPause() {
         super.onPause();
         mapView.onPause();
+        //Checklatlng();
     }
 
     @Override
@@ -280,5 +286,14 @@ public class MapsActivity extends Fragment implements OnMapReadyCallback {
     public void onLowMemory() {
         super.onLowMemory();
         mapView.onLowMemory();
+        //Checklatlng();
+    }
+
+    private  void Checklatlng(){
+        if(lat == 0.0 && lng == 0.0) {
+            maps_textView.setVisibility(View.VISIBLE);
+        } else {
+            maps_textView.setVisibility(View.INVISIBLE);
+        }
     }
 }

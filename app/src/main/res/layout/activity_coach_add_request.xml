@@ -62,7 +62,7 @@
         android:id="@+id/sendButton_addreuestcoach"
         android:layout_width="100dp"
         android:layout_height="wrap_content"
-        android:background="@drawable/button_background"
+        android:background="@drawable/button_red_background"
         android:textColor="@color/colorTextLight"
         android:textAllCaps="false"
         android:textSize="18sp"
