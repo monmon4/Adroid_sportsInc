@@ -8,23 +8,17 @@ public class Academy_info {
 
     int id;
     String address , name;
-    String phone;
+    String phone, email;
     String Lat , Lng;
 
-    public Academy_info() {
-    }
 
-    public Academy_info(int id, String address, String phone) {
-        this.id = id;
-        this.address = address;
-        this.phone = phone;
-    }
 
-    public Academy_info(int id,String name , String address, String lat, String lng, String phone) {
+    public Academy_info(int id,String name , String address, String lat, String lng, String phone, String email) {
         this.id = id;
         this.name = name;
         this.address = address;
         this.phone = phone;
+        this.email = email;
         this.Lat = lat;
         this.Lng = lng;
     }
@@ -77,4 +71,11 @@ public class Academy_info {
         Lng = lng;
     }
 
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
 }

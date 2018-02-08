@@ -26,11 +26,12 @@ public class DB_Sqlite_Handler extends SQLiteOpenHelper {
 
     // academy table name
     private String TABLE_AcademyInfo = Constants.TABLE_AcademyInfo;
-    // Shops Table Columns names
+    // academy Table Columns names
     private String KeyId = "id";
     private String KeyName = "name";
     private String KeyAddress = "address";
     private String KeyPhone = "phone";
+    private String KeyEmail = "email";
     private String KeyLat = "Address_Lat";
     private String KeyLng = "Address_Lng";
 
@@ -77,7 +78,7 @@ public class DB_Sqlite_Handler extends SQLiteOpenHelper {
         String CREATE_ACADEMY_INFO_TABLE = "CREATE Table " + TABLE_AcademyInfo + "("
         + KeyId + " INTEGER PRIMARY KEY AUTOINCREMENT," + KeyName + " TEXT," + KeyAddress + " TEXT,"
         + KeyLat + " TEXT, " + KeyLng + " TEXT,"
-        + KeyPhone + " TEXT" + ")";
+        + KeyPhone + " TEXT, " + KeyEmail + " TEXT" + ")";
 
         String CREATE_Class_TABLE = "CREATE Table " + TABLE_classes + "("
                 + KeyClassId + " INTEGER PRIMARY KEY," + KeyClassName + " TEXT,"
@@ -134,6 +135,7 @@ public class DB_Sqlite_Handler extends SQLiteOpenHelper {
         values.put(KeyLat, info.getLat());
         values.put(KeyLng, info.getLng());
         values.put(KeyPhone, info.getPhone());
+        values.put(KeyEmail, info.getEmail());
         // Inserting Row
         db.insert(Constants.TABLE_AcademyInfo, null, values);
         db.close(); // Closing database connection
@@ -203,7 +205,7 @@ public class DB_Sqlite_Handler extends SQLiteOpenHelper {
         if (cursor != null)
             cursor.moveToFirst();
         Academy_info info = new Academy_info(Integer.parseInt(cursor.getString(0)),
-                cursor.getString(1), cursor.getString(2) , cursor.getString(3), cursor.getString(4),cursor.getString(5));
+                cursor.getString(1), cursor.getString(2) , cursor.getString(3), cursor.getString(4),cursor.getString(5),cursor.getString(6));
 
         return info;
     }
