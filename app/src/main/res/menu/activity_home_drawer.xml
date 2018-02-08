@@ -47,8 +47,8 @@
 
         <item
             android:id="@+id/nav_contact_us"
-            android:icon="@drawable/ic_side_info"
-            android:title="Contact us" />
+            android:icon="@drawable/ic_question"
+            android:title="@string/contact_us" />
 
         <item
             android:id="@+id/nav_logout"

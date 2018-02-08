@@ -212,6 +212,12 @@
     <string name="no_classes">No Classes Today</string>
     <string name="no_finished">No finished Courses</string>
     <string name="no_requests">No Requests</string>
+    <string name="call">Call</string>
+    <string name="directions">Directions</string>
+    <string name="contact_us">Contact us</string>
+    <string name="day">Day</string>
+    <string name="opening_hours">Opening Hours</string>
+    <string name="not_available">Not available</string>
 
 
 </resources>

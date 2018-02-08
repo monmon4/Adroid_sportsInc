@@ -15,29 +15,26 @@ import java.util.ArrayList;
  * Created by Mona on 27-Dec-17.
  */
 
-public class ListView_Adapter_request extends ArrayAdapter<item_request> {
+public class ListView_Adapter_contact_us extends ArrayAdapter<item_contact_us> {
 
-    public ListView_Adapter_request(Context context, ArrayList<item_request> requests) {
-        super(context, 0, requests);
+    public ListView_Adapter_contact_us(Context context, ArrayList<item_contact_us> item) {
+        super(context, 0, item);
     }
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         // Get the data item for this position
-        item_request request = getItem(position);
+        item_contact_us item = getItem(position);
         // Check if an existing view is being reused, otherwise inflate the view
         if (convertView == null) {
-            convertView = LayoutInflater.from(getContext()).inflate(R.layout.item_request, parent, false);
+            convertView = LayoutInflater.from(getContext()).inflate(R.layout.item_contact_us, parent, false);
         }
         // Lookup view for data population
-        TextView creation_date = (TextView) convertView.findViewById(R.id.creationDate_requestitem);
-        TextView coursename_and_class = (TextView) convertView.findViewById(R.id.courseNameAndClassNumberTextView_coachrequestitem);
-        TextView class_date = (TextView) convertView.findViewById(R.id.classDate_requestitem);
+        TextView day_textView = convertView.findViewById(R.id.dayTextView_contactUs);
+        TextView time_textView = convertView.findViewById(R.id.timeTextView_contactUs);
         // Populate the data into the template view using the data object
-        creation_date.setText(request.creation_date);
-        coursename_and_class.setText(request.course_name_and_class_name);
-        class_date.setText(request.class_date);
-        // Return the completed view to render on screen
+        day_textView.setText(item.date);
+        time_textView.setText(item.time);
         return convertView;
     }
 }
