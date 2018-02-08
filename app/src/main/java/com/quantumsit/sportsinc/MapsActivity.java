@@ -200,12 +200,14 @@ public class MapsActivity extends Fragment implements OnMapReadyCallback {
 
     private void setLatandLng() {
 
-        if (!academy_info.getLat().equals(""))
-            lat = Double.parseDouble(academy_info.getLat());
+        if (academy_info.getLat() != null )
+            if(!academy_info.getLat().equals(""))
+                lat = Double.parseDouble(academy_info.getLat());
         else
             lat = 0.0;
 
-        if (!academy_info.getLng().equals(""))
+        if (academy_info.getLng()!=null)
+            if(!academy_info.getLng().equals(""))
             lng = Double.parseDouble(academy_info.getLng());
         else
             lng = 0.0;
@@ -291,7 +293,7 @@ public class MapsActivity extends Fragment implements OnMapReadyCallback {
 
     private  void Checklatlng(){
         if(lat == 0.0 && lng == 0.0) {
-            maps_textView.setVisibility(View.VISIBLE);
+            maps_textView.setVisibility(View.INVISIBLE);
         } else {
             maps_textView.setVisibility(View.INVISIBLE);
         }

@@ -218,6 +218,9 @@
     <string name="day">Day</string>
     <string name="opening_hours">Opening Hours</string>
     <string name="not_available">Not available</string>
+    <string name="newsSection">News</string>
+    <string name="moreButton">More</string>
+    <string name="eventsSections">Events</string>
 
 
 </resources>
