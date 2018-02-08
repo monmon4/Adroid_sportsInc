@@ -230,7 +230,7 @@ public class HomeActivity extends AppCompatActivity
 
         return check[0];
     }
-    
+
 
 
     @Override
