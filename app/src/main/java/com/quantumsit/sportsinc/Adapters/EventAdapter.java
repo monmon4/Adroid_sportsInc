@@ -52,9 +52,9 @@ public class EventAdapter  extends ArrayAdapter<EventEntity> {
         TextView Title = view.findViewById(R.id.eventTitle);
         TextView Month = view.findViewById(R.id.eventMonth);
         TextView Day = view.findViewById(R.id.eventDay);
-        TextView time = view.findViewById(R.id.eventTime);
-        TextView date = view.findViewById(R.id.eventDate);
-        TextView content = view.findViewById(R.id.eventContent);
+        //TextView time = view.findViewById(R.id.eventTime);
+        //TextView date = view.findViewById(R.id.eventDate);
+       // TextView content = view.findViewById(R.id.eventContent);
 
         Date mDate = eventEntity.getDate();
         SimpleDateFormat df = new SimpleDateFormat("E MMM dd yyyy");
@@ -64,10 +64,10 @@ public class EventAdapter  extends ArrayAdapter<EventEntity> {
         Month.setText(data[1]);
         Day.setText(data[2]);
 
-        Title.setText(eventEntity.getTitle());
-        time.setText(eventEntity.getTime());
+       Title.setText(eventEntity.getTitle());
+       /* time.setText(eventEntity.getTime());
         date.setText(formattedDate);
-        content.setText(eventEntity.getDescription());
+        content.setText(eventEntity.getDescription());*/
         return  view;
     }
 }

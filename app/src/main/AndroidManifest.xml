@@ -28,25 +28,23 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".LoginActivity">
-
-        </activity>
-        <activity android:name=".RegisterActivity" />
+        <activity android:name=".Activities.LoginActivity" />
+        <activity android:name=".Activities.RegisterActivity" />
         <activity
-            android:name=".HomeActivity"
+            android:name=".Activities.HomeActivity"
             android:label="@string/title_activity_home"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".HomeTabsActivity" />
-        <activity android:name=".MyClasses_scoresActivity" />
-        <activity android:name=".Reports_coursesActivity" />
-        <activity android:name=".Request_addActivity" />
+        <activity android:name=".Activities.HomeTabsActivity" />
+        <activity android:name=".Activities.MyClasses_scoresActivity" />
+        <activity android:name=".Activities.Reports_coursesActivity" />
+        <activity android:name=".Activities.Request_addActivity" />
         <activity android:name=".COACHES.ActivityAddRequest_coach" />
         <activity android:name=".COACHES.ActivityCurrentClass_coach" />
         <activity android:name=".COACHES.ActivityCourseSingleClass_coach" />
-        <activity android:name=".ClassesDetailsActivity" />
+        <activity android:name=".Activities.ClassesDetailsActivity" />
         <activity android:name=".COACHES.ActivityFinishedCourseSingle_coach" />
         <activity
-            android:name=".ProfileActivity"
+            android:name=".Activities.ProfileActivity"
             android:windowSoftInputMode="stateAlwaysHidden" />
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.
@@ -60,17 +58,23 @@
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/google_maps_key" />
 
-        <!--activity
+        <!--
+            activity
             android:name=".MapsActivity"
             android:theme="@style/AppTheme"
-            android:label="@string/title_activity_maps" /-->
-        <activity android:name=".CourseDetailsActivity" />
-        <activity android:name=".EventsDetailsActivity" />
-        <activity android:name=".NewsDetailsActivity" />
+            android:label="@string/title_activity_maps" /
+        -->
+        <activity android:name=".Activities.CourseDetailsActivity" />
+        <activity android:name=".Activities.EventsDetailsActivity" />
+        <activity android:name=".Activities.NewsDetailsActivity" />
         <!-- activity android:name=".CourseDetailsActivity" / -->
-        <activity android:name=".NotificationDetailsActivity" />
+        <activity android:name=".Activities.NotificationDetailsActivity" />
         <activity android:name=".ADMINS.AdminStartClassActivity" />
-        <activity android:name=".SplashScreenActivity"
+        <activity android:name=".Activities.NewsActivity" />
+        <activity android:name=".Activities.EventsActivity" />
+        <activity android:name=".Activities.RequestDetailsActivity" />
+        <activity
+            android:name=".Activities.SplashScreenActivity"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -92,6 +96,8 @@
         </service>
         <!-- ./Firebase Notifications -->
 
+        <activity android:name=".Activities.ComplainDetailsActivity" />
+        <activity android:name=".Activities.ComplainsAddActivity"></activity>
     </application>
 
 </manifest>

@@ -1,10 +1,7 @@
 package com.quantumsit.sportsinc.Adapters;
 
-import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
 import android.os.Build;
-import android.support.design.widget.FloatingActionButton;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,15 +14,9 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
-import android.widget.TextView;
-import android.widget.Toast;
 
-import com.quantumsit.sportsinc.Aaa_data.Rule_info;
-import com.quantumsit.sportsinc.HomeActivity;
 import com.quantumsit.sportsinc.R;
-import com.quantumsit.sportsinc.RegisterActivity;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import static android.content.Context.LAYOUT_INFLATER_SERVICE;

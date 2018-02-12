@@ -1,4 +1,4 @@
-package com.quantumsit.sportsinc;
+package com.quantumsit.sportsinc.Activities;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
@@ -28,10 +28,13 @@ import com.quantumsit.sportsinc.Aaa_data.Constants;
 import com.quantumsit.sportsinc.Aaa_data.GlobalVars;
 import com.quantumsit.sportsinc.Backend.HttpCall;
 import com.quantumsit.sportsinc.Backend.HttpRequest;
+import com.quantumsit.sportsinc.COACHES.CoachRequestSentFragment;
 import com.quantumsit.sportsinc.COACHES.ReportsFragments.CoachReportsFragment;
 import com.quantumsit.sportsinc.COACHES.CoachRequestFragment;
+import com.quantumsit.sportsinc.R;
 import com.quantumsit.sportsinc.Side_menu_fragments.CertificatesFragment;
 import com.quantumsit.sportsinc.Side_menu_fragments.ComplainsFragment;
+import com.quantumsit.sportsinc.Side_menu_fragments.Complains_SendFragment;
 import com.quantumsit.sportsinc.Side_menu_fragments.HomeFragment;
 import com.quantumsit.sportsinc.Side_menu_fragments.MyClassesFragment;
 import com.quantumsit.sportsinc.Side_menu_fragments.NotificationsFragment;
@@ -293,13 +296,18 @@ public class HomeActivity extends AppCompatActivity
 
         } else if (id == R.id.nav_complains) {
             actionBar.setTitle(R.string.complains);
-            fragmentClass = ComplainsFragment.class;
+            if (coach)
+                fragmentClass = ComplainsFragment.class;
+            else
+                fragmentClass = Complains_SendFragment.class;
         } else if (id == R.id.nav_reports) {
             actionBar.setTitle(R.string.reports);
             if (parent){
                 fragmentClass = ReportsFragment.class;
-            } else {
+            } else if (coach){
                 fragmentClass = CoachReportsFragment.class;
+            } else {
+                fragmentClass = CoachRequestSentFragment.class;
             }
 
         } else if (id == R.id.nav_certificates) {

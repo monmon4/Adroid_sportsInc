@@ -8,7 +8,7 @@
     android:fitsSystemWindows="true"
     android:orientation="vertical"
     android:background="@color/colorWhite"
-    tools:context=".EventsDetailsActivity">
+    tools:context=".Activities.EventsDetailsActivity">
 
 
     <LinearLayout

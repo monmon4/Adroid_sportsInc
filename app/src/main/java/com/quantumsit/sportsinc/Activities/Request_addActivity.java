@@ -1,15 +1,14 @@
-package com.quantumsit.sportsinc;
+package com.quantumsit.sportsinc.Activities;
 
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
-import android.content.Intent;
-import android.provider.Settings;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.DefaultItemAnimator;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
@@ -17,11 +16,9 @@ import android.widget.Toast;
 
 import com.quantumsit.sportsinc.Aaa_data.Constants;
 import com.quantumsit.sportsinc.Aaa_data.GlobalVars;
-import com.quantumsit.sportsinc.Aaa_looks.RecyclerView_Adapter_reportpayment;
-import com.quantumsit.sportsinc.Aaa_looks.item_reports_payment;
 import com.quantumsit.sportsinc.Backend.HttpCall;
 import com.quantumsit.sportsinc.Backend.HttpRequest;
-import com.quantumsit.sportsinc.Side_menu_fragments.RequestsFragment;
+import com.quantumsit.sportsinc.R;
 import com.weiwangcn.betterspinner.library.material.MaterialBetterSpinner;
 
 import org.json.JSONArray;
@@ -34,7 +31,6 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.List;
 
 public class Request_addActivity extends AppCompatActivity {
 
@@ -162,7 +158,7 @@ public class Request_addActivity extends AppCompatActivity {
         progressDialog.dismiss();
     }
 
-    public void send_clicked(View view) {
+    public void send_clicked() {
         final AlertDialog.Builder builder = new AlertDialog.Builder(Request_addActivity.this,
                 R.style.MyAlertDialogStyle);
         builder.setTitle(Request_addActivity.this.getResources().getString(R.string.app_name));
@@ -298,6 +294,23 @@ public class Request_addActivity extends AppCompatActivity {
                 e.printStackTrace();
             }
         }
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.send_menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+        if (id == R.id.send_message){
+            send_clicked();
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 
     private void show_toast(String msg){

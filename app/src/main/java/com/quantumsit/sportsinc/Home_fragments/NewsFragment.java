@@ -1,8 +1,6 @@
 package com.quantumsit.sportsinc.Home_fragments;
 
-import android.content.Context;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -17,7 +15,7 @@ import com.quantumsit.sportsinc.Adapters.NewsAdapter;
 import com.quantumsit.sportsinc.Backend.HttpCall;
 import com.quantumsit.sportsinc.Backend.HttpRequest;
 import com.quantumsit.sportsinc.Entities.NewsEntity;
-import com.quantumsit.sportsinc.NewsDetailsActivity;
+import com.quantumsit.sportsinc.Activities.NewsDetailsActivity;
 import com.quantumsit.sportsinc.R;
 
 import org.json.JSONArray;

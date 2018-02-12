@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.quantumsit.sportsinc.Request_addActivity">
+    tools:context="com.quantumsit.sportsinc.Activities.Request_addActivity">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -35,7 +35,7 @@
         android:hint="@string/write_your_reason"
         android:inputType="textMultiLine" />
 
-    <Button
+    <!--<Button
         android:id="@+id/sendButton_requestadd"
         android:layout_width="100dp"
         android:layout_height="wrap_content"
@@ -46,6 +46,6 @@
         android:layout_margin="16dp"
         android:layout_gravity="end"
         android:onClick="send_clicked"
-        android:text="@string/send" />
+        android:text="@string/send" />-->
 
 </LinearLayout>

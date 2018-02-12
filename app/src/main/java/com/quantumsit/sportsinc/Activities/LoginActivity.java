@@ -1,4 +1,4 @@
-package com.quantumsit.sportsinc;
+package com.quantumsit.sportsinc.Activities;
 
 import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
@@ -13,12 +13,12 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
-import com.quantumsit.sportsinc.Aaa_data.Config;
 import com.quantumsit.sportsinc.Aaa_data.Constants;
 import com.quantumsit.sportsinc.Aaa_data.GlobalVars;
 import com.quantumsit.sportsinc.Backend.HttpCall;
 import com.quantumsit.sportsinc.Backend.HttpRequest;
 import com.quantumsit.sportsinc.Entities.UserEntity;
+import com.quantumsit.sportsinc.R;
 
 import org.json.JSONArray;
 import org.json.JSONException;

@@ -10,8 +10,9 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.quantumsit.sportsinc.Activities.NewsDetailsActivity;
 import com.quantumsit.sportsinc.Entities.NewsEntity;
-import com.quantumsit.sportsinc.EventsDetailsActivity;
+import com.quantumsit.sportsinc.Activities.EventsDetailsActivity;
 import com.quantumsit.sportsinc.R;
 import com.squareup.picasso.Picasso;
 
@@ -91,7 +92,7 @@ public class NewsRecyclerAdapter extends RecyclerView.Adapter<NewsRecyclerAdapte
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    Intent intent = new Intent(context, EventsDetailsActivity.class);
+                    Intent intent = new Intent(context, NewsDetailsActivity.class);
                     intent.putExtra("MyNews",entity);
                     context.startActivity(intent);
                 }

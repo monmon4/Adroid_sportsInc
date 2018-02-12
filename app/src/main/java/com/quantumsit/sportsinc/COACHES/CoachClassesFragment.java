@@ -2,18 +2,31 @@ package com.quantumsit.sportsinc.COACHES;
 
 
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.Drawable;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewGroupOverlay;
+import android.view.WindowManager;
 import android.widget.AbsListView;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.ExpandableListView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.PopupWindow;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.quantumsit.sportsinc.Aaa_data.Constants;
@@ -21,6 +34,8 @@ import com.quantumsit.sportsinc.Aaa_data.GlobalVars;
 import com.quantumsit.sportsinc.Aaa_data.MyClass_info;
 import com.quantumsit.sportsinc.Aaa_data.Rule_info;
 import com.quantumsit.sportsinc.Aaa_data.Trainees_info;
+import com.quantumsit.sportsinc.Adapters.RunningClassesAdapter;
+import com.quantumsit.sportsinc.Adapters.RunningClassesListAdapter;
 import com.quantumsit.sportsinc.Backend.HttpCall;
 import com.quantumsit.sportsinc.Backend.HttpRequest;
 import com.quantumsit.sportsinc.COACHES.ReportsFragments.item_reports_finished_courses;
@@ -38,6 +53,8 @@ import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 
+import static android.content.Context.LAYOUT_INFLATER_SERVICE;
+
 /**
  * A simple {@link Fragment} subclass.
  */
@@ -47,6 +64,8 @@ public class CoachClassesFragment extends Fragment {
 
     GlobalVars globalVars;
 
+    View root;
+    PopupWindow popupWindow;
     myCustomExpandableListView customExpandableListView;
     SwipeRefreshLayout mSwipeRefreshLayout;
     ExpandableListView not_finished_courses_expandable_listview;
@@ -57,12 +76,12 @@ public class CoachClassesFragment extends Fragment {
     HashMap<Integer, List<item_finished_classes>> child_hashmap;
 
     FloatingActionButton current_class_button;
-    MyClass_info current_class;
+    List<MyClass_info> current_class;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
-        View root = inflater.inflate(R.layout.fragment_coach_classes,container,false);
+        root = inflater.inflate(R.layout.fragment_coach_classes,container,false);
 
         globalVars = (GlobalVars) getActivity().getApplication();
 
@@ -104,8 +123,12 @@ public class CoachClassesFragment extends Fragment {
         current_class_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if (current_class.size()>1){
+                    initializePopUpWindow(root);
+                    return;
+                }
                 Intent intent = new Intent(getActivity(), ActivityCurrentClass_coach.class);
-                intent.putExtra("MyRunningClass",current_class);
+                intent.putExtra("MyRunningClass",current_class.get(0));
                 startActivity(intent);
             }
         });
@@ -240,27 +263,61 @@ public class CoachClassesFragment extends Fragment {
     private void initializeAvailableClass() {
         List<MyClass_info> info = globalVars.getMyDB().getAllClasses();
         if (info.size() != 0){
-            current_class = info.get(0);
+            current_class = info;
             current_class_button.setVisibility(View.VISIBLE);
         }
-        List<Rule_info> rules = globalVars.getMyDB().getRules();
-        List<Trainees_info> trainees = globalVars.getMyDB().getTrainees();
-
-       /* String value ="classes:\n";
-        for (MyClass_info item : info)
-            value += item.getClass_name()+"\n";
-
-        value += "Rules:\n";
-        for (Rule_info item :rules)
-            value += item.getRule_id()+" , ";
-
-        value += "Trainees:\n";
-        for (Trainees_info item : trainees)
-            value += item.getTrainee_name()+"\n";
-
-        Toast.makeText(getContext(),value,Toast.LENGTH_LONG).show();*/
     }
 
+    private void initializePopUpWindow(View root){
+        LayoutInflater inflater = (LayoutInflater) getActivity().getSystemService(LAYOUT_INFLATER_SERVICE);
+        View customView = inflater.inflate(R.layout.window_coach_classes_layout,null);
+
+        ListView runningClasses  =  customView.findViewById(R.id.classes_listView);
+
+        RunningClassesListAdapter arrayAdapter = new RunningClassesListAdapter(getContext(),R.layout.list_item_running_classes,current_class);
+        runningClasses.setAdapter(arrayAdapter);
+
+        popupWindow = new PopupWindow(
+                customView,
+                ViewGroup.LayoutParams.WRAP_CONTENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT
+        );
+
+
+        final LinearLayout parentView = root.findViewById(R.id.coach_classes_Layout);
+        popupWindow.showAtLocation(parentView, Gravity.CENTER,-20,-180);
+        popupWindow.setFocusable(true);
+        popupWindow.setOutsideTouchable(false);
+        popupWindow.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
+
+        Drawable dim = new ColorDrawable(Color.BLACK);
+        dim.setBounds(0, 0, parentView.getWidth(), parentView.getHeight());
+        dim.setAlpha((int) (255 * 0.5f));
+
+        ViewGroupOverlay overlay = parentView.getOverlay();
+        overlay.add(dim);
+
+        popupWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
+            @Override
+            public void onDismiss() {
+                ViewGroupOverlay overlay = parentView.getOverlay();
+                overlay.clear();
+            }
+        });
+
+        popupWindow.update();
+
+       runningClasses.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                Toast.makeText(getContext(),"I :"+i,Toast.LENGTH_LONG).show();
+                Intent intent = new Intent(getActivity(), ActivityCurrentClass_coach.class);
+                intent.putExtra("MyRunningClass",current_class.get(i));
+                startActivity(intent);
+            }
+        });
+
+    }
     private void insertClassInSql(JSONArray response) {
         if (response != null) {
             try {

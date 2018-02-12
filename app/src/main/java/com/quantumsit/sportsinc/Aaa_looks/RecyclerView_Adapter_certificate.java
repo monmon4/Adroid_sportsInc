@@ -1,18 +1,14 @@
 package com.quantumsit.sportsinc.Aaa_looks;
 
 import android.content.Context;
-import android.content.Intent;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.TextView;
 
-import com.quantumsit.sportsinc.MyClasses_scoresActivity;
 import com.quantumsit.sportsinc.R;
-import com.squareup.picasso.Picasso;
 
 import java.util.List;
 

@@ -221,6 +221,7 @@
     <string name="newsSection">News</string>
     <string name="moreButton">More</string>
     <string name="eventsSections">Events</string>
+    <string name="no_complains">No Received Complains</string>
 
 
 </resources>
