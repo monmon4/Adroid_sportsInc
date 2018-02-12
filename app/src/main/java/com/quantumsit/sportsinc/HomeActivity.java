@@ -30,6 +30,7 @@ import com.quantumsit.sportsinc.Backend.HttpCall;
 import com.quantumsit.sportsinc.Backend.HttpRequest;
 import com.quantumsit.sportsinc.COACHES.ReportsFragments.CoachReportsFragment;
 import com.quantumsit.sportsinc.COACHES.CoachRequestFragment;
+import com.quantumsit.sportsinc.Side_menu_fragments.AboutUsFragment;
 import com.quantumsit.sportsinc.Side_menu_fragments.CertificatesFragment;
 import com.quantumsit.sportsinc.Side_menu_fragments.ComplainsFragment;
 import com.quantumsit.sportsinc.Side_menu_fragments.HomeFragment;
@@ -315,6 +316,9 @@ public class HomeActivity extends AppCompatActivity
         }  else if (id == R.id.nav_contact_us) {
             actionBar.setTitle(R.string.contact_us);
             fragmentClass = MapsActivity.class;
+        }  else if (id == R.id.nav_about_us) {
+            actionBar.setTitle(R.string.about_us);
+            fragmentClass = AboutUsFragment.class;
         }
 
         try {

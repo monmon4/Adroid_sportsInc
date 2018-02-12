@@ -223,4 +223,26 @@
     <string name="eventsSections">Events</string>
 
 
+    <string name="about_academy">
+        The SH Academy is an international learn to swim
+        program member of the United States Swim Schools Association (www.asaswimming.com)
+        \nThe SH Academy methods are based on up-to-date and common knowledge of sports/swimming science
+        and teaching methods. The step by step program makes sure your child will be prepared, educated
+        and trained under the aspects of ergonomic, growth acceleration and physiology to swim
+        for health, safety, fun and fitness as well as it will set up the base for competitive
+        aquatic sports.
+
+        \n\nChildren must be at least 5 years old to start the SH Academy Step program.
+        \nThe classes on step 1 to 7 have a coaches/swimmers ratio of 1:8
+
+        \n\nStep Description:
+        The SH Academy teaches children in a step by step process a foundation of water safety and proper
+        swimming technique
+        \nThe child may have other swimming skills, but will not excel without the foundation of water adaptation,
+        water experience and breathing foundation.
+        \n Each term to promote the children to the next step
+    </string>
+    <string name="about_us">About Us</string>
+
+
 </resources>
