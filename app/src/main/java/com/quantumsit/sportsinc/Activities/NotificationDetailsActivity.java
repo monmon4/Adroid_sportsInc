@@ -1,7 +1,6 @@
-package com.quantumsit.sportsinc;
+package com.quantumsit.sportsinc.Activities;
 
 import android.app.ProgressDialog;
-import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -9,12 +8,12 @@ import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.quantumsit.sportsinc.Aaa_data.Config;
 import com.quantumsit.sportsinc.Aaa_data.Constants;
 import com.quantumsit.sportsinc.Aaa_data.GlobalVars;
 import com.quantumsit.sportsinc.Backend.HttpCall;
 import com.quantumsit.sportsinc.Backend.HttpRequest;
 import com.quantumsit.sportsinc.Entities.NotificationEntity;
+import com.quantumsit.sportsinc.R;
 import com.quantumsit.sportsinc.util.NotificationUtils;
 
 import org.json.JSONArray;

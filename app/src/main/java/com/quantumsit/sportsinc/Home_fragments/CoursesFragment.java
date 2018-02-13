@@ -1,8 +1,6 @@
 package com.quantumsit.sportsinc.Home_fragments;
 
-import android.content.Context;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -16,7 +14,7 @@ import com.quantumsit.sportsinc.Aaa_data.Constants;
 import com.quantumsit.sportsinc.Adapters.CoursesAdapter;
 import com.quantumsit.sportsinc.Backend.HttpCall;
 import com.quantumsit.sportsinc.Backend.HttpRequest;
-import com.quantumsit.sportsinc.CourseDetailsActivity;
+import com.quantumsit.sportsinc.Activities.CourseDetailsActivity;
 import com.quantumsit.sportsinc.Entities.CourseEntity;
 import com.quantumsit.sportsinc.R;
 

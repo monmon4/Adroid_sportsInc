@@ -20,5 +20,5 @@
         android:textStyle="italic"
         android:layout_alignParentEnd="true"
         android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
-        android:text = "powered by sport Inc."/>
+        android:text = "powered by sports Inc."/>
 </RelativeLayout>

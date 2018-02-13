@@ -1,6 +1,7 @@
-package com.quantumsit.sportsinc;
+package com.quantumsit.sportsinc.Activities;
 
 import android.*;
+import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.ActionBar;
 import android.content.ActivityNotFoundException;
@@ -29,6 +30,7 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.quantumsit.sportsinc.*;
 import com.quantumsit.sportsinc.Aaa_data.Academy_info;
 import com.quantumsit.sportsinc.Aaa_data.Constants;
 import com.quantumsit.sportsinc.Aaa_data.GlobalVars;
@@ -36,6 +38,7 @@ import com.quantumsit.sportsinc.Aaa_looks.ListView_Adapter_contact_us;
 import com.quantumsit.sportsinc.Aaa_looks.item_contact_us;
 import com.quantumsit.sportsinc.Backend.HttpCall;
 import com.quantumsit.sportsinc.Backend.HttpRequest;
+import com.quantumsit.sportsinc.R;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -65,7 +68,7 @@ public class MapsActivity extends Fragment implements OnMapReadyCallback {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
 
-        View root = inflater.inflate(R.layout.activity_maps,container,false);
+        View root = inflater.inflate(com.quantumsit.sportsinc.R.layout.activity_maps,container,false);
 
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         //mapFragment = (SupportMapFragment) root.getSupportFragmentManager().findFragmentById(R.id.map);

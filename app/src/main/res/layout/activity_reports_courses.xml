@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.quantumsit.sportsinc.Reports_coursesActivity">
+    tools:context="com.quantumsit.sportsinc.Activities.Reports_coursesActivity">
 
 
     <android.support.v7.widget.CardView

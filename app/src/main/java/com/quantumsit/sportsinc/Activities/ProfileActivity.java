@@ -1,4 +1,4 @@
-package com.quantumsit.sportsinc;
+package com.quantumsit.sportsinc.Activities;
 
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
@@ -18,6 +18,7 @@ import com.quantumsit.sportsinc.Aaa_data.Constants;
 import com.quantumsit.sportsinc.Aaa_data.GlobalVars;
 import com.quantumsit.sportsinc.Backend.HttpCall;
 import com.quantumsit.sportsinc.Backend.HttpRequest;
+import com.quantumsit.sportsinc.R;
 
 import org.json.JSONArray;
 import org.json.JSONException;

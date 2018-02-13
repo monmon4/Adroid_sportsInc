@@ -3,6 +3,8 @@ package com.quantumsit.sportsinc.COACHES;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -54,6 +56,10 @@ public class ActivityAddRequest_coach extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_coach_add_request);
+
+        getSupportActionBar().setTitle("Compose");
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
 
         globalVars = (GlobalVars) getApplication();
 
@@ -236,7 +242,7 @@ public class ActivityAddRequest_coach extends AppCompatActivity {
 
     }
 
-    public void send_clicked(View view) {
+    public void send_clicked() {
         checkRequestInfo();
         onBackPressed();
         finish();
@@ -357,5 +363,28 @@ public class ActivityAddRequest_coach extends AppCompatActivity {
     public void onBackPressed() {
         super.onBackPressed();
         finish();
+    }
+
+    @Override
+    public boolean onSupportNavigateUp() {
+        onBackPressed();
+        return true;
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.send_menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+        if (id == R.id.send_message){
+            send_clicked();
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 }

@@ -11,7 +11,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.quantumsit.sportsinc.Entities.EventEntity;
-import com.quantumsit.sportsinc.EventsDetailsActivity;
+import com.quantumsit.sportsinc.Activities.EventsDetailsActivity;
 import com.quantumsit.sportsinc.R;
 import com.squareup.picasso.Picasso;
 

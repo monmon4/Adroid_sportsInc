@@ -7,7 +7,7 @@
     xmlns:card_view="http://schemas.android.com/apk/res-auto"
     android:fitsSystemWindows="true"
     android:orientation="vertical"
-    tools:context=".ClassesDetailsActivity">
+    tools:context=".Activities.ClassesDetailsActivity">
 
 
     <LinearLayout

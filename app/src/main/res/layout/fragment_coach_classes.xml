@@ -20,6 +20,7 @@
         android:src="@drawable/ic_swim" />
 
     <LinearLayout
+        android:id="@+id/coach_classes_Layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">

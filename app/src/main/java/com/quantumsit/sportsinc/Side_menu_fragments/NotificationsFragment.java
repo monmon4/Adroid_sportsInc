@@ -1,8 +1,6 @@
 package com.quantumsit.sportsinc.Side_menu_fragments;
 
-import android.content.Context;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -22,7 +20,7 @@ import com.quantumsit.sportsinc.Backend.HttpCall;
 import com.quantumsit.sportsinc.Backend.HttpRequest;
 import com.quantumsit.sportsinc.CustomView.myCustomListView;
 import com.quantumsit.sportsinc.Entities.NotificationEntity;
-import com.quantumsit.sportsinc.NotificationDetailsActivity;
+import com.quantumsit.sportsinc.Activities.NotificationDetailsActivity;
 import com.quantumsit.sportsinc.R;
 import com.quantumsit.sportsinc.util.ConnectionUtilities;
 

@@ -32,14 +32,20 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:clickable="false"
+        android:descendantFocusability="blocksDescendants"
+        android:focusable="false"
+        android:focusableInTouchMode="false">
 
         <ImageButton
             android:id="@+id/acceptImageButton_coachrequestitem"
             android:layout_width="30dp"
             android:layout_height="30dp"
-            android:layout_marginLeft="20dp"
             android:layout_marginStart="20dp"
+            android:clickable="false"
+            android:focusable="false"
+            android:focusableInTouchMode="false"
             android:background="@drawable/ic_check_circle" />
 
         <TextView
@@ -48,7 +54,9 @@
             android:layout_height="wrap_content"
             android:textColor="@color/colorText"
             android:layout_marginStart="10dp"
-            android:layout_marginLeft="10dp"
+            android:clickable="false"
+            android:focusable="false"
+            android:focusableInTouchMode="false"
             android:layout_toEndOf="@+id/acceptImageButton_coachrequestitem"
             android:layout_toRightOf="@+id/acceptImageButton_coachrequestitem"
             android:layout_marginTop="5dp"
@@ -63,9 +71,11 @@
             android:layout_alignParentRight="true"
             android:layout_below="@id/courseNameAndClassNumberTextView_coachrequestitem"
             android:layout_marginEnd="20dp"
-            android:layout_marginRight="20dp"
             android:layout_marginTop="5dp"
             android:layout_marginBottom="5dp"
+            android:clickable="false"
+            android:focusable="false"
+            android:focusableInTouchMode="false"
             android:text="@string/class_date" />
     </RelativeLayout>
 
