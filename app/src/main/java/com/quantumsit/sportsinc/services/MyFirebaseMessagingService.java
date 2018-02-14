@@ -7,8 +7,8 @@ import android.util.Log;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 import com.quantumsit.sportsinc.Aaa_data.Config;
-import com.quantumsit.sportsinc.Activities.HomeActivity;
 import com.quantumsit.sportsinc.Activities.NotificationDetailsActivity;
+import com.quantumsit.sportsinc.Activities.HomeActivity;
 import com.quantumsit.sportsinc.util.NotificationUtils;
 
 import org.json.JSONException;

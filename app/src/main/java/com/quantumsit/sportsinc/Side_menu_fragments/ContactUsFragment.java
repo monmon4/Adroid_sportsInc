@@ -1,9 +1,6 @@
-package com.quantumsit.sportsinc.Activities;
+package com.quantumsit.sportsinc.Side_menu_fragments;
 
-import android.*;
-import android.Manifest;
 import android.annotation.SuppressLint;
-import android.app.ActionBar;
 import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -12,13 +9,10 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.transition.Fade;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.Animation;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -27,10 +21,8 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.OnMapReadyCallback;
-import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
-import com.quantumsit.sportsinc.*;
 import com.quantumsit.sportsinc.Aaa_data.Academy_info;
 import com.quantumsit.sportsinc.Aaa_data.Constants;
 import com.quantumsit.sportsinc.Aaa_data.GlobalVars;
@@ -48,7 +40,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Locale;
 
-public class MapsActivity extends Fragment implements OnMapReadyCallback {
+public class ContactUsFragment extends Fragment implements OnMapReadyCallback {
 
     private GoogleMap mMap;
     private Double lat=0.0, lng=0.0;
@@ -68,7 +60,7 @@ public class MapsActivity extends Fragment implements OnMapReadyCallback {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
 
-        View root = inflater.inflate(com.quantumsit.sportsinc.R.layout.activity_maps,container,false);
+        View root = inflater.inflate(com.quantumsit.sportsinc.R.layout.fragment_contact_us,container,false);
 
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         //mapFragment = (SupportMapFragment) root.getSupportFragmentManager().findFragmentById(R.id.map);

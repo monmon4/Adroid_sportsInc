@@ -1,0 +1,71 @@
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context="com.quantumsit.sportsinc.Side_menu_fragments.Complains_SendFragment">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp">
+
+        <com.weiwangcn.betterspinner.library.material.MaterialBetterSpinner
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:hint="@string/to"
+            android:padding="10dp"
+            android:textColorHint="@color/colorAccent"
+            app:met_floatingLabel="normal"
+            android:id="@+id/toSpinner_complains"/>
+
+
+        <com.weiwangcn.betterspinner.library.material.MaterialBetterSpinner
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:hint="@string/regarding"
+            android:layout_marginStart="16dp"
+            android:layout_toEndOf="@+id/toSpinner_complains"
+            android:padding="10dp"
+            android:textColorHint="@color/colorAccent"
+            app:met_floatingLabel="normal"
+            android:id="@+id/regardingSpinner_complains"/>
+
+
+        <EditText
+            android:id="@+id/subjectEditText_complains"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="100"
+            android:layout_marginBottom="10dp"
+            android:inputType="textPersonName"
+            android:layout_below="@+id/regardingSpinner_complains"
+            android:hint="@string/subject" />
+
+        <EditText
+            android:id="@+id/contentEditText_complains"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAlignment="textStart"
+            android:inputType="textMultiLine"
+            android:gravity="start"
+            android:layout_below="@id/subjectEditText_complains"
+            android:hint="@string/content"
+            />
+
+       <!-- <Button
+            android:id="@+id/sendButton_complains"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:background="@drawable/button_background"
+            android:textColor="@color/colorTextLight"
+            android:textAllCaps="false"
+            android:textSize="18sp"
+            android:layout_below="@id/contentEditText_complains"
+            android:layout_margin="10dp"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:text="@string/send" />-->
+    </RelativeLayout>
+
+</ScrollView>

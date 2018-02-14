@@ -42,18 +42,21 @@ public class AboutUsFragment extends Fragment {
         tabLayout =  root.findViewById(R.id.about_us_tabs);
         tabLayout.setupWithViewPager(view_pager);
 
+
         setupViewPager(view_pager);
 
         return root;
     }
 
     public void setupViewPager(ViewPager viewPager) {
+
         sectionsPagerAdapter = new SectionsPagerAdapter(getChildFragmentManager());
 
         sectionsPagerAdapter.addFragment(new AboutFragment(),"About us");
-        sectionsPagerAdapter.addFragment(new ConditionsFragment(),"Rules and Conditions");
+        sectionsPagerAdapter.addFragment(new ConditionsFragment(),"Handbook");
         sectionsPagerAdapter.addFragment(new PaymentRulesFragment(),"Payment Rules");
 
+        viewPager.setAdapter(sectionsPagerAdapter);
 
     }
 }
