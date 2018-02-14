@@ -19,6 +19,7 @@ import com.quantumsit.sportsinc.R;
 public class myCustomRecyclerView extends RelativeLayout {
     private Context context;
     private RecyclerView recyclerView;
+    private ProgressBar mLoadMoreProgressBar;
     private View mEmptyView;
     private View mRetryView;
     private ProgressBar mProgressBar;
@@ -64,7 +65,7 @@ public class myCustomRecyclerView extends RelativeLayout {
             }
         });
         mProgressBar = mView.findViewById(R.id.progress_bar);
-
+        mLoadMoreProgressBar = mView.findViewById(R.id.loadMore_progress_bar);
     }
 
     public void setmEmptyView(int imageResource ,int emptyText){
@@ -80,6 +81,15 @@ public class myCustomRecyclerView extends RelativeLayout {
         mRetryView.setVisibility(View.GONE);
         mEmptyView.setVisibility(View.GONE);
         mProgressBar.setVisibility(View.VISIBLE);
+    }
+
+    public void loadMore(){
+        recyclerView.getLayoutManager().scrollToPosition(recyclerView.getAdapter().getItemCount() - 1);
+        mLoadMoreProgressBar.setVisibility(View.VISIBLE);
+    }
+
+    public void finishLoading(){
+        mLoadMoreProgressBar.setVisibility(View.GONE);
     }
 
     public void empty() {

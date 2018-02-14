@@ -19,6 +19,8 @@ public class MyClasses_scoresActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_classes_scores);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
 
         course_name_textview = findViewById(R.id.courseNameTextView_my_classes_scores);
         date_textview = findViewById(R.id.dateTextView_my_classes_scores);
@@ -53,7 +55,11 @@ public class MyClasses_scoresActivity extends AppCompatActivity {
             attend_textview.setVisibility(View.VISIBLE);
         coach_name_textview.setText(coach_name);
         coach_note_textview.setText(coach_notes);
+    }
 
-
+    @Override
+    public boolean onSupportNavigateUp() {
+        onBackPressed();
+        return true;
     }
 }

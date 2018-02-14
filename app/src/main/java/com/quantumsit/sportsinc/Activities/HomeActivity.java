@@ -288,10 +288,10 @@ public class HomeActivity extends AppCompatActivity
             fragmentClass = NotificationsFragment.class;
         } else if (id == R.id.nav_requests) {
             actionBar.setTitle(R.string.request);
-            if (parent){
-                fragmentClass = RequestsFragment.class;
-            } else {
+            if (coach){
                 fragmentClass = CoachRequestFragment.class;
+            } else {
+                fragmentClass = RequestsFragment.class;
             }
 
         } else if (id == R.id.nav_complains) {

@@ -7,8 +7,10 @@ import android.util.Log;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 import com.quantumsit.sportsinc.Aaa_data.Config;
+import com.quantumsit.sportsinc.Activities.ComplainDetailsActivity;
 import com.quantumsit.sportsinc.Activities.HomeActivity;
 import com.quantumsit.sportsinc.Activities.NotificationDetailsActivity;
+import com.quantumsit.sportsinc.Activities.RequestDetailsActivity;
 import com.quantumsit.sportsinc.util.NotificationUtils;
 
 import org.json.JSONException;
@@ -73,6 +75,7 @@ public class MyFirebaseMessagingService  extends FirebaseMessagingService {
             String title = data.getString("title");
             String message = data.getString("message");
             String timestamp = data.getString("timestamp");
+            int notify_type = data.getInt("type");
             int notify_id = data.getInt("notify_id");
 
             Log.d(TAG, "title: " + title);
@@ -80,7 +83,18 @@ public class MyFirebaseMessagingService  extends FirebaseMessagingService {
             Log.d(TAG, "Notify_id: " + notify_id);
             Log.d(TAG, "timestamp: " + timestamp);
 
-            Intent resultIntent = new Intent(getApplicationContext(), NotificationDetailsActivity.class);
+            Intent resultIntent = new Intent(getApplicationContext(), HomeActivity.class);
+            switch (notify_type){
+                case 1:
+                    resultIntent = new Intent(getApplicationContext(), ComplainDetailsActivity.class);
+                    break;
+                case 2:
+                    resultIntent = new Intent(getApplicationContext(), RequestDetailsActivity.class);
+                    break;
+                case 3:
+                    resultIntent = new Intent(getApplicationContext(), NotificationDetailsActivity.class);
+                    break;
+            }
             // resultIntent.putExtra("Notification",Config.NOTIFICATION_ID);
             resultIntent.putExtra("notify_id", notify_id);
 

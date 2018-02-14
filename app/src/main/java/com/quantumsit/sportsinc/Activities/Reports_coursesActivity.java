@@ -42,6 +42,8 @@ public class Reports_coursesActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_reports_courses);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
 
         globalVars = (GlobalVars) getApplication();
 
@@ -64,8 +66,12 @@ public class Reports_coursesActivity extends AppCompatActivity {
         listViewExpandable_adapter_singlecourse = new ListViewExpandable_Adapter_singlecourse(Reports_coursesActivity.this, item1_list, item2_hashmap);
 
         expandableListView.setAdapter(listViewExpandable_adapter_singlecourse);
+    }
 
-
+    @Override
+    public boolean onSupportNavigateUp() {
+        onBackPressed();
+        return true;
     }
 
     @SuppressLint("StaticFieldLeak")

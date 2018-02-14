@@ -9,7 +9,8 @@
         android:id="@+id/expanded_listView"
         android:groupIndicator="@drawable/expandable_listview_arrow"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:scrollbars="none">
 
     </ExpandableListView>
 

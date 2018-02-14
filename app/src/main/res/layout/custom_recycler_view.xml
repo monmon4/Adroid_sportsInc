@@ -4,12 +4,25 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:id="@+id/custom_list_view">
-
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/recyclerView"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:scrollbars="vertical"/>
+        android:layout_height="match_parent">
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_above="@+id/loadMore_progress_bar"
+            android:scrollbars="none"/>
+        <ProgressBar
+            android:id="@+id/loadMore_progress_bar"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:elevation="@dimen/padding_5"
+            android:padding="@dimen/padding_5"
+            android:visibility="gone"/>
+    </RelativeLayout>
 
     <LinearLayout
         android:id="@+id/layout_empty"

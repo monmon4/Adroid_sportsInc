@@ -40,6 +40,8 @@ public class ActivityCourseSingleClass_coach extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_couch_course_single_class);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
 
         String course_name = getIntent().getStringExtra("courseName");
         String group_name = getIntent().getStringExtra("groupName");
@@ -100,6 +102,12 @@ public class ActivityCourseSingleClass_coach extends AppCompatActivity {
         coach_note_textView.setText(class_note);
         class_date_textView.setText(class_date);
         initilizeTraineeList(class_id);
+    }
+
+    @Override
+    public boolean onSupportNavigateUp() {
+        onBackPressed();
+        return true;
     }
 
     private void initilizeTraineeList(int class_id) {

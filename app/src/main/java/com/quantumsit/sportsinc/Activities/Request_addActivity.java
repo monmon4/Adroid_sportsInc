@@ -49,6 +49,8 @@ public class Request_addActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_request_add);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
 
         globalVars = (GlobalVars) getApplication();
         progressDialog = new ProgressDialog(Request_addActivity.this);
@@ -65,10 +67,13 @@ public class Request_addActivity extends AppCompatActivity {
         progressDialog.show();
         fillDateList();
 
-
-
     }
 
+    @Override
+    public boolean onSupportNavigateUp() {
+        onBackPressed();
+        return true;
+    }
 
     @SuppressLint("StaticFieldLeak")
     private void fillDateList() {
