@@ -1,145 +1,179 @@
 package com.quantumsit.sportsinc.Side_menu_fragments;
 
-import android.annotation.SuppressLint;
-import android.app.AlertDialog;
-import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.Toast;
+import android.widget.AbsListView;
+import android.widget.AdapterView;
+import android.widget.ListView;
 
 import com.quantumsit.sportsinc.Aaa_data.Constants;
 import com.quantumsit.sportsinc.Aaa_data.GlobalVars;
+import com.quantumsit.sportsinc.Activities.ComplainDetailsActivity;
+import com.quantumsit.sportsinc.Activities.ComplainsAddActivity;
+import com.quantumsit.sportsinc.Activities.Request_addActivity;
+import com.quantumsit.sportsinc.Adapters.ComplainsAdapter;
 import com.quantumsit.sportsinc.Backend.HttpCall;
 import com.quantumsit.sportsinc.Backend.HttpRequest;
-import com.quantumsit.sportsinc.HomeActivity;
+import com.quantumsit.sportsinc.CustomView.myCustomListView;
+import com.quantumsit.sportsinc.Entities.ComplainEntity;
 import com.quantumsit.sportsinc.R;
-import com.weiwangcn.betterspinner.library.material.MaterialBetterSpinner;
+import com.quantumsit.sportsinc.util.ConnectionUtilities;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
+/**
+ * Created by Bassam on 2/12/2018.
+ */
 
 public class ComplainsFragment extends Fragment {
-
-    Button send_button;
-    EditText title_edittext, content_edittext;
-
-    MaterialBetterSpinner regarding_spinner;
+    private static final String TAG = ComplainsFragment.class.getSimpleName();
 
     GlobalVars globalVars;
+
+    FloatingActionButton add_complain_button;
+    myCustomListView customListView;
+    SwipeRefreshLayout mSwipeRefreshLayout;
+    ListView listView;
+
+    private ComplainsAdapter adapter;
+    private List<ComplainEntity> ReviewedcomplainList;
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_complains,container,false);
+        setHasOptionsMenu(true);
 
         globalVars = (GlobalVars) getActivity().getApplication();
+        ReviewedcomplainList = new ArrayList<>();
 
-        send_button = root.findViewById(R.id.sendButton_complains);
-        title_edittext = root.findViewById(R.id.subjectEditText_complains);
-        content_edittext = root.findViewById(R.id.contentEditText_complains);
-
-        regarding_spinner = root.findViewById(R.id.regardingSpinner_complains);
-
-        ArrayAdapter<CharSequence> regarding_spinner_adapter = ArrayAdapter.createFromResource(getActivity(), R.array.regarding_array, android.R.layout.simple_dropdown_item_1line);
-        regarding_spinner_adapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
-
-        regarding_spinner.setAdapter(regarding_spinner_adapter);
-
-        send_button.setOnClickListener(new View.OnClickListener() {
+        add_complain_button = root.findViewById(R.id.floatingActionButton);
+        add_complain_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                final String title = title_edittext.getText().toString();
-                final String content = content_edittext.getText().toString();
-
-                if (title.equals("")){
-                    Toast.makeText(getContext(), "Please enter a subject for the complain", Toast.LENGTH_SHORT).show();
-                } else if (content.equals("")){
-                    Toast.makeText(getContext(), "There is no content for the complain", Toast.LENGTH_SHORT).show();
-                } else {
-
-                    final AlertDialog.Builder builder = new AlertDialog.Builder(getActivity(),
-                            R.style.MyAlertDialogStyle);
-                    builder.setTitle(getActivity().getResources().getString(R.string.app_name));
-                    builder.setCancelable(false);
-                    builder.setMessage("     Are you sure?");
-                    builder.setPositiveButton("Yes",
-                            new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialogInterface, int i) {
-                                    send_to_DB(title, content);
-                                    dialogInterface.dismiss();
-                                }
-                            });
-                    builder.setNegativeButton("No",
-                            new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialogInterface, int i) {
-                                    dialogInterface.dismiss();
-                                }
-                            });
-                    builder.show();
-                }
+                Intent intent = new Intent(getActivity(), ComplainsAddActivity.class);
+                startActivity(intent);
             }
         });
 
+        mSwipeRefreshLayout = root.findViewById(R.id.swipeRefresh);
+        mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                initilizeComplains();
+            }
+        });
+        customListView = root.findViewById(R.id.customListView);
+        customListView.setmEmptyView(R.drawable.ic_assignment,R.string.no_complains);
+
+        customListView.setOnRetryClick(new myCustomListView.OnRetryClick() {
+            @Override
+            public void onRetry() {
+                initilizeComplains();
+            }
+        });
+        listView = customListView.getListView();
+        listView.setOnScrollListener(new AbsListView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(AbsListView absListView, int scrollState) {
+
+            }
+
+            @Override
+            public void onScroll(AbsListView absListView, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+                int topRowVerticalPosition =
+                        (listView == null || listView.getChildCount() == 0) ?
+                                0 : listView.getChildAt(0).getTop();
+                mSwipeRefreshLayout.setEnabled(firstVisibleItem == 0 && topRowVerticalPosition >= 0);
+            }
+        });
+        initilizeComplains();
+
+        adapter = new ComplainsAdapter(getContext(),R.layout.list_item_complains, ReviewedcomplainList);
+
+        listView.setAdapter(adapter);
+
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                Intent intent = new Intent(getContext(), ComplainDetailsActivity.class);
+                intent.putExtra("MyComplain", ReviewedcomplainList.get(i));
+                startActivity(intent);
+            }
+        });
 
         return root;
     }
 
-    @SuppressLint("StaticFieldLeak")
-    private void send_to_DB(String title, String content) {
+    private boolean checkConnection() {
+        // first, check connectivity
+        if (ConnectionUtilities
+                .checkInternetConnection(getContext())) {
+            return true;
+        }
+        return false;
+    }
 
-        JSONObject values_info = new JSONObject();
-        try {
-            values_info.put("title",title);
-            values_info.put("user_id",globalVars.getId());
-            values_info.put("Content",content);
-            values_info.put("related_to",regarding_spinner.getText().toString());
-            values_info.put("readable",0);
-
+    private void initilizeComplains() {
+        if (!checkConnection()){
+            customListView.retry();
+            return;
+        }
+        //try {
             HttpCall httpCall = new HttpCall();
             httpCall.setMethodtype(HttpCall.POST);
-            httpCall.setUrl(Constants.insertData);
-            HashMap<String,String> params = new HashMap<>();
-            params.put("table","complains");
-            params.put("notify","1");
-            params.put("values",values_info.toString());
+            httpCall.setUrl(Constants.join);
+
+            /*JSONObject where_info = new JSONObject();
+            where_info.put("complains.to_id",globalVars.getId());*/
+            String OnCondition = "complains.user_id = users.id";
+
+            HashMap<String, String> params = new HashMap<>();
+            params.put("table1", "complains");
+            params.put("table2", "users");
+
+           // params.put("where",where_info.toString());
+            params.put("on", OnCondition);
 
             httpCall.setParams(params);
-
-            new HttpRequest(){
+            new HttpRequest() {
                 @Override
                 public void onResponse(JSONArray response) {
                     super.onResponse(response);
-
-                    if (response != null) {
-                        Toast.makeText(getContext(), "Your complain was successfully sent", Toast.LENGTH_SHORT).show();
-
-                        Intent intent = new Intent(getActivity(), HomeActivity.class);
-                        startActivity(intent);
-                    } else {
-                        Toast.makeText(getContext(), "An error occurred", Toast.LENGTH_SHORT).show();
-                    }
-
+                    fillAdapter(response);
                 }
             }.execute(httpCall);
-
-        } catch (JSONException e) {
+        /*} catch (JSONException e) {
             e.printStackTrace();
-        }
+        }*/
+    }
 
+    private void fillAdapter(JSONArray response) {
+        mSwipeRefreshLayout.setRefreshing(false);
+        ReviewedcomplainList.clear();
+        if (response != null) {
+            try {
+                for (int i = 0; i < response.length(); i++) {
+                    ReviewedcomplainList.add(new ComplainEntity(response.getJSONObject(i)));
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+        adapter.notifyDataSetChanged();
+        customListView.notifyChange(ReviewedcomplainList.size());
     }
 }
+

@@ -11,6 +11,7 @@ public interface Constants {
     String selectData = server + "selectdata";
     String updateData = server + "updatedata";
     String insertData = server + "insertdata";
+    String join = server + "joindata";
     String classesData = server + "class_Details";
     String admin_currentClasses = server + "current_classes";
     String coach_running_class = server + "running_classes";

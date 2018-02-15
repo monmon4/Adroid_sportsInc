@@ -1,8 +1,6 @@
 package com.quantumsit.sportsinc.Home_fragments;
 
-import android.content.Context;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -17,14 +15,13 @@ import com.quantumsit.sportsinc.Adapters.EventAdapter;
 import com.quantumsit.sportsinc.Backend.HttpCall;
 import com.quantumsit.sportsinc.Backend.HttpRequest;
 import com.quantumsit.sportsinc.Entities.EventEntity;
-import com.quantumsit.sportsinc.EventsDetailsActivity;
+import com.quantumsit.sportsinc.Activities.EventsDetailsActivity;
 import com.quantumsit.sportsinc.R;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 

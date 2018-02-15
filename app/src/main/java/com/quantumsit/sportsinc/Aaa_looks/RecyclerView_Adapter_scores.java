@@ -9,7 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.quantumsit.sportsinc.MyClasses_scoresActivity;
+import com.quantumsit.sportsinc.Activities.MyClasses_scoresActivity;
 import com.quantumsit.sportsinc.R;
 
 import java.util.List;

@@ -1,11 +1,9 @@
-package com.quantumsit.sportsinc;
+package com.quantumsit.sportsinc.Activities;
 
 import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
-import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.ExpandableListView;
 import android.widget.TextView;
 
@@ -13,9 +11,9 @@ import com.quantumsit.sportsinc.Aaa_data.Constants;
 import com.quantumsit.sportsinc.Aaa_data.GlobalVars;
 import com.quantumsit.sportsinc.Aaa_looks.ListViewExpandable_Adapter_singlecourse;
 import com.quantumsit.sportsinc.Aaa_looks.item1_reports_courses;
-import com.quantumsit.sportsinc.Aaa_looks.item_single_reports_courses;
 import com.quantumsit.sportsinc.Backend.HttpCall;
 import com.quantumsit.sportsinc.Backend.HttpRequest;
+import com.quantumsit.sportsinc.R;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -23,7 +21,6 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 
 public class Reports_coursesActivity extends AppCompatActivity {
 

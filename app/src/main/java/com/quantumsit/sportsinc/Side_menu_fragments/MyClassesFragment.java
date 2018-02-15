@@ -55,6 +55,7 @@ public class MyClassesFragment extends Fragment {
     }
 
     public void setupViewPager(ViewPager viewPager) {
+
         myclasses_sectionsPagerAdapter = new SectionsPagerAdapter(getChildFragmentManager());
         if(parent){
             myclasses_sectionsPagerAdapter.addFragment(new ScoresFragment(),"Scores");

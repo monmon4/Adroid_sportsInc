@@ -1,4 +1,4 @@
-package com.quantumsit.sportsinc;
+package com.quantumsit.sportsinc.Activities;
 
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
@@ -18,6 +18,7 @@ import com.quantumsit.sportsinc.Aaa_data.Constants;
 import com.quantumsit.sportsinc.Aaa_data.GlobalVars;
 import com.quantumsit.sportsinc.Backend.HttpCall;
 import com.quantumsit.sportsinc.Backend.HttpRequest;
+import com.quantumsit.sportsinc.R;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -53,7 +54,7 @@ public class ProfileActivity extends AppCompatActivity {
         Name = findViewById(R.id.profile_userName);
         Phone = findViewById(R.id.profile_userPhone);
         Mail = findViewById(R.id.profile_userMail);
-        Gender = findViewById(R.id.profile_gender);
+        //Gender = findViewById(R.id.profile_gender);
         DateOfBirth = findViewById(R.id.profile_date_birth);
 
         ChangePassword = findViewById(R.id.profile_change_password);
@@ -112,7 +113,7 @@ public class ProfileActivity extends AppCompatActivity {
         Name.setText(globalVars.getName());
         Phone.setText(globalVars.getPhone());
         Mail.setText(globalVars.getMail());
-        Gender.setText(globalVars.getPersonGender());
+        //Gender.setText(globalVars.getPersonGender());
         DateOfBirth.setText(globalVars.getDate_of_birth());
     }
 

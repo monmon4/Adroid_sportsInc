@@ -20,8 +20,7 @@ import com.quantumsit.sportsinc.Aaa_data.Rule_info;
 import com.quantumsit.sportsinc.Aaa_data.Trainees_info;
 import com.quantumsit.sportsinc.Backend.HttpCall;
 import com.quantumsit.sportsinc.Backend.HttpRequest;
-import com.quantumsit.sportsinc.ClassesDetailsActivity;
-import com.quantumsit.sportsinc.HomeActivity;
+import com.quantumsit.sportsinc.Activities.HomeActivity;
 import com.quantumsit.sportsinc.R;
 
 import org.json.JSONArray;

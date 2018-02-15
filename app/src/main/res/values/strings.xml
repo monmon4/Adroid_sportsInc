@@ -87,6 +87,12 @@
         <item>Admin</item>
         <item>Pool</item>
         <item>Other</item>
+
+    </string-array>
+
+    <string-array name="complain_to_array">
+        <item>Coach</item>
+        <item>Management</item>
     </string-array>
 
     <string-array name="empty_array">
@@ -221,6 +227,190 @@
     <string name="newsSection">News</string>
     <string name="moreButton">More</string>
     <string name="eventsSections">Events</string>
+    <string name="no_complains">No Received Complains</string>
+
+    <!-- ***********About us *********-->
+    <string name="about_academy">
+        The SH Academy is an international learn to swim
+        program member of the United States Swim Schools Association (www.asaswimming.com)
+        \nThe SH Academy methods are based on up-to-date and common knowledge of sports/swimming science
+        and teaching methods. The step by step program makes sure your child will be prepared, educated
+        and trained under the aspects of ergonomic, growth acceleration and physiology to swim
+        for health, safety, fun and fitness as well as it will set up the base for competitive
+        aquatic sports.
+
+        \n\nChildren must be at least 5 years old to start the SH Academy Step program.
+        \nThe classes on step 1 to 7 have a coaches/swimmers ratio of 1:8
+
+        \n\nStep Description:
+        The SH Academy teaches children in a step by step process a foundation of water safety and proper
+        swimming technique
+        \nThe child may have other swimming skills, but will not excel without the foundation of water adaptation,
+        water experience and breathing foundation.
+        \n Each term to promote the children to the next step
+    </string>
+
+
+    <string name="about_SH">
+        We are an Academy based on international knowledge of swimming, years of experience
+        from learn to swim up till high level competitive swimming and most of all passion
+        for the sport.
+        \nOur Mission is to introduce our members to the water and friendship close with water
+        for lifetime.
+        Wherever the path leads - competitive aquatics, fitness and health, recreational swimming or just enjoy
+        - we guarantee to teach skills of safety, confidence and opportunity.
+    </string>
+
+
+    <string name="for_parents">
+        Parents of SH Aquatic members are expected to adhere to the following guidelines
+        and supervision requirements.
+        These guidelines are designed to promote and ensure a positive and safe experience
+        for everyone:
+    </string>
+
+
+    <string name="pool">
+        All SH Aquatic members will be required to use the separate entrance to
+        the Swimming Pool and head directly to the changing rooms.
+    </string>
+
+    <string name="punctuality2">
+        It is important that parents ensure their children are ready to start their class
+        at the scheduled time with their required training equipment.
+        \nWhen swimmers arrive late, it causes a disruption to the class
+        and swimmers miss the warm up, which is a very important part of the training session.
+    </string>
+
+    <string name="training_equipment2">
+        Swimsuit, Towel, Swimming Cap*, Goggles* are mandatory
+        *will be available to buy directly at the pool
+    </string>
+
+
+    <string name="are_parents">
+        Parents often ask if they need to stay at the pool during class time - this depends on your child’s age
+    </string>
+
+    <string name="are_parents2">
+        •	A parent of swimmers aged less than 10 years are required to stay at the pool during their child is in a class.
+        \n•	Parents of swimmers aged 10 years and over do not need to stay to watch their child’s class - this is optional.
+        \n•	Parents of older swimmers (14 years+) are encouraged to occupy themselves during training rather than stay and watch their child train.
+    </string>
+
+
+    <string name="parent_etiquette">
+        Parents who choose to watch their child’s class are asked to please
+        sit in one of the areas where seating is provided. Please do not sit
+        or stand on the pool deck as this should be kept clear for coaches and swimmers.
+        \nParents should not attempt to communicate (verbally or non-verbally)
+        with their child during a class - this causes distractions.
+        \nParents should not talk or comment to the coach during class time.
+        It is important that parents understand that coaches and students
+        must not be interrupted whilst a class is being conducted.
+    </string>
+
+    <string name="communication_with_coaches2">
+        Parents may, if necessary, briefly communicate with coaches after a class.
+        \nNote: A reasonable amount of communication with your child\'s coach is approximately
+        a few minutes each term
+        \nIt is important that parents understand that coaches and students
+        must not be interrupted whilst a class is being conducted.
+        \nParents meetings will be organized in regular periods and any update will be
+        announced and published.
+        \nParents may request an additional meeting with the coach,
+        please contact us if you wish to arrange this.
+    </string>
+
+    <string name="starting_the_class2">
+        The responsible coach will welcome and collect the swimmers at the
+        “kiss and drop” point in time to start the session.
+        \nDuring the class your child is under full responsibility and supervision
+        of the coach.
+        \nWe request you support us doing our work at its best by let the coach teach
+        and coach your child.
+    </string>
+
+    <string name="finishing_the_class2">
+        After each session the coach will bring the group to the “kiss and drop”
+        point and hand over responsibility and supervision to the parent.
+    </string>
+
+    <string name="locker_changing_rooms2">
+        SH Aquatics does not provide supervision in the locker/changing rooms
+        and we assume no liability for your belongings.
+    </string>
+
+    <string name="missed_class_policy_refund2">
+        In general if a swimmer misses their regular class,
+        no make-up classes will be provided.
+        \nIf a swimmer will be unable to attend classes for a period of two or more weeks
+        due to a significant injury or illness,
+        an arrangement to switch the group will be provided.
+        \n\nWe would appreciate your notification or announcement of any planned absence
+        ahead. Attendance reports are made by the coaches directly.
+        \n\nSH Aquatics do not offer refunds for Academy classes and swimming training services.
+        In exceptional and medical circumstances, in which a valid doctor's certificate
+        must be provided, partly refunds may be granted.
+        \nAll refunds are awarded at the discretion of the managing director.
+    </string>
+
+
+    <string name="general_conduct2">
+        It is important that parents behave maturely and treat SH Aquatic members and staff
+        respectfully.
+        \nAggressive or inappropriate behavior will not be tolerated.
+        \n\nBy signing the registration form and payments you agree and accept the general
+        terms of conditions as well as the privacy policy.
+    </string>
+
+    <string name="booking_fee2">
+        •	The booking fee is payable before your first lesson . Incoming payments secure your booking.
+        \n•	Your booking fee is redeemable for your registered term.
+    </string>
+
+    <string name="payment_options2">
+        •	SH Aquatics accepts bank transfer only, no cash payments.
+        Please, provide your bank confirmation at the first lesson.
+    </string>
+
+    <string name="term_payment_policy2">
+        •	Our fees are calculated on a term basis and you are required to pay for the full term.
+        \n•	Term payments must be made in full; prior to the first lesson.
+        \n•	If payment is not received before your first lesson we cannot guarantee your booking.
+        If you are experiencing any difficult with payment,
+        please, discuss with our administrative staff.
+        \n•	In case SH Aquatics needs to cancel lessons
+        (due to maintenance or technical problems) make up lessons will be provided.
+        \n•	SH Aquatics do not offer refunds for Academy classes and swimming training services.
+        In exceptional and medical circumstances,
+        in which a valid doctor's certificate must be provided,
+        partly refunds may be granted. All refunds are awarded at the discretion of the managing director.
+
+    </string>
+
+    <string name="about_us">About Us</string>
+    <string name="welcome_to_sh_aquatics">Welcome to SH Aquatics!</string>
+    <string name="pool_entry">•\tPool entry</string>
+    <string name="punctuality">•\tPunctuality</string>
+    <string name="training_equipment">•\tTraining equipment</string>
+    <string name="are_parents_required_to_stay_at_the_pool_during_classes">•\tAre parents required to stay at the pool during classes?</string>
+    <string name="parent_etiquette_during_class_time">•\tParent etiquette during class time</string>
+    <string name="communication_with_coaches">•\tCommunication with coaches</string>
+    <string name="starting_the_class">•\tStarting the class</string>
+    <string name="finishing_the_class">•\tFinishing the class</string>
+    <string name="locker_changing_rooms">•\tLocker/Changing Rooms</string>
+    <string name="missed_class_policy_refund">•\tMissed Class Policy - Refund</string>
+    <string name="general_conduct">•\tGeneral conduct</string>
+    <string name="booking_fee">Booking Fee</string>
+    <string name="payment_options">Payment Options</string>
+    <string name="term_payment_policy">Term Payment Policy</string>
+
+    <!-- End ***********About us *********-->
+
+    <string name="to">To\t\t</string>
+    <string name="reassign">Reassign</string>
+    <string name="powered_by_sports_inc">powered by sports Inc.</string>
 
 
 </resources>

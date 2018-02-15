@@ -1,9 +1,11 @@
-package com.quantumsit.sportsinc;
+package com.quantumsit.sportsinc.Activities;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
+
+import com.quantumsit.sportsinc.R;
 
 public class MyClasses_scoresActivity extends AppCompatActivity {
 

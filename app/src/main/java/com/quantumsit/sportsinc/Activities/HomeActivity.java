@@ -1,4 +1,4 @@
-package com.quantumsit.sportsinc;
+package com.quantumsit.sportsinc.Activities;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
@@ -30,6 +30,9 @@ import com.quantumsit.sportsinc.Backend.HttpCall;
 import com.quantumsit.sportsinc.Backend.HttpRequest;
 import com.quantumsit.sportsinc.COACHES.ReportsFragments.CoachReportsFragment;
 import com.quantumsit.sportsinc.COACHES.CoachRequestFragment;
+import com.quantumsit.sportsinc.Side_menu_fragments.ContactUsFragment;
+import com.quantumsit.sportsinc.R;
+import com.quantumsit.sportsinc.Side_menu_fragments.AboutUsFragment;
 import com.quantumsit.sportsinc.Side_menu_fragments.CertificatesFragment;
 import com.quantumsit.sportsinc.Side_menu_fragments.ComplainsFragment;
 import com.quantumsit.sportsinc.Side_menu_fragments.HomeFragment;
@@ -314,7 +317,10 @@ public class HomeActivity extends AppCompatActivity
             unActiveUser(globalVars.getId());
         }  else if (id == R.id.nav_contact_us) {
             actionBar.setTitle(R.string.contact_us);
-            fragmentClass = MapsActivity.class;
+            fragmentClass = ContactUsFragment.class;
+        }  else if (id == R.id.nav_about_us) {
+            actionBar.setTitle(R.string.about_us);
+            fragmentClass = AboutUsFragment.class;
         }
 
         try {

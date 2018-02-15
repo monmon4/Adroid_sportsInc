@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ProfileActivity"
+    tools:context=".Activities.ProfileActivity"
     android:orientation="vertical">
 
     <ScrollView
@@ -16,6 +16,17 @@
             android:layout_height="wrap_content"
             android:layout_margin="16dp"
             android:orientation="vertical">
+
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:layout_width="150dp"
+                android:layout_height="150dp"
+                android:scaleType="centerCrop"
+                android:layout_gravity="center"
+                android:layout_margin="10dp"
+                android:background="@drawable/sh_logo"
+                android:id="@+id/imageView_profile"/>
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -101,13 +112,12 @@
 
                 <TextView
                     android:id="@+id/dateTextView_register"
-                    android:layout_width="0dp"
-                    android:layout_weight="1"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_margin="5dp"
                     android:textColor="@color/colorPrimaryDark"
-                    android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
-                    android:text="@string/date_of_birth" />
+                    android:background="@drawable/ic_birthdate"
+                    android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium" />
 
                 <TextView
                     android:id="@+id/profile_date_birth"
@@ -122,7 +132,7 @@
 
             </LinearLayout>
 
-            <LinearLayout
+            <!--LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="5dp"
@@ -131,14 +141,13 @@
 
                 <TextView
                     android:id="@+id/genderTextView_register"
-                    android:layout_width="0dp"
-                    android:layout_weight="1"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_margin="5dp"
                     android:paddingRight="20dp"
                     android:textColor="@color/colorPrimaryDark"
-                    android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
-                    android:text="@string/gender" />
+                    android:background="@drawable/ic_gender"
+                    android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium" />
 
                 <TextView
                     android:id="@+id/profile_gender"
@@ -150,7 +159,7 @@
                     android:text="Male"
                     android:layout_marginLeft="10dp"/>
 
-            </LinearLayout>
+            </LinearLayout-->
 
             <TextView
                 android:id="@+id/profile_change_password"

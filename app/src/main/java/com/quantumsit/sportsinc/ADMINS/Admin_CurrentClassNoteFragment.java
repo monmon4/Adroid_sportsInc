@@ -11,7 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 
-import com.quantumsit.sportsinc.HomeActivity;
+import com.quantumsit.sportsinc.Activities.HomeActivity;
 import com.quantumsit.sportsinc.R;
 
 /**

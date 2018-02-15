@@ -32,7 +32,7 @@
         <item
             android:id="@+id/nav_certificates"
             android:visible="false"
-            android:icon="@drawable/ic_side_certificates"
+            android:icon="@drawable/ic_certficates"
             android:title="@string/certificates" />
 
     </group>
@@ -46,15 +46,11 @@
             android:icon="@drawable/ic_question"
             android:title="@string/contact_us" />
 
-        <!--item
-            android:id="@+id/nav_about_us"
-            android:icon="@drawable/ic_side_info"
-            android:title="About us" /-->
 
         <item
-            android:id="@+id/nav_website"
+            android:id="@+id/nav_about_us"
             android:icon="@drawable/ic_side_info"
-            android:title="@string/academy_s_website" />
+            android:title="@string/about_us" />
 
         <item
             android:id="@+id/nav_logout"

@@ -19,6 +19,8 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.quantumsit.sportsinc.Aaa_data.Constants;
+import com.quantumsit.sportsinc.Activities.EventsActivity;
+import com.quantumsit.sportsinc.Activities.NewsActivity;
 import com.quantumsit.sportsinc.Adapters.EventsRecyclerAdapter;
 import com.quantumsit.sportsinc.Adapters.NewsRecyclerAdapter;
 import com.quantumsit.sportsinc.Backend.HttpCall;
@@ -96,14 +98,14 @@ public class MainFragment extends Fragment {
         newsMore.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-               // startActivity(new Intent(getContext(), NewsActivity.class));
+                startActivity(new Intent(getContext(), NewsActivity.class));
             }
         });
 
         eventMore.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //startActivity(new Intent(getContext(), EventsActivity.class));
+                startActivity(new Intent(getContext(), EventsActivity.class));
             }
         });
         AboutAcademy = root.findViewById(R.id.AboutAcademy);

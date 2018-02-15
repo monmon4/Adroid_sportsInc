@@ -2,13 +2,11 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:paddingBottom="@dimen/activity_vertical_margin"
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.quantumsit.sportsinc.Home_fragments.MainFragment">
-
 
     <android.support.v4.widget.SwipeRefreshLayout
         android:id="@+id/swiperefresh"
@@ -59,7 +57,6 @@
                         android:text=" tap to Retry"/>
                 </LinearLayout>
 
-                android:layout_centerInParent="true"/>
             </RelativeLayout>
             <android.support.v4.widget.NestedScrollView
                 android:layout_width="match_parent"
@@ -92,6 +89,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="@string/newsSection"
+                                android:textColor="@color/colorPrimaryDark"
                                 android:layout_marginStart="10dp"
                                 android:gravity="start"
                                 android:textStyle="bold|italic"
@@ -103,7 +101,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_marginEnd="10dp"
                                 android:text="@string/moreButton"
-                                android:textColor="@color/colorPrimary"
+                                android:textColor="@color/colorAccent"
                                 android:gravity="end"
                                 android:textStyle="bold|italic"
                                 android:textAppearance="@style/Base.TextAppearance.AppCompat.Small"/>
@@ -135,6 +133,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="@string/eventsSections"
+                                android:textColor="@color/colorPrimaryDark"
                                 android:layout_marginStart="10dp"
                                 android:gravity="start"
                                 android:textStyle="bold|italic"
@@ -146,7 +145,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_marginEnd="10dp"
                                 android:text="@string/moreButton"
-                                android:textColor="@color/colorPrimary"
+                                android:textColor="@color/colorAccent"
                                 android:gravity="end"
                                 android:textStyle="bold|italic"
                                 android:textAppearance="@style/Base.TextAppearance.AppCompat.Small"/>
@@ -159,31 +158,31 @@
                         </android.support.v7.widget.RecyclerView>
 
                     </LinearLayout>
-                <LinearLayout
-                    android:id="@+id/AboutSection"
-                    android:layout_width="match_parent"
-                    android:orientation="vertical"
-                    android:layout_marginBottom="5dp"
-                    android:layout_marginTop="5dp"
-                    android:layout_height="wrap_content">
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="About"
-                        android:layout_gravity="center"
+                    <LinearLayout
+                        android:id="@+id/AboutSection"
+                        android:layout_width="match_parent"
+                        android:orientation="vertical"
                         android:layout_marginBottom="5dp"
-                        android:textColor="@color/colorPrimaryDark"
-                        android:textStyle="bold|italic"
-                        android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"/>
-                    <TextView
-                        android:id="@+id/AboutAcademy"
-                        android:text="Loading..."
-                        android:paddingTop="10dp"
-                        android:paddingBottom="10dp"
-                        android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
-                        android:layout_height="wrap_content"
-                        android:layout_width="match_parent"/>
-                </LinearLayout>
+                        android:layout_marginTop="5dp"
+                        android:layout_height="wrap_content">
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="About"
+                            android:layout_gravity="start"
+                            android:layout_marginBottom="5dp"
+                            android:textColor="@color/colorPrimaryDark"
+                            android:textStyle="bold|italic"
+                            android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"/>
+                        <TextView
+                            android:id="@+id/AboutAcademy"
+                            android:text="Loading..."
+                            android:paddingTop="10dp"
+                            android:paddingBottom="10dp"
+                            android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
+                            android:layout_height="wrap_content"
+                            android:layout_width="match_parent"/>
+                    </LinearLayout>
                     <LinearLayout
                         android:id="@+id/SponsorSection"
                         android:layout_width="match_parent"
@@ -195,8 +194,8 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="Sponsors"
-                            android:layout_gravity="center"
-                            android:layout_marginBottom="5dp"
+                            android:layout_gravity="start"
+                            android:layout_marginBottom="10dp"
                             android:textColor="@color/colorPrimaryDark"
                             android:textStyle="bold|italic"
                             android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"/>
@@ -204,20 +203,20 @@
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:orientation="horizontal"
-                            android:background="@color/colorWhite">
+                            android:gravity="center"
+                            android:orientation="horizontal">
                             <ImageView
-                                android:layout_width="0dp"
-                                android:layout_weight="1"
-                                android:layout_height="100dp"
-                                android:padding="5dp"
-                                android:src="@drawable/dolfin"/>
-                            <ImageView
-                                android:layout_width="0dp"
-                                android:layout_weight="1"
-                                android:layout_height="100dp"
-                                android:src="@drawable/vasa_white"
+                                android:layout_width="130dp"
+                                android:layout_height="70dp"
+                                android:layout_marginStart="5dp"
+                                android:src="@drawable/dolfin"
                                 android:padding="5dp"/>
+                            <ImageView
+                                android:layout_width="120dp"
+                                android:layout_height="70dp"
+                                android:layout_marginEnd="5dp"
+                                android:padding="5dp"
+                                android:src="@drawable/vasa_white"/>
                         </LinearLayout>
 
                     </LinearLayout>

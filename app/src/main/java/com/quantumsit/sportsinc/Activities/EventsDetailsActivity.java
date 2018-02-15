@@ -1,10 +1,11 @@
-package com.quantumsit.sportsinc;
+package com.quantumsit.sportsinc.Activities;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.TextView;
 
 import com.quantumsit.sportsinc.Entities.EventEntity;
+import com.quantumsit.sportsinc.R;
 
 import java.text.SimpleDateFormat;
 

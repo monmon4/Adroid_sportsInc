@@ -15,10 +15,9 @@
         android:layout_height="wrap_content"
         android:textColor="@color/colorWhite"
         android:layout_alignParentBottom="true"
-        android:layout_marginStart="10dp"
-        android:layout_marginBottom="10dp"
+        android:layout_margin="10dp"
         android:textStyle="italic"
         android:layout_alignParentEnd="true"
         android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
-        android:text = "powered by sport Inc."/>
+        android:text = "@string/powered_by_sports_inc"/>
 </RelativeLayout>

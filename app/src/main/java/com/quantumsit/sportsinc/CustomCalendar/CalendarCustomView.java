@@ -14,7 +14,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.quantumsit.sportsinc.ClassesDetailsActivity;
+import com.quantumsit.sportsinc.Activities.ClassesDetailsActivity;
 import com.quantumsit.sportsinc.Entities.classesEntity;
 import com.quantumsit.sportsinc.Interfaces.MyItemClickListener;
 import com.quantumsit.sportsinc.R;
