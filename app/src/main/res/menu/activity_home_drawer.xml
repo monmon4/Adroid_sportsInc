@@ -32,7 +32,7 @@
         <item
             android:id="@+id/nav_certificates"
             android:visible="false"
-            android:icon="@drawable/ic_side_certificates"
+            android:icon="@drawable/ic_certficates"
             android:title="@string/certificates" />
 
     </group>
