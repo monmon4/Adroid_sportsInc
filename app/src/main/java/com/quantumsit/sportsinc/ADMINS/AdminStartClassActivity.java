@@ -60,6 +60,7 @@ public class AdminStartClassActivity extends AppCompatActivity {
     }
 
     public void done_pressed(View view) {
+        /*
         progressDialog.show();
         note = note_editText.getText().toString();
         boolean checked = coach_name_checkBox.isChecked();
@@ -69,7 +70,8 @@ public class AdminStartClassActivity extends AppCompatActivity {
             attend = 0;
 
         insertCoachAttend();
-
+        */
+        onBackPressed();
     }
 
     private  void insertCoachAttend(){

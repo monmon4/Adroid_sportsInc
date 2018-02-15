@@ -233,6 +233,7 @@ public class HomeActivity extends AppCompatActivity
 
 
 
+
     @Override
     public void onBackPressed() {
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -311,6 +312,9 @@ public class HomeActivity extends AppCompatActivity
         } else if(id == R.id.nav_logout){
             // LogOut From the System
             unActiveUser(globalVars.getId());
+        }  else if (id == R.id.nav_contact_us) {
+            actionBar.setTitle(R.string.contact_us);
+            fragmentClass = MapsActivity.class;
         }
 
         try {

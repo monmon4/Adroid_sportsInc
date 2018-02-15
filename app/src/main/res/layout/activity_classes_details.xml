@@ -311,7 +311,7 @@
                 android:text="@string/cancel"
                 android:layout_margin="16dp"
                 android:textColor="#FFFFFF"
-                android:background="@drawable/buttonshape_notclicked"/>
+                android:background="@drawable/button_red_background"/>
 
             <Button
                 android:id="@+id/class_postpond_btn"
@@ -325,7 +325,7 @@
                 android:text="@string/postpond"
                 android:layout_margin="16dp"
                 android:textColor="#FFFFFF"
-                android:background="@drawable/buttonshape_notclicked"/>
+                android:background="@drawable/button_red_background"/>
 
         </LinearLayout>
 

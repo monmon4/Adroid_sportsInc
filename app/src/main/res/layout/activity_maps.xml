@@ -1,5 +1,4 @@
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:map="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -7,45 +6,64 @@
     android:orientation="vertical"
     tools:context="com.quantumsit.sportsinc.MapsActivity">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-            <fragment
-                android:id="@+id/map"
-                android:name="com.google.android.gms.maps.SupportMapFragment"
-                android:layout_width="match_parent"
-                android:layout_height="200dp" />
-        </RelativeLayout>
-
-
-        <TextView
-            android:id="@+id/textView5"
+        <LinearLayout
+            android:id="@+id/abovelayout_contactus"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="10dp"
-            android:background="@drawable/text_view_background"
-            android:padding="10dp"
-            android:drawableEnd="@drawable/ic_clocks"
-            android:text="Opening Hours"
-            android:gravity="center_vertical"
-            android:textColor="@color/colorWhite"
-            android:textSize="14sp"
-            android:textStyle="bold" />
+            android:layout_alignParentTop="true"
+            android:orientation="vertical">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:layout_marginBottom="10dp">
+
+                <com.google.android.gms.maps.MapView
+                    android:id="@+id/map"
+                    android:clickable="false"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" />
+
+                <TextView
+                    android:id="@+id/maps_textView"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:visibility="invisible"
+                    android:clickable="false"
+                    android:gravity="center"
+                    android:background="@color/colorLightGray"
+                    android:textSize="14sp"
+                    android:textColor="@color/colorBlue"
+                    android:text="@string/not_available" />
+            </RelativeLayout>
 
 
-        <ListView
-            android:id="@+id/openingHoursListView_maps"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" />
-    </LinearLayout>
+            <TextView
+                android:id="@+id/textView5"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:background="@drawable/text_view_background"
+                android:drawableEnd="@drawable/ic_clocks"
+                android:gravity="center_vertical"
+                android:padding="10dp"
+                android:text="@string/opening_hours"
+                android:textColor="@color/colorWhite"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+
+
+            <ListView
+                android:id="@+id/openingHoursListView_maps"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginBottom="80dp" />
+        </LinearLayout>
 
     <LinearLayout
+        android:id="@+id/belowlayout_contactus"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
@@ -54,15 +72,17 @@
 
 
         <TextView
-            android:id="@+id/textView7"
+            android:id="@+id/callTextView_contactus"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_margin="10dp"
             android:layout_weight="1"
-            android:gravity="center"
-            android:textColor="@color/colorWhite"
-            android:textSize="14sp"
             android:drawableTop="@drawable/ic_phone"
-            android:text="@string/call_us" />
+            android:gravity="center"
+            android:text="@string/call"
+            android:textColor="@color/colorWhite"
+            android:background="?attr/selectableItemBackground"
+            android:textSize="14sp" />
 
         <View
             android:layout_width="1dp"
@@ -70,15 +90,17 @@
             android:background="@color/colorWhite"/>
 
         <TextView
-            android:id="@+id/textView8"
+            android:id="@+id/emailTextView_contactus"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_margin="10dp"
             android:layout_weight="1"
-            android:gravity="center"
-            android:textColor="@color/colorWhite"
-            android:textSize="14sp"
             android:drawableTop="@drawable/ic_email"
-            android:text="@string/email" />
+            android:gravity="center"
+            android:text="@string/email"
+            android:textColor="@color/colorWhite"
+            android:background="?attr/selectableItemBackground"
+            android:textSize="14sp" />
 
         <View
             android:layout_width="1dp"
@@ -86,15 +108,17 @@
             android:background="@color/colorWhite"/>
 
         <TextView
-            android:id="@+id/textView9"
+            android:id="@+id/direcctionTextView_contactus"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_margin="10dp"
             android:layout_weight="1"
-            android:gravity="center"
-            android:textColor="@color/colorWhite"
-            android:textSize="14sp"
             android:drawableTop="@drawable/ic_directions"
-            android:text="@string/directions" />
+            android:gravity="center"
+            android:text="@string/directions"
+            android:textColor="@color/colorWhite"
+            android:background="?attr/selectableItemBackground"
+            android:textSize="14sp" />
     </LinearLayout>
 
 

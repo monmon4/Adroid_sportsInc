@@ -353,4 +353,9 @@ public class ActivityAddRequest_coach extends AppCompatActivity {
         Toast.makeText(ActivityAddRequest_coach.this,s,Toast.LENGTH_SHORT).show();
     }
 
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        finish();
+    }
 }

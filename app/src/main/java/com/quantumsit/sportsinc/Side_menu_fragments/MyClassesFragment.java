@@ -45,8 +45,8 @@ public class MyClassesFragment extends Fragment {
             admin = true;
         }
 
-        myclasses_view_pager = (ViewPager) root.findViewById(R.id.my_classes_viewpager);
-        tabLayout = (TabLayout) root.findViewById(R.id.my_classes_tabs);
+        myclasses_view_pager =  root.findViewById(R.id.my_classes_viewpager);
+        tabLayout =  root.findViewById(R.id.my_classes_tabs);
         tabLayout.setupWithViewPager(myclasses_view_pager);
 
         setupViewPager(myclasses_view_pager);

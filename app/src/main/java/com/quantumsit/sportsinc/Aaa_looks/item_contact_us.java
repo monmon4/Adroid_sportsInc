@@ -1,26 +1,17 @@
 package com.quantumsit.sportsinc.Aaa_looks;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-
 /**
  * Created by Mona on 27-Dec-17.
  */
 
-public class item_request {
-    String creation_date;
-    String course_name_and_class_name;
-    String class_date;
+public class item_contact_us {
+    String date, time;
 
 
-    public item_request(String creation_date, String course_name_and_class_name, String class_date) {
-        this.creation_date = creation_date;
-        this.course_name_and_class_name  = course_name_and_class_name;
-        this.class_date = class_date;
+    public item_contact_us(String date, String time) {
+        this.date = date;
+        this.time = time;
     }
+
 
 }

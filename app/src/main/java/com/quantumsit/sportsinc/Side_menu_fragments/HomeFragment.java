@@ -43,10 +43,7 @@ public class HomeFragment extends Fragment {
     public void setupViewPager(ViewPager mViewPager){
         mSectionsPagerAdapter = new SectionsPagerAdapter(getChildFragmentManager());
         mSectionsPagerAdapter.addFragment(new MainFragment(),"Home");
-        mSectionsPagerAdapter.addFragment(new NewsFragment(),"News");
-        mSectionsPagerAdapter.addFragment(new EventFragment(),"Events");
         mSectionsPagerAdapter.addFragment(new CoursesFragment(),"Courses");
-        mSectionsPagerAdapter.addFragment(new RulesFragment(),"Rules");
 
         mViewPager.setAdapter(mSectionsPagerAdapter);
     }
