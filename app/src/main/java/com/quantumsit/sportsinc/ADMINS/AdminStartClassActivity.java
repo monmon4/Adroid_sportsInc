@@ -127,6 +127,16 @@ public class AdminStartClassActivity extends AppCompatActivity {
     }
 
     private void set_class_info(){
+        int attendance_checked = startClass_info.getCheck_rule();
+        int rules_checked = startClass_info.getCheck_rule();
+
+        if(attendance_checked == 1)
+            coach_name_checkBox.setSelected(true);
+        if(rules_checked == 1)
+            rules_checkBox.setSelected(true);
+
+        attendance_note_editText.setText(startClass_info.getCoach_attendance_notes());
+        rules_note_editText.setText(startClass_info.getCheck_rule_notes());
 
     }
 
