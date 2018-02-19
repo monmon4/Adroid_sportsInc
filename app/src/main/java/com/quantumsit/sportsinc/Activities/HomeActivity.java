@@ -31,7 +31,9 @@ import com.quantumsit.sportsinc.Backend.HttpRequest;
 import com.quantumsit.sportsinc.COACHES.CoachRequestSentFragment;
 import com.quantumsit.sportsinc.COACHES.ReportsFragments.CoachReportsFragment;
 import com.quantumsit.sportsinc.COACHES.CoachRequestFragment;
+import com.quantumsit.sportsinc.Side_menu_fragments.ContactUsFragment;
 import com.quantumsit.sportsinc.R;
+import com.quantumsit.sportsinc.Side_menu_fragments.AboutUsFragment;
 import com.quantumsit.sportsinc.Side_menu_fragments.CertificatesFragment;
 import com.quantumsit.sportsinc.Side_menu_fragments.ComplainsFragment;
 import com.quantumsit.sportsinc.Side_menu_fragments.Complains_SendFragment;
@@ -296,10 +298,7 @@ public class HomeActivity extends AppCompatActivity
 
         } else if (id == R.id.nav_complains) {
             actionBar.setTitle(R.string.complains);
-            if (coach)
-                fragmentClass = ComplainsFragment.class;
-            else
-                fragmentClass = Complains_SendFragment.class;
+            fragmentClass = ComplainsFragment.class;
         } else if (id == R.id.nav_reports) {
             actionBar.setTitle(R.string.reports);
             if (parent){
@@ -320,7 +319,10 @@ public class HomeActivity extends AppCompatActivity
             unActiveUser(globalVars.getId());
         }  else if (id == R.id.nav_contact_us) {
             actionBar.setTitle(R.string.contact_us);
-            fragmentClass = MapsActivity.class;
+            fragmentClass = ContactUsFragment.class;
+        }  else if (id == R.id.nav_about_us) {
+            actionBar.setTitle(R.string.about_us);
+            fragmentClass = AboutUsFragment.class;
         }
 
         try {

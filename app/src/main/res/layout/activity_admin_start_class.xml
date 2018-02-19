@@ -7,6 +7,7 @@
     tools:context="com.quantumsit.sportsinc.ADMINS.AdminStartClassActivity">
 
     <LinearLayout
+        android:id="@+id/ll_adminstartclass"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_margin="16dp"
@@ -20,15 +21,50 @@
             android:textColor="@color/colorText"
             android:textStyle="bold" />
 
-        <CheckBox
-            android:id="@+id/coachNameCheckBox_admincurrentclass2"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="10dp"
-            android:layout_marginEnd="10dp"
-            android:layout_marginStart="10dp"
-            android:text="@string/coach_s_name"
-            android:textColor="@color/colorText" />
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+
+            <CheckBox
+                android:id="@+id/coachNameCheckBox_admincurrentclass2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
+                android:layout_marginEnd="10dp"
+                android:layout_gravity="center"
+                android:layout_marginStart="10dp"
+                android:text="@string/coach_s_name"
+                android:textColor="@color/colorText" />
+
+                <com.weiwangcn.betterspinner.library.material.MaterialBetterSpinner
+                    android:id="@+id/reassignSpinner"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/text_view_gray"
+                    android:text="@string/reassign_to"
+                    android:padding="5dp"
+                    android:visibility="visible"
+                    android:textColorHint="@color/colorAccent"/>
+                    <!--app:met_floatingLabel="normal"-->
+
+                <Button
+                    android:id="@+id/reassign_admincurrentclass2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="30dp"
+                    android:layout_gravity="center"
+                    android:layout_marginStart="10dp"
+                    android:background="@drawable/text_view_gray"
+                    android:gravity="center"
+                    android:padding="5dp"
+                    android:text="@string/reassign"
+                    android:textAllCaps="false"
+                    android:textColor="@color/colorBlack"
+                    android:visibility="invisible" />
+
+
+        </LinearLayout>
 
         <EditText
             android:id="@+id/attendancenotesEditText_admincurrentclass2"
@@ -51,9 +87,7 @@
             android:id="@+id/rulesCheckBox_admincurrentclass"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="10dp"
-            android:layout_marginEnd="10dp"
-            android:layout_marginStart="10dp"
+            android:layout_margin="10dp"
             android:text="Rules are checked"
             android:textColor="@color/colorText" />
 

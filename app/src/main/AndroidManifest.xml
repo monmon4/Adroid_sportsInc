@@ -60,7 +60,7 @@
 
         <!--
             activity
-            android:name=".MapsActivity"
+            android:namContactUsFragmentvity"
             android:theme="@style/AppTheme"
             android:label="@string/title_activity_maps" /
         -->

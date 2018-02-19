@@ -54,7 +54,7 @@ public class ProfileActivity extends AppCompatActivity {
         Name = findViewById(R.id.profile_userName);
         Phone = findViewById(R.id.profile_userPhone);
         Mail = findViewById(R.id.profile_userMail);
-        Gender = findViewById(R.id.profile_gender);
+        //Gender = findViewById(R.id.profile_gender);
         DateOfBirth = findViewById(R.id.profile_date_birth);
 
         ChangePassword = findViewById(R.id.profile_change_password);
@@ -113,7 +113,7 @@ public class ProfileActivity extends AppCompatActivity {
         Name.setText(globalVars.getName());
         Phone.setText(globalVars.getPhone());
         Mail.setText(globalVars.getMail());
-        Gender.setText(globalVars.getPersonGender());
+        //Gender.setText(globalVars.getPersonGender());
         DateOfBirth.setText(globalVars.getDate_of_birth());
     }
 
