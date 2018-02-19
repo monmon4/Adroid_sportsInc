@@ -67,6 +67,18 @@ public class DB_Sqlite_Handler extends SQLiteOpenHelper {
     private String KeyTraineeScore = "trainee_score";
     private String KeyTraineeNote = "trainee_note";
 
+    // StartClass Table name
+    private String TABLE_start_class = "start_class_admin";
+    // StartClass Table Columns names
+    // KeyId, KeyClassId exists
+    private String KeyAttendanceId = "attendance_id";
+    private String KeyCoachAttendance = "coach_attendance";
+    private String KeyCoachAttendanceNotes = "coach_attendance_notes";
+    private String KeyCoachId = "coach_id";
+    private String KeyCheckRuleId = "check_rule_id";
+    private String KeyCheckRule = "check_rule";
+    private String KeyCheckRuleNotes = "check_rule_notes";
+
 
     public DB_Sqlite_Handler(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -96,10 +108,18 @@ public class DB_Sqlite_Handler extends SQLiteOpenHelper {
                 + KeyTraineeClass + " INTEGER, "+ KeyTraineeAttend + " INTEGER,"
                 + KeyTraineeScore+ " INTEGER," + KeyTraineeNote + " TEXT"  + ")";
 
+        String CREATE_Start_Class_TABLE = "CREATE Table " + TABLE_start_class + "("
+                + KeyId + " INTEGER PRIMARY KEY," + KeyClassId + " INTEGER,"
+                + KeyAttendanceId + " INTEGER," + KeyCoachAttendance + " INTEGER,"
+                + KeyCoachAttendanceNotes + " TEXT," + KeyCoachId + " INTEGER,"
+                + KeyCheckRuleId + " INTEGER," + KeyCheckRule + " INTEGER,"
+                + KeyCheckRuleNotes + " TEXT" + ")";
+
         db.execSQL(CREATE_ACADEMY_INFO_TABLE);
         db.execSQL(CREATE_Class_TABLE);
         db.execSQL(CREATE_Rules_TABLE);
         db.execSQL(CREATE_Trainee_TABLE);
+        db.execSQL(CREATE_Start_Class_TABLE);
     }
 
     public String DBTablesName(){
@@ -123,6 +143,7 @@ public class DB_Sqlite_Handler extends SQLiteOpenHelper {
         db.execSQL("DROP TABLE IF EXISTS" + TABLE_classes);
         db.execSQL("DROP TABLE IF EXISTS" + TABLE_rules);
         db.execSQL("DROP TABLE IF EXISTS" + TABLE_trainee);
+        db.execSQL("DROP TABLE IF EXISTS" + TABLE_start_class);
         // Creating tables again
         onCreate(db);
     }
@@ -187,6 +208,24 @@ public class DB_Sqlite_Handler extends SQLiteOpenHelper {
         db.close();
     }
 
+    public void addStartClass(StartClass_info info){
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put(KeyClassId,info.getClass_id());
+        values.put(KeyAttendanceId,info.getAttendance_id());
+        values.put(KeyCoachAttendance,info.getCoach_attendance());
+        values.put(KeyCoachAttendanceNotes,info.getCoach_attendance_notes());
+        values.put(KeyCoachId,info.getCoach_id());
+        values.put(KeyCheckRuleId,info.getCheck_rule_id());
+        values.put(KeyCheckRule,info.getCheck_rule());
+        values.put(KeyCheckRuleNotes,info.getCheck_rule_notes());
+
+        db.insert(TABLE_trainee,null,values);
+        db.close();
+
+
+    }
+
     public boolean Academy_empty(){
         SQLiteDatabase db = this.getWritableDatabase();
         String count = "SELECT count(*) FROM "+TABLE_AcademyInfo;
@@ -197,6 +236,8 @@ public class DB_Sqlite_Handler extends SQLiteOpenHelper {
             return false;
         return true;
     }
+
+
 
     public Academy_info getAcademyInfo () {
         SQLiteDatabase db = this.getReadableDatabase();
@@ -321,6 +362,39 @@ public class DB_Sqlite_Handler extends SQLiteOpenHelper {
         return info;
     }
 
+    public List<StartClass_info> getStartClass(){
+        SQLiteDatabase db = this.getReadableDatabase();
+        List<StartClass_info> startClass = new ArrayList<>();
+
+        Cursor cursor = db.rawQuery("select * from "+TABLE_start_class,null);
+        if (cursor.getCount() !=0){
+            while (cursor.moveToNext()){
+                StartClass_info info = new StartClass_info(cursor.getInt(0),cursor.getInt(1),cursor.getInt(2),cursor.getInt(3)
+                        ,cursor.getString(4),cursor.getInt(5),cursor.getInt(6),cursor.getInt(7)
+                        ,cursor.getString(8));
+                startClass.add(info);
+            }
+        }
+        return startClass;
+    }
+
+    public StartClass_info getStartClass(int class_id){
+
+        StartClass_info info = new StartClass_info();
+
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery("select * from "+TABLE_start_class + " WHERE " + KeyClassId + " = " + class_id,null);
+        if (cursor.getCount() !=0){
+            while (cursor.moveToNext()){
+                info = new StartClass_info(cursor.getInt(0),cursor.getInt(1),cursor.getInt(2),cursor.getInt(3)
+                        ,cursor.getString(4),cursor.getInt(5),cursor.getInt(6),cursor.getInt(7)
+                        ,cursor.getString(8));
+            }
+        }
+
+        return info;
+    }
+
     public int getClassesCount(){
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery("select * from "+TABLE_classes,null);
@@ -376,6 +450,31 @@ public class DB_Sqlite_Handler extends SQLiteOpenHelper {
         return db.update(TABLE_trainee, values, KeyPrimary + " = ?",
                 new String[]{String.valueOf(info.getID())});
     }
+
+    public int updateStartClass(StartClass_info info) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+
+        values.put(KeyClassId,info.getClass_id());
+        values.put(KeyAttendanceId,info.getAttendance_id());
+        values.put(KeyCoachAttendance,info.getCoach_attendance());
+        values.put(KeyCoachAttendanceNotes,info.getCoach_attendance_notes());
+        values.put(KeyCoachId,info.getCoach_id());
+        values.put(KeyCheckRuleId,info.getCheck_rule_id());
+        values.put(KeyCheckRule,info.getCheck_rule());
+        values.put(KeyCheckRuleNotes,info.getCheck_rule_notes());
+        // updating row
+        return db.update(TABLE_start_class, values, KeyPrimary + " = ?",
+                new String[]{String.valueOf(info.getId())});
+    }
+
+    public void deleteStartClass(StartClass_info info) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.delete(TABLE_start_class, KeyId + " = ?",
+                new String[] { String.valueOf(info.getId()) });
+        db.close();
+    }
+
     public void deleteAcademyInfo(Academy_info info) {
         SQLiteDatabase db = this.getWritableDatabase();
         db.delete(Constants.TABLE_AcademyInfo, KeyId + " = ?",

@@ -219,9 +219,10 @@ public class Admin_CurrentClassesFragment extends Fragment {
                     list_new_child.add("Cancel class");
                 } else if (start_time_double - current_time_double < 0.11) {
                     //list_children.clear();
+                    list_new_child.add("Check rules and attendance");
                     list_new_child.add("Start class");
                 } else {
-                    list_new_child.add("Up coming");
+                    list_new_child.add("Check rules and attendance");
                 }
             } else if (status == 0) {
                 //list_children.clear();
