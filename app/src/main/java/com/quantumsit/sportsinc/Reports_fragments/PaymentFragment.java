@@ -2,8 +2,8 @@ package com.quantumsit.sportsinc.Reports_fragments;
 
 
 import android.annotation.SuppressLint;
-import android.app.ProgressDialog;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -12,19 +12,16 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import com.quantumsit.sportsinc.Aaa_data.Constants;
 import com.quantumsit.sportsinc.Aaa_data.GlobalVars;
 import com.quantumsit.sportsinc.Aaa_looks.MyCustomLayoutManager;
-import com.quantumsit.sportsinc.Aaa_looks.RecyclerView_Adapter_reportcourses;
 import com.quantumsit.sportsinc.Aaa_looks.RecyclerView_Adapter_reportpayment;
 import com.quantumsit.sportsinc.Aaa_looks.item_reports_payment;
-import com.quantumsit.sportsinc.Aaa_looks.item_single_reports_courses;
 import com.quantumsit.sportsinc.Backend.HttpCall;
 import com.quantumsit.sportsinc.Backend.HttpRequest;
 import com.quantumsit.sportsinc.CustomView.myCustomRecyclerView;
+import com.quantumsit.sportsinc.CustomView.myCustomRecyclerViewListener;
 import com.quantumsit.sportsinc.R;
 import com.quantumsit.sportsinc.util.ConnectionUtilities;
 
@@ -46,6 +43,8 @@ public class PaymentFragment extends Fragment {
 
     private MyCustomLayoutManager layoutManager;
     myCustomRecyclerView customRecyclerView;
+    myCustomRecyclerViewListener listener;
+    int limitValue, currentStart;
     SwipeRefreshLayout mSwipeRefreshLayout;
     RecyclerView recyclerView;
     RecyclerView_Adapter_reportpayment recyclerView_adapter_reportpayment;
@@ -61,12 +60,15 @@ public class PaymentFragment extends Fragment {
         View root = inflater.inflate(R.layout.fragment_payment,container,false);
 
         globalVars = (GlobalVars) getActivity().getApplication();
+        limitValue = getResources().getInteger(R.integer.selectLimit);
+        currentStart = 0;
 
         mSwipeRefreshLayout = root.findViewById(R.id.swipeRefresh);
         mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                fill_payment_list();
+                currentStart = 0;
+                fill_payment_list(false);
             }
         });
         customRecyclerView = root.findViewById(R.id.customRecyclerView);
@@ -75,26 +77,36 @@ public class PaymentFragment extends Fragment {
         customRecyclerView.setOnRetryClick(new myCustomRecyclerView.OnRetryClick() {
             @Override
             public void onRetry() {
-                fill_payment_list();
+                currentStart = 0;
+                fill_payment_list(false);
             }
         });
         recyclerView = customRecyclerView.getRecyclerView();
-        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+        layoutManager = new MyCustomLayoutManager(getActivity());
+        recyclerView.setLayoutManager(layoutManager);
+        recyclerView.smoothScrollToPosition(recyclerView.getVerticalScrollbarPosition());
+        listener =  new myCustomRecyclerViewListener(layoutManager) {
             @Override
-            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-                super.onScrolled(recyclerView, dx, dy);
-
+            protected void onDownWhileLoading() {
+                customRecyclerView.loadMore();
             }
-        });
+
+            @Override
+            protected void onUpWhileLoading() {
+                customRecyclerView.finishLoading();
+            }
+
+            @Override
+            public void onLoadMore() {
+                listLoadMore();
+            }};
+
+        recyclerView.addOnScrollListener(listener);
         recyclerView.setHasFixedSize(false);
 
         list_item = new ArrayList<>();
 
-        layoutManager = new MyCustomLayoutManager(getActivity());
-        recyclerView.setLayoutManager(layoutManager);
-        recyclerView.smoothScrollToPosition(recyclerView.getVerticalScrollbarPosition());
-
-        fill_payment_list();
+        fill_payment_list(false);
 
         /*
         for(int i=0; i<10; i++){
@@ -116,6 +128,16 @@ public class PaymentFragment extends Fragment {
         return root;
     }
 
+    private void listLoadMore() {
+        currentStart = list_item.size();
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                fill_payment_list(true);
+            }
+        }, 1500);
+    }
+
     private boolean checkConnection() {
         // first, check connectivity
         if (ConnectionUtilities
@@ -126,7 +148,7 @@ public class PaymentFragment extends Fragment {
     }
 
     @SuppressLint("StaticFieldLeak")
-    private void fill_payment_list() {
+    private void fill_payment_list(final boolean loadMore) {
         if (!checkConnection()){
             customRecyclerView.retry();
             return;
@@ -142,6 +164,10 @@ public class PaymentFragment extends Fragment {
             HashMap<String,String> params = new HashMap<>();
             params.put("table1","payment");
             params.put("table2","courses");
+            JSONObject limit_info = new JSONObject();
+            limit_info.put("start", currentStart);
+            limit_info.put("limit", limitValue);
+            params.put("limit",limit_info.toString());
             params.put("where",where_info.toString());
             params.put("on",on_condition);
 
@@ -151,7 +177,7 @@ public class PaymentFragment extends Fragment {
                 @Override
                 public void onResponse(JSONArray response) {
                     super.onResponse(response);
-                    fill_recycler_view(response);
+                    fill_recycler_view(response , loadMore);
 
                 }
 
@@ -163,8 +189,9 @@ public class PaymentFragment extends Fragment {
         }
     }
 
-    private  void fill_recycler_view(JSONArray response){
-        list_item.clear();
+    private  void fill_recycler_view(JSONArray response ,boolean loadMore){
+        if (!loadMore)
+            list_item.clear();
         mSwipeRefreshLayout.setRefreshing(false);
         try {
             if (response != null) {
@@ -194,8 +221,9 @@ public class PaymentFragment extends Fragment {
         } catch (ParseException e) {
             e.printStackTrace();
         }
-        recyclerView_adapter_reportpayment.notifyDataSetChanged();
         customRecyclerView.notifyChange(list_item.size());
+        recyclerView_adapter_reportpayment.notifyDataSetChanged();
+        listener.setLoading(false);
     }
 
 

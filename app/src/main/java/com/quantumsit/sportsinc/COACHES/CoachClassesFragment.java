@@ -8,6 +8,7 @@ import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
@@ -40,6 +41,7 @@ import com.quantumsit.sportsinc.Backend.HttpCall;
 import com.quantumsit.sportsinc.Backend.HttpRequest;
 import com.quantumsit.sportsinc.COACHES.ReportsFragments.item_reports_finished_courses;
 import com.quantumsit.sportsinc.CustomView.myCustomExpandableListView;
+import com.quantumsit.sportsinc.CustomView.myCustomExpandableListViewListener;
 import com.quantumsit.sportsinc.R;
 import com.quantumsit.sportsinc.util.ConnectionUtilities;
 
@@ -78,19 +80,25 @@ public class CoachClassesFragment extends Fragment {
     FloatingActionButton current_class_button;
     List<MyClass_info> current_class;
 
+    myCustomExpandableListViewListener listener;
+    int limitValue,currentStart;
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
         root = inflater.inflate(R.layout.fragment_coach_classes,container,false);
 
         globalVars = (GlobalVars) getActivity().getApplication();
+        limitValue = getResources().getInteger(R.integer.selectLimit);
+        currentStart = 0;
 
         mSwipeRefreshLayout = root.findViewById(R.id.swipeRefresh);
         mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
+                currentStart = 0;
                 initilizeRunningClass();
-                initilizeFinishedList();
+                initilizeFinishedList(false);
             }
         });
         customExpandableListView = root.findViewById(R.id.customExpandableListView);
@@ -100,24 +108,18 @@ public class CoachClassesFragment extends Fragment {
             @Override
             public void onRetry() {
                 initilizeRunningClass();
-                initilizeFinishedList();
+                currentStart = 0;
+                initilizeFinishedList(false);
             }
         });
         not_finished_courses_expandable_listview = customExpandableListView.getExpandableListView();
-        not_finished_courses_expandable_listview.setOnScrollListener(new AbsListView.OnScrollListener() {
+        listener = new myCustomExpandableListViewListener(not_finished_courses_expandable_listview , mSwipeRefreshLayout) {
             @Override
-            public void onScrollStateChanged(AbsListView absListView, int scrollState) {
-
+            public void loadMoreData() {
+                listLoadMore();
             }
-
-            @Override
-            public void onScroll(AbsListView absListView, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
-                int topRowVerticalPosition =
-                        (not_finished_courses_expandable_listview == null || not_finished_courses_expandable_listview.getChildCount() == 0) ?
-                                0 : not_finished_courses_expandable_listview.getChildAt(0).getTop();
-                mSwipeRefreshLayout.setEnabled(firstVisibleItem == 0 && topRowVerticalPosition >= 0);
-            }
-        });
+        };
+        not_finished_courses_expandable_listview.setOnScrollListener(listener);
         current_class_button = root.findViewById(R.id.currentClassFloatingActionButton);
 
         current_class_button.setOnClickListener(new View.OnClickListener() {
@@ -137,7 +139,7 @@ public class CoachClassesFragment extends Fragment {
         child_hashmap = new HashMap<>();
 
         initilizeRunningClass();
-        initilizeFinishedList();
+        initilizeFinishedList(false);
 
         not_finished_courses_adapter = new ListViewExpandable_Adapter_NotFinishedCourses(getContext(), header_list, child_hashmap);
         not_finished_courses_expandable_listview.setAdapter(not_finished_courses_adapter);
@@ -165,6 +167,18 @@ public class CoachClassesFragment extends Fragment {
 
         return root;
     }
+
+    private void listLoadMore() {
+        customExpandableListView.loadMore();
+        currentStart = header_list.size();
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                initilizeFinishedList(true);
+            }
+        }, 1500);
+    }
+
     private boolean checkConnection() {
         // first, check connectivity
         if (ConnectionUtilities
@@ -175,7 +189,7 @@ public class CoachClassesFragment extends Fragment {
     }
 
 
-    private void initilizeFinishedList() {
+    private void initilizeFinishedList(final boolean loadMore) {
         if (!checkConnection()){
             customExpandableListView.retry();
             return;
@@ -187,9 +201,12 @@ public class CoachClassesFragment extends Fragment {
             HttpCall httpCall = new HttpCall();
             httpCall.setMethodtype(HttpCall.POST);
             httpCall.setUrl(Constants.finished_classes);
-
+            JSONObject limit_info = new JSONObject();
+            limit_info.put("start", currentStart);
+            limit_info.put("limit", limitValue);
             HashMap<String, String> params = new HashMap<>();
             params.put("where", where_info.toString());
+            params.put("limit",limit_info.toString());
 
             httpCall.setParams(params);
 
@@ -198,7 +215,7 @@ public class CoachClassesFragment extends Fragment {
                 public void onResponse(JSONArray response) {
                     super.onResponse(response);
                     Log.d(TAG,String.valueOf(response));
-                    fillAdapter(response);
+                    fillAdapter(response , loadMore) ;
                 }
             }.execute(httpCall);
         } catch (JSONException e) {
@@ -206,10 +223,26 @@ public class CoachClassesFragment extends Fragment {
         }
     }
 
-    private void fillAdapter(JSONArray response) {
+    private void fillAdapter(JSONArray response , boolean loadMore) {
         mSwipeRefreshLayout.setRefreshing(false);
-        header_list.clear();
-        child_hashmap.clear();
+        if (!loadMore) {
+            header_list.clear();
+            child_hashmap.clear();
+           /* for (int i=0;i<30;i++){
+
+                item2_notfinished_course_group entity = new item2_notfinished_course_group("LEVEL "+i,"Group "+i,"pool 1" , (i+1),(i+10),3,4);
+                header_list.add(entity);
+                item_finished_classes finished_class = new item_finished_classes("class TEST","2019-11-22");
+                if (child_hashmap.get(entity.getGroup_id())==null){
+                    child_hashmap.put(entity.getGroup_id(),new ArrayList<item_finished_classes>());
+                }
+                child_hashmap.get(entity.getGroup_id()).add(finished_class);
+            }
+            customExpandableListView.notifyChange(header_list.size());
+            not_finished_courses_adapter.notifyDataSetChanged();
+            listener.setLoading(false);
+            return;*/
+        }
         if (response != null) {
             try {
                 for (int i = 0; i < response.length(); i++) {
@@ -227,8 +260,9 @@ public class CoachClassesFragment extends Fragment {
                 e.printStackTrace();
             }
         }
-        not_finished_courses_adapter.notifyDataSetChanged();
         customExpandableListView.notifyChange(header_list.size());
+        not_finished_courses_adapter.notifyDataSetChanged();
+        listener.setLoading(false);
     }
 
     private void initilizeRunningClass() {

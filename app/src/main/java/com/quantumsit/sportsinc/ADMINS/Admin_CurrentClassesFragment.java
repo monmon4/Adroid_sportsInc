@@ -8,6 +8,7 @@ import android.app.TimePickerDialog;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -32,6 +33,7 @@ import com.quantumsit.sportsinc.Aaa_data.GlobalVars;
 import com.quantumsit.sportsinc.Backend.HttpCall;
 import com.quantumsit.sportsinc.Backend.HttpRequest;
 import com.quantumsit.sportsinc.CustomView.myCustomExpandableListView;
+import com.quantumsit.sportsinc.CustomView.myCustomExpandableListViewListener;
 import com.quantumsit.sportsinc.R;
 import com.quantumsit.sportsinc.util.ConnectionUtilities;
 
@@ -57,6 +59,8 @@ public class Admin_CurrentClassesFragment extends Fragment {
     ProgressDialog progressDialog;
 
     myCustomExpandableListView customExpandableListView;
+    myCustomExpandableListViewListener listener;
+    int limitValue,currentStart;
     SwipeRefreshLayout mSwipeRefreshLayout;
     ExpandableListView expandableListView;
     ListViewExpandable_Adapter_currentClasses expandableListView_adapter;
@@ -78,6 +82,8 @@ public class Admin_CurrentClassesFragment extends Fragment {
 
         root = inflater.inflate(R.layout.fragment_admin__current_classes, container, false);
         globalVars = (GlobalVars) getActivity().getApplication();
+        limitValue = getResources().getInteger(R.integer.selectLimit);
+        currentStart = 0;
 
         current_time = Calendar.getInstance().getTime();
 
@@ -86,7 +92,8 @@ public class Admin_CurrentClassesFragment extends Fragment {
         mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                initializeCurrentClasses();
+                currentStart = 0;
+                initializeCurrentClasses(false);
             }
         });
         customExpandableListView = root.findViewById(R.id.customExpandableListView);
@@ -95,36 +102,41 @@ public class Admin_CurrentClassesFragment extends Fragment {
         customExpandableListView.setOnRetryClick(new myCustomExpandableListView.OnRetryClick() {
             @Override
             public void onRetry() {
-                initializeCurrentClasses();
+                currentStart = 0;
+                initializeCurrentClasses(false);
             }
         });
         expandableListView = customExpandableListView.getExpandableListView();
-        expandableListView.setOnScrollListener(new AbsListView.OnScrollListener() {
+        listener = new myCustomExpandableListViewListener(expandableListView , mSwipeRefreshLayout) {
             @Override
-            public void onScrollStateChanged(AbsListView absListView, int scrollState) {
-
+            public void loadMoreData() {
+                listLoadMore();
             }
-
-            @Override
-            public void onScroll(AbsListView absListView, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
-                int topRowVerticalPosition =
-                        (expandableListView == null || expandableListView.getChildCount() == 0) ?
-                                0 : expandableListView.getChildAt(0).getTop();
-                mSwipeRefreshLayout.setEnabled(firstVisibleItem == 0 && topRowVerticalPosition >= 0);
-            }
-        });
+        };
+        expandableListView.setOnScrollListener(listener);
 
         list_headers = new ArrayList<>();
         list_children = new ArrayList<>();
         list_children.add(" ");
         hash_children = new HashMap<>();
 
-        initializeCurrentClasses();
+        initializeCurrentClasses(false);
 
         expandableListView_adapter = new ListViewExpandable_Adapter_currentClasses(getContext(),Admin_CurrentClassesFragment.this, list_headers, hash_children );
         expandableListView.setAdapter(expandableListView_adapter);
 
         return root;
+    }
+
+    private void listLoadMore() {
+        customExpandableListView.loadMore();
+        currentStart = list_headers.size();
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                initializeCurrentClasses(true);
+            }
+        }, 1500);
     }
 
     private boolean checkConnection() {
@@ -137,39 +149,48 @@ public class Admin_CurrentClassesFragment extends Fragment {
     }
 
     @SuppressLint("StaticFieldLeak")
-    private void initializeCurrentClasses() {
+    private void initializeCurrentClasses(final boolean loadMore) {
         if (!checkConnection()){
             customExpandableListView.retry();
             return;
         }
-        Calendar c = Calendar.getInstance();
-        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
-        String Today = df.format(c.getTime());
+        try {
+            Calendar c = Calendar.getInstance();
+            SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+            String Today = df.format(c.getTime());
 
-        HttpCall httpCall = new HttpCall();
-        httpCall.setMethodtype(HttpCall.POST);
-        httpCall.setUrl(Constants.admin_currentClasses);
+            HttpCall httpCall = new HttpCall();
+            httpCall.setMethodtype(HttpCall.POST);
+            httpCall.setUrl(Constants.admin_currentClasses);
 
-        HashMap<String, String> params = new HashMap<>();
-        params.put("id",String.valueOf(globalVars.getId()));
-        params.put("date",Today);
+            JSONObject limit_info = new JSONObject();
+            limit_info.put("start", currentStart);
+            limit_info.put("limit", limitValue);
+            HashMap<String, String> params = new HashMap<>();
+            params.put("id", String.valueOf(globalVars.getId()));
+            params.put("date", Today);
+            params.put("limit",limit_info.toString());
 
-        httpCall.setParams(params);
+            httpCall.setParams(params);
 
-        new HttpRequest() {
-            @Override
-            public void onResponse(JSONArray response) {
-                super.onResponse(response);
-                Log.d(TAG,String.valueOf(response));
-                fillAdapter(response);
-            }
-        }.execute(httpCall);
+            new HttpRequest() {
+                @Override
+                public void onResponse(JSONArray response) {
+                    super.onResponse(response);
+                    Log.d(TAG, String.valueOf(response));
+                    fillAdapter(response , loadMore);
+                }
+            }.execute(httpCall);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
 
     }
 
-    private void fillAdapter(JSONArray response) {
+    private void fillAdapter(JSONArray response , boolean loadMore) {
         mSwipeRefreshLayout.setRefreshing(false);
-        list_headers.clear();
+        if (!loadMore)
+            list_headers.clear();
 
         if (response != null) {
             try {
@@ -183,8 +204,9 @@ public class Admin_CurrentClassesFragment extends Fragment {
                 e.printStackTrace();
             }
         }
-        expandableListView_adapter.notifyDataSetChanged();
         customExpandableListView.notifyChange(list_headers.size());
+        expandableListView_adapter.notifyDataSetChanged();
+        listener.setLoading(false);
     }
 
     private void check_time() {
@@ -582,7 +604,7 @@ public class Admin_CurrentClassesFragment extends Fragment {
                     super.onResponse(response);
                     if(checkResponse(response)) {
                         Toast.makeText(getActivity(),"class is started",Toast.LENGTH_SHORT).show();
-                        initializeCurrentClasses();
+                        initializeCurrentClasses(false);
 
                     }else {
                         Toast.makeText(getActivity(), "Failed To start the class", Toast.LENGTH_SHORT).show();

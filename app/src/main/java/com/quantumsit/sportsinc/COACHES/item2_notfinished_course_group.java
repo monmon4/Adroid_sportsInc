@@ -11,6 +11,16 @@ public class item2_notfinished_course_group {
     String courseName , groupName ,poolName;
     int course_id , group_id , admin_id , coach_id;
 
+    public item2_notfinished_course_group(String courseName, String groupName, String poolName, int course_id, int group_id, int admin_id, int coach_id) {
+        this.courseName = courseName;
+        this.groupName = groupName;
+        this.poolName = poolName;
+        this.course_id = course_id;
+        this.group_id = group_id;
+        this.admin_id = admin_id;
+        this.coach_id = coach_id;
+    }
+
     public item2_notfinished_course_group(JSONObject jsonObject) {
         try {
             course_id = jsonObject.getInt("course_id");

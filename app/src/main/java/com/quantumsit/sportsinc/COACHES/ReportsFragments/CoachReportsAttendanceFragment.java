@@ -52,7 +52,6 @@ public class CoachReportsAttendanceFragment extends Fragment {
     MaterialBetterSpinner month_spinner;
 
     myCustomRecyclerViewListener listener;
-
     int limitValue, currentStart;
     int selectedPosition = 12;
     @Nullable
@@ -180,12 +179,13 @@ public class CoachReportsAttendanceFragment extends Fragment {
             httpCall.setMethodtype(HttpCall.POST);
             httpCall.setUrl(Constants.person_attend);
 
+            HashMap<String, String> params = new HashMap<>();
+
             JSONObject limit_info = new JSONObject();
             limit_info.put("start", currentStart);
             limit_info.put("limit", limitValue);
 
-            HashMap<String, String> params = new HashMap<>();
-            //params.put("where", where_info.toString());
+            params.put("where", where_info.toString());
             params.put("limit",limit_info.toString());
 
             httpCall.setParams(params);

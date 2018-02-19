@@ -19,6 +19,7 @@ import com.quantumsit.sportsinc.R;
 public class myCustomListView extends RelativeLayout {
     private Context context;
     private ListView listView;
+    View loadMoreFooter;
     private View mEmptyView;
     private View mRetryView;
     private ProgressBar mProgressBar;
@@ -44,6 +45,7 @@ public class myCustomListView extends RelativeLayout {
 
     private void initializeUILayout(){
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(context.LAYOUT_INFLATER_SERVICE);
+        loadMoreFooter = inflater.inflate(R.layout.progressbar_view,null,false);
         View mView = inflater.inflate(R.layout.custom_list_view, this);
         listView =  mView.findViewById(R.id.listView);
         mEmptyView = mView.findViewById(R.id.layout_empty);
@@ -82,6 +84,14 @@ public class myCustomListView extends RelativeLayout {
         mProgressBar.setVisibility(View.VISIBLE);
     }
 
+    public void loadMore(){
+        listView.addFooterView(loadMoreFooter);
+    }
+
+    private void finishedLoading(){
+        listView.removeFooterView(loadMoreFooter);
+    }
+
     public void empty() {
         mEmptyView.setVisibility(View.VISIBLE);
         mRetryView.setVisibility(View.GONE);
@@ -101,6 +111,7 @@ public class myCustomListView extends RelativeLayout {
     }
 
     public void notifyChange(int size){
+        finishedLoading();
         if (size>0)
             success();
         else

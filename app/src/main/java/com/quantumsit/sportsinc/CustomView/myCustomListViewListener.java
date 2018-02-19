@@ -20,6 +20,7 @@ public abstract class myCustomListViewListener implements AbsListView.OnScrollLi
 
     private ListView listView;
     private SwipeRefreshLayout mSwipeRefreshLayout;
+    private boolean scrollLoadMore;
 
     public myCustomListViewListener(ListView listView , SwipeRefreshLayout mSwipeRefreshLayout){
         this.listView = listView;
@@ -44,13 +45,25 @@ public abstract class myCustomListViewListener implements AbsListView.OnScrollLi
                         0 : listView.getChildAt(0).getTop();
         if (mSwipeRefreshLayout != null)
             mSwipeRefreshLayout.setEnabled(firstVisibleItem == 0 && topRowVerticalPosition >= 0);
+
+        if (listView.getChildAt(0) == null)
+            return;
+        int listViewHeight = listView.getMeasuredHeight();
+        int itemCount = totalItemCount;
+        int itemHeight = listView.getChildAt(0).getMeasuredHeight();
+        int dividerHeight = listView.getDividerHeight();
+        int totalDividerHeight = (itemCount - 1) * dividerHeight;
+        int totalItemHeight = itemCount * itemHeight;
+        int filledHeight = totalItemHeight + totalDividerHeight;
+        scrollLoadMore = filledHeight >= listViewHeight;
     }
 
     @Override
     public void onScrollStateChanged(AbsListView view, int scrollState) {
         this.currentScrollState = scrollState;
         synchronized (this) {
-            this.isScrollCompleted();
+            if (scrollLoadMore)
+                this.isScrollCompleted();
         }
     }
 

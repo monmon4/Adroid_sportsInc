@@ -2,6 +2,7 @@ package com.quantumsit.sportsinc.Side_menu_fragments;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -17,6 +18,7 @@ import com.quantumsit.sportsinc.Aaa_looks.RecyclerView_Adapter_certificate;
 import com.quantumsit.sportsinc.Backend.HttpCall;
 import com.quantumsit.sportsinc.Backend.HttpRequest;
 import com.quantumsit.sportsinc.CustomView.myCustomRecyclerView;
+import com.quantumsit.sportsinc.CustomView.myCustomRecyclerViewListener;
 import com.quantumsit.sportsinc.R;
 import com.quantumsit.sportsinc.util.ConnectionUtilities;
 
@@ -32,6 +34,8 @@ import java.util.List;
 public class CertificatesFragment extends Fragment {
 
     myCustomRecyclerView customRecyclerView;
+    myCustomRecyclerViewListener listener;
+    int limitValue, currentStart;
     SwipeRefreshLayout mSwipeRefreshLayout;
     RecyclerView certificates_recyclerView;
     MyCustomLayoutManager layoutManager;
@@ -49,12 +53,15 @@ public class CertificatesFragment extends Fragment {
         View root = inflater.inflate(R.layout.fragment_certificates,container,false);
 
         globalVars = (GlobalVars) getActivity().getApplication();
+        limitValue = getResources().getInteger(R.integer.selectLimit);
+        currentStart = 0;
 
         mSwipeRefreshLayout = root.findViewById(R.id.swipeRefresh);
         mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                fill_certificates();
+                currentStart = 0;
+                fill_certificates(false);
             }
         });
         customRecyclerView = root.findViewById(R.id.customRecyclerView);
@@ -63,32 +70,54 @@ public class CertificatesFragment extends Fragment {
         customRecyclerView.setOnRetryClick(new myCustomRecyclerView.OnRetryClick() {
             @Override
             public void onRetry() {
-                fill_certificates();
+                currentStart = 0;
+                fill_certificates(false);
             }
         });
         certificates_recyclerView = customRecyclerView.getRecyclerView();
-        certificates_recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
-            @Override
-            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-                super.onScrolled(recyclerView, dx, dy);
-
-            }
-        });
 
         layoutManager = new MyCustomLayoutManager(getActivity());
         certificates_recyclerView.setLayoutManager(layoutManager);
         certificates_recyclerView.smoothScrollToPosition(certificates_recyclerView.getVerticalScrollbarPosition());
 
+        listener =  new myCustomRecyclerViewListener(layoutManager) {
+            @Override
+            protected void onDownWhileLoading() {
+                customRecyclerView.loadMore();
+            }
+
+            @Override
+            protected void onUpWhileLoading() {
+                customRecyclerView.finishLoading();
+            }
+
+            @Override
+            public void onLoadMore() {
+                listLoadMore();
+            }};
+
+        certificates_recyclerView.addOnScrollListener(listener);
+
         list_items = new ArrayList<>();
 
 
         certificates_list = new ArrayList<>();
-        fill_certificates();
+        fill_certificates(false);
 
         certificates_recyclerView_adapter = new RecyclerView_Adapter_certificate(list_items, getContext());
         certificates_recyclerView.setAdapter(certificates_recyclerView_adapter);
 
         return root;
+    }
+
+    private void listLoadMore() {
+        currentStart = certificates_list.size();
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                fill_certificates(true);
+            }
+        }, 1500);
     }
 
     private boolean checkConnection() {
@@ -101,7 +130,7 @@ public class CertificatesFragment extends Fragment {
     }
 
     @SuppressLint("StaticFieldLeak")
-    private void fill_certificates() {
+    private void fill_certificates(final boolean loadMore) {
         if (!checkConnection()){
             customRecyclerView.retry();
             return;
@@ -115,6 +144,10 @@ public class CertificatesFragment extends Fragment {
             httpCall.setUrl(Constants.selectData);
             HashMap<String,String> params = new HashMap<>();
             params.put("table","certification");
+            JSONObject limit_info = new JSONObject();
+            limit_info.put("start", currentStart);
+            limit_info.put("limit", limitValue);
+            params.put("limit",limit_info.toString());
             params.put("where",where_info.toString());
 
             httpCall.setParams(params);
@@ -123,7 +156,7 @@ public class CertificatesFragment extends Fragment {
                 @Override
                 public void onResponse(JSONArray response) {
                     super.onResponse(response);
-                    fill_Adapter(response);
+                    fill_Adapter(response , loadMore);
 
                 }
             }.execute(httpCall);
@@ -133,9 +166,10 @@ public class CertificatesFragment extends Fragment {
         }
     }
 
-    private void fill_Adapter(JSONArray response){
+    private void fill_Adapter(JSONArray response , boolean loadMore){
         mSwipeRefreshLayout.setRefreshing(false);
-        certificates_list.clear();
+        if (!loadMore)
+            certificates_list.clear();
         if (response != null) {
             for (int i=0; i< response.length(); i++){
                 try {
@@ -147,8 +181,9 @@ public class CertificatesFragment extends Fragment {
                 }
             }
         }
-        certificates_recyclerView_adapter.notifyDataSetChanged();
         customRecyclerView.notifyChange(certificates_list.size());
+        certificates_recyclerView_adapter.notifyDataSetChanged();
+        listener.setLoading(false);
     }
 
 

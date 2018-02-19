@@ -5,6 +5,7 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -24,6 +25,7 @@ import com.quantumsit.sportsinc.Aaa_looks.item_single_scores;
 import com.quantumsit.sportsinc.Backend.HttpCall;
 import com.quantumsit.sportsinc.Backend.HttpRequest;
 import com.quantumsit.sportsinc.CustomView.myCustomRecyclerView;
+import com.quantumsit.sportsinc.CustomView.myCustomRecyclerViewListener;
 import com.quantumsit.sportsinc.R;
 import com.quantumsit.sportsinc.util.ConnectionUtilities;
 
@@ -40,6 +42,8 @@ public class CorsesFragment extends Fragment {
 
     private MyCustomLayoutManager layoutManager;
     myCustomRecyclerView customRecyclerView;
+    myCustomRecyclerViewListener listener;
+    int limitValue, currentStart;
     SwipeRefreshLayout mSwipeRefreshLayout;
     private RecyclerView recycler_view;
     private RecyclerView_Adapter_reportcourses recycler_view_adapter;
@@ -53,12 +57,15 @@ public class CorsesFragment extends Fragment {
         View root = inflater.inflate(R.layout.fragment_corses,container,false);
 
         globalVars = (GlobalVars) getActivity().getApplication();
+        limitValue = getResources().getInteger(R.integer.selectLimit);
+        currentStart = 0;
 
         mSwipeRefreshLayout = root.findViewById(R.id.swipeRefresh);
         mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                fill_list_items();
+                currentStart = 0;
+                fill_list_items(false);
             }
         });
         customRecyclerView = root.findViewById(R.id.customRecyclerView);
@@ -67,32 +74,55 @@ public class CorsesFragment extends Fragment {
         customRecyclerView.setOnRetryClick(new myCustomRecyclerView.OnRetryClick() {
             @Override
             public void onRetry() {
-                fill_list_items();
+                currentStart =0 ;
+                fill_list_items(false);
             }
         });
         recycler_view = customRecyclerView.getRecyclerView();
-        recycler_view.addOnScrollListener(new RecyclerView.OnScrollListener() {
-            @Override
-            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-                super.onScrolled(recyclerView, dx, dy);
-
-            }
-        });
-        recycler_view.setHasFixedSize(false);
-
-        list_item = new ArrayList<>();
-
         layoutManager = new MyCustomLayoutManager(getActivity());
         recycler_view.setLayoutManager(layoutManager);
         recycler_view.smoothScrollToPosition(recycler_view.getVerticalScrollbarPosition());
 
-        fill_list_items();
+        listener =  new myCustomRecyclerViewListener(layoutManager) {
+            @Override
+            protected void onDownWhileLoading() {
+                customRecyclerView.loadMore();
+            }
+
+            @Override
+            protected void onUpWhileLoading() {
+                customRecyclerView.finishLoading();
+            }
+
+            @Override
+            public void onLoadMore() {
+                listLoadMore();
+            }};
+
+        recycler_view.addOnScrollListener(listener);
+
+        recycler_view.setHasFixedSize(false);
+
+        list_item = new ArrayList<>();
+
+
+        fill_list_items(false);
 
         recycler_view_adapter = new RecyclerView_Adapter_reportcourses(list_item, getActivity());
         recycler_view.setAdapter(recycler_view_adapter);
 
 
         return root;
+    }
+
+    private void listLoadMore() {
+        currentStart = list_item.size();
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                fill_list_items(true);
+            }
+        }, 1500);
     }
 
     private boolean checkConnection() {
@@ -105,7 +135,7 @@ public class CorsesFragment extends Fragment {
     }
 
     @SuppressLint("StaticFieldLeak")
-    private void fill_list_items() {
+    private void fill_list_items(final boolean loadMore) {
         if (!checkConnection()){
             customRecyclerView.retry();
             return;
@@ -119,14 +149,19 @@ public class CorsesFragment extends Fragment {
             httpCall.setMethodtype(HttpCall.POST);
             httpCall.setUrl(Constants.traineeCoursesData);
             HashMap<String,String> params = new HashMap<>();
-            params.put("where",where_info.toString());
+            JSONObject limit_info = new JSONObject();
+            limit_info.put("start", currentStart);
+            limit_info.put("limit", limitValue);
+
+            params.put("where", where_info.toString());
+            params.put("limit",limit_info.toString());
 
             httpCall.setParams(params);
             new HttpRequest(){
                 @Override
                 public void onResponse(JSONArray response) {
                     super.onResponse(response);
-                    fill_recycler_view(response);
+                    fill_recycler_view(response , loadMore);
 
                 }
             }.execute(httpCall);
@@ -136,8 +171,9 @@ public class CorsesFragment extends Fragment {
         }
     }
 
-    private void fill_recycler_view(JSONArray response) {
-        list_item.clear();
+    private void fill_recycler_view(JSONArray response , boolean loadMore) {
+        if (!loadMore)
+            list_item.clear();
         mSwipeRefreshLayout.setRefreshing(false);
         try {
             if (response != null) {
@@ -157,7 +193,8 @@ public class CorsesFragment extends Fragment {
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        recycler_view_adapter.notifyDataSetChanged();
         customRecyclerView.notifyChange(list_item.size());
+        recycler_view_adapter.notifyDataSetChanged();
+        listener.setLoading(false);
     }
 }

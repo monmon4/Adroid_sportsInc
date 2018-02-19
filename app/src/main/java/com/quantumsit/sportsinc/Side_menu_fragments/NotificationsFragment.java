@@ -2,6 +2,7 @@ package com.quantumsit.sportsinc.Side_menu_fragments;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -19,6 +20,7 @@ import com.quantumsit.sportsinc.Adapters.NotificationAdapter;
 import com.quantumsit.sportsinc.Backend.HttpCall;
 import com.quantumsit.sportsinc.Backend.HttpRequest;
 import com.quantumsit.sportsinc.CustomView.myCustomListView;
+import com.quantumsit.sportsinc.CustomView.myCustomListViewListener;
 import com.quantumsit.sportsinc.Entities.NotificationEntity;
 import com.quantumsit.sportsinc.Activities.NotificationDetailsActivity;
 import com.quantumsit.sportsinc.R;
@@ -42,6 +44,8 @@ public class NotificationsFragment extends Fragment {
     private NotificationAdapter adapter ;
     ListView listView;
     myCustomListView customListView;
+    myCustomListViewListener listViewListener;
+    int limitValue,currentStart;
     SwipeRefreshLayout mSwipeRefreshLayout;
     private List<NotificationEntity> notificationList;
 
@@ -50,14 +54,17 @@ public class NotificationsFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_notifications,container,false);
         globalVars = (GlobalVars) getActivity().getApplication();
+        limitValue = getResources().getInteger(R.integer.selectLimit);
+        currentStart = 0;
 
         notificationList = new ArrayList<>();
-        initializeNotifications();
+        initializeNotifications(false);
         mSwipeRefreshLayout = root.findViewById(R.id.swipeRefresh);
         mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                initializeNotifications();
+                currentStart = 0;
+                initializeNotifications(false);
             }
         });
         customListView = root.findViewById(R.id.customListView);
@@ -66,24 +73,18 @@ public class NotificationsFragment extends Fragment {
         customListView.setOnRetryClick(new myCustomListView.OnRetryClick() {
             @Override
             public void onRetry() {
-                initializeNotifications();
+                currentStart = 0;
+                initializeNotifications(false);
             }
         });
         listView = customListView.getListView();
-        listView.setOnScrollListener(new AbsListView.OnScrollListener() {
+        listViewListener = new myCustomListViewListener(listView , mSwipeRefreshLayout) {
             @Override
-            public void onScrollStateChanged(AbsListView absListView, int scrollState) {
-
+            public void loadMoreData() {
+                listLoadMore();
             }
-
-            @Override
-            public void onScroll(AbsListView absListView, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
-                int topRowVerticalPosition =
-                        (listView == null || listView.getChildCount() == 0) ?
-                                0 : listView.getChildAt(0).getTop();
-                mSwipeRefreshLayout.setEnabled(firstVisibleItem == 0 && topRowVerticalPosition >= 0);
-            }
-        });
+        };
+        listView.setOnScrollListener(listViewListener);
 
         adapter = new NotificationAdapter(getContext(),R.layout.list_item_notification,notificationList);
 
@@ -92,6 +93,8 @@ public class NotificationsFragment extends Fragment {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                if (i>= notificationList.size())
+                    return;
                 Intent intent = new Intent(getContext(), NotificationDetailsActivity.class);
                 intent.putExtra("MyNotification",notificationList.get(i));
                 startActivity(intent);
@@ -99,6 +102,18 @@ public class NotificationsFragment extends Fragment {
         });
         return root;
     }
+
+    private void listLoadMore() {
+        customListView.loadMore();
+        currentStart = notificationList.size();
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                initializeNotifications(true);
+            }
+        }, 1500);
+    }
+
     private boolean checkConnection() {
         // first, check connectivity
         if (ConnectionUtilities
@@ -108,7 +123,7 @@ public class NotificationsFragment extends Fragment {
         return false;
     }
 
-    private void initializeNotifications() {
+    private void initializeNotifications(final boolean loadMore) {
         if (!checkConnection()){
             customListView.retry();
             return;
@@ -122,13 +137,17 @@ public class NotificationsFragment extends Fragment {
             httpCall.setUrl(Constants.notification);
             HashMap<String,String> params = new HashMap<>();
             params.put("where",where_info.toString());
+            JSONObject limit_info = new JSONObject();
+            limit_info.put("start", currentStart);
+            limit_info.put("limit", limitValue);
+            params.put("limit",limit_info.toString());
             httpCall.setParams(params);
 
             new HttpRequest(){
                 @Override
                 public void onResponse(JSONArray response) {
                     super.onResponse(response);
-                    fillAdapter(response);
+                    fillAdapter(response , loadMore);
                 }
             }.execute(httpCall);
 
@@ -137,10 +156,11 @@ public class NotificationsFragment extends Fragment {
         }
     }
 
-    private void fillAdapter(JSONArray response) {
+    private void fillAdapter(JSONArray response , boolean loadMore) {
         Log.d(TAG,String.valueOf(response));
         mSwipeRefreshLayout.setRefreshing(false);
-        notificationList.clear();
+        if (!loadMore)
+            notificationList.clear();
         if (response != null) {
             try {
                 for (int i = 0; i < response.length(); i++) {
@@ -152,8 +172,9 @@ public class NotificationsFragment extends Fragment {
                 e.printStackTrace();
             }
         }
-        adapter.notifyDataSetChanged();
         customListView.notifyChange(notificationList.size());
+        adapter.notifyDataSetChanged();
+        listViewListener.setLoading(false);
     }
 
 

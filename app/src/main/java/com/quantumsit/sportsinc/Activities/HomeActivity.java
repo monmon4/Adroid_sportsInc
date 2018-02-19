@@ -304,10 +304,8 @@ public class HomeActivity extends AppCompatActivity
             actionBar.setTitle(R.string.reports);
             if (parent){
                 fragmentClass = ReportsFragment.class;
-            } else if (coach){
+            } else{
                 fragmentClass = CoachReportsFragment.class;
-            } else {
-                fragmentClass = CoachRequestSentFragment.class;
             }
 
         } else if (id == R.id.nav_certificates) {

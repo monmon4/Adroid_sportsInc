@@ -3,6 +3,7 @@ package com.quantumsit.sportsinc.COACHES.ReportsFragments;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -20,6 +21,7 @@ import com.quantumsit.sportsinc.Backend.HttpCall;
 import com.quantumsit.sportsinc.Backend.HttpRequest;
 import com.quantumsit.sportsinc.COACHES.ActivityFinishedCourseSingle_coach;
 import com.quantumsit.sportsinc.CustomView.myCustomListView;
+import com.quantumsit.sportsinc.CustomView.myCustomListViewListener;
 import com.quantumsit.sportsinc.CustomView.myCustomRecyclerView;
 import com.quantumsit.sportsinc.R;
 import com.quantumsit.sportsinc.util.ConnectionUtilities;
@@ -42,6 +44,8 @@ public class CoachReportsFinishedCoursesFragment extends Fragment {
 
     ListView listView;
     myCustomListView customListView;
+    myCustomListViewListener listViewListener;
+    int limitValue,currentStart;
     SwipeRefreshLayout mSwipeRefreshLayout;
     ListViewFinishedCoursesReports_Adapter listView_adapter;
 
@@ -53,43 +57,41 @@ public class CoachReportsFinishedCoursesFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_coach_reports_finished_courses,container,false);
 
+        limitValue = getResources().getInteger(R.integer.selectLimit);
+        currentStart = 0;
+
         mSwipeRefreshLayout = root.findViewById(R.id.swipeRefresh);
         mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                initilizeFinishedList();
+                currentStart = 0;
+                initilizeFinishedList(false);
             }
         });
         customListView = root.findViewById(R.id.customListView);
-        customListView.setmEmptyView(R.drawable.ic_assignment,R.string.no_Events);
+        customListView.setmEmptyView(R.drawable.ic_assignment,R.string.no_finished);
 
         customListView.setOnRetryClick(new myCustomListView.OnRetryClick() {
             @Override
             public void onRetry() {
-                initilizeFinishedList();
+                currentStart = 0;
+                initilizeFinishedList(false);
             }
         });
         listView = customListView.getListView();
-        listView.setOnScrollListener(new AbsListView.OnScrollListener() {
+        listViewListener = new myCustomListViewListener(listView , mSwipeRefreshLayout) {
             @Override
-            public void onScrollStateChanged(AbsListView absListView, int scrollState) {
-
+            public void loadMoreData() {
+                listLoadMore();
             }
-
-            @Override
-            public void onScroll(AbsListView absListView, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
-                int topRowVerticalPosition =
-                        (listView == null || listView.getChildCount() == 0) ?
-                                0 : listView.getChildAt(0).getTop();
-                mSwipeRefreshLayout.setEnabled(firstVisibleItem == 0 && topRowVerticalPosition >= 0);
-            }
-        });
+        };
+        listView.setOnScrollListener(listViewListener);
 
         globalVars = (GlobalVars) getActivity().getApplication();
 
         list_items = new ArrayList<>();
 
-        initilizeFinishedList();
+        initilizeFinishedList(false);
 
         listView_adapter = new ListViewFinishedCoursesReports_Adapter(getContext(), list_items);
         listView.setAdapter(listView_adapter);
@@ -97,6 +99,8 @@ public class CoachReportsFinishedCoursesFragment extends Fragment {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                if (position >= list_items.size())
+                    return;
                 Intent intent = new Intent(getActivity(), ActivityFinishedCourseSingle_coach.class);
                 intent.putExtra("finishedGroup",list_items.get(position));
                 startActivity(intent);
@@ -104,6 +108,17 @@ public class CoachReportsFinishedCoursesFragment extends Fragment {
         });
 
         return root;
+    }
+
+    private void listLoadMore() {
+        customListView.loadMore();
+        currentStart = list_items.size();
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                initilizeFinishedList(true);
+            }
+        }, 1500);
     }
 
     private boolean checkConnection() {
@@ -115,7 +130,7 @@ public class CoachReportsFinishedCoursesFragment extends Fragment {
         return false;
     }
 
-    private void initilizeFinishedList() {
+    private void initilizeFinishedList(final boolean loadMore) {
         if (!checkConnection()){
             customListView.retry();
             return;
@@ -138,6 +153,10 @@ public class CoachReportsFinishedCoursesFragment extends Fragment {
             HttpCall httpCall = new HttpCall();
             httpCall.setMethodtype(HttpCall.POST);
             httpCall.setUrl(Constants.finished_groups);
+            JSONObject limit_info = new JSONObject();
+            limit_info.put("start", currentStart);
+            limit_info.put("limit", limitValue);
+            params.put("limit",limit_info.toString());
 
             params.put("where", where_info.toString());
 
@@ -148,7 +167,7 @@ public class CoachReportsFinishedCoursesFragment extends Fragment {
                 public void onResponse(JSONArray response) {
                     super.onResponse(response);
                     Log.d(TAG,String.valueOf(response));
-                    fillAdapter(response);
+                    fillAdapter(response , loadMore);
                 }
             }.execute(httpCall);
         } catch (JSONException e) {
@@ -156,8 +175,9 @@ public class CoachReportsFinishedCoursesFragment extends Fragment {
         }
     }
 
-    private void fillAdapter(JSONArray response) {
-        list_items.clear();
+    private void fillAdapter(JSONArray response , boolean loadMore) {
+        if (!loadMore)
+            list_items.clear();
         mSwipeRefreshLayout.setRefreshing(false);
         if (response != null) {
             try {
@@ -169,7 +189,8 @@ public class CoachReportsFinishedCoursesFragment extends Fragment {
                 e.printStackTrace();
             }
         }
-        listView_adapter.notifyDataSetChanged();
         customListView.notifyChange(list_items.size());
+        listView_adapter.notifyDataSetChanged();
+        listViewListener.setLoading(false);
     }
 }
