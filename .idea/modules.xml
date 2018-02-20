@@ -3,6 +3,8 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/Adroid_sportsInc.iml" filepath="$PROJECT_DIR$/Adroid_sportsInc.iml" />
+      <module fileurl="file://D:\!!Github\Sportsinc\Adroid_sportsInc.iml" filepath="D:\!!Github\Sportsinc\Adroid_sportsInc.iml" />
+      <module fileurl="file://E:\!GitHub\Adroid_sportsInc\Sportsinc.iml" filepath="E:\!GitHub\Adroid_sportsInc\Sportsinc.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
     </modules>
   </component>
