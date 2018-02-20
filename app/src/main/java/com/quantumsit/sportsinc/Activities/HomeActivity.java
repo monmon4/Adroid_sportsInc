@@ -19,6 +19,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -26,11 +27,13 @@ import android.widget.Toast;
 import com.quantumsit.sportsinc.Aaa_data.Config;
 import com.quantumsit.sportsinc.Aaa_data.Constants;
 import com.quantumsit.sportsinc.Aaa_data.GlobalVars;
+import com.quantumsit.sportsinc.Adapters.TraineeChildAdapter;
 import com.quantumsit.sportsinc.Backend.HttpCall;
 import com.quantumsit.sportsinc.Backend.HttpRequest;
 import com.quantumsit.sportsinc.COACHES.CoachRequestSentFragment;
 import com.quantumsit.sportsinc.COACHES.ReportsFragments.CoachReportsFragment;
 import com.quantumsit.sportsinc.COACHES.CoachRequestFragment;
+import com.quantumsit.sportsinc.Entities.UserEntity;
 import com.quantumsit.sportsinc.Side_menu_fragments.ContactUsFragment;
 import com.quantumsit.sportsinc.R;
 import com.quantumsit.sportsinc.Side_menu_fragments.AboutUsFragment;
@@ -47,6 +50,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 public class HomeActivity extends AppCompatActivity
@@ -63,6 +67,9 @@ public class HomeActivity extends AppCompatActivity
 
     boolean coach = false, parent= false, non_register = false, admin= false ;
     TextView name_textView, phone_textView;
+    private ImageView viewChild;
+    private ListView childAccount;
+    private boolean isPickerShown = false;
 
 
     @Override
@@ -127,6 +134,8 @@ public class HomeActivity extends AppCompatActivity
 
         RelativeLayout header = (RelativeLayout) navigationView.getHeaderView(0);
         ImageView profileImage = header.findViewById(R.id.profile_image);
+        viewChild = header.findViewById(R.id.childView);
+        childAccount = findViewById(R.id.childAccountList);
         TextView userName = header.findViewById(R.id.user_name);
         TextView userPhone = header.findViewById(R.id.user_phone);
         userName.setText(globalVars.getName());
@@ -140,6 +149,23 @@ public class HomeActivity extends AppCompatActivity
                 startActivity(intent);
             }
         });
+
+        ArrayList<UserEntity> children = new ArrayList<>();
+        children.add(new UserEntity("Bassam Saber","011","11","mail1@mail.com",1,0,0,"22/11/1994"));
+        children.add(new UserEntity("Ahmed Hassan","011","11","mail1@mail.com",2,0,0,"22/11/1994"));
+        children.add(new UserEntity("Bassem Hassan","011","11","mail1@mail.com",3,0,0,"22/11/1994"));
+        children.add(new UserEntity("Islam Said","011","11","mail1@mail.com",4,0,0,"22/11/1994"));
+
+        TraineeChildAdapter adapter = new TraineeChildAdapter(getApplicationContext(),R.layout.list_item_trainee_child,children);
+        childAccount.setAdapter(adapter);
+
+        viewChild.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                toggleMenu();
+            }
+        });
+
         actionBar = getSupportActionBar();
 
         if (savedInstanceState == null) {
@@ -160,7 +186,27 @@ public class HomeActivity extends AppCompatActivity
             fragmentManager.beginTransaction().replace(R.id.content_frame, fragment).commit();
         }
 
+    }
 
+    private void toggleMenu() {
+        if (!isPickerShown) {
+            viewChild.setImageResource(R.drawable.ic_arrow_drop_up);
+            setMenuItemsVisible(false);
+            childAccount.setVisibility(View.VISIBLE);
+            isPickerShown = true;
+        } else {
+            viewChild.setImageResource(R.drawable.ic_arrow_drop_down);
+            setMenuItemsVisible(true);
+            childAccount.setVisibility(View.GONE);
+            isPickerShown = false;
+        }
+    }
+
+    private void setMenuItemsVisible(boolean b) {
+        Menu menu = navigationView.getMenu();
+        for (int i = 0; i < menu.size(); ++i) {
+            menu.getItem(i).setVisible(b);
+        }
     }
 
     @SuppressLint("StaticFieldLeak")

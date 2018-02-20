@@ -15,7 +15,6 @@ public class GlobalVars extends Application {
     DB_Sqlite_Handler myDB;
 
     String name ="", phone ="", pass ="", mail ="" ,date_of_birth ="";
-
     int id , type, gender, age; //TYPE 0 Trainee, 1 Coach, 2 Admin, 3 Manager, 4 Backend, 5 non_registered
                           //GENDER 0 Male, 1 Female
 

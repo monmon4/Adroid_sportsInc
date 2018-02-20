@@ -61,8 +61,6 @@ public class AdminStartClassActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_admin_start_class);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setDisplayShowHomeEnabled(true);
 
         progressDialog = new ProgressDialog(AdminStartClassActivity.this);
         progressDialog.setMessage("Please wait......");
