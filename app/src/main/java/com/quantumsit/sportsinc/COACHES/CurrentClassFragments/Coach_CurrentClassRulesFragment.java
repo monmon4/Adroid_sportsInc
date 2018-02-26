@@ -109,7 +109,7 @@ public class Coach_CurrentClassRulesFragment extends Fragment {
         List<Rule_info> rules = global.getMyDB().getAllRules(class_id);
         list_items.clear();
         for (Rule_info item : rules){
-            Log.d(TAG,"RuleNum: "+item.getRule_name());
+            Log.d(TAG,"RuleNum: "+"name");
             list_items.add(new item_checkbox(item));
         }
         checkBoxListView_adapter.notifyDataSetChanged();

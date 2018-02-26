@@ -11,8 +11,15 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
-        android:orientation="horizontal">
+        android:orientation="vertical">
 
+        <com.weiwangcn.betterspinner.library.material.MaterialBetterSpinner
+            android:id="@+id/requestforSpinner_requestadd"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/request_for"
+            android:textColorHint="@color/colorAccent"
+            app:met_floatingLabel="normal" />
 
         <com.weiwangcn.betterspinner.library.material.MaterialBetterSpinner
             android:id="@+id/dateSpinner_requestadd"

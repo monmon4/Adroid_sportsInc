@@ -30,6 +30,8 @@ import android.widget.Toast;
 
 import com.quantumsit.sportsinc.Aaa_data.Constants;
 import com.quantumsit.sportsinc.Aaa_data.GlobalVars;
+import com.quantumsit.sportsinc.Aaa_data.Rule_info;
+import com.quantumsit.sportsinc.Aaa_data.Trainees_info;
 import com.quantumsit.sportsinc.Backend.HttpCall;
 import com.quantumsit.sportsinc.Backend.HttpRequest;
 import com.quantumsit.sportsinc.CustomView.myCustomExpandableListView;
@@ -215,7 +217,7 @@ public class Admin_CurrentClassesFragment extends Fragment {
 
     private void check_time() {
 
-        ArrayList <String> list = new ArrayList<>();
+        //ArrayList <String> list = new ArrayList<>();
 
         for (int i=0; i<list_headers.size(); i++){
             item_current_classes entity = list_headers.get(i);
@@ -233,7 +235,7 @@ public class Admin_CurrentClassesFragment extends Fragment {
             String[] splitin_time = time.split(" ");
 
             current_time_double = Double.valueOf(splitin_time[0].replace(":", "."));
-            if ( splitin_time[1].equals("PM") && current_time_double - 12 > 1) {
+            if ( splitin_time[1].equals("PM") && current_time_double - 12 < 1) {
                 current_time_double += 12.00;
             }
 
@@ -543,8 +545,76 @@ public class Admin_CurrentClassesFragment extends Fragment {
     }
 
 
+
+
+    @SuppressLint("StaticFieldLeak")
+    private void startClass() {
+
+        int class_id = list_headers.get(CurrentPosition).getId();
+        Trainees_info coach_info = globalVars.getMyDB().getCoachInfo(class_id);
+        Rule_info rule_info = globalVars.getMyDB().getRule(class_id);
+
+        if (coach_info == null || rule_info == null) {
+            show_toast("you need to check rules and coach's attendance first");
+        } else if (!coach_info.getSelected()) {
+            show_toast("Can't start class when coach's attendance isn't checked");
+        } else if (!rule_info.getSelected()) {
+            show_toast("Can't start class when rules isn't checked");
+        } else {
+            insertCoachAttendToDB(coach_info);
+            insertRuleCheckToDB(rule_info);
+            try {
+                JSONObject where_info = new JSONObject();
+                where_info.put("id",list_headers.get(CurrentPosition).getId());
+
+                JSONObject values = new JSONObject();
+                values.put("status",0);
+
+                HttpCall httpCall = new HttpCall();
+                httpCall.setMethodtype(HttpCall.POST);
+                httpCall.setUrl(Constants.updateData);
+
+                HashMap<String, String> params = new HashMap<>();
+                params.put("table","classes");
+                params.put("values",values.toString());
+                params.put("where", where_info.toString());
+
+                httpCall.setParams(params);
+
+                new HttpRequest() {
+                    @Override
+                    public void onResponse(JSONArray response) {
+                        super.onResponse(response);
+                        if(checkResponse(response)) {
+                            Toast.makeText(getActivity(),"class has started",Toast.LENGTH_SHORT).show();
+                            initializeCurrentClasses();
+
+                        }else {
+                            Toast.makeText(getActivity(), "Failed To start the class", Toast.LENGTH_SHORT).show();
+                        }
+                        progressDialog.dismiss();
+                    }
+                }.execute(httpCall);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+
+
+    }
+
     @SuppressLint("StaticFieldLeak")
     private void endClass() {
+
+        int class_id = list_headers.get(CurrentPosition).getId();
+        Trainees_info coach_info = globalVars.getMyDB().getCoachInfo(class_id);
+        Rule_info rule_info = globalVars.getMyDB().getRule(class_id);
+
+        if (coach_info != null)
+            globalVars.getMyDB().deleteClassTrainees(class_id);
+
+        if (rule_info != null)
+            globalVars.getMyDB().deleteClassRules(class_id);
 
         try {
             JSONObject values = new JSONObject();
@@ -584,44 +654,6 @@ public class Admin_CurrentClassesFragment extends Fragment {
         }
     }
 
-    private void startClass() {
-        try {
-            JSONObject where_info = new JSONObject();
-            where_info.put("id",list_headers.get(CurrentPosition).getId());
-
-            JSONObject values = new JSONObject();
-            values.put("status",0);
-
-            HttpCall httpCall = new HttpCall();
-            httpCall.setMethodtype(HttpCall.POST);
-            httpCall.setUrl(Constants.updateData);
-
-            HashMap<String, String> params = new HashMap<>();
-            params.put("table","classes");
-            params.put("values",values.toString());
-            params.put("where", where_info.toString());
-
-            httpCall.setParams(params);
-
-            new HttpRequest() {
-                @Override
-                public void onResponse(JSONArray response) {
-                    super.onResponse(response);
-                    if(checkResponse(response)) {
-                        Toast.makeText(getActivity(),"class is started",Toast.LENGTH_SHORT).show();
-                        initializeCurrentClasses(false);
-
-                    }else {
-                        Toast.makeText(getActivity(), "Failed To start the class", Toast.LENGTH_SHORT).show();
-                    }
-                    progressDialog.dismiss();
-                }
-            }.execute(httpCall);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-    }
-
     private boolean checkResponse(JSONArray response) {
         if (response != null){
             try {
@@ -633,6 +665,76 @@ public class Admin_CurrentClassesFragment extends Fragment {
             }
         }
         return false;
+    }
+
+
+    @SuppressLint("StaticFieldLeak")
+    private  void insertCoachAttendToDB(final Trainees_info info){
+        try {
+
+            JSONObject values = new JSONObject();
+            values.put("class_id",info.getClass_id());
+            values.put("user_id",info.getTrainee_id());
+            values.put("attend",info.getTrainee_attend());
+            values.put("notes",info.getTrainee_note());
+
+            HttpCall httpCall = new HttpCall();
+            httpCall.setMethodtype(HttpCall.POST);
+            httpCall.setUrl(Constants.insertData);
+
+            HashMap<String, String> params = new HashMap<>();
+            params.put("table","class_info");
+            params.put("values",values.toString());
+
+            httpCall.setParams(params);
+
+            new HttpRequest() {
+                @Override
+                public void onResponse(JSONArray response) {
+                    super.onResponse(response);
+                    if(checkResponse(response)) {
+
+                    }
+
+                }
+            }.execute(httpCall);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
+
+    @SuppressLint("StaticFieldLeak")
+    private  void insertRuleCheckToDB(final Rule_info info){
+        try {
+
+            JSONObject values = new JSONObject();
+            values.put("class_id",info.getClass_id());
+            values.put("user_id",info.getUser_id());
+            values.put("rule_checked",info.getRule_check());
+            values.put("note",info.getRule_note());
+
+            HttpCall httpCall = new HttpCall();
+            httpCall.setMethodtype(HttpCall.POST);
+            httpCall.setUrl(Constants.insertData);
+
+            HashMap<String, String> params = new HashMap<>();
+            params.put("table","class_rules");
+            params.put("values",values.toString());
+
+            httpCall.setParams(params);
+
+            new HttpRequest() {
+                @Override
+                public void onResponse(JSONArray response) {
+                    super.onResponse(response);
+                    if(checkResponse(response)) {
+                    }
+                }
+            }.execute(httpCall);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
     }
 
 

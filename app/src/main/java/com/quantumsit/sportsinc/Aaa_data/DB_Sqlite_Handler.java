@@ -54,7 +54,7 @@ public class DB_Sqlite_Handler extends SQLiteOpenHelper {
     // Rules Table Columns names
     private String KeyRuleId = "rule_id";
     private String KeyRuleClass = "class_id";
-    private String KeyRuleName = "rule_name";
+    private String KeyUserID = "user_id";
     private String KeyRuleCheck = "rule_check";
     private String KeyRuleNote = "rule_note";
 
@@ -100,9 +100,9 @@ public class DB_Sqlite_Handler extends SQLiteOpenHelper {
                 + KeyClassGroup + " INTEGER" + ")";
 
         String CREATE_Rules_TABLE = "CREATE Table " + TABLE_rules + "("
-                + KeyRuleId + " INTEGER PRIMARY KEY," +KeyRuleClass + " INTEGER, "
-                + KeyRuleName + " TEXT,"+ KeyRuleCheck + " INTEGER,"
-                + KeyRuleNote + " TEXT" + ")";
+                + KeyRuleId + " INTEGER PRIMARY KEY," + KeyRuleClass + " INTEGER, "
+                + KeyRuleCheck + " INTEGER," + KeyRuleNote + " TEXT,"
+                + KeyUserID + " INTEGER" + ")";
 
         String CREATE_Trainee_TABLE = "CREATE Table " + TABLE_trainee + "("
                 + KeyPrimary + " INTEGER PRIMARY KEY AUTOINCREMENT,"
@@ -189,7 +189,6 @@ public class DB_Sqlite_Handler extends SQLiteOpenHelper {
         ContentValues values = new ContentValues();
         values.put(KeyRuleId,info.getRule_id());
         values.put(KeyRuleClass,info.getClass_id());
-        values.put(KeyRuleName,info.getRule_name());
         values.put(KeyRuleCheck,info.getRule_check());
         values.put(KeyRuleNote,info.getRule_note());
 
@@ -261,7 +260,7 @@ public class DB_Sqlite_Handler extends SQLiteOpenHelper {
         Cursor cursor = db.rawQuery("select * from "+TABLE_rules+" where "+KeyRuleClass+" = "+class_id+" And rule_check = 0",null);
         if (cursor.getCount() !=0){
             while (cursor.moveToNext()){
-                Rule_info info = new Rule_info(cursor.getInt(0),cursor.getInt(1),cursor.getString(2),cursor.getInt(3),cursor.getString(4));
+                Rule_info info = new Rule_info(cursor.getInt(0),cursor.getInt(1),cursor.getInt(2),cursor.getString(3),cursor.getInt(4));
                 rules.add(info);
             }
         }
@@ -275,7 +274,7 @@ public class DB_Sqlite_Handler extends SQLiteOpenHelper {
         Cursor cursor = db.rawQuery("select * from "+TABLE_rules+" where "+KeyRuleClass+" = "+class_id+" ",null);
         if (cursor.getCount() !=0){
             while (cursor.moveToNext()){
-                Rule_info info = new Rule_info(cursor.getInt(0),cursor.getInt(1),cursor.getString(2),cursor.getInt(3),cursor.getString(4));
+                Rule_info info = new Rule_info(cursor.getInt(0),cursor.getInt(1),cursor.getInt(2),cursor.getString(3),cursor.getInt(4));
                 rules.add(info);
             }
         }
@@ -289,13 +288,42 @@ public class DB_Sqlite_Handler extends SQLiteOpenHelper {
         Cursor cursor = db.rawQuery("select * from "+TABLE_rules,null);
         if (cursor.getCount() !=0){
             while (cursor.moveToNext()){
-                Rule_info info = new Rule_info(cursor.getInt(0),cursor.getInt(1),cursor.getString(2),cursor.getInt(3),cursor.getString(4));
+                Rule_info info = new Rule_info(cursor.getInt(0),cursor.getInt(1),cursor.getInt(2),cursor.getString(3),cursor.getInt(4));
                 rules.add(info);
             }
         }
         return rules;
     }
 
+    public Rule_info getRule(int id) {
+
+        SQLiteDatabase db = this.getReadableDatabase();
+        Rule_info info = null;
+
+        Cursor cursor = db.rawQuery("select * from "+TABLE_rules + " where "+KeyTraineeClass+" = "+id,null);
+        if (cursor.getCount() !=0){
+            while (cursor.moveToNext()){
+                info = new Rule_info(cursor.getInt(0),cursor.getInt(1),cursor.getInt(2),cursor.getString(3),cursor.getInt(4));
+            }
+        }
+        return info;
+
+    }
+
+    public Trainees_info getCoachInfo (int id) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        Trainees_info info = null;
+
+        Cursor cursor = db.rawQuery("select * from "+TABLE_trainee + " where "+KeyClassId+" = "+id,null);
+        if (cursor.getCount() !=0){
+            while (cursor.moveToNext()){
+                int some = cursor.getInt(0);
+                int new_some = cursor.getInt(1);
+                info = new Trainees_info(cursor.getInt(0),cursor.getInt(1),cursor.getString(2),cursor.getInt(3),cursor.getInt(4),cursor.getInt(5),cursor.getString(6));
+            }
+        }
+        return info;
+    }
     public List<Trainees_info> getTrainees(){
         SQLiteDatabase db = this.getReadableDatabase();
         List<Trainees_info> trainees = new ArrayList<>();
@@ -432,12 +460,12 @@ public class DB_Sqlite_Handler extends SQLiteOpenHelper {
         ContentValues values = new ContentValues();
         values.put(KeyRuleId,info.getRule_id());
         values.put(KeyRuleClass,info.getClass_id());
-        values.put(KeyRuleName,info.getRule_name());
+        values.put(KeyUserID,info.getUser_id());
         values.put(KeyRuleNote,info.getRule_note());
         values.put(KeyRuleCheck,info.getRule_check());
         // updating row
-        return db.update(TABLE_rules, values,  KeyRuleId+ " = ?",
-                new String[]{String.valueOf(info.getRule_id())});
+        return db.update(TABLE_rules, values,  KeyClassId+ " = ?",
+                new String[]{String.valueOf(info.getClass_id())});
     }
 
     public int updateTrainee(Trainees_info info) {
@@ -450,8 +478,8 @@ public class DB_Sqlite_Handler extends SQLiteOpenHelper {
         values.put(KeyTraineeScore,info.getTrainee_score());
         values.put(KeyTraineeNote,info.getTrainee_note());
         // updating row
-        return db.update(TABLE_trainee, values, KeyPrimary + " = ?",
-                new String[]{String.valueOf(info.getID())});
+        return db.update(TABLE_trainee, values, KeyClassId + " = ?",
+                new String[]{String.valueOf(info.getClass_id())});
     }
 
     public int updateStartClass(StartClass_info info) {
@@ -514,7 +542,7 @@ public class DB_Sqlite_Handler extends SQLiteOpenHelper {
         return false;
     }
 
-    private boolean deleteClassRules(int class_id) {
+    public boolean deleteClassRules(int class_id) {
         SQLiteDatabase db = this.getWritableDatabase();
         int result = db.delete(TABLE_rules, KeyRuleClass + " = ?",
                 new String[] { String.valueOf(class_id) });

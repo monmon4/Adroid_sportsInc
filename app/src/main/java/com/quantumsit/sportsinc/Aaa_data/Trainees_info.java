@@ -10,13 +10,13 @@ import org.json.JSONObject;
 public class Trainees_info {
     private int ID;
     private int trainee_id;
-    private String trainee_name;
+    private String trainee_name = "";
     private int class_id;
     private int trainee_attend;
     private int trainee_score;
-    private String trainee_note;
+    private String trainee_note = "";
 
-    public Trainees_info(int ID ,int trainee_id, String trainee_name, int class_id, int trainee_attend, int trainee_score, String trainee_note) {
+    public Trainees_info(int ID , int trainee_id, String trainee_name, int class_id, int trainee_attend, int trainee_score, String trainee_note) {
         this.ID = ID;
         this.trainee_id = trainee_id;
         this.trainee_name = trainee_name;
@@ -89,6 +89,8 @@ public class Trainees_info {
             setTrainee_score(0);
         }
     }
+
+
 
     public int getTrainee_score() {
         return trainee_score;

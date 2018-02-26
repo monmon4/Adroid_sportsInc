@@ -11,6 +11,11 @@
         <item>Class suspend</item>
     </string-array>
 
+    <string-array name="trainee_request_for_array">
+        <item>Absence</item>
+        <item>Switch class</item>
+    </string-array>
+
     <string-array name="course_names_array">
         <item>Course 1</item>
         <item>Course 2</item>

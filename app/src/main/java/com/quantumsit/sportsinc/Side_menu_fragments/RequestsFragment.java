@@ -66,6 +66,7 @@ public class RequestsFragment extends Fragment {
         currentStart = 0;
 
         add_request_button = root.findViewById(R.id.floatingActionButton);
+
         add_request_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -208,8 +209,12 @@ public class RequestsFragment extends Fragment {
                     date = creationDateFormat.parse(creation_date);
                     creation_date = outdateFormat.format(date);
                     String request_date = result.getString("date_request");
-                    date = requestDateFormat.parse(request_date);
-                    request_date = outdateFormat.format(date);
+                    if (!request_date.equals("0000-00-00")) {
+                        date = requestDateFormat.parse(request_date);
+                        request_date = outdateFormat.format(date);
+                    } else {
+                        request_date = " ";
+                    }
 
                     String title = result.getString("title");
                     String content = result.getString("content");

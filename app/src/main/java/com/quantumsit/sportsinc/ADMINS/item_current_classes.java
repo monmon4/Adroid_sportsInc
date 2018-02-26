@@ -43,16 +43,6 @@ public class item_current_classes implements Serializable{
             startTime = startTime.substring(0,startTime.length()-3);
             endTime = jsonObject.getString("class_end_time");
             endTime = endTime.substring(0,endTime.length()-3);
-
-            CDate = jsonObject.getString("class_postpone_Date");
-            df = new SimpleDateFormat("yyyy-MM-dd");
-            theDate = df.parse(CDate);
-            df = new SimpleDateFormat("MMM dd");
-            postpone_date = df.format(theDate);
-            postpone_startTime = jsonObject.getString("postpone_start_time");
-            postpone_startTime = postpone_startTime.substring(0,postpone_startTime.length()-3);
-            postpone_endTime = jsonObject.getString("postpone_end_time");
-            postpone_endTime = postpone_endTime.substring(0,postpone_endTime.length()-3);
         } catch (JSONException e) {
             e.printStackTrace();
         } catch (ParseException e) {

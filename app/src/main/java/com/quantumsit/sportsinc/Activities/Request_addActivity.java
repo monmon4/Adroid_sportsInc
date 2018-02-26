@@ -10,6 +10,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -35,8 +36,8 @@ import java.util.HashMap;
 public class Request_addActivity extends AppCompatActivity {
 
     EditText reason_editText;
-    MaterialBetterSpinner date_spinner;
-    ArrayList<String> date_list;
+    MaterialBetterSpinner date_spinner, request_for_spinner;
+    ArrayList<String> date_list, group_list/*elly hwa esmo group zman*/;
 
     GlobalVars globalVars;
 
@@ -57,15 +58,64 @@ public class Request_addActivity extends AppCompatActivity {
         progressDialog.setMessage("Please wait.....");
 
         date_spinner = findViewById(R.id.dateSpinner_requestadd);
+        request_for_spinner = findViewById(R.id.requestforSpinner_requestadd);
         reason_editText = findViewById(R.id.reasonEditText_requestadd);
 
         date_list = new ArrayList<>();
+        group_list = new ArrayList<>();
 
-        ArrayAdapter<String> dates_spinner_adapter = new ArrayAdapter<String>(this, android.R.layout.simple_dropdown_item_1line, empty);
+        ArrayAdapter<String> dates_spinner_adapter = new ArrayAdapter<>(this, android.R.layout.simple_dropdown_item_1line, empty);
+        ArrayAdapter<CharSequence> requestfor_spinner_adapter = ArrayAdapter.createFromResource(this, R.array.trainee_request_for_array, android.R.layout.simple_dropdown_item_1line);
         date_spinner.setAdapter(dates_spinner_adapter);
+        request_for_spinner.setAdapter(requestfor_spinner_adapter);
 
-        progressDialog.show();
         fillDateList();
+        fillClassList();
+
+        /*request_for_spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
+                progressDialog.show();
+                if (position == 0) {
+                    ArrayAdapter<String> new_dates_spinner_adapter = new ArrayAdapter<>(Request_addActivity.this, android.R.layout.simple_dropdown_item_1line, date_list);
+                    date_spinner.setAdapter(new_dates_spinner_adapter);
+                    progressDialog.dismiss();
+                } else {
+                    ArrayAdapter<String> new_dates_spinner_adapter = new ArrayAdapter<>(Request_addActivity.this, android.R.layout.simple_dropdown_item_1line, group_list);
+                    date_spinner.setAdapter(new_dates_spinner_adapter);
+                    progressDialog.dismiss();
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parentView) {
+                // your code here
+            }
+
+        });
+
+        progressDialog.show();*/
+
+        date_spinner.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                String request_for = request_for_spinner.getText().toString();
+                progressDialog.show();
+                if (request_for.equals("")) {
+                    show_toast("Please choose whether the request is for absence or switch class");
+                } else if (request_for.equals("Absence")){
+                    ArrayAdapter<String> new_dates_spinner_adapter = new ArrayAdapter<>(Request_addActivity.this, android.R.layout.simple_dropdown_item_1line, date_list);
+                    date_spinner.setAdapter(new_dates_spinner_adapter);
+
+                }else {
+                    ArrayAdapter<String> new_dates_spinner_adapter = new ArrayAdapter<>(Request_addActivity.this, android.R.layout.simple_dropdown_item_1line, group_list);
+                    date_spinner.setAdapter(new_dates_spinner_adapter);
+
+                }
+                progressDialog.dismiss();
+            }
+        });
 
     }
 
@@ -78,6 +128,7 @@ public class Request_addActivity extends AppCompatActivity {
     @SuppressLint("StaticFieldLeak")
     private void fillDateList() {
 
+        progressDialog.show();
         JSONObject where_info = new JSONObject();
         String on_condition;
         try {
@@ -132,7 +183,8 @@ public class Request_addActivity extends AppCompatActivity {
                                 }
                             }
 
-                            setDate_spinnerAdapter();
+                            progressDialog.dismiss();
+                            //setDate_spinnerAdapter();
 
                         } else {
                             Toast.makeText(Request_addActivity.this, "An error occurred ", Toast.LENGTH_SHORT).show();
@@ -153,15 +205,61 @@ public class Request_addActivity extends AppCompatActivity {
         } catch (JSONException e) {
             e.printStackTrace();
         }
-
     }
 
-
-    private void setDate_spinnerAdapter() {
+    /*private void setDate_spinnerAdapter() {
         ArrayAdapter<String> dates_spinner_adapter = new ArrayAdapter<>(this, android.R.layout.simple_dropdown_item_1line, date_list);
         date_spinner.setAdapter(dates_spinner_adapter);
         progressDialog.dismiss();
+    }*/
+
+
+    @SuppressLint("StaticFieldLeak")
+    private void fillClassList() {
+
+       // try {
+
+
+            HttpCall httpCall = new HttpCall();
+            httpCall.setMethodtype(HttpCall.POST);
+            httpCall.setUrl(Constants.traineeSwitchGroup);
+            HashMap<String,String> params = new HashMap<>();
+            params.put("trainee_id",String.valueOf(globalVars.getId()));
+
+            httpCall.setParams(params);
+
+            new HttpRequest(){
+                @Override
+                public void onResponse(JSONArray response) {
+                    super.onResponse(response);
+                    try {
+
+                        if (response != null) {
+                            for (int i=0; i<response.length(); i++) {
+                                JSONObject result = response.getJSONObject(i);
+                                String group_name = result.getString("name");
+                                group_list.add(group_name);
+                            }
+
+                        } else {
+                            Toast.makeText(Request_addActivity.this, "An error occurred ", Toast.LENGTH_SHORT).show();
+                        }
+
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    } /*catch (ParseException e) {
+                        e.printStackTrace();
+                    }*/
+                }
+
+            }.execute(httpCall);
+
+        //} catch (JSONException e) {
+            //e.printStackTrace();
+       // }
     }
+
+
 
     public void send_clicked() {
         final AlertDialog.Builder builder = new AlertDialog.Builder(Request_addActivity.this,
@@ -237,12 +335,13 @@ public class Request_addActivity extends AppCompatActivity {
         Date date;
         DateFormat outdateFormat = new SimpleDateFormat("yyyy-MM-dd");
         DateFormat DateFormat = new SimpleDateFormat("dd MMMM, yyyy");
+        String date_request = "";
 
         if(date_spinner.getText().toString().equals("")) {
             Toast.makeText(Request_addActivity.this, "Please select a date", Toast.LENGTH_SHORT).show();
 
-        } else {
-            String date_request = date_spinner.getText().toString();
+        } else if (request_for_spinner.getText().toString().equals("Absence")) {
+            date_request = date_spinner.getText().toString();
             try {
                 date = DateFormat.parse(date_request);
                 date_request = outdateFormat.format(date);
@@ -250,8 +349,11 @@ public class Request_addActivity extends AppCompatActivity {
                 e.printStackTrace();
             }
 
+            String title = "request for " + request_for_spinner.getText().toString();
+            if (request_for_spinner.getText().toString().equals("Switch class")) {
+                title += " with " + date_spinner.getText().toString();
+            }
 
-            String title = "request for absence";
             String content = reason_editText.getText().toString();
             if (content.equals("")){ content = "none";}
             int type = 1;
@@ -267,6 +369,63 @@ public class Request_addActivity extends AppCompatActivity {
                 values_info.put("sub_course_name","");
                 values_info.put("content",content);
                 values_info.put("date_request",date_request);
+
+
+
+                HttpCall httpCall = new HttpCall();
+                httpCall.setMethodtype(HttpCall.POST);
+                httpCall.setUrl(Constants.insertData);
+                HashMap<String,String> params = new HashMap<>();
+                params.put("table","requests");
+                params.put("notify","1");
+                params.put("manager","1");
+                params.put("values",values_info.toString());
+
+                httpCall.setParams(params);
+
+                new HttpRequest(){
+                    @Override
+                    public void onResponse(JSONArray response) {
+                        super.onResponse(response);
+                        Log.d("AddRequest","response : "+String.valueOf(response));
+                        if (response != null) {
+                            show_toast("Success ");
+                            onBackPressed();
+                            finish();
+                        } else {
+                            show_toast("An error occurred ");
+                        }
+                    }
+
+                }.execute(httpCall);
+
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+        } else {
+            String title = "request for " + request_for_spinner.getText().toString();
+            if (request_for_spinner.getText().toString().equals("Switch class")) {
+                title += " with " + date_spinner.getText().toString();
+            }
+
+            String content = reason_editText.getText().toString();
+            if (content.equals("")){ content = "none";}
+            int type = 1;
+            int from_id = globalVars.getId();
+
+            JSONObject values_info = new JSONObject();
+            try {
+                values_info.put("type",type);
+                values_info.put("from_id",from_id);
+                values_info.put("to_id",to_id);
+                values_info.put("title",title);
+                values_info.put("course_name","");
+                values_info.put("sub_course_name","");
+                values_info.put("content",content);
+                values_info.put("date_request",date_request);
+
+
 
                 HttpCall httpCall = new HttpCall();
                 httpCall.setMethodtype(HttpCall.POST);
@@ -299,6 +458,9 @@ public class Request_addActivity extends AppCompatActivity {
                 e.printStackTrace();
             }
         }
+
+
+
     }
 
     @Override
