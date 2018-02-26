@@ -3,10 +3,12 @@ package com.quantumsit.sportsinc.Side_menu_fragments;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Parcelable;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -30,6 +32,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -94,12 +97,11 @@ public class ComplainsFragment extends Fragment {
         listViewListener = new myCustomListViewListener(listView , mSwipeRefreshLayout) {
             @Override
             public void loadMoreData() {
-                listLoadMore();
+                if (ReviewedcomplainList.size() >= limitValue)
+                    listLoadMore();
             }
         };
         listView.setOnScrollListener(listViewListener);
-        initilizeComplains(false);
-
         adapter = new ComplainsAdapter(getContext(),R.layout.list_item_complains, ReviewedcomplainList);
 
         listView.setAdapter(adapter);
@@ -115,7 +117,33 @@ public class ComplainsFragment extends Fragment {
             }
         });
 
+        if (savedInstanceState == null)
+            initilizeComplains(false);
+
+        else
+            fillBySavedState(savedInstanceState);
+
         return root;
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putParcelable("ScrollPosition", listView.onSaveInstanceState());
+        outState.putSerializable("ComplainsList", (Serializable) ReviewedcomplainList);
+    }
+
+
+    private void fillBySavedState(Bundle savedInstanceState) {
+        if (getActivity() != null)
+            ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle(R.string.complains);
+
+        ArrayList<ComplainEntity> list1 = (ArrayList<ComplainEntity>) savedInstanceState.getSerializable("ComplainsList");
+        ReviewedcomplainList.addAll(list1);
+        Parcelable mListInstanceState = savedInstanceState.getParcelable("ScrollPosition");
+        customListView.notifyChange(ReviewedcomplainList.size());
+        adapter.notifyDataSetChanged();
+        listView.onRestoreInstanceState(mListInstanceState);
     }
 
     private void listLoadMore() {
@@ -139,6 +167,9 @@ public class ComplainsFragment extends Fragment {
     }
 
     private void initilizeComplains(final boolean loadMore) {
+        if (!isAdded())
+            return;
+
         if (!checkConnection()){
             customListView.retry();
             return;

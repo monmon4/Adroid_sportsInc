@@ -1,10 +1,12 @@
 package com.quantumsit.sportsinc.Side_menu_fragments;
 
+import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
+import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -59,4 +61,12 @@ public class AboutUsFragment extends Fragment {
         viewPager.setAdapter(sectionsPagerAdapter);
 
     }
+
+    @Override
+    public void onViewStateRestored(@Nullable Bundle savedInstanceState) {
+        super.onViewStateRestored(savedInstanceState);
+        if (getActivity() != null)
+            ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle(R.string.about_us);
+    }
+
 }

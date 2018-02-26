@@ -120,7 +120,7 @@
 
     <string name="action_settings">Settings</string>
     <string name="home">Home</string>
-    <string name="my_classes">My classes</string>
+    <string name="my_classes">My Sessions</string>
     <string name="notifications">Notifications</string>
     <string name="request">Request</string>
     <string name="complains">Complains</string>
@@ -413,8 +413,11 @@
     <string name="reassign">Reassign</string>
     <string name="powered_by_sports_inc">powered by sports Inc.</string>
     <string name="reassign_to">Reassign to</string>
+    <string name="session_score">Session Score</string>
+    <string name="news_details">News Details</string>
 
 
-    <integer name="selectLimit">3</integer>
+    <integer name="selectLimit">10</integer>
+    <integer name="sliderLimit">3</integer>
 
 </resources>

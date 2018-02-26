@@ -1,5 +1,6 @@
 package com.quantumsit.sportsinc.COACHES;
 
+import android.os.Parcelable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -85,9 +86,6 @@ public class ActivityAddRequest_coach extends AppCompatActivity {
         }
         classesMap = new HashMap<>();
 
-        initilizeCoursesSpinner();
-        initilizeClassesSpinner();
-
         request_for_spinner.setAdapter(request_for_spinner_adapter);
         course_name_spinner.setAdapter(courseNameAdapter);
         class_number_spinner.setAdapter(classNameAdapter);
@@ -108,7 +106,46 @@ public class ActivityAddRequest_coach extends AppCompatActivity {
             }
         });
 
+        if (savedInstanceState == null){
+            initilizeCoursesSpinner();
+            initilizeClassesSpinner();
+        }
+        else
+            fillBySavedState(savedInstanceState);
     }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putSerializable("CourseEntitiesList",courseEntities);
+        outState.putSerializable("ClassesEntitiesList",classEntities);
+        outState.putStringArrayList("CourseNameList", (ArrayList<String>) courseList);
+        outState.putStringArrayList("ClassesNameList", (ArrayList<String>) classList);
+        outState.putSerializable("HashMap",classesMap);
+    }
+
+
+    private void fillBySavedState(Bundle savedInstanceState) {
+        courseEntities = (ArrayList<item_courseSpinner_coach>) savedInstanceState.getSerializable("CourseEntitiesList");
+        classEntities = (ArrayList<item_classSpinner_coach>) savedInstanceState.getSerializable("ClassesEntitiesList");
+        ArrayList<String> list1 = savedInstanceState.getStringArrayList("CourseNameList");
+        ArrayList<String> list2 = savedInstanceState.getStringArrayList("ClassesNameList");
+        HashMap<Integer , ArrayList<item_classSpinner_coach> > hashMap = (HashMap<Integer, ArrayList<item_classSpinner_coach>>) savedInstanceState.getSerializable("HashMap");
+        classesMap.putAll(hashMap);
+        courseList.addAll(list1);
+        classList.addAll(list2);
+
+        ArrayAdapter<String> courseNameAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item,courseList);
+        courseNameAdapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
+        course_name_spinner.setAdapter(courseNameAdapter);
+
+        ArrayAdapter<String> classNameAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item,classList);
+        classNameAdapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
+        class_number_spinner.setAdapter(classNameAdapter);
+
+    }
+
+
 
     private void classesFilter(ArrayList<item_classSpinner_coach> classSpinner_coachList) {
         classList.clear();

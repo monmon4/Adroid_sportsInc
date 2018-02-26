@@ -1,6 +1,8 @@
 package com.quantumsit.sportsinc.Activities;
 
 import android.app.ProgressDialog;
+import android.content.Intent;
+import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -12,8 +14,10 @@ import com.quantumsit.sportsinc.Aaa_data.Constants;
 import com.quantumsit.sportsinc.Aaa_data.GlobalVars;
 import com.quantumsit.sportsinc.Backend.HttpCall;
 import com.quantumsit.sportsinc.Backend.HttpRequest;
+import com.quantumsit.sportsinc.CustomView.CustomLoadingView;
 import com.quantumsit.sportsinc.Entities.NotificationEntity;
 import com.quantumsit.sportsinc.R;
+import com.quantumsit.sportsinc.util.ConnectionUtilities;
 import com.quantumsit.sportsinc.util.NotificationUtils;
 
 import org.json.JSONArray;
@@ -35,6 +39,9 @@ public class NotificationDetailsActivity extends AppCompatActivity {
 
     int Notification_id ,requestID;
 
+    CustomLoadingView loadingView;
+    private int ID , loadingTime = 1200;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -43,10 +50,14 @@ public class NotificationDetailsActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
         globalVars = (GlobalVars) getApplication();
+        loadingView = findViewById(R.id.LoadingView);
+        loadingView.setOnRetryClick(new CustomLoadingView.OnRetryClick() {
+            @Override
+            public void onRetry() {
+                retrieveNotification(ID,globalVars.getId());
+            }
+        });
         progressDialog = new ProgressDialog(NotificationDetailsActivity.this);
-
-        NotificationEntity notification = (NotificationEntity) getIntent().getSerializableExtra("MyNotification");
-        int notify_id = getIntent().getIntExtra("notify_id",-1);
 
         subject = findViewById(R.id.notificationReviewTitle);
         content = findViewById(R.id.notificationReviewContent);
@@ -72,17 +83,66 @@ public class NotificationDetailsActivity extends AppCompatActivity {
             }
         });
 
-        if (notification != null){
-            progressDialog.show();
-            fillView(notification);
+        if (savedInstanceState != null)
+            loadingTime = 0;
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        final NotificationEntity notification = (NotificationEntity) getIntent().getSerializableExtra("MyNotification");
+        final int notify_id = getIntent().getIntExtra("notify_id",-1);
+
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                if (notification != null){
+                    fillView(notification);
+                }
+                else if (notify_id != -1){
+                    retrieveNotification(notify_id,globalVars.getId());
+                }
+                else
+                    loadingView.fails(); }
+        }, loadingTime);
+    }
+
+
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        final int notify_id = intent.getIntExtra("notify_id",-1);
+
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                if (notify_id != -1) {
+                    loadingView.loading();
+                    retrieveNotification(notify_id, globalVars.getId());
+                }
+                else {
+                    loadingView.fails();
+                }
+            }
+        },loadingTime);
+    }
+
+    private boolean checkConnection() {
+        // first, check connectivity
+        if (ConnectionUtilities
+                .checkInternetConnection(this)) {
+            return true;
         }
-        else if (notify_id != -1){
-            progressDialog.show();
-            retrieveNotification(notify_id,globalVars.getId());
-        }
+        return false;
     }
 
     private void retrieveNotification(int notify_id, int user_id) {
+        if (!checkConnection()){
+            ID = notify_id;
+            loadingView.fails();
+            loadingView.enableRetry();
+            return;
+        }
         try {
             JSONObject where_info = new JSONObject();
             where_info.put("notification.to_id",2);
@@ -119,7 +179,6 @@ public class NotificationDetailsActivity extends AppCompatActivity {
 
         if (notification.getRead() == 0) {
             updateNotification("notify_read");
-            NotificationUtils.Count -- ;
         }
 
         if(notification.getNotify_type() == 1 && notification.getUpdated() == 0) {
@@ -129,7 +188,7 @@ public class NotificationDetailsActivity extends AppCompatActivity {
         person.setText(notification.getFrom());
         content.setText(notification.getContent());
         date.setText(notification.getDate());
-        progressDialog.dismiss();
+        loadingView.success();
     }
 
 

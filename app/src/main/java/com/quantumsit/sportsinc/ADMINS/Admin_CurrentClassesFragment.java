@@ -110,7 +110,8 @@ public class Admin_CurrentClassesFragment extends Fragment {
         listener = new myCustomExpandableListViewListener(expandableListView , mSwipeRefreshLayout) {
             @Override
             public void loadMoreData() {
-                listLoadMore();
+                if (list_headers.size() >= limitValue)
+                    listLoadMore();
             }
         };
         expandableListView.setOnScrollListener(listener);
@@ -150,6 +151,9 @@ public class Admin_CurrentClassesFragment extends Fragment {
 
     @SuppressLint("StaticFieldLeak")
     private void initializeCurrentClasses(final boolean loadMore) {
+        if (!isAdded()) {
+            return;
+        }
         if (!checkConnection()){
             customExpandableListView.retry();
             return;

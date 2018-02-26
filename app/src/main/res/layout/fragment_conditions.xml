@@ -133,16 +133,6 @@
                 android:textColor="@color/colorWhite" />
 
             <TextView
-                android:id="@+id/textView21"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="30dp"
-                android:layout_marginStart="30dp"
-                android:layout_marginBottom="10dp"
-                android:text="@string/parent_etiquette"
-                android:textColor="@color/colorText" />
-
-            <TextView
                 android:id="@+id/textView22"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -274,6 +264,15 @@
                 android:text="@string/general_conduct2"
                 android:textColor="@color/colorText" />
 
+            <TextView
+                android:id="@+id/textView21"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:layout_marginEnd="30dp"
+                android:layout_marginStart="30dp"
+                android:text="@string/parent_etiquette"
+                android:textColor="@color/colorText" />
 
 
         </LinearLayout>

@@ -88,7 +88,8 @@ public class PaymentFragment extends Fragment {
         listener =  new myCustomRecyclerViewListener(layoutManager) {
             @Override
             protected void onDownWhileLoading() {
-                customRecyclerView.loadMore();
+                if (isLoading())
+                    customRecyclerView.loadMore();
             }
 
             @Override
@@ -98,16 +99,14 @@ public class PaymentFragment extends Fragment {
 
             @Override
             public void onLoadMore() {
-                listLoadMore();
+                if (list_item.size() >= limitValue)
+                    listLoadMore();
             }};
 
         recyclerView.addOnScrollListener(listener);
         recyclerView.setHasFixedSize(false);
 
         list_item = new ArrayList<>();
-
-        fill_payment_list(false);
-
         /*
         for(int i=0; i<10; i++){
             if (i == 0 || i == 1) {
@@ -120,9 +119,11 @@ public class PaymentFragment extends Fragment {
         */
 
         recyclerView_adapter_reportpayment = new RecyclerView_Adapter_reportpayment(list_item, getActivity());
-        recyclerView.setItemAnimator(new DefaultItemAnimator());
+       // recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setAdapter(recyclerView_adapter_reportpayment);
 
+        if (savedInstanceState == null)
+            fill_payment_list(false);
 
 
         return root;
@@ -222,6 +223,7 @@ public class PaymentFragment extends Fragment {
             e.printStackTrace();
         }
         customRecyclerView.notifyChange(list_item.size());
+        customRecyclerView.finishLoading();
         recyclerView_adapter_reportpayment.notifyDataSetChanged();
         listener.setLoading(false);
     }

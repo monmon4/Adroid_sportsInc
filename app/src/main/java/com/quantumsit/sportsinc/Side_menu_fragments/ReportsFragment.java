@@ -5,6 +5,7 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
+import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -41,6 +42,12 @@ public class ReportsFragment extends Fragment {
         reports_sectionsPagerAdapter.addFragment(new PaymentFragment(),"Payment");
 
         reports_view_pager.setAdapter(reports_sectionsPagerAdapter);
+    }
 
+    @Override
+    public void onViewStateRestored(@Nullable Bundle savedInstanceState) {
+        super.onViewStateRestored(savedInstanceState);
+        if (getActivity() != null)
+            ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle(R.string.reports);
     }
 }

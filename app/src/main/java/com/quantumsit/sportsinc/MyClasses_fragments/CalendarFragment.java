@@ -58,12 +58,19 @@ public class CalendarFragment extends Fragment {
         super.setUserVisibleHint(isVisibleToUser);
         if(isVisibleToUser) {
             if (getActivity() != null)
-                getActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+                getActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR_PORTRAIT);
         }
         else {
             if (getActivity() != null)
                 getActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_FULL_SENSOR);
         }
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        if (getActivity() != null)
+            getActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_FULL_SENSOR);
     }
 
     private void fileEventsMap() {

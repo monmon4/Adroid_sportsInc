@@ -87,7 +87,8 @@ public class ScoresFragment extends Fragment {
         listener =  new myCustomRecyclerViewListener(layoutManager) {
             @Override
             protected void onDownWhileLoading() {
-                customRecyclerView.loadMore();
+                if (isLoading())
+                    customRecyclerView.loadMore();
             }
 
             @Override
@@ -97,7 +98,8 @@ public class ScoresFragment extends Fragment {
 
             @Override
             public void onLoadMore() {
-                listLoadMore();
+                if (list_item.size() >= limitValue)
+                    listLoadMore();
             }};
 
         recycler_view.addOnScrollListener(listener);
@@ -105,15 +107,16 @@ public class ScoresFragment extends Fragment {
         recycler_view.setHasFixedSize(false);
 
         list_item = new ArrayList<>();
-
-        fill_list(false);
-
-
         recycler_view_adapter = new RecyclerView_Adapter_scores(list_item, getActivity());
         recycler_view.setAdapter(recycler_view_adapter);
 
+        if (savedInstanceState == null)
+            fill_list(false);
+
+
         return root;
     }
+
 
     private void listLoadMore() {
         currentStart = list_item.size();
@@ -122,7 +125,7 @@ public class ScoresFragment extends Fragment {
             public void run() {
                 fill_list(true);
             }
-        }, 1500);
+        }, 1200);
     }
 
 
@@ -195,6 +198,7 @@ public class ScoresFragment extends Fragment {
             e.printStackTrace();
         }
         customRecyclerView.notifyChange(list_item.size());
+        customRecyclerView.finishLoading();
         recycler_view_adapter.notifyDataSetChanged();
         listener.setLoading(false);
 

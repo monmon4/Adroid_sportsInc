@@ -6,9 +6,11 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.NestedScrollView;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -41,7 +43,7 @@ import java.util.List;
 
 
 public class MainFragment extends Fragment {
-
+    private static final String TAG = MainFragment.class.getSimpleName();
     SwipeRefreshLayout mSwipeRefreshLayout;
 
     TextView AboutAcademy;
@@ -51,23 +53,29 @@ public class MainFragment extends Fragment {
     EventsRecyclerAdapter eventsAdapter;
     LinearLayout newsLayout , eventsLayout;
     TextView newsMore , eventMore;
-    List<NewsEntity> NewsList;
-    List<EventEntity> eventsList;
+    ArrayList<NewsEntity> NewsList = new ArrayList<>();
+    ArrayList<EventEntity> eventsList = new ArrayList<>();
+    String logo ,brief;
 
     ProgressBar progressBar;
     LinearLayout retry;
     RelativeLayout loading;
+    NestedScrollView scrollView;
+
+    int limitValue , Counter = 0;
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_main,container,false);
-        setHasOptionsMenu(false);
+        limitValue = getResources().getInteger(R.integer.sliderLimit);
 
+        scrollView = root.findViewById(R.id.layoutScrollView);
         mSwipeRefreshLayout = root.findViewById(R.id.swiperefresh);
 
         mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
+                Counter = 0;
                 getContent();
             }
         });
@@ -111,9 +119,45 @@ public class MainFragment extends Fragment {
         AboutAcademy = root.findViewById(R.id.AboutAcademy);
         Logo = root.findViewById(R.id.AcademyLogo);
 
-        getContent();
+        if (savedInstanceState!=null)
+            fillBySavedState(savedInstanceState);
+
+        else
+            getContent();
 
         return root;
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putIntArray("ScrollPosition", new int[]{scrollView.getScrollX() , scrollView.getScrollY()});
+        outState.putSerializable("NewsList", NewsList);
+        outState.putSerializable("EventsList", eventsList);
+        outState.putString("About",brief);
+        outState.putString("logo",logo);
+    }
+
+
+    private void fillBySavedState(Bundle savedInstanceState) {
+        loading.setVisibility(View.GONE);
+        ArrayList<NewsEntity> list1 = (ArrayList<NewsEntity>) savedInstanceState.getSerializable("NewsList");
+        NewsList.addAll(list1);
+        ArrayList<EventEntity> list2 = (ArrayList<EventEntity>) savedInstanceState.getSerializable("EventsList");
+        eventsList.addAll(list2);
+        brief = savedInstanceState.getString("About");
+        logo = savedInstanceState.getString("logo");
+
+        newsAdapter.notifyDataSetChanged();
+        eventsAdapter.notifyDataSetChanged();
+        AboutAcademy.setText(brief);
+        if (!logo.equals("")) {
+            Picasso.with(getContext()).load(logo).into(Logo);
+        }
+
+        int[] positions = savedInstanceState.getIntArray("ScrollPosition");
+        if (positions != null)
+            scrollView.scrollTo(positions[0],positions[1]);
     }
 
     private void getContent(){
@@ -125,7 +169,22 @@ public class MainFragment extends Fragment {
             retry.setVisibility(View.VISIBLE);
         }
     }
-    private void refreshContent() {
+
+    private synchronized void countFinished(){
+        Counter ++;
+        Log.d(TAG," Count "+Counter);
+        if (Counter >= 3){
+            viewData();
+        }
+    }
+
+    private void refreshContent(){
+        initializeAbout();
+        initializeNews();
+        initilizeEvents();
+    }
+
+    private void initializeAbout() {
         HttpCall httpCall = new HttpCall();
         httpCall.setMethodtype(HttpCall.POST);
         httpCall.setUrl(Constants.selectData);
@@ -148,8 +207,8 @@ public class MainFragment extends Fragment {
             try {
                 JSONObject object = response.getJSONObject(0);
 
-                String logo ="";// object.getString("logo");
-                String brief = object.getString("about");
+                logo ="";// object.getString("logo");
+                brief = object.getString("about");
 
                 if (!logo.equals("")) {
                     Picasso.with(getContext()).load(logo).into(Logo);
@@ -161,24 +220,32 @@ public class MainFragment extends Fragment {
                 e.printStackTrace();
             }
         }
-        initializeNews();
+        countFinished();
     }
 
     private void initializeNews() {
-        HttpCall httpCall = new HttpCall();
-        httpCall.setMethodtype(HttpCall.POST);
-        httpCall.setUrl(Constants.selectData);
-        HashMap<String,String> params = new HashMap<>();
-        params.put("table","news");
+        try {
+            HttpCall httpCall = new HttpCall();
+            httpCall.setMethodtype(HttpCall.POST);
+            httpCall.setUrl(Constants.selectData);
+            JSONObject limit = new JSONObject();
+            limit.put("start", 0);
+            limit.put("limit", limitValue);
+            HashMap<String, String> params = new HashMap<>();
+            params.put("table", "news");
+            params.put("limit",limit.toString());
 
-        httpCall.setParams(params);
-        new HttpRequest(){
-            @Override
-            public void onResponse(JSONArray response) {
-                super.onResponse(response);
-                fillNewsAdapter(response);
-            }
-        }.execute(httpCall);
+            httpCall.setParams(params);
+            new HttpRequest() {
+                @Override
+                public void onResponse(JSONArray response) {
+                    super.onResponse(response);
+                    fillNewsAdapter(response);
+                }
+            }.execute(httpCall);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
     }
 
     private void fillNewsAdapter(JSONArray response) {
@@ -194,25 +261,32 @@ public class MainFragment extends Fragment {
                 e.printStackTrace();
             }
         }
-
-        initilizeEvents();
+        countFinished();
     }
 
     private void initilizeEvents() {
-        HttpCall httpCall = new HttpCall();
-        httpCall.setMethodtype(HttpCall.POST);
-        httpCall.setUrl(Constants.selectData);
-        HashMap<String,String> params = new HashMap<>();
-        params.put("table","events");
+        try {
+            HttpCall httpCall = new HttpCall();
+            httpCall.setMethodtype(HttpCall.POST);
+            httpCall.setUrl(Constants.selectData);
+            JSONObject limit = new JSONObject();
+            limit.put("start", 0);
+            limit.put("limit", limitValue);
+            HashMap<String, String> params = new HashMap<>();
+            params.put("table", "events");
+            params.put("limit", limit.toString());
 
-        httpCall.setParams(params);
-        new HttpRequest(){
-            @Override
-            public void onResponse(JSONArray response) {
-                super.onResponse(response);
-                fillEventAdapter(response);
-            }
-        }.execute(httpCall);
+            httpCall.setParams(params);
+            new HttpRequest() {
+                @Override
+                public void onResponse(JSONArray response) {
+                    super.onResponse(response);
+                    fillEventAdapter(response);
+                }
+            }.execute(httpCall);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
     }
 
     private void fillEventAdapter(JSONArray response) {
@@ -228,7 +302,7 @@ public class MainFragment extends Fragment {
         }
         eventsAdapter.notifyDataSetChanged();
 
-        viewData();
+        countFinished();
     }
 
     private boolean checkConnection() {

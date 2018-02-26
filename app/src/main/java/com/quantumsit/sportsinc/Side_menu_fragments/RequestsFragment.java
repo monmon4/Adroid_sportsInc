@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Parcelable;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
@@ -30,6 +31,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.Serializable;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -94,7 +96,8 @@ public class RequestsFragment extends Fragment {
         listViewListener = new myCustomListViewListener(listView , mSwipeRefreshLayout) {
             @Override
             public void loadMoreData() {
-                listLoadMore();
+                if (list_items.size()>=limitValue)
+                    listLoadMore();
             }
         };
         listView.setOnScrollListener(listViewListener);
@@ -104,9 +107,30 @@ public class RequestsFragment extends Fragment {
         arrayAdapter = new ListView_Adapter_request(getContext(), list_items);
         listView.setAdapter(arrayAdapter);
 
-        getRequests(false);
+        if (savedInstanceState == null)
+            getRequests(false);
+
+        else
+            fillBySavedState(savedInstanceState);
 
         return root;
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putParcelable("ScrollPosition", listView.onSaveInstanceState());
+        outState.putSerializable("listItems", (Serializable) list_items);
+    }
+
+
+    private void fillBySavedState(Bundle savedInstanceState) {
+        ArrayList<item_request> list1 = (ArrayList<item_request>) savedInstanceState.getSerializable("listItems");
+        list_items.addAll(list1);
+        Parcelable mListInstanceState = savedInstanceState.getParcelable("ScrollPosition");
+        customListView.notifyChange(list_items.size());
+        arrayAdapter.notifyDataSetChanged();
+        listView.onRestoreInstanceState(mListInstanceState);
     }
 
     private void listLoadMore() {
@@ -131,6 +155,9 @@ public class RequestsFragment extends Fragment {
 
     @SuppressLint("StaticFieldLeak")
    private void getRequests(final boolean loadMore) {
+        if (!isAdded()) {
+            return;
+        }
         if (!checkConnection()){
             customListView.retry();
             return;

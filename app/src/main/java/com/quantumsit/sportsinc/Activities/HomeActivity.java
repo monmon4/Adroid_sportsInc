@@ -9,6 +9,7 @@ import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.ActionBar;
+import android.util.Log;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -18,12 +19,14 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.gson.Gson;
 import com.quantumsit.sportsinc.Aaa_data.Config;
 import com.quantumsit.sportsinc.Aaa_data.Constants;
 import com.quantumsit.sportsinc.Aaa_data.GlobalVars;
@@ -66,11 +69,13 @@ public class HomeActivity extends AppCompatActivity
     GlobalVars globalVars;
 
     boolean coach = false, parent= false, non_register = false, admin= false ;
-    TextView name_textView, phone_textView;
     private ImageView viewChild;
     private ListView childAccount;
     private boolean isPickerShown = false;
+    private TextView userName ,userPhone;
 
+    ArrayList<UserEntity> children;
+    TraineeChildAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -78,15 +83,6 @@ public class HomeActivity extends AppCompatActivity
 
         globalVars = (GlobalVars) getApplication();
         int type = globalVars.getType();
-        String user_name = globalVars.getName();
-        String user_phone = globalVars.getPhone();
-
-        name_textView = findViewById(R.id.user_name);
-        phone_textView = findViewById(R.id.user_phone);
-
-        //name_textView.setText(user_name);
-        //phone_textView.setText(user_phone);
-
         if(type == 5) {
             non_register = true;
 
@@ -120,7 +116,7 @@ public class HomeActivity extends AppCompatActivity
 
         drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
 
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
+        final ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
         toggle.syncState();
@@ -136,8 +132,8 @@ public class HomeActivity extends AppCompatActivity
         ImageView profileImage = header.findViewById(R.id.profile_image);
         viewChild = header.findViewById(R.id.childView);
         childAccount = findViewById(R.id.childAccountList);
-        TextView userName = header.findViewById(R.id.user_name);
-        TextView userPhone = header.findViewById(R.id.user_phone);
+        userName = header.findViewById(R.id.user_name);
+        userPhone = header.findViewById(R.id.user_phone);
         userName.setText(globalVars.getName());
         userPhone.setText(globalVars.getPhone());
 
@@ -150,14 +146,26 @@ public class HomeActivity extends AppCompatActivity
             }
         });
 
-        ArrayList<UserEntity> children = new ArrayList<>();
-        children.add(new UserEntity("Bassam Saber","011","11","mail1@mail.com",1,0,0,"22/11/1994"));
+        children = new ArrayList<>();
+        /*children.add(new UserEntity("Bassam Saber","011","11","mail1@mail.com",1,0,0,"22/11/1994"));
         children.add(new UserEntity("Ahmed Hassan","011","11","mail1@mail.com",2,0,0,"22/11/1994"));
         children.add(new UserEntity("Bassem Hassan","011","11","mail1@mail.com",3,0,0,"22/11/1994"));
-        children.add(new UserEntity("Islam Said","011","11","mail1@mail.com",4,0,0,"22/11/1994"));
+        children.add(new UserEntity("Islam Said","011","11","mail1@mail.com",4,0,0,"22/11/1994"));*/
 
-        TraineeChildAdapter adapter = new TraineeChildAdapter(getApplicationContext(),R.layout.list_item_trainee_child,children);
+        adapter = new TraineeChildAdapter(getApplicationContext(),R.layout.list_item_trainee_child,children);
         childAccount.setAdapter(adapter);
+
+        childAccount.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
+                userName.setText(children.get(position).getName());
+                userPhone.setText(children.get(position).getPhone());
+                UserEntity Account = globalVars.getUser();
+                globalVars.setUser(children.get(position));
+                updateChildList(position, Account);
+                toggleMenu();
+            }
+        });
 
         viewChild.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -165,6 +173,10 @@ public class HomeActivity extends AppCompatActivity
                 toggleMenu();
             }
         });
+
+        if (parent){
+            getParentChildren();
+        }
 
         actionBar = getSupportActionBar();
 
@@ -207,6 +219,8 @@ public class HomeActivity extends AppCompatActivity
         for (int i = 0; i < menu.size(); ++i) {
             menu.getItem(i).setVisible(b);
         }
+        if (!parent)
+            menu.findItem(R.id.nav_certificates).setVisible(false);
     }
 
     @SuppressLint("StaticFieldLeak")
@@ -344,7 +358,10 @@ public class HomeActivity extends AppCompatActivity
 
         } else if (id == R.id.nav_complains) {
             actionBar.setTitle(R.string.complains);
-            fragmentClass = ComplainsFragment.class;
+            if(coach)
+                fragmentClass = ComplainsFragment.class;
+            else
+                fragmentClass = Complains_SendFragment.class;
         } else if (id == R.id.nav_reports) {
             actionBar.setTitle(R.string.reports);
             if (parent){
@@ -363,6 +380,7 @@ public class HomeActivity extends AppCompatActivity
         } else if(id == R.id.nav_logout){
             // LogOut From the System
             unActiveUser(globalVars.getId());
+            return true;
         }  else if (id == R.id.nav_contact_us) {
             actionBar.setTitle(R.string.contact_us);
             fragmentClass = ContactUsFragment.class;
@@ -431,9 +449,8 @@ public class HomeActivity extends AppCompatActivity
             SharedPreferences.Editor preferences = getSharedPreferences("UserFile", MODE_PRIVATE).edit();
             preferences.clear();
             preferences.apply();
-
-            finish();
             startActivity(new Intent(HomeActivity.this, LoginActivity.class));
+            finish();
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -444,4 +461,61 @@ public class HomeActivity extends AppCompatActivity
         Toast.makeText(getApplicationContext(),msg,Toast.LENGTH_SHORT).show();
     }
 
+    public void getParentChildren() {
+        try {
+            JSONObject where_info = new JSONObject();
+            where_info.put("parent_id",globalVars.getPerson_id());
+
+            HttpCall httpCall = new HttpCall();
+            httpCall.setMethodtype(HttpCall.POST);
+            httpCall.setUrl(Constants.selectData);
+            HashMap<String,String> params = new HashMap<>();
+            params.put("table","users");
+            params.put("where",where_info.toString());
+
+            httpCall.setParams(params);
+
+            new HttpRequest(){
+                @Override
+                public void onResponse(JSONArray response) {
+                    super.onResponse(response);
+                    fillChildList(response);
+                }
+            }.execute(httpCall);
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void fillChildList(JSONArray response) {
+        children.clear();
+        Log.d("ChildList",String.valueOf(response));
+        if (response != null){
+            try {
+                for (int i = 0; i < response.length(); i++) {
+                    UserEntity entity = new UserEntity(response.getJSONObject(i));
+                    children.add(entity);
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+        adapter.notifyDataSetChanged();
+        if (children.size() > 0)
+            viewChild.setVisibility(View.VISIBLE);
+        else
+            viewChild.setVisibility(View.GONE);
+    }
+
+    private void updateChildList(int position , UserEntity myAccount){
+        Toast.makeText(getApplicationContext(),"Pos: "+position,Toast.LENGTH_LONG).show();
+        children.remove(position);
+        if (globalVars.getPerson_id() == myAccount.getId())
+            children.add(0,myAccount);
+        else
+            children.add(position,myAccount);
+        adapter.notifyDataSetChanged();
+
+    }
 }

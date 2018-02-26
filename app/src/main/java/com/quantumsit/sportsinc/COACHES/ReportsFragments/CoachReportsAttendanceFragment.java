@@ -1,11 +1,14 @@
 package com.quantumsit.sportsinc.COACHES.ReportsFragments;
 
 
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Parcelable;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -54,6 +57,9 @@ public class CoachReportsAttendanceFragment extends Fragment {
     myCustomRecyclerViewListener listener;
     int limitValue, currentStart;
     int selectedPosition = 12;
+
+    private int currentVisiblePosition = 0;
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
@@ -91,7 +97,8 @@ public class CoachReportsAttendanceFragment extends Fragment {
         listener =  new myCustomRecyclerViewListener(layoutManager) {
             @Override
             protected void onDownWhileLoading() {
-                customRecyclerView.loadMore();
+                if (isLoading())
+                    customRecyclerView.loadMore();
             }
 
             @Override
@@ -101,7 +108,8 @@ public class CoachReportsAttendanceFragment extends Fragment {
 
             @Override
             public void onLoadMore() {
-                AttendanceLoadMore();
+                if (all_items.size() >= limitValue)
+                    AttendanceLoadMore();
             }};
 
         recyclerView.addOnScrollListener(listener);
@@ -112,8 +120,6 @@ public class CoachReportsAttendanceFragment extends Fragment {
         month_spinner = root.findViewById(R.id.monthSpinner_reportsattendance);
         final ArrayAdapter<CharSequence> month_spinner_adapter = ArrayAdapter.createFromResource(getActivity(), R.array.month_array, android.R.layout.simple_spinner_item);
         month_spinner.setAdapter(month_spinner_adapter);
-
-        initilizeAttendList(false);
 
         recyclerView_adapter_reportattendance = new RecyclerView_Adapter_reportattendance(list_items, getContext());
         recyclerView.setAdapter(recyclerView_adapter_reportattendance);
@@ -129,7 +135,39 @@ public class CoachReportsAttendanceFragment extends Fragment {
             }
         });
 
+
+        if (savedInstanceState == null)
+            initilizeAttendList(false);
+
+        else
+            fillBySavedState(savedInstanceState);
+
         return root;
+    }
+
+    private void fillBySavedState(Bundle savedInstanceState) {
+        ArrayList<item_report_attendance> list1 = (ArrayList<item_report_attendance>) savedInstanceState.getSerializable("all_items");
+        all_items.addAll(list1);
+        selectedPosition = savedInstanceState.getInt("SelectedMonth");
+        currentVisiblePosition = savedInstanceState.getInt("Position");
+        filterMonths(selectedPosition);
+       recyclerView.smoothScrollToPosition(currentVisiblePosition);
+    }
+
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putSerializable("all_items",all_items);
+        outState.putInt("SelectedMonth",selectedPosition);
+        outState.putInt("Position",currentVisiblePosition);
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        currentVisiblePosition = 0;
+        currentVisiblePosition = layoutManager.findFirstCompletelyVisibleItemPosition();
     }
 
     private void AttendanceLoadMore() {
@@ -167,6 +205,9 @@ public class CoachReportsAttendanceFragment extends Fragment {
     }
 
     private void initilizeAttendList(final boolean loadMore) {
+        if (!isAdded()) {
+            return;
+        }
         if (!checkConnection()){
             customRecyclerView.retry();
             return;

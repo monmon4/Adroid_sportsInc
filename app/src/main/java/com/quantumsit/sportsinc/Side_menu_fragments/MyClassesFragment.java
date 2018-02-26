@@ -7,6 +7,7 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
+import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -68,5 +69,17 @@ public class MyClassesFragment extends Fragment {
 
         myclasses_view_pager.setAdapter(myclasses_sectionsPagerAdapter);
 
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+    }
+
+    @Override
+    public void onViewStateRestored(@Nullable Bundle savedInstanceState) {
+        super.onViewStateRestored(savedInstanceState);
+        if (getActivity() != null)
+            ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle(R.string.my_classes);
     }
 }

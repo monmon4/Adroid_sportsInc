@@ -79,6 +79,10 @@ public abstract class myCustomRecyclerViewListener extends RecyclerView.OnScroll
         this.loading = loading;
     }
 
+    public boolean isLoading() {
+        return loading;
+    }
+
     public abstract void onLoadMore();
 
 }

@@ -3,20 +3,18 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <ListView
-        android:id="@+id/courses_listview"
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/swipeRefresh"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="match_parent">
 
-    <TextView
-        android:id="@+id/empty_text"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:drawableTop="@drawable/ic_assignment"
-        android:gravity="center"
-        android:text="@string/no_Courses"
-        android:textSize="@dimen/abc_text_size_large_material" />
+        <com.quantumsit.sportsinc.CustomView.myCustomListView
+            android:id="@+id/customListView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+        </com.quantumsit.sportsinc.CustomView.myCustomListView>
+
+    </android.support.v4.widget.SwipeRefreshLayout>
 
 
 </FrameLayout>

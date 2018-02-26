@@ -3,9 +3,11 @@ package com.quantumsit.sportsinc.Side_menu_fragments;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Parcelable;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -30,6 +32,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -58,7 +61,6 @@ public class NotificationsFragment extends Fragment {
         currentStart = 0;
 
         notificationList = new ArrayList<>();
-        initializeNotifications(false);
         mSwipeRefreshLayout = root.findViewById(R.id.swipeRefresh);
         mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
@@ -81,7 +83,8 @@ public class NotificationsFragment extends Fragment {
         listViewListener = new myCustomListViewListener(listView , mSwipeRefreshLayout) {
             @Override
             public void loadMoreData() {
-                listLoadMore();
+                if (notificationList.size() >= limitValue)
+                    listLoadMore();
             }
         };
         listView.setOnScrollListener(listViewListener);
@@ -100,7 +103,32 @@ public class NotificationsFragment extends Fragment {
                 startActivity(intent);
             }
         });
+
+        if (savedInstanceState == null)
+            initializeNotifications(false);
+        else
+            fillBySavedState(savedInstanceState);
         return root;
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putParcelable("ScrollPosition", listView.onSaveInstanceState());
+        outState.putSerializable("NotificationsList", (Serializable) notificationList);
+    }
+
+
+    private void fillBySavedState(Bundle savedInstanceState) {
+        if (getActivity() != null)
+            ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle(R.string.notifications);
+
+        ArrayList<NotificationEntity> list1 = (ArrayList<NotificationEntity>) savedInstanceState.getSerializable("NotificationsList");
+        notificationList.addAll(list1);
+        Parcelable mListInstanceState = savedInstanceState.getParcelable("ScrollPosition");
+        customListView.notifyChange(notificationList.size());
+        adapter.notifyDataSetChanged();
+        listView.onRestoreInstanceState(mListInstanceState);
     }
 
     private void listLoadMore() {
@@ -124,6 +152,9 @@ public class NotificationsFragment extends Fragment {
     }
 
     private void initializeNotifications(final boolean loadMore) {
+        if (!isAdded()) {
+            return;
+        }
         if (!checkConnection()){
             customListView.retry();
             return;
@@ -176,6 +207,5 @@ public class NotificationsFragment extends Fragment {
         adapter.notifyDataSetChanged();
         listViewListener.setLoading(false);
     }
-
 
 }

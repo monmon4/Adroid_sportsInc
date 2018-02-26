@@ -11,6 +11,7 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.quantumsit.sportsinc.Aaa_data.GlobalVars;
 import com.quantumsit.sportsinc.Entities.UserEntity;
 import com.quantumsit.sportsinc.R;
 import com.squareup.picasso.Picasso;
@@ -26,12 +27,15 @@ public class TraineeChildAdapter extends ArrayAdapter<UserEntity> {
     private static final String TAG = NewsAdapter.class.getSimpleName();
     Context context ;
     List<UserEntity> userEntityList;
+    GlobalVars globalVars;
 
 
     public TraineeChildAdapter(@NonNull Context context, int resource, List<UserEntity> userEntityList) {
         super(context, resource);
         this.context = context;
         this.userEntityList = userEntityList;
+        globalVars = (GlobalVars) context;
+
     }
 
     @Override
@@ -74,7 +78,10 @@ public class TraineeChildAdapter extends ArrayAdapter<UserEntity> {
         }*/
         imageView.setImageResource(R.mipmap.ic_launcher_round);
 
-        nameView.setText(userEntity.getName());
+        String meString = "";
+        if (globalVars.getPerson_id() == userEntity.getId())
+            meString = " (me)";
+        nameView.setText(userEntity.getName()+meString);
         return  view;
     }
 }

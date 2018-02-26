@@ -9,6 +9,7 @@ import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Parcelable;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
@@ -49,6 +50,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -116,7 +118,8 @@ public class CoachClassesFragment extends Fragment {
         listener = new myCustomExpandableListViewListener(not_finished_courses_expandable_listview , mSwipeRefreshLayout) {
             @Override
             public void loadMoreData() {
-                listLoadMore();
+                if (header_list.size() >= limitValue)
+                    listLoadMore();
             }
         };
         not_finished_courses_expandable_listview.setOnScrollListener(listener);
@@ -137,9 +140,6 @@ public class CoachClassesFragment extends Fragment {
 
         header_list = new ArrayList<>();
         child_hashmap = new HashMap<>();
-
-        initilizeRunningClass();
-        initilizeFinishedList(false);
 
         not_finished_courses_adapter = new ListViewExpandable_Adapter_NotFinishedCourses(getContext(), header_list, child_hashmap);
         not_finished_courses_expandable_listview.setAdapter(not_finished_courses_adapter);
@@ -165,7 +165,34 @@ public class CoachClassesFragment extends Fragment {
             }
         });
 
+
+        initilizeRunningClass();
+        if (savedInstanceState == null)
+            initilizeFinishedList(false);
+        else
+            fillBySavedState(savedInstanceState);
+
         return root;
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putParcelable("ScrollPosition", not_finished_courses_expandable_listview.onSaveInstanceState());
+        outState.putSerializable("CoursesList", header_list);
+        outState.putSerializable("HashMap",child_hashmap);
+    }
+
+
+    private void fillBySavedState(Bundle savedInstanceState) {
+        ArrayList<item2_notfinished_course_group>list1 = (ArrayList<item2_notfinished_course_group>) savedInstanceState.getSerializable("CoursesList");
+        HashMap<Integer, List<item_finished_classes>>  myHashMap = (HashMap<Integer, List<item_finished_classes>> ) savedInstanceState.getSerializable("HashMap");
+        header_list.addAll(list1);
+        child_hashmap.putAll(myHashMap);
+        Parcelable mListInstanceState = savedInstanceState.getParcelable("ScrollPosition");
+        customExpandableListView.notifyChange(header_list.size());
+        not_finished_courses_adapter.notifyDataSetChanged();
+        not_finished_courses_expandable_listview.onRestoreInstanceState(mListInstanceState);
     }
 
     private void listLoadMore() {
@@ -190,6 +217,9 @@ public class CoachClassesFragment extends Fragment {
 
 
     private void initilizeFinishedList(final boolean loadMore) {
+        if (!isAdded()) {
+            return;
+        }
         if (!checkConnection()){
             customExpandableListView.retry();
             return;

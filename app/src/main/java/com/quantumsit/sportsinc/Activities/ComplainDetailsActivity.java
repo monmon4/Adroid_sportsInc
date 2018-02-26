@@ -1,6 +1,7 @@
 package com.quantumsit.sportsinc.Activities;
 
 import android.content.Intent;
+import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -9,6 +10,7 @@ import android.widget.TextView;
 import com.quantumsit.sportsinc.Aaa_data.Constants;
 import com.quantumsit.sportsinc.Backend.HttpCall;
 import com.quantumsit.sportsinc.Backend.HttpRequest;
+import com.quantumsit.sportsinc.CustomView.CustomLoadingView;
 import com.quantumsit.sportsinc.Entities.ComplainEntity;
 import com.quantumsit.sportsinc.R;
 
@@ -22,6 +24,9 @@ import java.util.HashMap;
 public class ComplainDetailsActivity extends AppCompatActivity {
 
     TextView date ,person ,content,subject;
+    CustomLoadingView loadingView;
+
+    int ID ,loadingTime = 1200;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,32 +37,57 @@ public class ComplainDetailsActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
+        loadingView = findViewById(R.id.LoadingView);
+        loadingView.setOnRetryClick(new CustomLoadingView.OnRetryClick() {
+            @Override
+            public void onRetry() {
+                retrieveComplain(ID);
+            }
+        });
         date = findViewById(R.id.complainReviewDate);
         person = findViewById(R.id.complainReviewPerson);
         content = findViewById(R.id.complainReviewContent);
         subject = findViewById(R.id.complainReviewSubject);
 
+        if (savedInstanceState != null)
+            loadingTime = 0;
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        ComplainEntity complain = (ComplainEntity) getIntent().getSerializableExtra("MyComplain");
-        int notify_id = getIntent().getIntExtra("notify_id",-1);
-
-        if (notify_id != -1)
-            retrieveComplain(notify_id);
-        else if (complain != null)
-            fillView(complain);
+        final ComplainEntity complain = (ComplainEntity) getIntent().getSerializableExtra("MyComplain");
+        final int notify_id = getIntent().getIntExtra("notify_id",-1);
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+            if (notify_id != -1)
+                retrieveComplain(notify_id);
+            else if (complain != null)
+                fillView(complain);
+            else {
+                loadingView.fails();
+            }
+            }
+        },loadingTime);
     }
 
     @Override
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
-        int notify_id = intent.getIntExtra("notify_id",-1);
-        if (notify_id != -1)
-            retrieveComplain(notify_id);
+        final int notify_id = intent.getIntExtra("notify_id",-1);
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+            if (notify_id != -1)
+                retrieveComplain(notify_id);
+            else {
+                loadingView.fails();
+            }
+            }
+        },loadingTime);
     }
+
 
     private void retrieveComplain(int notify_id) {
         try {
@@ -99,6 +129,7 @@ public class ComplainDetailsActivity extends AppCompatActivity {
         date.setText(str);
         person.setText(complain.getPersonName());
         content.setText(complain.getContent());
+        loadingView.success();
     }
 
     @Override

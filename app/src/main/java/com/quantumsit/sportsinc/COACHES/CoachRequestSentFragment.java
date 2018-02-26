@@ -3,6 +3,7 @@ package com.quantumsit.sportsinc.COACHES;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Parcelable;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
@@ -93,12 +94,34 @@ public class CoachRequestSentFragment extends Fragment {
         listView.setOnScrollListener(listViewListener);
         list_items = new ArrayList<>();
 
-        initilizeRequests(false);
 
         arrayAdapter = new ListView_Adapter_request_coach(getContext(), list_items);
         listView.setAdapter(arrayAdapter);
 
+        if (savedInstanceState == null)
+            initilizeRequests(false);
+
+        else
+            fillBySavedState(savedInstanceState);
+
         return root;
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putParcelable("ScrollPosition", listView.onSaveInstanceState());
+        outState.putSerializable("RequestsList", list_items);
+    }
+
+
+    private void fillBySavedState(Bundle savedInstanceState) {
+        ArrayList<item_request_coach>list1 = (ArrayList<item_request_coach>) savedInstanceState.getSerializable("RequestsList");
+        list_items.addAll(list1);
+        Parcelable mListInstanceState = savedInstanceState.getParcelable("ScrollPosition");
+        customListView.notifyChange(list_items.size());
+        arrayAdapter.notifyDataSetChanged();
+        listView.onRestoreInstanceState(mListInstanceState);
     }
 
     private void listLoadMore() {
@@ -123,6 +146,8 @@ public class CoachRequestSentFragment extends Fragment {
 
 
     private void initilizeRequests(final boolean loadMore) {
+        if (!isAdded())
+            return;
         if (!checkConnection()){
             customListView.retry();
             return;

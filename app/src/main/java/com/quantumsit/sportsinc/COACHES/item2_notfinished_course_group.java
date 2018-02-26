@@ -3,11 +3,13 @@ package com.quantumsit.sportsinc.COACHES;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.Serializable;
+
 /**
  * Created by Bassam on 1/23/2018.
  */
 
-public class item2_notfinished_course_group {
+public class item2_notfinished_course_group implements Serializable {
     String courseName , groupName ,poolName;
     int course_id , group_id , admin_id , coach_id;
 

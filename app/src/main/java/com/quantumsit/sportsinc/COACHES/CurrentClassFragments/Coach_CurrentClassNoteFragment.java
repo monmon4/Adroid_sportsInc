@@ -144,10 +144,12 @@ public class Coach_CurrentClassNoteFragment extends Fragment {
                     startActivity(intent);
                     getActivity().finish();
                 }else {
+                    progressDialog.dismiss();
                     // error will deleting from SQLite
                 }
             }
         }else{
+            progressDialog.dismiss();
             // error will insertion info. or update class
         }
     }

@@ -4,6 +4,7 @@ package com.quantumsit.sportsinc.COACHES.ReportsFragments;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Parcelable;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -82,7 +83,8 @@ public class CoachReportsFinishedCoursesFragment extends Fragment {
         listViewListener = new myCustomListViewListener(listView , mSwipeRefreshLayout) {
             @Override
             public void loadMoreData() {
-                listLoadMore();
+                if (list_items.size() >= limitValue)
+                    listLoadMore();
             }
         };
         listView.setOnScrollListener(listViewListener);
@@ -90,9 +92,6 @@ public class CoachReportsFinishedCoursesFragment extends Fragment {
         globalVars = (GlobalVars) getActivity().getApplication();
 
         list_items = new ArrayList<>();
-
-        initilizeFinishedList(false);
-
         listView_adapter = new ListViewFinishedCoursesReports_Adapter(getContext(), list_items);
         listView.setAdapter(listView_adapter);
 
@@ -107,7 +106,28 @@ public class CoachReportsFinishedCoursesFragment extends Fragment {
             }
         });
 
+        if (savedInstanceState == null)
+            initilizeFinishedList(false);
+
+        else
+            fillBySavedState(savedInstanceState);
         return root;
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putSerializable("listItems",list_items);
+        outState.putParcelable("ScrollPosition",listView.onSaveInstanceState());
+    }
+
+    private void fillBySavedState(Bundle savedInstanceState) {
+        ArrayList<item_reports_finished_courses> list1 = (ArrayList<item_reports_finished_courses>) savedInstanceState.getSerializable("listItems");
+        list_items.addAll(list1);
+        Parcelable mListInstanceState = savedInstanceState.getParcelable("ScrollPosition");
+        customListView.notifyChange(list_items.size());
+        listView_adapter.notifyDataSetChanged();
+        listView.onRestoreInstanceState(mListInstanceState);
     }
 
     private void listLoadMore() {
@@ -131,6 +151,9 @@ public class CoachReportsFinishedCoursesFragment extends Fragment {
     }
 
     private void initilizeFinishedList(final boolean loadMore) {
+        if (!isAdded()) {
+            return;
+        }
         if (!checkConnection()){
             customListView.retry();
             return;

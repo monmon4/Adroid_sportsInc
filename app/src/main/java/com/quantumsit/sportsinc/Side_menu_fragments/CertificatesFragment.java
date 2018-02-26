@@ -17,6 +17,7 @@ import com.quantumsit.sportsinc.Aaa_looks.MyCustomLayoutManager;
 import com.quantumsit.sportsinc.Aaa_looks.RecyclerView_Adapter_certificate;
 import com.quantumsit.sportsinc.Backend.HttpCall;
 import com.quantumsit.sportsinc.Backend.HttpRequest;
+import com.quantumsit.sportsinc.COACHES.ReportsFragments.item_report_attendance;
 import com.quantumsit.sportsinc.CustomView.myCustomRecyclerView;
 import com.quantumsit.sportsinc.CustomView.myCustomRecyclerViewListener;
 import com.quantumsit.sportsinc.R;
@@ -41,11 +42,10 @@ public class CertificatesFragment extends Fragment {
     MyCustomLayoutManager layoutManager;
     RecyclerView_Adapter_certificate certificates_recyclerView_adapter;
 
-    List<Integer> list_items;
-
     List<String> certificates_list;
     GlobalVars globalVars;
 
+    private int currentVisiblePosition = 0;
 
     @Nullable
     @Override
@@ -83,7 +83,8 @@ public class CertificatesFragment extends Fragment {
         listener =  new myCustomRecyclerViewListener(layoutManager) {
             @Override
             protected void onDownWhileLoading() {
-                customRecyclerView.loadMore();
+                if (isLoading())
+                    customRecyclerView.loadMore();
             }
 
             @Override
@@ -93,21 +94,47 @@ public class CertificatesFragment extends Fragment {
 
             @Override
             public void onLoadMore() {
-                listLoadMore();
+                if (certificates_list.size()>=limitValue)
+                    listLoadMore();
             }};
 
         certificates_recyclerView.addOnScrollListener(listener);
-
-        list_items = new ArrayList<>();
-
-
         certificates_list = new ArrayList<>();
-        fill_certificates(false);
-
-        certificates_recyclerView_adapter = new RecyclerView_Adapter_certificate(list_items, getContext());
+        certificates_recyclerView_adapter = new RecyclerView_Adapter_certificate(certificates_list, getContext());
         certificates_recyclerView.setAdapter(certificates_recyclerView_adapter);
 
+        if (savedInstanceState == null)
+            fill_certificates(false);
+
+        else
+            fillBySavedState(savedInstanceState);
+
         return root;
+    }
+
+
+    private void fillBySavedState(Bundle savedInstanceState) {
+        ArrayList<String> list1 =savedInstanceState.getStringArrayList("list_items");
+        certificates_list.addAll(list1);
+        currentVisiblePosition = savedInstanceState.getInt("Position");
+        customRecyclerView.notifyChange(certificates_list.size());
+        certificates_recyclerView_adapter.notifyDataSetChanged();
+        certificates_recyclerView.smoothScrollToPosition(currentVisiblePosition);
+    }
+
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putStringArrayList("list_items", (ArrayList<String>) certificates_list);
+        outState.putInt("Position",currentVisiblePosition);
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        currentVisiblePosition = 0;
+        currentVisiblePosition = layoutManager.findFirstCompletelyVisibleItemPosition();
     }
 
     private void listLoadMore() {
@@ -131,6 +158,9 @@ public class CertificatesFragment extends Fragment {
 
     @SuppressLint("StaticFieldLeak")
     private void fill_certificates(final boolean loadMore) {
+        if (!isAdded()) {
+            return;
+        }
         if (!checkConnection()){
             customRecyclerView.retry();
             return;
@@ -182,6 +212,7 @@ public class CertificatesFragment extends Fragment {
             }
         }
         customRecyclerView.notifyChange(certificates_list.size());
+        customRecyclerView.finishLoading();
         certificates_recyclerView_adapter.notifyDataSetChanged();
         listener.setLoading(false);
     }

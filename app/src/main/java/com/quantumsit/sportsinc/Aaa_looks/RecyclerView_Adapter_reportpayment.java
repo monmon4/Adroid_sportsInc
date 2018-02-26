@@ -52,6 +52,8 @@ public class RecyclerView_Adapter_reportpayment extends RecyclerView.Adapter<Rec
         if (List_Item.get(position).status != 0){
             holder.payment_image_button.setBackgroundResource(R.drawable.ic_done_all);
         }
+        else
+            holder.payment_image_button.setBackgroundResource(R.drawable.ic_warning);
     }
 
     @Override

@@ -57,41 +57,44 @@ public class CoursesAdapter extends ArrayAdapter<CourseEntity> {
 
         String name = mycourse.getCourseName();
 
-        switch (name){
-            case "Star fish":
-                icon.setImageResource(R.drawable.star);
-                break;
-            case "Dolfin":
-                icon.setImageResource(R.drawable.dolphin);
-                break;
-            case "Duck":
-                icon.setImageResource(R.drawable.duck);
-                break;
-            case "Frog":
-                icon.setImageResource(R.drawable.frog);
-                break;
-            case "Jelly fish":
-                icon.setImageResource(R.drawable.jellyfish);
-                break;
-            case "Nemo":
-                icon.setImageResource(R.drawable.nemo);
-                break;
-            case "Penguin":
-                icon.setImageResource(R.drawable.penguin);
-                break;
-            case "Seal":
-                icon.setImageResource(R.drawable.seal);
-                break;
-            case "Shark":
-                icon.setImageResource(R.drawable.shark);
-                break;
-
-        }
+        fillImage(name,icon);
 
         Title.setText(name);
         level.setText(mycourse.getLevel());
         price.setText("$ "+mycourse.getPrice());
 
         return  view;
+    }
+
+    public void fillImage(String name , ImageView levelImage){
+        switch (name){
+            case "Star fish":
+                levelImage.setImageResource(R.drawable.star);
+                break;
+            case "Dolphin":
+                levelImage.setImageResource(R.drawable.dolphin);
+                break;
+            case "Duck":
+                levelImage.setImageResource(R.drawable.duck);
+                break;
+            case "Frog":
+                levelImage.setImageResource(R.drawable.frog);
+                break;
+            case "Jelly fish":
+                levelImage.setImageResource(R.drawable.jellyfish);
+                break;
+            case "Nemo":
+                levelImage.setImageResource(R.drawable.nemo);
+                break;
+            case "Penguin":
+                levelImage.setImageResource(R.drawable.penguin);
+                break;
+            case "Seal":
+                levelImage.setImageResource(R.drawable.seal);
+                break;
+            case "Shark":
+                levelImage.setImageResource(R.drawable.shark);
+                break;
+        }
     }
 }
