@@ -10,14 +10,16 @@ import org.json.JSONObject;
 public class Rule_info {
     private int rule_id;
     private int class_id;
-    private String rule_name;
     private int rule_check;
-    private String rule_note;
+    private String rule_note="";
+    private int user_id;
 
-    public Rule_info(int rule_id, int class_id, String rule_name, int rule_check, String rule_note) {
+    public Rule_info(){}
+
+    public Rule_info(int rule_id, int class_id, int rule_check, String rule_note,int user_id) {
         this.rule_id = rule_id;
         this.class_id = class_id;
-        this.rule_name = rule_name;
+        this.user_id = user_id;
         this.rule_check = rule_check;
         this.rule_note = rule_note;
     }
@@ -26,20 +28,20 @@ public class Rule_info {
         try {
             this.rule_id = jsonObject.getInt("id");
             this.class_id = class_id;
-            this.rule_name = jsonObject.getString("Content");
-            this.rule_check = 0;
-            this.rule_note = "";
+            this.rule_check = jsonObject.getInt("rule_checked");
+            this.user_id = jsonObject.getInt("user_id");
+            this.rule_note = jsonObject.getString("note");
         } catch (JSONException e) {
             e.printStackTrace();
         }
     }
 
-    public String getRule_name() {
-        return rule_name;
+    public int getUser_id() {
+        return user_id;
     }
 
-    public void setRule_name(String rule_name) {
-        this.rule_name = rule_name;
+    public void setUser_id(int user_id) {
+        this.user_id = user_id;
     }
 
     public String getRule_note() {

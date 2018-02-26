@@ -27,9 +27,11 @@ public interface Constants {
     String sendSMS = server + "sendSMS";
     String notification = server + "selectNotification";
 
+
     //Trainee
     String traineeCoursesData = server + "trainee_finished_courses";
     String traineeClassScores = server + "classes_scores";
+    String traineeSwitchGroup = server + "switch_group";
 
 
 

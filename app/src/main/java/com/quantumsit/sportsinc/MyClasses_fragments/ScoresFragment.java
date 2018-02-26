@@ -162,6 +162,7 @@ public class ScoresFragment extends Fragment {
         }
         recycler_view_adapter.notifyDataSetChanged();
         customRecyclerView.notifyChange(list_item.size());
-
     }
+
+
 }

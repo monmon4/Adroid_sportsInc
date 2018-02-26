@@ -24,7 +24,7 @@ public class item_checkbox {
 
     public item_checkbox(Rule_info rule_info){
         this.rule_info = rule_info;
-        this.name = rule_info.getRule_name();
+        this.name = "name";
         this.selected = rule_info.getSelected();
     }
 
