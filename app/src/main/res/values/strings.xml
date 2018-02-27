@@ -125,7 +125,7 @@
 
     <string name="action_settings">Settings</string>
     <string name="home">Home</string>
-    <string name="my_classes">My classes</string>
+    <string name="my_classes">My Sessions</string>
     <string name="notifications">Notifications</string>
     <string name="request">Request</string>
     <string name="complains">Complains</string>
@@ -140,31 +140,31 @@
     <string name="content">Content</string>
     <string name="send">Send</string>
     <string name="logout">Logout</string>
-    <string name="course_name">Course Name</string>
+    <string name="course_name">Level Name</string>
     <string name="date">Date</string>
-    <string name="class_number">Class number</string>
+    <string name="class_number">Session number</string>
     <string name="score">Score</string>
     <string name="group_number">Group number</string>
     <string name="coach_s_name">Coach\'s name</string>
     <string name="coach_s_notes">Coach\'s notes</string>
     <string name="creation_date">Creation date</string>
     <string name="course_name_class_number">Course name, Class number</string>
-    <string name="class_date">Class date</string>
+    <string name="class_date">session date</string>
     <string name="write_your_reason">Write your reason</string>
     <string name="_500">$500</string>
     <string name="due_5_5_2017">Due: 5/5/2017</string>
     <string name="month">Month</string>
     <string name="request_for">Request for:</string>
-    <string name="current_class">Current class</string>
-    <string name="not_finished_courses">Not finished Courses</string>
+    <string name="current_class">Current session</string>
+    <string name="not_finished_courses">Current Classes</string>
     <string name="course_name_group_number">Course name, Group number</string>
-    <string name="class_number_date">Class number, Date</string>
-    <string name="finished_courses">Finished courses</string>
+    <string name="class_number_date">session number, Date</string>
+    <string name="finished_courses">Finished classes</string>
     <string name="class_rules">Class Rules</string>
     <string name="checkbox">CheckBox</string>
     <string name="trainees_attendance">Trainees\' attendance</string>
     <string name="trainee_s_name">Trainee\'s name</string>
-    <string name="write_notes_anout_the_class">Write notes about the class</string>
+    <string name="write_notes_anout_the_class">Write notes about the session</string>
     <string name="_5_5_2017">5/5/2017</string>
     <string name="pool_number">Pool number</string>
     <string name="attendance">Attendance</string>
@@ -208,20 +208,20 @@
     <string name="_100">100</string>
 
     <string name="no_notifications">No Notifications</string>
-    <string name="start_class">Start class</string>
-    <string name="postpone_class">Postpone class</string>
-    <string name="cancel_class">Cancel class</string>
+    <string name="start_class">Start session</string>
+    <string name="postpone_class">Postpone session</string>
+    <string name="cancel_class">Cancel session</string>
 
     <string name="a_coach_s_note">this is just a sport</string>
     <string name="regarding">Regarding</string>
     <string name="class_date_spinner">Class, date</string>
     <string name="no_certificates">No certificates</string>
     <string name="no_payment_reports">No payment reports</string>
-    <string name="no_courses_reports">No courses reports</string>
+    <string name="no_courses_reports">No classes reports</string>
     <string name="no_scores">No scores</string>
     <string name="absent">Absent</string>
-    <string name="no_classes">No Classes Today</string>
-    <string name="no_finished">No finished Courses</string>
+    <string name="no_classes">No Sessions Today</string>
+    <string name="no_finished">No finished Classes</string>
     <string name="no_requests">No Requests</string>
     <string name="call">Call</string>
     <string name="directions">Directions</string>
@@ -233,6 +233,7 @@
     <string name="moreButton">More</string>
     <string name="eventsSections">Events</string>
     <string name="no_complains">No Received Complains</string>
+    <string name="no_attendance">No Attendance</string>
 
     <!-- ***********About us *********-->
     <string name="about_academy">
@@ -417,6 +418,11 @@
     <string name="reassign">Reassign</string>
     <string name="powered_by_sports_inc">powered by sports Inc.</string>
     <string name="reassign_to">Reassign to</string>
+    <string name="session_score">Session Score</string>
+    <string name="news_details">News Details</string>
 
+
+    <integer name="selectLimit">10</integer>
+    <integer name="sliderLimit">3</integer>
 
 </resources>

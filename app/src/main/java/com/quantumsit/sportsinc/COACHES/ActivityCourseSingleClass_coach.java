@@ -10,7 +10,9 @@ import com.quantumsit.sportsinc.Aaa_data.Constants;
 import com.quantumsit.sportsinc.Backend.HttpCall;
 import com.quantumsit.sportsinc.Backend.HttpRequest;
 import com.quantumsit.sportsinc.COACHES.ReportsFragments.item_finsihed_course_single;
+import com.quantumsit.sportsinc.CustomView.CustomLoadingView;
 import com.quantumsit.sportsinc.R;
+import com.quantumsit.sportsinc.util.ConnectionUtilities;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -34,12 +36,23 @@ public class ActivityCourseSingleClass_coach extends AppCompatActivity {
     TextView class_date_textView, course_name_textView, group_number_textView,
              pool_number_textView, coach_note_textView;
 
-
+    CustomLoadingView loadingView;
+    private int ID;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_couch_course_single_class);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+
+        loadingView = findViewById(R.id.LoadingView);
+        loadingView.setOnRetryClick(new CustomLoadingView.OnRetryClick() {
+            @Override
+            public void onRetry() {
+                initilizeTraineeList(ID);
+            }
+        });
 
         String course_name = getIntent().getStringExtra("courseName");
         String group_name = getIntent().getStringExtra("groupName");
@@ -66,15 +79,14 @@ public class ActivityCourseSingleClass_coach extends AppCompatActivity {
 
         listView = findViewById(R.id.traineesAttendanceListView_coachCourseSingleClass);
         list_items = new ArrayList<>();
-
-        fillView(course_name,group_name,pool_name,UserType);
-
         adapter_listView = new ListView_Adapter_trainees_attendance_coach(ActivityCourseSingleClass_coach.this, list_items);
         listView.setAdapter(adapter_listView);
 
+        fillView(course_name,group_name,pool_name,UserType,savedInstanceState);
+
     }
 
-    private void fillView(String course_name, String group_name, String pool_name,int Type) {
+    private void fillView(String course_name, String group_name, String pool_name,int Type,Bundle savedInstanceState) {
         course_name_textView.setText(course_name);
         group_number_textView.setText(group_name);
         pool_number_textView.setText(pool_name);
@@ -99,10 +111,47 @@ public class ActivityCourseSingleClass_coach extends AppCompatActivity {
         }
         coach_note_textView.setText(class_note);
         class_date_textView.setText(class_date);
-        initilizeTraineeList(class_id);
+        if (savedInstanceState == null)
+            initilizeTraineeList(class_id);
+        else
+            fillBySaveState(savedInstanceState);
+    }
+
+    private void fillBySaveState(Bundle savedInstanceState) {
+        ArrayList<item_trainee_attendance> list = (ArrayList<item_trainee_attendance>) savedInstanceState.getSerializable("listItems");
+        list_items.addAll(list);
+        adapter_listView.notifyDataSetChanged();
+        loadingView.success();
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putSerializable("listItems",list_items);
+    }
+
+    @Override
+    public boolean onSupportNavigateUp() {
+        onBackPressed();
+        return true;
+    }
+
+    private boolean checkConnection() {
+        // first, check connectivity
+        if (ConnectionUtilities
+                .checkInternetConnection(this)) {
+            return true;
+        }
+        return false;
     }
 
     private void initilizeTraineeList(int class_id) {
+        if (!checkConnection()){
+            ID = class_id;
+            loadingView.fails();
+            loadingView.enableRetry();
+            return;
+        }
         try {
             JSONObject where_info = new JSONObject();
             where_info.put("class_info.class_id", class_id);
@@ -141,5 +190,7 @@ public class ActivityCourseSingleClass_coach extends AppCompatActivity {
             }
         }
         adapter_listView.notifyDataSetChanged();
+        loadingView.success();
+
     }
 }

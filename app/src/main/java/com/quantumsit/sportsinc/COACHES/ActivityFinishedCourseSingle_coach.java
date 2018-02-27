@@ -1,6 +1,7 @@
 package com.quantumsit.sportsinc.COACHES;
 
 import android.content.Intent;
+import android.os.Parcelable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -17,7 +18,9 @@ import com.quantumsit.sportsinc.Backend.HttpRequest;
 import com.quantumsit.sportsinc.COACHES.ReportsFragments.ListViewFinishedCoursesSingle_Adapter;
 import com.quantumsit.sportsinc.COACHES.ReportsFragments.item_finsihed_course_single;
 import com.quantumsit.sportsinc.COACHES.ReportsFragments.item_reports_finished_courses;
+import com.quantumsit.sportsinc.CustomView.CustomLoadingView;
 import com.quantumsit.sportsinc.R;
+import com.quantumsit.sportsinc.util.ConnectionUtilities;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -38,11 +41,21 @@ public class ActivityFinishedCourseSingle_coach extends AppCompatActivity {
     ArrayList<item_finsihed_course_single> list_items;
 
     item_reports_finished_courses group;
-
+    CustomLoadingView loadingView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_coach_finished_course_single);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+
+        loadingView = findViewById(R.id.LoadingView);
+        loadingView.setOnRetryClick(new CustomLoadingView.OnRetryClick() {
+            @Override
+            public void onRetry() {
+                initilizeClassesList();
+            }
+        });
 
         group = (item_reports_finished_courses) getIntent().getSerializableExtra("finishedGroup");
 
@@ -55,8 +68,6 @@ public class ActivityFinishedCourseSingle_coach extends AppCompatActivity {
 
         listView = findViewById(R.id.listView_singleFinishedCourse);
         list_items = new ArrayList<>();
-
-        initilizeClassesList();
 
         listView_adapter = new ListViewFinishedCoursesSingle_Adapter(ActivityFinishedCourseSingle_coach.this, list_items);
         listView.setAdapter(listView_adapter);
@@ -75,6 +86,32 @@ public class ActivityFinishedCourseSingle_coach extends AppCompatActivity {
             }
         });
 
+
+        if (savedInstanceState == null)
+            initilizeClassesList();
+
+        else
+            fillBySavedState(savedInstanceState);
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putSerializable("finishedClass", list_items);
+    }
+
+
+    private void fillBySavedState(Bundle savedInstanceState) {
+        ArrayList<item_finsihed_course_single> list1 = (ArrayList<item_finsihed_course_single>) savedInstanceState.getSerializable("ClassesList");
+        list_items.addAll(list1);
+        listView_adapter.notifyDataSetChanged();
+        loadingView.success();
+    }
+
+    @Override
+    public boolean onSupportNavigateUp() {
+        onBackPressed();
+        return true;
     }
 
     private void fillView() {
@@ -85,7 +122,21 @@ public class ActivityFinishedCourseSingle_coach extends AppCompatActivity {
         }
     }
 
+    private boolean checkConnection() {
+        // first, check connectivity
+        if (ConnectionUtilities
+                .checkInternetConnection(this)) {
+            return true;
+        }
+        return false;
+    }
+
     private void initilizeClassesList() {
+        if (!checkConnection()){
+            loadingView.fails();
+            loadingView.enableRetry();
+            return;
+        }
         try {
             JSONObject where_info = new JSONObject();
             where_info.put("group_id",group.getGroup_id());
@@ -125,5 +176,6 @@ public class ActivityFinishedCourseSingle_coach extends AppCompatActivity {
             }
         }
         listView_adapter.notifyDataSetChanged();
+        loadingView.success();
     }
 }

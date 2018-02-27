@@ -1,12 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:card_view="http://schemas.android.com/apk/res-auto"
-    tools:context="com.quantumsit.sportsinc.COACHES.ActivityCourseSingleClass_coach">
+    tools:context="com.quantumsit.sportsinc.COACHES.ActivityCourseSingleClass_coach"
+    android:orientation="vertical">
 
+    <com.quantumsit.sportsinc.CustomView.CustomLoadingView
+        android:id="@+id/LoadingView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+    </com.quantumsit.sportsinc.CustomView.CustomLoadingView>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
         <TextView
             android:id="@+id/classDateTextView_coachCourseSingleClass"
             android:layout_width="wrap_content"
@@ -121,6 +131,6 @@
                 android:layout_marginStart="26dp"
                 android:layout_marginTop="5dp" />
     </LinearLayout>
+    </RelativeLayout>
 
-
-</RelativeLayout>
+</LinearLayout>

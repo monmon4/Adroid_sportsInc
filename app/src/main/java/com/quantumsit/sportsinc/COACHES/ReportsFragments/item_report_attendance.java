@@ -13,13 +13,22 @@ import java.util.Date;
 
 public class item_report_attendance {
 
-    String date, attended, course_name, class_number;
+    String date, course_name, class_number;
     int class_id , attend;
     Date class_date;
 
-    public item_report_attendance(String date, String attended, String course_name, String class_number) {
+    public item_report_attendance(String date, int attend, String course_name, String class_number) {
         this.date = date;
-        this.attended = attended;
+        try {
+            SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+            class_date = df.parse(date);
+            df = new SimpleDateFormat("dd/MM/yyyy");
+            this.date = df.format(class_date);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        this.attend = attend;
         this.course_name = course_name;
         this.class_number = class_number;
     }

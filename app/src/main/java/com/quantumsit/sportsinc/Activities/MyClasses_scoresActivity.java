@@ -19,6 +19,9 @@ public class MyClasses_scoresActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_classes_scores);
+        getSupportActionBar().setTitle(R.string.session_score);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
 
         course_name_textview = findViewById(R.id.courseNameTextView_my_classes_scores);
         date_textview = findViewById(R.id.dateTextView_my_classes_scores);
@@ -40,8 +43,8 @@ public class MyClasses_scoresActivity extends AppCompatActivity {
         class_number = getIntent().getExtras().getInt("class_number");
 
         String course = "Course: " + course_name;
-        String group = "Group: " + group_name;
-        String class_name = "Class " + String.valueOf(class_number);
+        String group = "Class: " + group_name;
+        String class_name = "Session " + String.valueOf(class_number);
         String score_text = "Score: " + String.valueOf(score);
 
         course_name_textview.setText(course);
@@ -53,7 +56,11 @@ public class MyClasses_scoresActivity extends AppCompatActivity {
             attend_textview.setVisibility(View.VISIBLE);
         coach_name_textview.setText(coach_name);
         coach_note_textview.setText(coach_notes);
+    }
 
-
+    @Override
+    public boolean onSupportNavigateUp() {
+        onBackPressed();
+        return true;
     }
 }

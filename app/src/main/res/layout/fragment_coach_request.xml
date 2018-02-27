@@ -18,7 +18,10 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:tabIndicatorHeight="4dp"
-            app:tabIndicatorColor="@color/colorTabIndicator"/>
+            app:tabIndicatorColor="@color/colorTabIndicator"
+            app:tabMaxWidth="0dp"
+            app:tabGravity="fill"
+            app:tabMode="fixed"/>
     </android.support.design.widget.AppBarLayout>
 
 

@@ -3,12 +3,14 @@ package com.quantumsit.sportsinc.Side_menu_fragments;
 import android.annotation.SuppressLint;
 import android.content.ActivityNotFoundException;
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -124,6 +126,13 @@ public class ContactUsFragment extends Fragment implements OnMapReadyCallback {
         });
 
         return root;
+    }
+
+    @Override
+    public void onViewStateRestored(@Nullable Bundle savedInstanceState) {
+        super.onViewStateRestored(savedInstanceState);
+        if (getActivity() != null)
+            ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle(R.string.contact_us);
     }
 
 
@@ -262,6 +271,8 @@ public class ContactUsFragment extends Fragment implements OnMapReadyCallback {
     public void onResume() {
         mapView.onResume();
         super.onResume();
+        if (getActivity() != null)
+            getActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR_PORTRAIT);
         //Checklatlng();
     }
 
@@ -270,6 +281,8 @@ public class ContactUsFragment extends Fragment implements OnMapReadyCallback {
     public void onPause() {
         super.onPause();
         mapView.onPause();
+        if (getActivity() != null)
+            getActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_FULL_SENSOR);
         //Checklatlng();
     }
 

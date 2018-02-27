@@ -36,7 +36,7 @@ public class LoginActivity extends AppCompatActivity {
     EditText phone_edittext, pass_edittext;
     String phone, pass;
 
-    String received_pass, received_mail, received_name, received_date_of_birth;
+    String received_pass, received_mail, received_name, received_imgUrl ,received_date_of_birth;
     int received_id, received_gender, received_type;
 
     ProgressDialog progressDialog;
@@ -110,6 +110,7 @@ public class LoginActivity extends AppCompatActivity {
                                     all_good = true;
                                     received_id = result.getInt("id");
                                     received_name = result.getString("name");
+                                    received_imgUrl = result.getString("ImageUrl");
                                     received_gender= result.getInt("gender");
                                     received_type = result.getInt("type");
                                     received_mail = result.getString("email");
@@ -173,10 +174,10 @@ public class LoginActivity extends AppCompatActivity {
 
     private void go_to_home(){
 
-        globalVars.settAll(received_name, phone, pass, received_mail,
+        globalVars.settAll(received_name,received_imgUrl, phone, pass, received_mail,
                             received_id, received_type, received_gender, received_date_of_birth);
 
-        UserEntity userEntity = new UserEntity(received_name, phone,pass, received_mail,
+        UserEntity userEntity = new UserEntity(received_name,received_imgUrl, phone,pass, received_mail,
                 received_id, received_type, received_gender,received_date_of_birth);
 
         SharedPreferences.Editor preferences = getSharedPreferences("UserFile", MODE_PRIVATE).edit();

@@ -2,6 +2,8 @@ package com.quantumsit.sportsinc.COACHES;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Parcelable;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
@@ -17,6 +19,7 @@ import com.quantumsit.sportsinc.Aaa_data.GlobalVars;
 import com.quantumsit.sportsinc.Backend.HttpCall;
 import com.quantumsit.sportsinc.Backend.HttpRequest;
 import com.quantumsit.sportsinc.CustomView.myCustomListView;
+import com.quantumsit.sportsinc.CustomView.myCustomListViewListener;
 import com.quantumsit.sportsinc.R;
 import com.quantumsit.sportsinc.util.ConnectionUtilities;
 
@@ -39,6 +42,8 @@ public class CoachRequestSentFragment extends Fragment {
 
     ListView listView;
     myCustomListView customListView;
+    myCustomListViewListener listViewListener;
+    int limitValue,currentStart;
     SwipeRefreshLayout mSwipeRefreshLayout;
     ArrayList<item_request_coach> list_items;
     ListView_Adapter_request_coach arrayAdapter;
@@ -49,6 +54,8 @@ public class CoachRequestSentFragment extends Fragment {
         View root = inflater.inflate(R.layout.fragment_coach_request_sent,container,false);
 
         globalVars = (GlobalVars) getActivity().getApplication();
+        limitValue = getResources().getInteger(R.integer.selectLimit);
+        currentStart = 0;
 
         add_request_button = root.findViewById(R.id.floatingActionButton_coachrequest);
         add_request_button.setOnClickListener(new View.OnClickListener() {
@@ -63,7 +70,8 @@ public class CoachRequestSentFragment extends Fragment {
         mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                initilizeRequests();
+                currentStart = 0;
+                initilizeRequests(false);
             }
         });
         customListView = root.findViewById(R.id.customListView);
@@ -72,32 +80,59 @@ public class CoachRequestSentFragment extends Fragment {
         customListView.setOnRetryClick(new myCustomListView.OnRetryClick() {
             @Override
             public void onRetry() {
-                initilizeRequests();
+                currentStart = 0;
+                initilizeRequests(false);
             }
         });
         listView = customListView.getListView();
-        listView.setOnScrollListener(new AbsListView.OnScrollListener() {
+        listViewListener = new myCustomListViewListener(listView , mSwipeRefreshLayout) {
             @Override
-            public void onScrollStateChanged(AbsListView absListView, int scrollState) {
-
+            public void loadMoreData() {
+                listLoadMore();
             }
-
-            @Override
-            public void onScroll(AbsListView absListView, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
-                int topRowVerticalPosition =
-                        (listView == null || listView.getChildCount() == 0) ?
-                                0 : listView.getChildAt(0).getTop();
-                mSwipeRefreshLayout.setEnabled(firstVisibleItem == 0 && topRowVerticalPosition >= 0);
-            }
-        });
+        };
+        listView.setOnScrollListener(listViewListener);
         list_items = new ArrayList<>();
 
-        initilizeRequests();
 
         arrayAdapter = new ListView_Adapter_request_coach(getContext(), list_items);
         listView.setAdapter(arrayAdapter);
 
+        if (savedInstanceState == null)
+            initilizeRequests(false);
+
+        else
+            fillBySavedState(savedInstanceState);
+
         return root;
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putParcelable("ScrollPosition", listView.onSaveInstanceState());
+        outState.putSerializable("RequestsList", list_items);
+    }
+
+
+    private void fillBySavedState(Bundle savedInstanceState) {
+        ArrayList<item_request_coach>list1 = (ArrayList<item_request_coach>) savedInstanceState.getSerializable("RequestsList");
+        list_items.addAll(list1);
+        Parcelable mListInstanceState = savedInstanceState.getParcelable("ScrollPosition");
+        customListView.notifyChange(list_items.size());
+        arrayAdapter.notifyDataSetChanged();
+        listView.onRestoreInstanceState(mListInstanceState);
+    }
+
+    private void listLoadMore() {
+        customListView.loadMore();
+        currentStart = list_items.size();
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                initilizeRequests(true);
+            }
+        }, 1500);
     }
 
     private boolean checkConnection() {
@@ -110,7 +145,9 @@ public class CoachRequestSentFragment extends Fragment {
     }
 
 
-    private void initilizeRequests() {
+    private void initilizeRequests(final boolean loadMore) {
+        if (!isAdded())
+            return;
         if (!checkConnection()){
             customListView.retry();
             return;
@@ -121,11 +158,13 @@ public class CoachRequestSentFragment extends Fragment {
             httpCall.setUrl(Constants.selectData);
             JSONObject where_info = new JSONObject();
             where_info.put("requests.from_id",globalVars.getId());
-
+            JSONObject limit_info = new JSONObject();
+            limit_info.put("start", currentStart);
+            limit_info.put("limit", limitValue);
 
             HashMap<String,String> params = new HashMap<>();
             params.put("table","requests");
-
+            params.put("limit",limit_info.toString());
             params.put("where",where_info.toString());
 
             httpCall.setParams(params);
@@ -133,7 +172,7 @@ public class CoachRequestSentFragment extends Fragment {
                 @Override
                 public void onResponse(JSONArray response) {
                     super.onResponse(response);
-                    fillAdapter(response);
+                    fillAdapter(response,loadMore);
                 }
             }.execute(httpCall);
         } catch (JSONException e) {
@@ -141,9 +180,10 @@ public class CoachRequestSentFragment extends Fragment {
         }
     }
 
-    private void fillAdapter(JSONArray response) {
+    private void fillAdapter(JSONArray response , boolean loadMore) {
         mSwipeRefreshLayout.setRefreshing(false);
-        list_items.clear();
+        if (!loadMore)
+            list_items.clear();
         if (response != null) {
             try {
                 for (int i = 0; i < response.length(); i++) {
@@ -153,7 +193,8 @@ public class CoachRequestSentFragment extends Fragment {
                 e.printStackTrace();
             }
         }
-        arrayAdapter.notifyDataSetChanged();
         customListView.notifyChange(list_items.size());
+        arrayAdapter.notifyDataSetChanged();
+        listViewListener.setLoading(false);
     }
 }

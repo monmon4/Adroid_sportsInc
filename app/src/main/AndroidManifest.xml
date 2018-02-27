@@ -28,25 +28,38 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity
-            android:name=".Activities.LoginActivity"
-            android:theme="@style/AppTheme.NoActionBar"/>
-        <activity android:name=".Activities.RegisterActivity" />
+        <activity android:name=".Activities.LoginActivity"
+            android:screenOrientation="fullSensor" />
+        <activity android:name=".Activities.RegisterActivity"
+            android:screenOrientation="fullSensor" />
         <activity
             android:name=".Activities.HomeActivity"
             android:label="@string/title_activity_home"
-            android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".Activities.HomeTabsActivity" />
-        <activity android:name=".Activities.MyClasses_scoresActivity" />
-        <activity android:name=".Activities.Reports_coursesActivity" />
-        <activity android:name=".Activities.Request_addActivity" />
-        <activity android:name=".COACHES.ActivityAddRequest_coach" />
-        <activity android:name=".COACHES.ActivityCurrentClass_coach" />
-        <activity android:name=".COACHES.ActivityCourseSingleClass_coach" />
-        <activity android:name=".Activities.ClassesDetailsActivity" />
-        <activity android:name=".COACHES.ActivityFinishedCourseSingle_coach" />
+            android:screenOrientation="fullSensor"
+            android:configChanges="orientation|screenSize"
+            android:theme="@style/AppTheme.NoActionBar"/>
+
+        <activity android:name=".Activities.HomeTabsActivity"
+                  android:screenOrientation="fullSensor" />
+        <activity android:name=".Activities.MyClasses_scoresActivity"
+                  android:screenOrientation="fullSensor" />
+        <activity android:name=".Activities.Reports_coursesActivity"
+                  android:screenOrientation="fullSensor"/>
+        <activity android:name=".Activities.Request_addActivity"
+                  android:screenOrientation="fullSensor"/>
+        <activity android:name=".COACHES.ActivityAddRequest_coach"
+                  android:screenOrientation="fullSensor" />
+        <activity android:name=".COACHES.ActivityCurrentClass_coach"
+                  android:screenOrientation="fullSensor"/>
+        <activity android:name=".COACHES.ActivityCourseSingleClass_coach"
+                  android:screenOrientation="fullSensor" />
+        <activity android:name=".Activities.ClassesDetailsActivity"
+                  android:screenOrientation="fullSensor" />
+        <activity android:name=".COACHES.ActivityFinishedCourseSingle_coach"
+                  android:screenOrientation="fullSensor" />
         <activity
             android:name=".Activities.ProfileActivity"
+            android:screenOrientation="fullSensor"
             android:windowSoftInputMode="stateAlwaysHidden" />
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.
@@ -66,18 +79,35 @@
             android:theme="@style/AppTheme"
             android:label="@string/title_activity_maps" /
         -->
-        <activity android:name=".Activities.CourseDetailsActivity" />
-        <activity android:name=".Activities.EventsDetailsActivity" />
-        <activity android:name=".Activities.NewsDetailsActivity" />
+        <activity
+            android:name=".Activities.CourseDetailsActivity"
+            android:screenOrientation="fullSensor" />
+        <activity
+            android:name=".Activities.EventsDetailsActivity"
+            android:screenOrientation="fullSensor" />
+        <activity
+            android:name=".Activities.NewsDetailsActivity"
+            android:screenOrientation="fullSensor" />
         <!-- activity android:name=".CourseDetailsActivity" / -->
-        <activity android:name=".Activities.NotificationDetailsActivity" />
-        <activity android:name=".ADMINS.AdminStartClassActivity" />
-        <activity android:name=".Activities.NewsActivity" />
-        <activity android:name=".Activities.EventsActivity" />
-        <activity android:name=".Activities.RequestDetailsActivity" />
+        <activity
+            android:name=".Activities.NotificationDetailsActivity"
+            android:screenOrientation="fullSensor" />
+        <activity
+            android:name=".ADMINS.AdminStartClassActivity"
+            android:screenOrientation="fullSensor" />
+        <activity
+            android:name=".Activities.NewsActivity"
+            android:screenOrientation="fullSensor"/>
+        <activity
+            android:name=".Activities.EventsActivity"
+            android:screenOrientation="fullSensor" />
+        <activity
+            android:name=".Activities.RequestDetailsActivity"
+            android:screenOrientation="fullSensor" />
         <activity
             android:name=".Activities.SplashScreenActivity"
-            android:theme="@style/AppTheme.NoActionBar">
+            android:theme="@style/AppTheme.NoActionBar"
+            android:screenOrientation="sensorPortrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -98,8 +128,12 @@
         </service>
         <!-- ./Firebase Notifications -->
 
-        <activity android:name=".Activities.ComplainDetailsActivity" />
-        <activity android:name=".Activities.ComplainsAddActivity"></activity>
+        <activity
+            android:name=".Activities.ComplainDetailsActivity"
+            android:screenOrientation="fullSensor" />
+        <activity
+            android:name=".Activities.ComplainsAddActivity"
+            android:screenOrientation="fullSensor"></activity>
     </application>
 
 </manifest>

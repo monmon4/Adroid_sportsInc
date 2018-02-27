@@ -37,13 +37,16 @@ import com.quantumsit.sportsinc.Adapters.item_checkbox;
 import com.quantumsit.sportsinc.Backend.HttpCall;
 import com.quantumsit.sportsinc.Backend.HttpRequest;
 import com.quantumsit.sportsinc.CustomCalendar.ListViewAdapter;
+import com.quantumsit.sportsinc.CustomView.CustomLoadingView;
 import com.quantumsit.sportsinc.R;
+import com.quantumsit.sportsinc.util.ConnectionUtilities;
 import com.weiwangcn.betterspinner.library.material.MaterialBetterSpinner;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -59,6 +62,7 @@ public class AdminStartClassActivity extends AppCompatActivity {
     PopupWindow coach_reassign_popup_window;
 
     ProgressDialog progressDialog;
+    CustomLoadingView loadingView;
     List<String> coach_names_list;
 
     HashMap<String, Integer> coaches_using_names;
@@ -72,7 +76,6 @@ public class AdminStartClassActivity extends AppCompatActivity {
     StartClass_info startClass_info;
     GlobalVars globalVars;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -81,6 +84,14 @@ public class AdminStartClassActivity extends AppCompatActivity {
         globalVars = (GlobalVars) getApplication();
         startClass_info = globalVars.getMyDB().getStartClass(class_id);
         reassign = false;
+
+        loadingView = findViewById(R.id.LoadingView);
+        loadingView.setOnRetryClick(new CustomLoadingView.OnRetryClick() {
+            @Override
+            public void onRetry() {
+                fill_coach_names_list();
+            }
+        });
 
         progressDialog = new ProgressDialog(AdminStartClassActivity.this);
         progressDialog.setMessage("Please wait......");
@@ -122,6 +133,17 @@ public class AdminStartClassActivity extends AppCompatActivity {
         });
 
 
+
+        if (savedInstanceState != null)
+            coach_names_list = fill_coach_names_list();
+        else
+            coach_names_list = savedInstanceState.getStringArrayList("CoachesList");
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putStringArrayList("CoachesList", (ArrayList<String>) coach_names_list);
     }
 
 
@@ -262,8 +284,11 @@ public class AdminStartClassActivity extends AppCompatActivity {
 
     @SuppressLint("StaticFieldLeak")
     private List<String> fill_coach_names_list()  {
-
-        progressDialog.show();
+        if (!checkConnection()){
+            loadingView.enableRetry();
+            loadingView.fails();
+            return new ArrayList<>();
+        }
 
         final List<String> coach_names_list2 = new ArrayList<>();
 
@@ -307,12 +332,12 @@ public class AdminStartClassActivity extends AppCompatActivity {
                         //reassign_spinner.notify();
                         ArrayAdapter<String> reassign_spinner_adapter = new ArrayAdapter<>(AdminStartClassActivity.this, android.R.layout.simple_dropdown_item_1line,coach_names_list2);
                         reassign_spinner.setAdapter(reassign_spinner_adapter);
-                        progressDialog.dismiss();
 
                     } else {
                         Toast.makeText(AdminStartClassActivity.this,"An error occurred",Toast.LENGTH_SHORT);
                     }
 
+                    loadingView.success();
                 }
             }.execute(httpCall);
         } catch (JSONException e) {

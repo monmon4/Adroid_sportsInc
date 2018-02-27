@@ -1,19 +1,24 @@
 package com.quantumsit.sportsinc.Activities;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.quantumsit.sportsinc.Aaa_data.Constants;
 import com.quantumsit.sportsinc.Backend.HttpCall;
 import com.quantumsit.sportsinc.Backend.HttpRequest;
 import com.quantumsit.sportsinc.COACHES.item_request_coach;
+import com.quantumsit.sportsinc.CustomView.CustomLoadingView;
 import com.quantumsit.sportsinc.R;
+import com.quantumsit.sportsinc.util.ConnectionUtilities;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -32,6 +37,13 @@ public class RequestDetailsActivity extends AppCompatActivity {
     TextView accept , reject;
     boolean received = false;
 
+    ProgressDialog progressDialog;
+    CustomLoadingView loadingView;
+    private int ID;
+    private int requestID;
+    private int loadingTime = 1200;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -40,6 +52,14 @@ public class RequestDetailsActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
+        loadingView = findViewById(R.id.LoadingView);
+        loadingView.setOnRetryClick(new CustomLoadingView.OnRetryClick() {
+            @Override
+            public void onRetry() {
+                retrieveRequest(ID);
+            }
+        });
+        progressDialog = new ProgressDialog(RequestDetailsActivity.this);
         subject = findViewById(R.id.requestReviewSubject);
         content = findViewById(R.id.requestReviewContent);
         person = findViewById(R.id.requestReviewPerson);
@@ -52,36 +72,113 @@ public class RequestDetailsActivity extends AppCompatActivity {
         accept = findViewById(R.id.RequestReviewAccept);
         reject = findViewById(R.id.RequestReviewReject);
 
+        accept.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                progressDialog.show();
+                updateRequest(1);
+            }
+        });
+
+        reject.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                progressDialog.show();
+                updateRequest(0);
+            }
+        });
+
+        if (savedInstanceState != null)
+            loadingTime = 0;
+
+    }
+
+    private void updateRequest(int value){
+        try {
+            JSONObject where_info = new JSONObject();
+            where_info.put("id",requestID);
+
+            JSONObject values = new JSONObject();
+            values.put("status",value);
+
+            HttpCall httpCall = new HttpCall();
+            httpCall.setMethodtype(HttpCall.POST);
+            httpCall.setUrl(Constants.updateData);
+            HashMap<String,String> params = new HashMap<>();
+            params.put("table","requests");
+            params.put("where",where_info.toString());
+            params.put("values",values.toString());
+
+            httpCall.setParams(params);
+
+            new HttpRequest(){
+                @Override
+                public void onResponse(JSONArray response) {
+                    super.onResponse(response);
+                    progressDialog.dismiss();
+                    if (checkResponse(response))
+                        mybuttons.setVisibility(View.GONE);
+                    else
+                        Toast.makeText(getApplicationContext(),"An error occurred",Toast.LENGTH_LONG).show();
+
+                }
+            }.execute(httpCall);
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        item_request_coach myRequest = (item_request_coach) getIntent().getSerializableExtra("MyRequest");
-        int notify_id = getIntent().getIntExtra("notify_id",-1);
+        final item_request_coach myRequest = (item_request_coach) getIntent().getSerializableExtra("MyRequest");
+        final int notify_id = getIntent().getIntExtra("notify_id",-1);
         int requestType = getIntent().getIntExtra("requestType",-1);
 
         if (requestType == 1)
             received = true;
 
-        if(myRequest != null){
-            fillView(myRequest);
-        }
-        else if (notify_id != -1){
-            retrieveRequest(notify_id);
-        }
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                if(myRequest != null){
+                    fillView(myRequest);
+                }
+                else if (notify_id != -1){
+                    retrieveRequest(notify_id);
+                }
+                else
+                    loadingView.fails(); }
+        }, loadingTime);
     }
 
 
     @Override
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
-        int notify_id = intent.getIntExtra("notify_id",-1);
-        if (notify_id != -1)
-            retrieveRequest(notify_id);
+        final int notify_id = intent.getIntExtra("notify_id",-1);
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                if (notify_id != -1) {
+                    loadingView.loading();
+                    retrieveRequest(notify_id);
+                }
+                else {
+                    loadingView.fails();
+                }
+            }
+        },loadingTime);
     }
 
     private void retrieveRequest(int notify_id) {
+        if (!checkConnection()){
+            ID = notify_id;
+            loadingView.fails();
+            loadingView.enableRetry();
+            return;
+        }
         try {
             received = true;
             HttpCall httpCall = new HttpCall();
@@ -124,6 +221,7 @@ public class RequestDetailsActivity extends AppCompatActivity {
             Group.setText(myRequest.getGroup());
         }*/
 
+        requestID = myRequest.getRequest_ID();
         int requestStatus = myRequest.getStatus();
 
         String Status = "Waiting";
@@ -157,11 +255,35 @@ public class RequestDetailsActivity extends AppCompatActivity {
         String ReqDate = formatter.format(myRequest.getRequestDate());
         date.setText(ReqDate);
         Course.setText(myRequest.getCourse());
+        loadingView.success();
     }
 
     @Override
     public boolean onSupportNavigateUp() {
         onBackPressed();
         return true;
+    }
+
+
+    private boolean checkResponse(JSONArray response) {
+        if (response != null){
+            try {
+                String result = response.getString(0);
+                if (!result.equals("ERROR"))
+                    return true;
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+        return false;
+    }
+
+    private boolean checkConnection() {
+        // first, check connectivity
+        if (ConnectionUtilities
+                .checkInternetConnection(this)) {
+            return true;
+        }
+        return false;
     }
 }

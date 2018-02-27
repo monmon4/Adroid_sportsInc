@@ -1,11 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.quantumsit.sportsinc.COACHES.ActivityFinishedCourseSingle_coach">
+    tools:context="com.quantumsit.sportsinc.COACHES.ActivityFinishedCourseSingle_coach"
+    android:orientation="vertical">
 
+    <com.quantumsit.sportsinc.CustomView.CustomLoadingView
+        android:id="@+id/LoadingView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+    </com.quantumsit.sportsinc.CustomView.CustomLoadingView>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -58,4 +65,4 @@
 
     </LinearLayout>
 
-</RelativeLayout>
+</LinearLayout>

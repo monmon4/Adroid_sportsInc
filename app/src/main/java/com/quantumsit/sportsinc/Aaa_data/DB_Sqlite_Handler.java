@@ -5,6 +5,8 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -149,6 +151,7 @@ public class DB_Sqlite_Handler extends SQLiteOpenHelper {
     }
 
     public void addAcademyInfo(Academy_info info) {
+        Log.d("SQL_Database","adding academy Info.");
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
         values.put(KeyName, info.getName());
@@ -504,6 +507,7 @@ public class DB_Sqlite_Handler extends SQLiteOpenHelper {
     }
 
     public void deleteAcademyInfo(Academy_info info) {
+        Log.d("SQL_Database","deleting academy Info.");
         SQLiteDatabase db = this.getWritableDatabase();
         db.delete(Constants.TABLE_AcademyInfo, KeyId + " = ?",
                 new String[] { String.valueOf(info.getId()) });

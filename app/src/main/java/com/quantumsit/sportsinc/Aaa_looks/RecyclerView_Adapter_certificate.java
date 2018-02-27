@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.quantumsit.sportsinc.R;
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
@@ -19,12 +20,12 @@ import java.util.List;
 public class RecyclerView_Adapter_certificate extends RecyclerView.Adapter<RecyclerView_Adapter_certificate.ViewHolder>{
 
 
-    private List<Integer> List_Item;
+    private List<String> List_Item;
     private Context context;
     //ClientGlobal clientGlobal;
 
 
-    public RecyclerView_Adapter_certificate(List<Integer> list_Item, Context context) {
+    public RecyclerView_Adapter_certificate(List<String> list_Item, Context context) {
         List_Item = list_Item;
         this.context = context;
         //clientGlobal = (ClientGlobal) context.getApplicationContext();
@@ -42,11 +43,11 @@ public class RecyclerView_Adapter_certificate extends RecyclerView.Adapter<Recyc
     public void onBindViewHolder(RecyclerView_Adapter_certificate.ViewHolder holder, final int position) {
 
 
-        holder.certificate_img.setImageResource(List_Item.get(position));
+        //holder.certificate_img.setImageResource(List_Item.get(position));
 
-        //Picasso.with(context.getApplicationContext())
-                //.load(List_Item.get(position))
-                //.into(holder.certificate_img);
+        Picasso.with(context.getApplicationContext())
+                .load(List_Item.get(position))
+                .into(holder.certificate_img);
 
         holder.certificate_card.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -3,6 +3,8 @@ package com.quantumsit.sportsinc.Side_menu_fragments;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Parcelable;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
@@ -20,6 +22,7 @@ import com.quantumsit.sportsinc.Aaa_looks.item_request;
 import com.quantumsit.sportsinc.Backend.HttpCall;
 import com.quantumsit.sportsinc.Backend.HttpRequest;
 import com.quantumsit.sportsinc.CustomView.myCustomListView;
+import com.quantumsit.sportsinc.CustomView.myCustomListViewListener;
 import com.quantumsit.sportsinc.R;
 import com.quantumsit.sportsinc.Activities.Request_addActivity;
 import com.quantumsit.sportsinc.util.ConnectionUtilities;
@@ -28,6 +31,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.Serializable;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -44,6 +48,8 @@ public class RequestsFragment extends Fragment {
 
     ListView listView;
     myCustomListView customListView;
+    myCustomListViewListener listViewListener;
+    int limitValue,currentStart;
     SwipeRefreshLayout mSwipeRefreshLayout;
     ArrayList<item_request> list_items;
     ListView_Adapter_request arrayAdapter;
@@ -56,6 +62,8 @@ public class RequestsFragment extends Fragment {
         View root = inflater.inflate(R.layout.fragment_requests,container,false);
 
         globalVars = (GlobalVars) getActivity().getApplication();
+        limitValue = getResources().getInteger(R.integer.selectLimit);
+        currentStart = 0;
 
         add_request_button = root.findViewById(R.id.floatingActionButton);
 
@@ -71,7 +79,8 @@ public class RequestsFragment extends Fragment {
         mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                getRequests();
+                currentStart = 0;
+                getRequests(false);
             }
         });
         customListView = root.findViewById(R.id.customListView);
@@ -80,35 +89,62 @@ public class RequestsFragment extends Fragment {
         customListView.setOnRetryClick(new myCustomListView.OnRetryClick() {
             @Override
             public void onRetry() {
-                getRequests();
+                currentStart = 0;
+                getRequests(false);
             }
         });
         listView = customListView.getListView();
-        listView.setOnScrollListener(new AbsListView.OnScrollListener() {
+        listViewListener = new myCustomListViewListener(listView , mSwipeRefreshLayout) {
             @Override
-            public void onScrollStateChanged(AbsListView absListView, int scrollState) {
-
+            public void loadMoreData() {
+                if (list_items.size()>=limitValue)
+                    listLoadMore();
             }
-
-            @Override
-            public void onScroll(AbsListView absListView, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
-                int topRowVerticalPosition =
-                        (listView == null || listView.getChildCount() == 0) ?
-                                0 : listView.getChildAt(0).getTop();
-                mSwipeRefreshLayout.setEnabled(firstVisibleItem == 0 && topRowVerticalPosition >= 0);
-            }
-        });
+        };
+        listView.setOnScrollListener(listViewListener);
         list_items = new ArrayList<>();
 
-        list_items.add(new item_request("", "", ""));
 
         arrayAdapter = new ListView_Adapter_request(getContext(), list_items);
         listView.setAdapter(arrayAdapter);
 
-        getRequests();
+        if (savedInstanceState == null)
+            getRequests(false);
+
+        else
+            fillBySavedState(savedInstanceState);
 
         return root;
     }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putParcelable("ScrollPosition", listView.onSaveInstanceState());
+        outState.putSerializable("listItems", (Serializable) list_items);
+    }
+
+
+    private void fillBySavedState(Bundle savedInstanceState) {
+        ArrayList<item_request> list1 = (ArrayList<item_request>) savedInstanceState.getSerializable("listItems");
+        list_items.addAll(list1);
+        Parcelable mListInstanceState = savedInstanceState.getParcelable("ScrollPosition");
+        customListView.notifyChange(list_items.size());
+        arrayAdapter.notifyDataSetChanged();
+        listView.onRestoreInstanceState(mListInstanceState);
+    }
+
+    private void listLoadMore() {
+        customListView.loadMore();
+        currentStart = list_items.size();
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                getRequests(true);
+            }
+        }, 1500);
+    }
+
     private boolean checkConnection() {
         // first, check connectivity
         if (ConnectionUtilities
@@ -119,7 +155,10 @@ public class RequestsFragment extends Fragment {
     }
 
     @SuppressLint("StaticFieldLeak")
-   private void getRequests() {
+   private void getRequests(final boolean loadMore) {
+        if (!isAdded()) {
+            return;
+        }
         if (!checkConnection()){
             customListView.retry();
             return;
@@ -133,6 +172,10 @@ public class RequestsFragment extends Fragment {
 
 
             HashMap<String,String> params = new HashMap<>();
+            JSONObject limit_info = new JSONObject();
+            limit_info.put("start", currentStart);
+            limit_info.put("limit", limitValue);
+            params.put("limit",limit_info.toString());
             params.put("table","requests");
             params.put("where",where_info.toString());
 
@@ -141,7 +184,7 @@ public class RequestsFragment extends Fragment {
                 @Override
                 public void onResponse(JSONArray response) {
                     super.onResponse(response);
-                    fill_Adapter(response);
+                    fill_Adapter(response , loadMore);
 
 
                 }
@@ -149,10 +192,11 @@ public class RequestsFragment extends Fragment {
         } catch (JSONException e) {
             e.printStackTrace();
         }
-    }
-    private void fill_Adapter(JSONArray response){
+   }
+    private void fill_Adapter(JSONArray response , boolean loadMore){
         list_items.clear();
-        mSwipeRefreshLayout.setRefreshing(false);
+        if (!loadMore)
+            mSwipeRefreshLayout.setRefreshing(false);
         if(response!= null){
             Date date;
             DateFormat outdateFormat = new SimpleDateFormat("dd MMMM, yyyy");
@@ -185,8 +229,9 @@ public class RequestsFragment extends Fragment {
             }
         }
 
-        arrayAdapter.notifyDataSetChanged();
         customListView.notifyChange(list_items.size());
+        arrayAdapter.notifyDataSetChanged();
+        listViewListener.setLoading(false);
     }
 
 }

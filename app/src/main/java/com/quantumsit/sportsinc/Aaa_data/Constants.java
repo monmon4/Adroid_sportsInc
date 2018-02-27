@@ -7,6 +7,8 @@ package com.quantumsit.sportsinc.Aaa_data;
 public interface Constants {
 
     String server = "http://173.212.198.28:8010/sport_inc/api/";
+    String upload_host = "http://173.212.198.28:8010/sport_inc/assets/uploads/";
+    String UPLOAD_URL = "http://173.212.198.28:8010/sport_inc/academy/upload_Image";
 
     String selectData = server + "selectdata";
     String updateData = server + "updatedata";
@@ -33,7 +35,12 @@ public interface Constants {
     String traineeClassScores = server + "classes_scores";
     String traineeSwitchGroup = server + "switch_group";
 
-
+    String profile = "profile_img";
+    String profile_host = upload_host + profile;
+    String certification = "certifications";
+    String certification_host = upload_host + certification;
+    String others = "other_img";
+    String others_host = upload_host + others;
 
     //SQLite DB
     String TABLE_AcademyInfo = "info_academy";

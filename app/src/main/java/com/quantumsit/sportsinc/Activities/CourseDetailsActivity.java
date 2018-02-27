@@ -1,9 +1,12 @@
 package com.quantumsit.sportsinc.Activities;
 
+import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.quantumsit.sportsinc.CustomView.CustomLoadingView;
 import com.quantumsit.sportsinc.Entities.CourseEntity;
 import com.quantumsit.sportsinc.R;
 
@@ -11,8 +14,10 @@ import java.text.SimpleDateFormat;
 
 public class CourseDetailsActivity extends AppCompatActivity {
     TextView CourseName ,ClassesNum ,CoursePrice ,description ,startDate ,endDate ,CourseLevel;
+    ImageView levelImage;
 
-
+    CustomLoadingView loadingView;
+    int loadingTime = 1200;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -20,7 +25,9 @@ public class CourseDetailsActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
-        CourseName = findViewById(R.id.course_details_name);
+        //CourseName = findViewById(R.id.course_details_name);
+        loadingView = findViewById(R.id.LoadingView);
+        levelImage = findViewById(R.id.Course_icon);
         ClassesNum = findViewById(R.id.course_details_no_classes);
         CoursePrice = findViewById(R.id.course_details_price);
         description = findViewById(R.id.course_details_description);
@@ -28,16 +35,26 @@ public class CourseDetailsActivity extends AppCompatActivity {
         endDate = findViewById(R.id.course_details_end_date);
         CourseLevel = findViewById(R.id.course_details_level);
 
-        CourseEntity myCourse = (CourseEntity) getIntent().getSerializableExtra("MyCourse");
+        final CourseEntity myCourse = (CourseEntity) getIntent().getSerializableExtra("MyCourse");
 
-        if(myCourse != null){
-            fillView(myCourse);
-        }
+        if (savedInstanceState!=null)
+            loadingTime = 0;
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                if(myCourse != null){
+                    fillView(myCourse);
+                }
+                else
+                    loadingView.fails(); }
+        }, loadingTime);
 
     }
 
     private void fillView(CourseEntity courseEntity) {
-        CourseName.setText(courseEntity.getCourseName());
+        // CourseName.setText(courseEntity.getCourseName());
+        getSupportActionBar().setTitle(courseEntity.getCourseName());
+        fillImage(courseEntity.getCourseName());
         ClassesNum.setText(courseEntity.getClasses_Num());
         CoursePrice.setText(courseEntity.getPrice());
         SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy");
@@ -47,8 +64,40 @@ public class CourseDetailsActivity extends AppCompatActivity {
         endDate.setText(date);
         CourseLevel.setText(courseEntity.getLevel());
         description.setText(courseEntity.getDescription());
+        loadingView.success();
     }
 
+    public void fillImage(String name){
+        switch (name){
+            case "Star fish":
+                levelImage.setImageResource(R.drawable.star);
+                break;
+            case "Dolphin":
+                levelImage.setImageResource(R.drawable.dolphin);
+                break;
+            case "Duck":
+                levelImage.setImageResource(R.drawable.duck);
+                break;
+            case "Frog":
+                levelImage.setImageResource(R.drawable.frog);
+                break;
+            case "Jelly fish":
+                levelImage.setImageResource(R.drawable.jellyfish);
+                break;
+            case "Nemo":
+                levelImage.setImageResource(R.drawable.nemo);
+                break;
+            case "Penguin":
+                levelImage.setImageResource(R.drawable.penguin);
+                break;
+            case "Seal":
+                levelImage.setImageResource(R.drawable.seal);
+                break;
+            case "Shark":
+                levelImage.setImageResource(R.drawable.shark);
+                break;
+        }
+    }
     @Override
     public boolean onSupportNavigateUp() {
         onBackPressed();

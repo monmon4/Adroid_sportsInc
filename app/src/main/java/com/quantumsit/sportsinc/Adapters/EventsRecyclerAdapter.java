@@ -49,6 +49,8 @@ public class EventsRecyclerAdapter extends RecyclerView.Adapter<EventsRecyclerAd
         holder.setListener(entity,context);
     }
 
+
+
     @Override
     public int getItemCount() {
         return eventsList.size();

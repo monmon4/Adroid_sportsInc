@@ -21,6 +21,8 @@ public class ActivityCurrentClass_coach extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_coach_current_class);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
 
         global = (GlobalVars) getApplication();
 
@@ -40,6 +42,12 @@ public class ActivityCurrentClass_coach extends AppCompatActivity {
             fragmentManager.beginTransaction().replace(R.id.coach_current_class_content_frame, fragment).commit();
         }
 
+    }
+
+    @Override
+    public boolean onSupportNavigateUp() {
+        onBackPressed();
+        return true;
     }
 
 

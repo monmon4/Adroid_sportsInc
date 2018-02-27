@@ -1,12 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.quantumsit.sportsinc.Activities.Reports_coursesActivity">
+    tools:context="com.quantumsit.sportsinc.Activities.Reports_coursesActivity"
+    android:orientation="vertical">
 
+    <com.quantumsit.sportsinc.CustomView.CustomLoadingView
+        android:id="@+id/LoadingView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+    </com.quantumsit.sportsinc.CustomView.CustomLoadingView>
 
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/swipeRefresh"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
     <android.support.v7.widget.CardView
         xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:card_view="http://schemas.android.com/apk/res-auto"
@@ -62,11 +72,12 @@
             <ExpandableListView
                 android:id="@+id/singleCourseExpandableListView_singlecoursereport"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:groupIndicator="@drawable/expandable_listview_arrow" />
 
         </LinearLayout>
 
     </android.support.v7.widget.CardView>
+    </android.support.v4.widget.SwipeRefreshLayout>
 
-</RelativeLayout>
+</LinearLayout>

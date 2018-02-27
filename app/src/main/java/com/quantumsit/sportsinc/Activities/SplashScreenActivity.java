@@ -65,6 +65,7 @@ public class SplashScreenActivity extends AppCompatActivity {
         if (userEntity != null) {
             GlobalVars globalVars = (GlobalVars) getApplication();
             globalVars.setUser(userEntity);
+            globalVars.setPerson_id(userEntity.getId());
             intent = new Intent(SplashScreenActivity.this,HomeActivity.class);
         }
     }
