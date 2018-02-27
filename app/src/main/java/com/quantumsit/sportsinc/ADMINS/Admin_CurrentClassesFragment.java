@@ -618,8 +618,9 @@ public class Admin_CurrentClassesFragment extends Fragment {
                     super.onResponse(response);
                     if(checkResponse(response)) {
                         show_toast(list_headers.get(CurrentPosition).class_number+" has been closed");
-                        list_headers.remove(CurrentPosition);
-                        expandableListView_adapter.notifyDataSetChanged();
+                        //list_headers.remove(CurrentPosition);
+                        //expandableListView_adapter.notifyDataSetChanged();
+                        initializeCurrentClasses();
                     }else {
                         show_toast("Fail To end class...");
                     }

@@ -112,7 +112,7 @@ public class AdminStartClassActivity extends AppCompatActivity {
         }
 
 
-        check_reassign (class_id);
+
         reassign_enabling();
         coach_name_checkBox.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -120,7 +120,6 @@ public class AdminStartClassActivity extends AppCompatActivity {
                 reassign_enabling();
             }
         });
-
 
 
     }
@@ -132,6 +131,7 @@ public class AdminStartClassActivity extends AppCompatActivity {
         old_coach_id = classes.getCoach_id();
         class_id = classes.getId();
 
+        check_reassign (class_id);
         set_coach_attendance();
         set_rules_checking();
     }
@@ -191,10 +191,8 @@ public class AdminStartClassActivity extends AppCompatActivity {
         boolean attendance_checked = coach_name_checkBox.isChecked();
         boolean rules_checked = rules_checkBox.isChecked();
 
-        int old_coach_id = coach_id;
-        int session_id;
 
-        session_id = class_id;
+
         String reassign_coach = reassign_spinner.getText().toString();
 
         if (!reassign_coach.equals("Reassign to")) {
@@ -202,9 +200,9 @@ public class AdminStartClassActivity extends AppCompatActivity {
             coach_id = new_coach_id;
 
             if (!reassign)
-                insert_reassign_coach (session_id,old_coach_id, new_coach_id);
+                insert_reassign_coach (class_id,old_coach_id, new_coach_id);
             else
-                update_reassign_coach(session_id, old_coach_id,new_coach_id);
+                update_reassign_coach(class_id, old_coach_id,new_coach_id);
         }
 
 
@@ -221,13 +219,18 @@ public class AdminStartClassActivity extends AppCompatActivity {
 
         Trainees_info coach_info_old = globalVars.getMyDB().getCoachInfo(class_id);
         Rule_info rule = globalVars.getMyDB().getRule(class_id);
-        if (coach_info_old == null) {
+
+        if (coach_info_old == null)
             add_coach_attendance_local(new Trainees_info(0, coach_id, coaches_using_ids.get(coach_id), class_id, attend, 0, attendance_note ));
-            add_rule_checking_local(new Rule_info(0, class_id, rules, rules_note, globalVars.getId()));
-        } else {
+        else
             update_coach_attendance_local(new Trainees_info(coach_info_old.getID(), coach_id, coaches_using_ids.get(coach_id), class_id, attend, 0, attendance_note ));
+
+
+        if (rule == null)
+            add_rule_checking_local(new Rule_info(0, class_id, rules, rules_note, globalVars.getId()));
+        else
             update_rule_checking_local(new Rule_info(rule.getRule_id(), class_id, rules, rules_note, globalVars.getId()));
-        }
+
         onBackPressed();
     }
 
@@ -399,7 +402,7 @@ public class AdminStartClassActivity extends AppCompatActivity {
     private void check_reassign (int id_class){
         JSONObject where = new JSONObject();
         try {
-            where.put("session_id",id_class);
+            where.put("class_id",id_class);
 
             HttpCall httpCall = new HttpCall();
             httpCall.setMethodtype(HttpCall.POST);
@@ -420,8 +423,6 @@ public class AdminStartClassActivity extends AppCompatActivity {
                             new_coach_id = response.getJSONObject(0).getInt("new_coach_id");
                             String coach_new_name = coaches_using_ids.get(new_coach_id);
                             coach_name_checkBox.setText(coach_new_name);
-                            //coach_info.setTrainee_id(new_coach_id);
-                            //coach_info.setTrainee_name(coach_new_name);
                             reassign = true;
 
                         } catch (JSONException e) {
@@ -443,60 +444,13 @@ public class AdminStartClassActivity extends AppCompatActivity {
     private void reassign_enabling(){
         if(coach_name_checkBox.isChecked()) {
             reassign_spinner.setEnabled(false);
+            reassign_spinner.setClickable(false);
         } else {
             reassign_spinner.setEnabled(true);
-        }
-
-        if (reassign) {
-            reassign_spinner.setVisibility(View.INVISIBLE);
+            reassign_spinner.setClickable(true);
         }
     }
 
-       /*public void reassign_clicked() {
 
-        attendance_note_editText.setEnabled(false);
-
-
-        LayoutInflater inflater = (LayoutInflater) admin_start_class_Context.getSystemService(LAYOUT_INFLATER_SERVICE);
-        View customView = inflater.inflate(R.layout.window_reassign_coach_layout,null);
-
-        coach_reassign_popup_window = new PopupWindow(
-                customView,
-                ViewGroup.LayoutParams.WRAP_CONTENT,
-                ViewGroup.LayoutParams.WRAP_CONTENT
-        );
-
-        if(Build.VERSION.SDK_INT>=21){
-            coach_reassign_popup_window.setElevation(5.0f);
-        }
-
-        final ListView coach_reassign_listView = customView.findViewById(R.id.coachesListView);
-
-        final ArrayAdapter<String> itemsAdapter =
-                new ArrayAdapter<>(this,  android.R.layout.simple_list_item_1, coach_names_list);
-
-        coach_reassign_listView.setAdapter(itemsAdapter);
-        coach_reassign_popup_window.showAtLocation(admin_start_class_rl, Gravity.CENTER,0,0);
-        coach_reassign_popup_window.setFocusable(false);
-        coach_reassign_popup_window.setOutsideTouchable(true);
-        coach_reassign_popup_window.update();
-
-        coach_reassign_listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                //TextView textView = view.findViewById(R.id.textView7);
-                //String selected_coach = textView.getText().toString();
-                String selected_coach = coach_reassign_listView.getItemAtPosition(position).toString();
-                Toast.makeText(AdminStartClassActivity.this, selected_coach, Toast.LENGTH_SHORT).show();
-                coach_name_checkBox.setText(selected_coach);
-                coach_names_list = fill_coach_names_list();
-                itemsAdapter.notifyDataSetChanged();
-                attendance_note_editText.setEnabled(true);
-                coach_reassign_popup_window.dismiss();
-            }
-        });
-
-
-    }*/
 
 }

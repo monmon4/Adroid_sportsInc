@@ -16,11 +16,16 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
+import com.quantumsit.sportsinc.Aaa_data.GlobalVars;
+import com.quantumsit.sportsinc.Aaa_data.Rule_info;
+import com.quantumsit.sportsinc.Aaa_data.Trainees_info;
 import com.quantumsit.sportsinc.COACHES.ActivityCurrentClass_coach;
 import com.quantumsit.sportsinc.R;
 
+import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
@@ -32,6 +37,8 @@ public class ListViewExpandable_Adapter_currentClasses extends BaseExpandableLis
     public HashMap<Integer, List<String>> child_hashmap;
 
     Admin_CurrentClassesFragment myFragment;
+
+    GlobalVars globalVars;
 
     public ListViewExpandable_Adapter_currentClasses(Context context, List<item_current_classes> listDataHeader,
                                                      HashMap<Integer, List<String>> listChildData) {
@@ -46,6 +53,7 @@ public class ListViewExpandable_Adapter_currentClasses extends BaseExpandableLis
         this.context = context;
         this.header_list = listDataHeader;
         this.child_hashmap = listChildData;
+        this.globalVars = (GlobalVars) fragment.getActivity().getApplication();
     }
 
     @Override
@@ -91,11 +99,38 @@ public class ListViewExpandable_Adapter_currentClasses extends BaseExpandableLis
 
         class_number.setText(header.class_number);
         class_pool.setText(header.poolName);
-        if (header.status == 2)
-            class_time.setText(header.postpone_startTime+" ~ "+header.postpone_endTime);
-        else
+        //if (header.status == 2)
+            //class_time.setText(header.postpone_startTime+" ~ "+header.postpone_endTime);
+        //else
             class_time.setText(header.startTime+" ~ "+header.endTime);
         //class_text_view.setText(header.class_number);
+        Trainees_info coach_info = globalVars.getMyDB().getCoachInfo(header.getId());
+        Rule_info rule_info = globalVars.getMyDB().getRule(header.getId());
+
+
+        double current_time_double = 0;
+        double start_time_double = Double.valueOf(header.startTime.replace(":", "."));
+        //double end_time_double = Double.valueOf(endTime.replace(":", "."));
+        Date current_time = Calendar.getInstance().getTime();
+        DateFormat time_format = new SimpleDateFormat("hh:mm a");
+        String time = time_format.format(current_time);
+        String[] splitin_time = time.split(" ");
+
+        current_time_double = Double.valueOf(splitin_time[0].replace(":", "."));
+        if ( splitin_time[1].equals("PM") && current_time_double - 12 < 1) {
+            current_time_double += 12.00;
+        }
+
+        if (header.status == 0) {
+            class_number.setTextColor(Color.GREEN);
+        } else if (header.status == 3){
+
+            if (coach_info != null && rule_info!= null)
+                class_number.setTextColor(Color.parseColor("#f98a03"));
+
+            if (start_time_double - current_time_double < 0.11)
+                class_number.setTextColor(Color.RED);
+        }
 
         return convertView;
     }
