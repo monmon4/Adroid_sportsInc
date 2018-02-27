@@ -590,7 +590,7 @@ public class Admin_CurrentClassesFragment extends Fragment {
                         super.onResponse(response);
                         if(checkResponse(response)) {
                             Toast.makeText(getActivity(),"class has started",Toast.LENGTH_SHORT).show();
-                            initializeCurrentClasses();
+                            initializeCurrentClasses(false);
 
                         }else {
                             Toast.makeText(getActivity(), "Failed To start the class", Toast.LENGTH_SHORT).show();
@@ -644,8 +644,9 @@ public class Admin_CurrentClassesFragment extends Fragment {
                     super.onResponse(response);
                     if(checkResponse(response)) {
                         show_toast(list_headers.get(CurrentPosition).class_number+" has been closed");
-                        list_headers.remove(CurrentPosition);
-                        expandableListView_adapter.notifyDataSetChanged();
+                        //list_headers.remove(CurrentPosition);
+                        //expandableListView_adapter.notifyDataSetChanged();
+                        initializeCurrentClasses(false);
                     }else {
                         show_toast("Fail To end class...");
                     }

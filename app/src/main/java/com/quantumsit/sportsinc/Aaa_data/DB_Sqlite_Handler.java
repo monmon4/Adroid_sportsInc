@@ -187,7 +187,7 @@ public class DB_Sqlite_Handler extends SQLiteOpenHelper {
     public void addRule(Rule_info info){
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
-        values.put(KeyRuleId,info.getRule_id());
+        //values.put(KeyRuleId,info.getRule_id());
         values.put(KeyRuleClass,info.getClass_id());
         values.put(KeyRuleCheck,info.getRule_check());
         values.put(KeyRuleNote,info.getRule_note());
