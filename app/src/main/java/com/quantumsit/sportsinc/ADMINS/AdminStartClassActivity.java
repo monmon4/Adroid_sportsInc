@@ -281,6 +281,14 @@ public class AdminStartClassActivity extends AppCompatActivity {
         }
     }
 
+    private boolean checkConnection() {
+        // first, check connectivity
+        if (ConnectionUtilities
+                .checkInternetConnection(this)) {
+            return true;
+        }
+        return false;
+    }
 
     @SuppressLint("StaticFieldLeak")
     private List<String> fill_coach_names_list()  {
