@@ -41,7 +41,7 @@ public class item_request_coach implements Serializable {
 
     public item_request_coach(JSONObject object) {
         try {
-            request_ID = object.getInt("requests_id");
+            request_ID = object.getInt("id");
             this.request_for = "request for: " + object.getString("title");
             String dateFormated = object.getString("date_request");
             SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");

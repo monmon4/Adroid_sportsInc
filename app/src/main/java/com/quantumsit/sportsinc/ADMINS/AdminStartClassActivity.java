@@ -133,10 +133,9 @@ public class AdminStartClassActivity extends AppCompatActivity {
         });
 
 
-
-        if (savedInstanceState != null)
+       if (savedInstanceState == null)
             coach_names_list = fill_coach_names_list();
-        else
+       else
             coach_names_list = savedInstanceState.getStringArrayList("CoachesList");
     }
 
@@ -475,6 +474,7 @@ public class AdminStartClassActivity extends AppCompatActivity {
     }
 
     private void reassign_enabling(){
+
         if(coach_name_checkBox.isChecked()) {
             reassign_spinner.setEnabled(false);
             reassign_spinner.setClickable(false);

@@ -267,6 +267,9 @@ public class Admin_CurrentClassesFragment extends Fragment {
     public void clickChildListener(int groupPosition ,String child){
         CurrentPosition = groupPosition;
         switch (child){
+            case "Check rules and attendance":
+                checkClass();
+                break;
             case "Start class":
                 startClass();
                 break;
@@ -278,8 +281,8 @@ public class Admin_CurrentClassesFragment extends Fragment {
                 break;
             case "End class":
                 endClass();
-            case "Check rules and attendance":
-                checkClass();
+                break;
+
         }
     }
 
@@ -641,9 +644,10 @@ public class Admin_CurrentClassesFragment extends Fragment {
                     super.onResponse(response);
                     if(checkResponse(response)) {
                         show_toast(list_headers.get(CurrentPosition).class_number+" has been closed");
-                        //list_headers.remove(CurrentPosition);
-                        //expandableListView_adapter.notifyDataSetChanged();
-                        initializeCurrentClasses(false);
+                        list_headers.remove(CurrentPosition);
+                        expandableListView_adapter.notifyDataSetChanged();
+                        //initializeCurrentClasses(false);
+                        //onStart();
                     }else {
                         show_toast("Fail To end class...");
                     }

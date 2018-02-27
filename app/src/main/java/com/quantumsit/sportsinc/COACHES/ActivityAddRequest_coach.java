@@ -24,9 +24,12 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.Serializable;
+import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
@@ -51,6 +54,8 @@ public class ActivityAddRequest_coach extends AppCompatActivity {
     ArrayList<item_classSpinner_coach> classEntities;
 
     HashMap<Integer , ArrayList<item_classSpinner_coach> > classesMap;
+
+    Date current_date;
 
 
     @Override
@@ -150,9 +155,27 @@ public class ActivityAddRequest_coach extends AppCompatActivity {
     private void classesFilter(ArrayList<item_classSpinner_coach> classSpinner_coachList) {
         classList.clear();
         classEntities = new ArrayList<>();
+        current_date = Calendar.getInstance().getTime();
+        DateFormat date_format = new SimpleDateFormat("dd/MM/yyyy");
+        String current_date_string = date_format.format(current_date);
+        String[] current_date_split = current_date_string.split("/");
+
         for (item_classSpinner_coach item : classSpinner_coachList){
-            classList.add(item.getClass_name());
-            classEntities.add(item);
+            if(item.class_status == 3) {
+                String class_date = item.getClass_date();
+                String[] date_split = class_date.split("/");
+
+                if(date_split[1].equals(current_date_split[1])) {
+                    if(Integer.valueOf(date_split[0]) - Integer.valueOf(current_date_split[0]) > 2) {
+                        classList.add(item.getClass_name() + " , " + item.getClass_date());
+                        classEntities.add(item);
+                    }
+                } else {
+                    classList.add(item.getClass_name() + " , " + item.getClass_date());
+                    classEntities.add(item);
+                }
+            }
+
         }
         if(classList.size() == 0){
             classList.add("");
@@ -344,8 +367,14 @@ public class ActivityAddRequest_coach extends AppCompatActivity {
             String title = request_for_spinner.getText().toString();
             String Message = reason.getText().toString();
             String CourseName = course_name_spinner.getText().toString();
-            String ClassName = class_number_spinner.getText().toString();
+            String[] class_split = class_number_spinner.getText().toString().split(",");
+            String ClassName = class_split[0].trim();
 
+            String date_request = ClassDate;
+            DateFormat outdateFormat = new SimpleDateFormat("yyyy-MM-dd");
+            DateFormat DateFormat = new SimpleDateFormat("dd/MM/yyyy");
+            Date date = DateFormat.parse(date_request);
+            date_request = outdateFormat.format(date);
 
             values.put("title",title);
             values.put("content",Message);
@@ -353,8 +382,7 @@ public class ActivityAddRequest_coach extends AppCompatActivity {
             values.put("to_id",ReceiverID);
             values.put("course_name",CourseName);
             values.put("sub_course_name",ClassName);
-
-            values.put("date_request",ClassDate);
+            values.put("date_request",date_request);
 
             HttpCall httpCall = new HttpCall();
             httpCall.setMethodtype(HttpCall.POST);
@@ -388,6 +416,8 @@ public class ActivityAddRequest_coach extends AppCompatActivity {
             }.execute(httpCall);
 
         } catch (JSONException e) {
+            e.printStackTrace();
+        } catch (ParseException e) {
             e.printStackTrace();
         }
     }

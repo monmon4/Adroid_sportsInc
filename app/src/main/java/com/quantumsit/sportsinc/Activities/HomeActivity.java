@@ -352,6 +352,8 @@ public class HomeActivity extends AppCompatActivity
             actionBar.setTitle(R.string.request);
             if (coach){
                 fragmentClass = CoachRequestFragment.class;
+            } else if (admin) {
+                fragmentClass = CoachRequestSentFragment.class;
             } else {
                 fragmentClass = RequestsFragment.class;
             }
