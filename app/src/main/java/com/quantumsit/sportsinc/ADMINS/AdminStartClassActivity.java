@@ -76,6 +76,7 @@ public class AdminStartClassActivity extends AppCompatActivity {
     StartClass_info startClass_info;
     GlobalVars globalVars;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
