@@ -10,6 +10,7 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.quantumsit.sportsinc.Aaa_data.Constants;
 import com.quantumsit.sportsinc.Activities.NewsDetailsActivity;
 import com.quantumsit.sportsinc.Entities.NewsEntity;
 import com.quantumsit.sportsinc.Activities.EventsDetailsActivity;
@@ -69,7 +70,7 @@ public class NewsRecyclerAdapter extends RecyclerView.Adapter<NewsRecyclerAdapte
             String ImageUrl = item.getImg();
 
             if(!ImageUrl.equals("")) {
-                Picasso.with(context).load(ImageUrl).into(newsImage, new com.squareup.picasso.Callback() {
+                Picasso.with(context).load(Constants.others_host + ImageUrl).into(newsImage, new com.squareup.picasso.Callback() {
                     @Override
                     public void onSuccess() {
                         progressBar.setVisibility(View.GONE);

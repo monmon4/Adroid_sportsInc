@@ -13,7 +13,7 @@ import java.util.Date;
  */
 
 public class EventEntity implements Serializable {
-    String title,time,description;
+    String title,time,description, imgUrl , eventUrl;
     Date date;
 
     EventEntity(){}
@@ -27,6 +27,8 @@ public class EventEntity implements Serializable {
 
     public EventEntity(JSONObject object){
         try {
+            this.imgUrl = object.getString("ImageUrl");
+            this.eventUrl = object.getString("eventUrl");
             this.title = object.getString("Title");
             this.time = object.getString("time");
             time = time.substring(0,time.length()-3);
@@ -71,5 +73,21 @@ public class EventEntity implements Serializable {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public String getImgUrl() {
+        return imgUrl;
+    }
+
+    public void setImgUrl(String imgUrl) {
+        this.imgUrl = imgUrl;
+    }
+
+    public String getEventUrl() {
+        return eventUrl;
+    }
+
+    public void setEventUrl(String eventUrl) {
+        this.eventUrl = eventUrl;
     }
 }

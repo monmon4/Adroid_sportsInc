@@ -3,11 +3,15 @@ package com.quantumsit.sportsinc.Aaa_looks;
 import android.content.Context;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 
+import com.quantumsit.sportsinc.Aaa_data.Constants;
 import com.quantumsit.sportsinc.R;
 import com.squareup.picasso.Picasso;
 
@@ -40,20 +44,27 @@ public class RecyclerView_Adapter_certificate extends RecyclerView.Adapter<Recyc
     }
 
     @Override
-    public void onBindViewHolder(RecyclerView_Adapter_certificate.ViewHolder holder, final int position) {
+    public void onBindViewHolder(final RecyclerView_Adapter_certificate.ViewHolder holder, final int position) {
 
 
         //holder.certificate_img.setImageResource(List_Item.get(position));
 
         Picasso.with(context.getApplicationContext())
-                .load(List_Item.get(position))
-                .into(holder.certificate_img);
+                .load(Constants.certification_host + List_Item.get(position))
+                .into(holder.certificate_img, new com.squareup.picasso.Callback() {
+                    @Override
+                    public void onSuccess() {
+                    }
+
+                    @Override
+                    public void onError() {
+                        Log.d("Certification_Loading","Error In Loading: "+(Constants.others_host + List_Item.get(position)));
+                    }
+                });
 
         holder.certificate_card.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-
             }
         });
     }

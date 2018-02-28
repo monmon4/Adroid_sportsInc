@@ -295,7 +295,7 @@ public class ProfileActivity extends AppCompatActivity {
         String ImageUrl = globalVars.getImgUrl();
 
         if(!ImageUrl.equals("")) {
-            Picasso.with(getApplicationContext()).load(Constants.profile_host+"/"+ImageUrl).into(Image, new com.squareup.picasso.Callback() {
+            Picasso.with(getApplicationContext()).load(Constants.profile_host + ImageUrl).into(Image, new com.squareup.picasso.Callback() {
                 @Override
                 public void onSuccess() {
                     //progressBar.setVisibility(View.GONE);

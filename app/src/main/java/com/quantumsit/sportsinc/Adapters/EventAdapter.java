@@ -7,10 +7,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.quantumsit.sportsinc.Aaa_data.Constants;
 import com.quantumsit.sportsinc.Entities.EventEntity;
 import com.quantumsit.sportsinc.R;
+import com.squareup.picasso.Picasso;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -56,6 +60,10 @@ public class EventAdapter  extends ArrayAdapter<EventEntity> {
         //TextView date = view.findViewById(R.id.eventDate);
        // TextView content = view.findViewById(R.id.eventContent);
 
+
+        final ProgressBar progressBar = view.findViewById(R.id.progressBar1);
+        ImageView eventImage = view.findViewById(R.id.eventsImage);
+
         Date mDate = eventEntity.getDate();
         SimpleDateFormat df = new SimpleDateFormat("E MMM dd yyyy");
         String formattedDate = df.format(mDate);
@@ -64,7 +72,25 @@ public class EventAdapter  extends ArrayAdapter<EventEntity> {
         Month.setText(data[1]);
         Day.setText(data[2]);
 
-       Title.setText(eventEntity.getTitle());
+        Title.setText(eventEntity.getTitle());
+        String ImageUrl = eventEntity.getImgUrl();
+
+        if(!ImageUrl.equals("")) {
+            Picasso.with(context).load(Constants.others_host + ImageUrl).into(eventImage, new com.squareup.picasso.Callback() {
+                @Override
+                public void onSuccess() {
+                    progressBar.setVisibility(View.GONE);
+                }
+
+                @Override
+                public void onError() {
+
+                }
+            });
+        }else {
+            progressBar.setVisibility(View.GONE);
+        }
+
        /* time.setText(eventEntity.getTime());
         date.setText(formattedDate);
         content.setText(eventEntity.getDescription());*/

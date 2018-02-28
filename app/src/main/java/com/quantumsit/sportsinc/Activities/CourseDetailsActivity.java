@@ -3,12 +3,15 @@ package com.quantumsit.sportsinc.Activities;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.quantumsit.sportsinc.Aaa_data.Constants;
 import com.quantumsit.sportsinc.CustomView.CustomLoadingView;
 import com.quantumsit.sportsinc.Entities.CourseEntity;
 import com.quantumsit.sportsinc.R;
+import com.squareup.picasso.Picasso;
 
 import java.text.SimpleDateFormat;
 
@@ -54,7 +57,21 @@ public class CourseDetailsActivity extends AppCompatActivity {
     private void fillView(CourseEntity courseEntity) {
         // CourseName.setText(courseEntity.getCourseName());
         getSupportActionBar().setTitle(courseEntity.getCourseName());
-        fillImage(courseEntity.getCourseName());
+        //fillImage(courseEntity.getCourseName());
+        String ImageUrl = courseEntity.getImageUrl();
+        if(!ImageUrl.equals("")) {
+            Picasso.with(getApplicationContext()).load(Constants.others_host + ImageUrl).into(levelImage, new com.squareup.picasso.Callback() {
+                @Override
+                public void onSuccess() {
+
+                }
+
+                @Override
+                public void onError() {
+                    Log.d("Image Loading ", "ERROR In Loading");
+                }
+            });
+        }
         ClassesNum.setText(courseEntity.getClasses_Num());
         CoursePrice.setText(courseEntity.getPrice());
         SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy");

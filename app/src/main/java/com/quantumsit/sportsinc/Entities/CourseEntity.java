@@ -15,6 +15,7 @@ import java.util.List;
  */
 
 public class CourseEntity implements Serializable {
+    String ImageUrl;
     String CourseName;
     Date StartDate;
     Date EndDate;
@@ -27,6 +28,7 @@ public class CourseEntity implements Serializable {
     }
 
     public CourseEntity(String courseName, Date startDate, Date endDate, String price, String level, String classes_Num, String description) {
+        ImageUrl = "";
         CourseName = courseName;
         StartDate = startDate;
         EndDate = endDate;
@@ -39,6 +41,7 @@ public class CourseEntity implements Serializable {
     public CourseEntity(JSONObject object){
         try {
             CourseName = object.getString("name");
+            ImageUrl = object.getString("ImageUrl");
             String dateFormated =  object.getString("start_date");
             SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
             StartDate = formatter.parse(dateFormated);
@@ -60,6 +63,14 @@ public class CourseEntity implements Serializable {
 
     public void setCourseName(String courseName) {
         CourseName = courseName;
+    }
+
+    public String getImageUrl() {
+        return ImageUrl;
+    }
+
+    public void setImageUrl(String imageUrl) {
+        ImageUrl = imageUrl;
     }
 
     public Date getStartDate() {
