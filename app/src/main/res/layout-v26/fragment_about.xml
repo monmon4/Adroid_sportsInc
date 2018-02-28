@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context="com.quantumsit.sportsinc.AboutUs_fragments.PaymentRulesFragment">
+    tools:context="com.quantumsit.sportsinc.AboutUs_fragments.AboutFragment">
 
 
     <ScrollView
@@ -17,69 +17,45 @@
             android:orientation="vertical">
 
             <TextView
-                android:id="@+id/textViewPayment1"
+                android:id="@+id/textView2_above"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="16dp"
+                android:autoSizeTextType="uniform"
+                android:background="@drawable/text_view_background"
+                android:padding="10dp"
+                android:text="@string/welcome_to_sh_aquatics"
+                android:textColor="@color/colorWhite" />
+
+            <TextView
+                android:id="@+id/textView6"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="24dp"
+                android:layout_marginStart="24dp"
+                android:text="@string/about_SH"
+                android:textColor="@color/colorText" />
+
+            <TextView
+                android:id="@+id/textView_above"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="16dp"
                 android:background="@drawable/text_view_background"
                 android:padding="10dp"
-                android:text="@string/booking_fee"
-                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                android:text="@string/about_us"
                 android:textColor="@color/colorWhite" />
 
             <TextView
-                android:id="@+id/textViewPayment2"
+                android:id="@+id/textView5"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_below="@+id/textView_above"
                 android:layout_marginEnd="24dp"
                 android:layout_marginStart="24dp"
-                android:text="@string/booking_fee2"
-                android:textAppearance="@style/TextAppearance.AppCompat.Small"
+                android:text="@string/about_academy"
                 android:textColor="@color/colorText" />
-
-            <TextView
-                android:id="@+id/textViewPayment3"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="16dp"
-                android:background="@drawable/text_view_background"
-                android:padding="10dp"
-                android:text="@string/payment_options"
-                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-                android:textColor="@color/colorWhite" />
-
-            <TextView
-                android:id="@+id/textViewPayment4"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="24dp"
-                android:layout_marginStart="24dp"
-                android:text="@string/payment_options2"
-                android:textAppearance="@style/TextAppearance.AppCompat.Small"
-                android:textColor="@color/colorText" />
-
-            <TextView
-                android:id="@+id/textViewPayment5"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="16dp"
-                android:background="@drawable/text_view_background"
-                android:padding="10dp"
-                android:text="@string/term_payment_policy"
-                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-                android:textColor="@color/colorWhite" />
-
-            <TextView
-                android:id="@+id/textViewPayment6"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="24dp"
-                android:layout_marginStart="24dp"
-                android:text="@string/term_payment_policy2"
-                android:textAppearance="@style/TextAppearance.AppCompat.Small"
-                android:textColor="@color/colorText" />
-
-
         </LinearLayout>
     </ScrollView>
+
 </RelativeLayout>

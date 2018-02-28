@@ -21,6 +21,7 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="16dp"
                 android:text="@string/for_parents"
+                android:textAppearance="@style/TextAppearance.AppCompat.Small"
                 android:textColor="@color/colorText" />
 
             <TextView
@@ -33,6 +34,7 @@
                 android:background="@drawable/text_view_background"
                 android:padding="5dp"
                 android:text="@string/pool_entry"
+                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
                 android:textColor="@color/colorWhite" />
 
             <TextView
@@ -43,6 +45,7 @@
                 android:layout_marginStart="30dp"
                 android:layout_marginBottom="10dp"
                 android:text="@string/pool"
+                android:textAppearance="@style/TextAppearance.AppCompat.Small"
                 android:textColor="@color/colorText" />
 
             <TextView
@@ -55,6 +58,7 @@
                 android:background="@drawable/text_view_background"
                 android:padding="5dp"
                 android:text="@string/punctuality"
+                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
                 android:textColor="@color/colorWhite" />
 
             <TextView
@@ -65,6 +69,7 @@
                 android:layout_marginStart="30dp"
                 android:layout_marginBottom="10dp"
                 android:text="@string/punctuality2"
+                android:textAppearance="@style/TextAppearance.AppCompat.Small"
                 android:textColor="@color/colorText" />
 
             <TextView
@@ -77,6 +82,7 @@
                 android:background="@drawable/text_view_background"
                 android:padding="5dp"
                 android:text="@string/training_equipment"
+                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
                 android:textColor="@color/colorWhite" />
 
             <TextView
@@ -87,6 +93,7 @@
                 android:layout_marginStart="30dp"
                 android:layout_marginBottom="10dp"
                 android:text="@string/training_equipment2"
+                android:textAppearance="@style/TextAppearance.AppCompat.Small"
                 android:textColor="@color/colorText" />
 
             <TextView
@@ -99,6 +106,7 @@
                 android:background="@drawable/text_view_background"
                 android:padding="5dp"
                 android:text="@string/are_parents_required_to_stay_at_the_pool_during_classes"
+                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
                 android:textColor="@color/colorWhite" />
 
             <TextView
@@ -109,6 +117,7 @@
                 android:layout_marginStart="30dp"
                 android:layout_marginBottom="10dp"
                 android:text="@string/are_parents"
+                android:textAppearance="@style/TextAppearance.AppCompat.Small"
                 android:textColor="@color/colorText" />
             <TextView
                 android:id="@+id/textView19"
@@ -118,6 +127,7 @@
                 android:layout_marginStart="35dp"
                 android:layout_marginBottom="10dp"
                 android:text="@string/are_parents2"
+                android:textAppearance="@style/TextAppearance.AppCompat.Small"
                 android:textColor="@color/colorText" />
 
             <TextView
@@ -130,6 +140,7 @@
                 android:background="@drawable/text_view_background"
                 android:padding="5dp"
                 android:text="@string/parent_etiquette_during_class_time"
+                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
                 android:textColor="@color/colorWhite" />
 
             <TextView
@@ -142,6 +153,7 @@
                 android:background="@drawable/text_view_background"
                 android:padding="5dp"
                 android:text="@string/communication_with_coaches"
+                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
                 android:textColor="@color/colorWhite" />
 
             <TextView
@@ -152,6 +164,7 @@
                 android:layout_marginStart="30dp"
                 android:layout_marginBottom="10dp"
                 android:text="@string/communication_with_coaches2"
+                android:textAppearance="@style/TextAppearance.AppCompat.Small"
                 android:textColor="@color/colorText" />
 
             <TextView
@@ -164,6 +177,7 @@
                 android:background="@drawable/text_view_background"
                 android:padding="5dp"
                 android:text="@string/starting_the_class"
+                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
                 android:textColor="@color/colorWhite" />
 
             <TextView
@@ -174,6 +188,7 @@
                 android:layout_marginStart="30dp"
                 android:layout_marginBottom="10dp"
                 android:text="@string/starting_the_class2"
+                android:textAppearance="@style/TextAppearance.AppCompat.Small"
                 android:textColor="@color/colorText" />
 
             <TextView
@@ -186,6 +201,7 @@
                 android:background="@drawable/text_view_background"
                 android:padding="5dp"
                 android:text="@string/finishing_the_class"
+                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
                 android:textColor="@color/colorWhite" />
 
             <TextView
@@ -196,6 +212,7 @@
                 android:layout_marginStart="30dp"
                 android:layout_marginBottom="10dp"
                 android:text="@string/finishing_the_class2"
+                android:textAppearance="@style/TextAppearance.AppCompat.Small"
                 android:textColor="@color/colorText" />
 
             <TextView
@@ -208,6 +225,7 @@
                 android:background="@drawable/text_view_background"
                 android:padding="5dp"
                 android:text="@string/locker_changing_rooms"
+                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
                 android:textColor="@color/colorWhite" />
 
             <TextView
@@ -218,6 +236,7 @@
                 android:layout_marginStart="30dp"
                 android:layout_marginBottom="10dp"
                 android:text="@string/locker_changing_rooms2"
+                android:textAppearance="@style/TextAppearance.AppCompat.Small"
                 android:textColor="@color/colorText" />
 
             <TextView
@@ -230,6 +249,7 @@
                 android:background="@drawable/text_view_background"
                 android:padding="5dp"
                 android:text="@string/missed_class_policy_refund"
+                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
                 android:textColor="@color/colorWhite" />
 
             <TextView
@@ -240,6 +260,7 @@
                 android:layout_marginStart="30dp"
                 android:layout_marginBottom="10dp"
                 android:text="@string/missed_class_policy_refund2"
+                android:textAppearance="@style/TextAppearance.AppCompat.Small"
                 android:textColor="@color/colorText" />
 
             <TextView
@@ -252,6 +273,7 @@
                 android:background="@drawable/text_view_background"
                 android:padding="5dp"
                 android:text="@string/general_conduct"
+                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
                 android:textColor="@color/colorWhite" />
 
             <TextView
@@ -262,6 +284,7 @@
                 android:layout_marginStart="30dp"
                 android:layout_marginBottom="10dp"
                 android:text="@string/general_conduct2"
+                android:textAppearance="@style/TextAppearance.AppCompat.Small"
                 android:textColor="@color/colorText" />
 
             <TextView
@@ -272,6 +295,7 @@
                 android:layout_marginEnd="30dp"
                 android:layout_marginStart="30dp"
                 android:text="@string/parent_etiquette"
+                android:textAppearance="@style/TextAppearance.AppCompat.Small"
                 android:textColor="@color/colorText" />
 
 

@@ -29,6 +29,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".Activities.LoginActivity"
+            android:theme="@style/AppTheme.NoActionBar"
             android:screenOrientation="fullSensor" />
         <activity android:name=".Activities.RegisterActivity"
             android:screenOrientation="fullSensor" />

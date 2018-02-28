@@ -44,9 +44,9 @@ public class RecyclerView_Adapter_reportcourses extends RecyclerView.Adapter<Rec
 
 
         holder.course_name.setText(List_Item.get(position).course_name);
-        String attendance_string = "Attendance: " + String.valueOf(List_Item.get(position).attendance) + "%";
+        String attendance_string = R.string.attendance+": " + String.valueOf(List_Item.get(position).attendance) + "%";
         holder.attendance.setText(attendance_string);
-        String score_string = "Score: " + String.valueOf(List_Item.get(position).score);
+        String score_string = R.string.score+": " + String.valueOf(List_Item.get(position).score);
         holder.score.setText(score_string);
 
         holder.course_card.setOnClickListener(new View.OnClickListener() {
@@ -75,10 +75,10 @@ public class RecyclerView_Adapter_reportcourses extends RecyclerView.Adapter<Rec
 
         public ViewHolder(View view) {
             super(view);
-            course_card = (CardView) view.findViewById(R.id.reportsCoursesCardView);
-            course_name = (TextView) view.findViewById(R.id.courseNameTextView_reportscourses);
-            attendance = (TextView) view.findViewById(R.id.attendanceTextView_reportscourses);
-            score = (TextView) view.findViewById(R.id.scoreTextView_reportscourses);
+            course_card = view.findViewById(R.id.reportsCoursesCardView);
+            course_name =  view.findViewById(R.id.courseNameTextView_reportscourses);
+            attendance =  view.findViewById(R.id.attendanceTextView_reportscourses);
+            score =  view.findViewById(R.id.scoreTextView_reportscourses);
 
         }
 

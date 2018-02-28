@@ -33,7 +33,7 @@ public class Coach_CurrentClassFragment extends Fragment {
         globalVars = (GlobalVars) getActivity().getApplication();
         type = globalVars.getType();
 
-        mViewPager = (ViewPager) root.findViewById(R.id.coach_current_class_viewpager);
+        mViewPager =  root.findViewById(R.id.coach_current_class_viewpager);
 
         setupViewPager(mViewPager);
         TabLayout tabLayout = root.findViewById(R.id.coach_current_class_tabs);

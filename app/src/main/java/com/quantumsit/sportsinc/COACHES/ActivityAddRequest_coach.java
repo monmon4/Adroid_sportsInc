@@ -317,7 +317,7 @@ public class ActivityAddRequest_coach extends AppCompatActivity {
             return;
         }
         if (CourseName.equals("")){
-            show_toast("Select Request for which course");
+            show_toast("Select Request for which level");
             return;
         }
         sendRequest();

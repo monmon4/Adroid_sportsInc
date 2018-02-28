@@ -202,8 +202,8 @@ public class Reports_coursesActivity extends AppCompatActivity {
     private  void fill_list_view(){
         mSwipeRefreshLayout.setRefreshing(false);
         String title = course_name + ", " + group_name;
-        String coach = "Coach: " + coach_name;
-        String pool = "Pool: " + pool_name;
+        String coach = R.string.coach +": " + coach_name;
+        String pool = R.string.pool_number +": " + pool_name;
         courseAndGroup_textView.setText(title);
         coach_textView.setText(coach);
         pool_textView.setText(pool);

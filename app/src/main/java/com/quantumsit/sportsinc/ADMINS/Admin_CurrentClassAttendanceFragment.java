@@ -56,9 +56,9 @@ public class Admin_CurrentClassAttendanceFragment extends Fragment {
 
         for (int i=1; i<20; i++){
             if (i == 1){
-                list_items.add(new item_checkbox("Coach name  " , false));
+                list_items.add(new item_checkbox(R.string.coach + "  " , false));
             } else {
-                list_items.add(new item_checkbox("Trainee  " + i , false));
+                list_items.add(new item_checkbox(R.string.trainee+"  " + i , false));
             }
 
         }

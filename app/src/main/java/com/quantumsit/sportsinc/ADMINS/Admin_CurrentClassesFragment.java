@@ -242,19 +242,19 @@ public class Admin_CurrentClassesFragment extends Fragment {
             if (status == 3) {
                 if (start_time_double - current_time_double > 1.0) {
                     //list_children.clear();
-                    list_new_child.add("Check rules and attendance");
-                    list_new_child.add("Postpone class");
-                    list_new_child.add("Cancel class");
+                    list_new_child.add(String.valueOf(R.string.check_rules_and_attendance));
+                    list_new_child.add(String.valueOf(R.string.postpone_class));
+                    list_new_child.add(String.valueOf(R.string.cancel_class));
                 } else if (start_time_double - current_time_double < 0.11) {
                     //list_children.clear();
-                    list_new_child.add("Check rules and attendance");
-                    list_new_child.add("Start class");
+                    list_new_child.add(String.valueOf(R.string.check_rules_and_attendance));
+                    list_new_child.add(String.valueOf(R.string.start_class));
                 } else {
-                    list_new_child.add("Check rules and attendance");
+                    list_new_child.add(String.valueOf(R.string.check_rules_and_attendance));
                 }
             } else if (status == 0) {
                 //list_children.clear();
-                list_new_child.add("End class");
+                list_new_child.add(String.valueOf(R.string.end_class));
             } else {
                 list_new_child.add("Up coming");
             }
@@ -270,16 +270,16 @@ public class Admin_CurrentClassesFragment extends Fragment {
             case "Check rules and attendance":
                 checkClass();
                 break;
-            case "Start class":
+            case "Start session":
                 startClass();
                 break;
-            case "Postpone class":
+            case "Postpone session":
                 postpondClass();
                 break;
-            case "Cancel class":
+            case "Cancel session":
                 writeNote(1);
                 break;
-            case "End class":
+            case "End session":
                 endClass();
                 break;
 
@@ -560,9 +560,9 @@ public class Admin_CurrentClassesFragment extends Fragment {
         if (coach_info == null || rule_info == null) {
             show_toast("you need to check rules and coach's attendance first");
         } else if (!coach_info.getSelected()) {
-            show_toast("Can't start class when coach's attendance isn't checked");
+            show_toast("Can't start session when coach's attendance isn't checked");
         } else if (!rule_info.getSelected()) {
-            show_toast("Can't start class when rules isn't checked");
+            show_toast("Can't start session when rules isn't checked");
         } else {
             insertCoachAttendToDB(coach_info);
             insertRuleCheckToDB(rule_info);
@@ -589,11 +589,11 @@ public class Admin_CurrentClassesFragment extends Fragment {
                     public void onResponse(JSONArray response) {
                         super.onResponse(response);
                         if(checkResponse(response)) {
-                            Toast.makeText(getActivity(),"class has started",Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getActivity(),"Session has started",Toast.LENGTH_SHORT).show();
                             initializeCurrentClasses(false);
 
                         }else {
-                            Toast.makeText(getActivity(), "Failed To start the class", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getActivity(), "Failed To start the session", Toast.LENGTH_SHORT).show();
                         }
                         progressDialog.dismiss();
                     }
@@ -649,7 +649,7 @@ public class Admin_CurrentClassesFragment extends Fragment {
                         //initializeCurrentClasses(false);
                         //onStart();
                     }else {
-                        show_toast("Fail To end class...");
+                        show_toast("Fail To end session...");
                     }
                 }
             }.execute(httpCall);

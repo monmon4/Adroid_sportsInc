@@ -126,9 +126,9 @@ public class ClassesDetailsActivity extends AppCompatActivity {
                 public void onResponse(JSONArray response) {
                     super.onResponse(response);
                     if(checkResponse(response)) {
-                        show_toast("class has been canceled");
+                        show_toast(String.valueOf(R.string.session_has_been_cancelled));
                     }else {
-                        show_toast("Fail To cancel class...");
+                        show_toast(String.valueOf(R.string.failed_to_cancel_session));
                     }
                     progressDialog.dismiss();
                     dismissButtons();
@@ -195,7 +195,7 @@ public class ClassesDetailsActivity extends AppCompatActivity {
             noteLayout.setVisibility(View.VISIBLE);
 
             TextView noteLable = findViewById(R.id.class_reason_Lable);
-            noteLable.setText("Class note: ");
+            noteLable.setText(R.string.class_note);
             reason.setText(myclass.getReason());
         }
         else if (myclass.getState() == 2){
@@ -359,7 +359,7 @@ public class ClassesDetailsActivity extends AppCompatActivity {
                     if(checkResponse(response)) {
                         show_toast(msg);
                     }else {
-                        show_toast("Fail to postpone class...");
+                        show_toast(String.valueOf(R.string.failed_to_postpone_session));
                     }
                     progressDialog.dismiss();
                     dismissButtons();

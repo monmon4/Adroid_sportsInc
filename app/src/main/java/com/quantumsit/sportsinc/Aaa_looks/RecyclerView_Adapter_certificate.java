@@ -22,13 +22,12 @@ public class RecyclerView_Adapter_certificate extends RecyclerView.Adapter<Recyc
 
     private List<String> List_Item;
     private Context context;
-    //ClientGlobal clientGlobal;
 
 
     public RecyclerView_Adapter_certificate(List<String> list_Item, Context context) {
         List_Item = list_Item;
         this.context = context;
-        //clientGlobal = (ClientGlobal) context.getApplicationContext();
+
     }
 
     @Override
@@ -42,9 +41,7 @@ public class RecyclerView_Adapter_certificate extends RecyclerView.Adapter<Recyc
     @Override
     public void onBindViewHolder(RecyclerView_Adapter_certificate.ViewHolder holder, final int position) {
 
-
         //holder.certificate_img.setImageResource(List_Item.get(position));
-
         Picasso.with(context.getApplicationContext())
                 .load(List_Item.get(position))
                 .into(holder.certificate_img);
@@ -52,7 +49,6 @@ public class RecyclerView_Adapter_certificate extends RecyclerView.Adapter<Recyc
         holder.certificate_card.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
 
             }
         });
@@ -72,11 +68,7 @@ public class RecyclerView_Adapter_certificate extends RecyclerView.Adapter<Recyc
             super(view);
             certificate_card = view.findViewById(R.id.certificate_cardView);
             certificate_img =  view.findViewById(R.id.certificate_imageView);
-
         }
-
     }
-
-
 
 }
