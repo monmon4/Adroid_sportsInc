@@ -76,7 +76,6 @@ public class AdminStartClassActivity extends AppCompatActivity {
     StartClass_info startClass_info;
     GlobalVars globalVars;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -131,9 +130,9 @@ public class AdminStartClassActivity extends AppCompatActivity {
             }
         });
 
-        if (savedInstanceState == null)
+       if (savedInstanceState == null)
             coach_names_list = fill_coach_names_list();
-        else
+       else
             coach_names_list = savedInstanceState.getStringArrayList("CoachesList");
     }
 

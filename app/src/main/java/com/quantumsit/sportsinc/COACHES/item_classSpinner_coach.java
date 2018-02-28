@@ -19,13 +19,16 @@ import java.util.Date;
 public class item_classSpinner_coach implements Serializable {
     String class_name , class_date;
     int class_id , course_id;
+    int class_status;
 
     public item_classSpinner_coach(JSONObject jsonObject) {
         try {
             class_id = jsonObject.getInt("class_id");
             class_name = "class" + jsonObject.getString("class_name");
             course_id = jsonObject.getInt("course_id");
+            class_status = jsonObject.getInt("status");
             class_date = jsonObject.getString("class_date");
+
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -71,5 +74,13 @@ public class item_classSpinner_coach implements Serializable {
 
     public void setCourse_id(int course_id) {
         this.course_id = course_id;
+    }
+
+    public int getClass_status() {
+        return class_status;
+    }
+
+    public void setClass_status(int class_status) {
+        this.class_status = class_status;
     }
 }
