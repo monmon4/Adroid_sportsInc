@@ -16,32 +16,19 @@
         <item>Switch class</item>
     </string-array>
 
-    <string-array name="course_names_array">
-        <item>Course 1</item>
-        <item>Course 2</item>
-        <item>Course 3</item>
-        <item>Course 4</item>
-        <item>Course 5</item>
-        <item>Course 6</item>
-        <item>Course 7</item>
-        <item>Course 8</item>
-        <item>Course 1</item>
-        <item>Course 1</item>
-        <item>Course 1</item>
-    </string-array>
+
 
     <string-array name="class_numbers_array">
-        <item>Class 1</item>
-        <item>Class 1</item>
-        <item>Class 1</item>
-        <item>Class 1</item>
-        <item>Class 1</item>
-        <item>Class 1</item>
-        <item>Class 1</item>
-        <item>Class 1</item>
-        <item>Class 1</item>
-        <item>Class 1</item>
-        <item>Class 1</item>
+        <item>Session 1</item>
+        <item>Session 2</item>
+        <item>Session 3</item>
+        <item>Session 4</item>
+        <item>Session 5</item>
+        <item>Session 6</item>
+        <item>Session 7</item>
+        <item>Session 8</item>
+        <item>Session 9</item>
+        <item>Session 10</item>
     </string-array>
 
     <string-array name="date_array">
@@ -101,8 +88,7 @@
     </string-array>
 
     <string-array name="empty_array">
-        <item>2017</item>
-
+        <item> 0 </item>
     </string-array>
 
     <string name="app_name">SH AQUATICS</string>
@@ -144,11 +130,11 @@
     <string name="date">Date</string>
     <string name="class_number">Session number</string>
     <string name="score">Score</string>
-    <string name="group_number">Group number</string>
+    <string name="group_number">Class number</string>
     <string name="coach_s_name">Coach\'s name</string>
     <string name="coach_s_notes">Coach\'s notes</string>
     <string name="creation_date">Creation date</string>
-    <string name="course_name_class_number">Course name, Class number</string>
+    <string name="course_name_class_number">Level name, Session number</string>
     <string name="class_date">session date</string>
     <string name="write_your_reason">Write your reason</string>
     <string name="_500">$500</string>
@@ -157,7 +143,7 @@
     <string name="request_for">Request for:</string>
     <string name="current_class">Current session</string>
     <string name="not_finished_courses">Current Classes</string>
-    <string name="course_name_group_number">Course name, Group number</string>
+    <string name="course_name_group_number">Course name, Class number</string>
     <string name="class_number_date">session number, Date</string>
     <string name="finished_courses">Finished classes</string>
     <string name="class_rules">Class Rules</string>
@@ -166,7 +152,7 @@
     <string name="trainee_s_name">Trainee\'s name</string>
     <string name="write_notes_anout_the_class">Write notes about the session</string>
     <string name="_5_5_2017">5/5/2017</string>
-    <string name="pool_number">Pool number</string>
+    <string name="pool_number">Pool</string>
     <string name="attendance">Attendance</string>
 
 
@@ -214,7 +200,7 @@
 
     <string name="a_coach_s_note">this is just a sport</string>
     <string name="regarding">Regarding</string>
-    <string name="class_date_spinner">Class, date</string>
+    <string name="class_date_spinner">Session, date</string>
     <string name="no_certificates">No certificates</string>
     <string name="no_payment_reports">No payment reports</string>
     <string name="no_courses_reports">No classes reports</string>
@@ -422,11 +408,23 @@
     <string name="news_details">News Details</string>
     <string name="login_configure">Configuring user...</string>
     <string name="configure">Configure</string>
+    <string name="due">Due</string>
+    <string name="check_rules_and_attendance">Check rules and attendance</string>
+    <string name="end_class">End session</string>
 
 
     <integer name="selectLimit">10</integer>
     <integer name="sliderLimit">3</integer>
 
     <integer name="ADMIN">2</integer>
+
+
+    <string name="session_has_been_cancelled">Session has been canceled</string>
+    <string name="failed_to_cancel_session">Failed To cancel Session...</string>
+    <string name="failed_to_postpone_session">Failed To postpone Session...</string>
+    <string name="class_note">Session notes: </string>
+    <string name="session">Session  </string>
+    <string name="coach">Coach  </string>
+    <string name="trainee">Trainee  </string>
 
 </resources>

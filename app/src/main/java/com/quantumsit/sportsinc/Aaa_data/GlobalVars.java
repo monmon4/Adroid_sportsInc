@@ -21,7 +21,6 @@ public class GlobalVars extends Application {
     int id , type, gender, age; //TYPE 0 Trainee, 1 Coach, 2 Admin, 3 Manager, 4 Backend, 5 non_registered
                           //GENDER 0 Male, 1 Female
     int person_id;
-    ArrayList<course_info> courses;
 
     UserEntity myAccount;
 

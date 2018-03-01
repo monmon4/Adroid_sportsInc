@@ -21,6 +21,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="16dp"
+                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
                 android:background="@drawable/text_view_background"
                 android:padding="10dp"
                 android:text="@string/welcome_to_sh_aquatics"
@@ -33,6 +34,7 @@
                 android:layout_marginEnd="24dp"
                 android:layout_marginStart="24dp"
                 android:text="@string/about_SH"
+                android:textAppearance="@style/Base.TextAppearance.AppCompat.Small"
                 android:textColor="@color/colorText" />
 
             <TextView
@@ -43,6 +45,7 @@
                 android:background="@drawable/text_view_background"
                 android:padding="10dp"
                 android:text="@string/about_us"
+                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
                 android:textColor="@color/colorWhite" />
 
             <TextView
@@ -53,6 +56,7 @@
                 android:layout_marginEnd="24dp"
                 android:layout_marginStart="24dp"
                 android:text="@string/about_academy"
+                android:textAppearance="@style/Base.TextAppearance.AppCompat.Small"
                 android:textColor="@color/colorText" />
         </LinearLayout>
     </ScrollView>

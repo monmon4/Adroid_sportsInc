@@ -483,6 +483,4 @@ public class AdminStartClassActivity extends AppCompatActivity {
         }
     }
 
-
-
 }

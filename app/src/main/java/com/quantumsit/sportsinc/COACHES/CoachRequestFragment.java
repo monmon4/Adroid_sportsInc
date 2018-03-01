@@ -46,10 +46,10 @@ public class CoachRequestFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_coach_request, container, false);
 
-        mViewPager = (ViewPager) root.findViewById(R.id.coach_requests_viewpager);
+        mViewPager =  root.findViewById(R.id.coach_requests_viewpager);
 
         setupViewPager(mViewPager);
-        TabLayout tabLayout = (TabLayout) root.findViewById(R.id.coach_requests_tabs);
+        TabLayout tabLayout =  root.findViewById(R.id.coach_requests_tabs);
         tabLayout.setupWithViewPager(mViewPager);
 
         return root;

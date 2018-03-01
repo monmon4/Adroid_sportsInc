@@ -4,6 +4,8 @@ package com.quantumsit.sportsinc.COACHES;
  * Created by Bassam on 1/22/2018.
  */
 
+import com.quantumsit.sportsinc.R;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -24,7 +26,7 @@ public class item_classSpinner_coach implements Serializable {
     public item_classSpinner_coach(JSONObject jsonObject) {
         try {
             class_id = jsonObject.getInt("class_id");
-            class_name = "class" + jsonObject.getString("class_name");
+            class_name = R.string.session+ jsonObject.getString("class_name");
             course_id = jsonObject.getInt("course_id");
             class_status = jsonObject.getInt("status");
             class_date = jsonObject.getString("class_date");

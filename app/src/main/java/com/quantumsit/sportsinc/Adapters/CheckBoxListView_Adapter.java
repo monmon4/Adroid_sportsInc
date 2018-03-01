@@ -53,7 +53,7 @@ public class CheckBoxListView_Adapter extends ArrayAdapter<item_checkbox> {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
 
-        ViewHolder holder = null;
+        ViewHolder holder;
         final item_checkbox item = list_items.get(position);
 
 

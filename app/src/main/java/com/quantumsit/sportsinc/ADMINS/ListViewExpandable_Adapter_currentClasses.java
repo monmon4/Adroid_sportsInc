@@ -153,18 +153,18 @@ public class ListViewExpandable_Adapter_currentClasses extends BaseExpandableLis
 
         class_start.setText(child);
 
-        if (child.equals("Start class")){
+        if (child.equals(String.valueOf(R.string.start_class))){
             class_image.setBackgroundResource(R.drawable.ic_class_swim);
-        } else if (child.equals("Postpone class")) {
+        } else if (child.equals(String.valueOf(R.string.postpone_class))) {
             class_image.setBackgroundResource(R.drawable.ic_class_time);
-        } else if (child.equals("Cancel class")){
+        } else if (child.equals(String.valueOf(R.string.cancel_class))){
             class_image.setBackgroundResource(R.drawable.ic_class_cancel);
-        } else if (child.equals("End class")){
+        } else if (child.equals(String.valueOf(R.string.end_class))){
             class_image.setBackgroundResource(R.drawable.ic_class_end);
         } else if (child.equals("Up coming")){
             class_image.setBackgroundResource(R.drawable.ic_class_waitingg);
             class_start.setTextColor(Color.parseColor("#ed4e4d4d"));
-        } else if (child.equals("Check rules and attendance")){
+        } else if (child.equals(String.valueOf(R.string.check_rules_and_attendance))){
             class_image.setBackgroundResource(R.drawable.ic_class_rules);
         }
 
