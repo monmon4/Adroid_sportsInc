@@ -1,6 +1,8 @@
 package com.quantumsit.sportsinc.CustomCalendar;
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
@@ -36,7 +38,7 @@ public class CalendarCustomView extends LinearLayout {
     private ImageView previousButton, nextButton;
     private TextView currentDate;
     private RecyclerView calendarGridView;
-    private RecyclerView calendarEvents;
+    public RecyclerView calendarEvents;
 
     private static final int MAX_CALENDAR_COLUMN = 42;
 
@@ -45,9 +47,10 @@ public class CalendarCustomView extends LinearLayout {
     private Context context;
     private GridViewAdapter mAdapter;
     private HashMap<String, List<classesEntity> > MyEvents;
-    private String SelectedDate, Today;
+    public String SelectedDate, Today;
     private Calendar SelectedDay;
     private int PreviousPostion ;
+    private MyItemClickListener EventsListener ;
 
     public CalendarCustomView(Context context) {
         super(context);
@@ -174,7 +177,11 @@ public class CalendarCustomView extends LinearLayout {
         setUpEventsAapter(SelectedDate);
     }
 
-    private void setUpEventsAapter(String Mydate){
+    public void setEventsListener(MyItemClickListener listener){
+        EventsListener = listener;
+    }
+
+    public void setUpEventsAapter(String Mydate){
         List<classesEntity> classesList = MyEvents.get(Mydate);
 
         if(classesList == null)
@@ -182,15 +189,11 @@ public class CalendarCustomView extends LinearLayout {
         ListViewAdapter adapter = new ListViewAdapter(getContext(),R.layout.classes_list_items,classesList);
 
         calendarEvents.setAdapter(adapter);
-        adapter.setClickListener(new MyItemClickListener() {
-            @Override
-            public void onClick(View view, int position) {
-                Intent intent = new Intent(getContext(), ClassesDetailsActivity.class);
-                intent.putExtra("Myclass",MyEvents.get(SelectedDate).get(position));
-                context.startActivity(intent);
-            }
-        });
+        if (EventsListener != null)
+            adapter.setClickListener(EventsListener);
     }
+
+
 
 
     public void calendarItemClick(View view, int position) {

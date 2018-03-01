@@ -1,11 +1,14 @@
 package com.quantumsit.sportsinc.Activities;
 
 import android.annotation.SuppressLint;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Build;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,6 +22,7 @@ import android.widget.Spinner;
 import android.widget.Toast;
 import android.view.ViewGroup.LayoutParams;
 
+import com.google.gson.Gson;
 import com.quantumsit.sportsinc.Aaa_data.Constants;
 import com.quantumsit.sportsinc.Aaa_data.GlobalVars;
 import com.quantumsit.sportsinc.Backend.HttpCall;
@@ -51,6 +55,7 @@ public class RegisterActivity extends AppCompatActivity {
     PopupWindow verfication_popup_window;
     private Context register_Context;
     private RelativeLayout register_rl;
+    ProgressDialog progressDialog;
 
     GlobalVars globalVars;
 
@@ -60,6 +65,9 @@ public class RegisterActivity extends AppCompatActivity {
         setContentView(R.layout.activity_register);
 
         globalVars = (GlobalVars) getApplication();
+        progressDialog = new ProgressDialog(RegisterActivity.this);
+        progressDialog.setMessage(getResources().getString(R.string.configure));
+        progressDialog.setCanceledOnTouchOutside(false);
 
         register_Context = getApplicationContext();
         register_rl =  findViewById(R.id.register_rl);
@@ -84,6 +92,8 @@ public class RegisterActivity extends AppCompatActivity {
 
 
     public void done_register(View view) {
+
+        progressDialog.show();
 
         boolean all_good = false;
 
@@ -170,11 +180,12 @@ public class RegisterActivity extends AppCompatActivity {
 
     @SuppressLint("StaticFieldLeak")
     private void verfication(){
-
+        progressDialog.dismiss();
         String verification_msg;
         Random random_num = new Random();
         final int verfication_num = random_num.nextInt(9999 - 1000) + 1000;
-        verification_msg = "Your verfication code: " + verfication_num;
+        Log.d("Verfication","Code: "+verfication_num);
+        //verification_msg = "" + verfication_num;
 
 
         LayoutInflater inflater = (LayoutInflater) register_Context.getSystemService(LAYOUT_INFLATER_SERVICE);
@@ -205,7 +216,7 @@ public class RegisterActivity extends AppCompatActivity {
             @Override
             public void onClick(View view){
                 String verifcation = verify_edit_text.getText().toString().trim();
-                insert_to_DB();
+
                 if (verifcation.equals(String.valueOf(verfication_num))){
                     insert_to_DB();
                 } else {
@@ -221,7 +232,7 @@ public class RegisterActivity extends AppCompatActivity {
         httpCall.setUrl(Constants.sendSMS);
         HashMap<String,String> params = new HashMap<>();
         params.put("phone",phone);
-        params.put("message",verification_msg);
+        params.put("message",String.valueOf(verfication_num));
         httpCall.setParams(params);
 
         new HttpRequest(){
@@ -230,7 +241,7 @@ public class RegisterActivity extends AppCompatActivity {
                 super.onResponse(response);
 
                 if(response != null){
-                    show_toast("Success");
+                    show_toast("Code has been sent");
 
                 } else {
                     show_toast("An error occurred");
@@ -242,7 +253,9 @@ public class RegisterActivity extends AppCompatActivity {
 
     @SuppressLint("StaticFieldLeak")
     public void insert_to_DB(){
-        int gender_int;
+        progressDialog.setMessage(getResources().getString(R.string.log_in));
+        progressDialog.show();
+        final int gender_int;
         if (gender.equals("Male")){
             gender_int = 0;
         } else {
@@ -266,9 +279,9 @@ public class RegisterActivity extends AppCompatActivity {
             e.printStackTrace();
         }
 
-        verfication_popup_window.dismiss();
+       /* verfication_popup_window.dismiss();
         globalVars.setType(5);
-        finish();
+        finish();*/
 
 
        JSONObject info = new JSONObject();
@@ -290,18 +303,22 @@ public class RegisterActivity extends AppCompatActivity {
 
             httpCall.setParams(params);
 
+            final String finalDate_of_birth = date_of_birth;
             new HttpRequest(){
                 @Override
                 public void onResponse(JSONArray response) {
                     super.onResponse(response);
 
                     if(response != null){
-                        verfication_popup_window.dismiss();
-                        globalVars.setType(5);
-                        Intent intent = new Intent(RegisterActivity.this , HomeActivity.class);
-                        startActivity(intent);
-                        finish();
+                        try {
+                            verfication_popup_window.dismiss();
+                            int ID = response.getInt(0);
+                            logIn(ID,finalDate_of_birth,gender_int);
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
                     } else {
+                        verfication_popup_window.dismiss();
                         show_toast("An error occurred");
                     }
 
@@ -313,7 +330,22 @@ public class RegisterActivity extends AppCompatActivity {
         }
     }
 
+    private void logIn(int id, String finalDate_of_birth, int gender_int) {
+        Log.d("Verfication","ID: "+id);
+        globalVars.settAll(user_name, "", phone, pass, mail, id, 5, gender_int, finalDate_of_birth);
+        SharedPreferences.Editor preferences = getSharedPreferences("UserFile", MODE_PRIVATE).edit();
+        Gson gson = new Gson();
+        String json = gson.toJson(globalVars.getUser());
+        preferences.putString("CurrentUser", json);
+        preferences.apply();
+        progressDialog.dismiss();
+        Intent intent = new Intent(RegisterActivity.this, HomeActivity.class);
+        startActivity(intent);
+        finish();
+    }
+
     public void show_toast(String msg){
+        progressDialog.dismiss();
         Toast.makeText(RegisterActivity.this, msg, Toast.LENGTH_SHORT).show();
     }
 }

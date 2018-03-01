@@ -472,9 +472,12 @@ public class AdminStartClassActivity extends AppCompatActivity {
 
     private void reassign_enabling(){
         if(coach_name_checkBox.isChecked()) {
+            reassign_spinner.setVisibility(View.GONE);
             reassign_spinner.setEnabled(false);
+            Toast.makeText(getApplicationContext(),"Enable Value: "+reassign_spinner.isEnabled(),Toast.LENGTH_LONG).show();
             reassign_spinner.setClickable(false);
         } else {
+            reassign_spinner.setVisibility(View.VISIBLE);
             reassign_spinner.setEnabled(true);
             reassign_spinner.setClickable(true);
         }

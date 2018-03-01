@@ -298,7 +298,8 @@
             android:layout_marginTop="10dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/ChangeStatusButtons">
+            android:id="@+id/ChangeStatusButtons"
+            android:visibility="gone">
             <Button
                 android:id="@+id/class_cancel_btn"
                 android:layout_width="0dp"

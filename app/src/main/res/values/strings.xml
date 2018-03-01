@@ -420,9 +420,13 @@
     <string name="reassign_to">Reassign to</string>
     <string name="session_score">Session Score</string>
     <string name="news_details">News Details</string>
+    <string name="login_configure">Configuring user...</string>
+    <string name="configure">Configure</string>
 
 
     <integer name="selectLimit">10</integer>
     <integer name="sliderLimit">3</integer>
+
+    <integer name="ADMIN">2</integer>
 
 </resources>

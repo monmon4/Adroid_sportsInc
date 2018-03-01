@@ -1,20 +1,28 @@
 package com.quantumsit.sportsinc.MyClasses_fragments;
 
 
+import android.app.Activity;
+import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.quantumsit.sportsinc.Aaa_data.Constants;
 import com.quantumsit.sportsinc.Aaa_data.GlobalVars;
+import com.quantumsit.sportsinc.Activities.ClassesDetailsActivity;
 import com.quantumsit.sportsinc.Backend.HttpCall;
 import com.quantumsit.sportsinc.Backend.HttpRequest;
 import com.quantumsit.sportsinc.CustomCalendar.CalendarCustomView;
+import com.quantumsit.sportsinc.CustomCalendar.ListViewAdapter;
 import com.quantumsit.sportsinc.Entities.classesEntity;
+import com.quantumsit.sportsinc.Interfaces.MyItemClickListener;
 import com.quantumsit.sportsinc.R;
 
 import org.json.JSONArray;
@@ -24,6 +32,8 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+
+import static android.app.Activity.RESULT_OK;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -36,6 +46,7 @@ public class CalendarFragment extends Fragment {
 
     HashMap<String, List<classesEntity> > EventsMap;
     List<classesEntity> classesList ;
+    private int REQUEST_CODE = 1 , event_positions;
 
     @Nullable
     @Override
@@ -67,6 +78,19 @@ public class CalendarFragment extends Fragment {
     }
 
     @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == REQUEST_CODE && resultCode == AppCompatActivity.RESULT_OK && data != null){
+            int new_status = data.getIntExtra("ClassStatus",-1);
+            if (new_status != -1) {
+                calendarView.getMyEvents().get(calendarView.SelectedDate).get(event_positions).setState(new_status);
+                calendarView.setUpEventsAapter(calendarView.SelectedDate);
+            }
+
+        }
+    }
+
+    @Override
     public void onPause() {
         super.onPause();
         if (getActivity() != null)
@@ -82,6 +106,15 @@ public class CalendarFragment extends Fragment {
             MapList.add(entity);
             EventsMap.put(ClassDate,MapList);
         }
+        calendarView.setEventsListener(new MyItemClickListener() {
+            @Override
+            public void onClick(View view, int position) {
+                event_positions = position;
+                Intent intent = new Intent(getContext(), ClassesDetailsActivity.class);
+                intent.putExtra("Myclass",calendarView.getMyEvents().get(calendarView.SelectedDate).get(position));
+                startActivityForResult(intent , REQUEST_CODE);
+            }
+        });
         calendarView.setMyEvents(EventsMap);
     }
 

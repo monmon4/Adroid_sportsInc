@@ -64,6 +64,7 @@ public class ProfileActivity extends AppCompatActivity {
     Button Edit, Save ,Cancel;
     LinearLayout EditButtons;
     private boolean profileStatus = false;
+    private boolean photoChanged = false;
 
     //Image request code
     private int PICK_IMAGE_REQUEST = 1;
@@ -77,6 +78,7 @@ public class ProfileActivity extends AppCompatActivity {
     //Uri to store the image uri
     private Uri filePath;
     private int THUMBNAIL_SIZE = 150;
+    private int Counter = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -89,6 +91,8 @@ public class ProfileActivity extends AppCompatActivity {
         globalVars = (GlobalVars) getApplication();
         progressDialog = new ProgressDialog(ProfileActivity.this);
         progressDialog.setMessage("Saving...");
+        progressDialog.setCancelable(false);
+        progressDialog.setCanceledOnTouchOutside(false);
 
         Name = findViewById(R.id.profile_userName);
         Image = findViewById(R.id.imageView_profile);
@@ -140,11 +144,9 @@ public class ProfileActivity extends AppCompatActivity {
         Upload_Image.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                uploadProfileImage();
+                requestStoragePermission();
             }
         });
-
-        requestStoragePermission();
 
         fillProfileData();
     }
@@ -152,13 +154,9 @@ public class ProfileActivity extends AppCompatActivity {
     private void saveUpdateToPref() {
         SharedPreferences.Editor preferences = getSharedPreferences("UserFile", MODE_PRIVATE).edit();
         Gson gson = new Gson();
-        String json = gson.toJson(globalVars.getUser());
+        String json = gson.toJson(globalVars.getMyAccount());
         preferences.putString("CurrentUser", json);
         preferences.apply();
-    }
-
-    private void uploadProfileImage() {
-        showFileChooser();
     }
 
     //method to show file chooser
@@ -178,10 +176,10 @@ public class ProfileActivity extends AppCompatActivity {
             try {
                 bitmap = Bitmap_functions.getThumbnail(filePath,this,THUMBNAIL_SIZE);
                 Image.setImageBitmap(bitmap);
+                photoChanged = true;
             } catch (IOException e) {
                 e.printStackTrace();
             }
-            uploadImageToServer();
         }
     }
 
@@ -206,7 +204,8 @@ public class ProfileActivity extends AppCompatActivity {
 
                         @Override
                         public void onError(Context context, UploadInfo uploadInfo, ServerResponse serverResponse, Exception exception) {
-
+                            Toast.makeText(getApplicationContext(),"Error while uploading",Toast.LENGTH_LONG).show();
+                            dismissProgress();
                         }
 
                         @Override
@@ -222,11 +221,13 @@ public class ProfileActivity extends AppCompatActivity {
                             } catch (JSONException e) {
                                 e.printStackTrace();
                             }
+                            dismissProgress();
                         }
 
                         @Override
                         public void onCancelled(Context context, UploadInfo uploadInfo) {
-
+                            Toast.makeText(getApplicationContext(),"Uploading has been canceled",Toast.LENGTH_LONG).show();
+                            dismissProgress();
                         }
                     })
                     .setMaxRetries(2)
@@ -240,8 +241,10 @@ public class ProfileActivity extends AppCompatActivity {
     //Requesting permission
     private void requestStoragePermission() {
 
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED)
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
+            showFileChooser();
             return;
+        }
 
         if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.READ_EXTERNAL_STORAGE)) {
             //If the user has denied the permission previously your code will come to this block
@@ -263,10 +266,10 @@ public class ProfileActivity extends AppCompatActivity {
             //If permission is granted
             if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 //Displaying a toast
-                Toast.makeText(this, "Permission granted now you can read the storage", Toast.LENGTH_LONG).show();
+               showFileChooser();
             } else {
                 //Displaying another toast if permission is not granted
-                Toast.makeText(this, "Oops you just denied the permission", Toast.LENGTH_LONG).show();
+                Toast.makeText(this, "Can't access Storage...", Toast.LENGTH_LONG).show();
             }
         }
     }
@@ -284,6 +287,7 @@ public class ProfileActivity extends AppCompatActivity {
             editProfile = visible ;
         }
         ChangePassword.setVisibility(editProfile);
+        Upload_Image.setVisibility(editProfile);
         EditButtons.setVisibility(editProfile);
         Edit.setVisibility(viewProfile);
     }
@@ -355,6 +359,8 @@ public class ProfileActivity extends AppCompatActivity {
             final String NewName = Name.getText().toString();
             final String NewMail = Mail.getText().toString();
             final String NewPhone = Phone.getText().toString();
+            if (photoChanged)
+                uploadImageToServer();
 
             JSONObject values = new JSONObject();
             values.put("name",NewName);
@@ -388,13 +394,19 @@ public class ProfileActivity extends AppCompatActivity {
                     }else {
                         Toast.makeText(ProfileActivity.this,"Edit Fail",Toast.LENGTH_SHORT).show();
                     }
-                    progressDialog.dismiss();
+                    dismissProgress();
                 }
             }.execute(httpCall);
 
         } catch (JSONException e) {
             e.printStackTrace();
         }
+    }
+
+    private synchronized void dismissProgress() {
+        Counter++;
+        if (Counter >= 2 || photoChanged == false)
+            progressDialog.dismiss();
     }
 
     private void updatePassword(final String pass, final AlertDialog alertdialog) {
@@ -478,6 +490,7 @@ public class ProfileActivity extends AppCompatActivity {
         super.onSaveInstanceState(outState);
         Log.d("ProfileStatus","onSave"+String.valueOf(profileStatus));
         outState.putBoolean("ProfileStatus",profileStatus);
+        outState.putBoolean("PictureStatus",photoChanged);
     }
 
     @Override
@@ -485,8 +498,15 @@ public class ProfileActivity extends AppCompatActivity {
         super.onRestoreInstanceState(savedInstanceState);
         if (savedInstanceState != null) {
             profileStatus = savedInstanceState.getBoolean("ProfileStatus");
+            photoChanged = savedInstanceState.getBoolean("PictureStatus");
             Log.d("ProfileStatus","onRestore"+String.valueOf(profileStatus));
         }
         editableProfile(profileStatus);
+    }
+
+    @Override
+    public void onBackPressed() {
+        setResult(AppCompatActivity.RESULT_OK, null);
+        finish();
     }
 }

@@ -265,5 +265,23 @@ public class classesEntity implements Serializable {
 
     public void setState(int state) {
         this.state = state;
+        switch (state) {
+            case 0:
+                this.status = "Running";
+                break;
+            case 1:
+                this.status = "Canceled";
+                break;
+            case 2:
+                this.status = "Postponed";
+                break;
+            case 3:
+                this.status = "UpComing";
+                break;
+            case 4:
+                this.status = "Finished";
+                break;
+
+        }
     }
 }

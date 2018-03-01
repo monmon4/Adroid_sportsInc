@@ -9,6 +9,7 @@ import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.ActionBar;
+import android.util.Base64;
 import android.util.Log;
 import android.view.View;
 import android.support.design.widget.NavigationView;
@@ -48,11 +49,14 @@ import com.quantumsit.sportsinc.Side_menu_fragments.MyClassesFragment;
 import com.quantumsit.sportsinc.Side_menu_fragments.NotificationsFragment;
 import com.quantumsit.sportsinc.Side_menu_fragments.ReportsFragment;
 import com.quantumsit.sportsinc.Side_menu_fragments.RequestsFragment;
+import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.UnsupportedEncodingException;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -76,6 +80,9 @@ public class HomeActivity extends AppCompatActivity
 
     ArrayList<UserEntity> children;
     TraineeChildAdapter adapter;
+
+    private int PROFILE_CODE = 7;
+    private ImageView profileImage;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -129,7 +136,11 @@ public class HomeActivity extends AppCompatActivity
             navigationMenu.findItem(R.id.nav_certificates).setVisible(true);
 
         RelativeLayout header = (RelativeLayout) navigationView.getHeaderView(0);
-        ImageView profileImage = header.findViewById(R.id.profile_image);
+        profileImage = header.findViewById(R.id.profile_image);
+        String ImageUrl = globalVars.getImgUrl();
+        if (ImageUrl != null && !ImageUrl.equals("")){
+            Picasso.with(getApplicationContext()).load(Constants.profile_host + ImageUrl).into(profileImage);
+        }
         viewChild = header.findViewById(R.id.childView);
         childAccount = findViewById(R.id.childAccountList);
         userName = header.findViewById(R.id.user_name);
@@ -137,22 +148,26 @@ public class HomeActivity extends AppCompatActivity
         userName.setText(globalVars.getName());
         userPhone.setText(globalVars.getPhone());
 
-        profileImage.setOnClickListener(new View.OnClickListener() {
+        try {
+            byte[] data = globalVars.getPass().getBytes("UTF-8");
+            String base64 = Base64.encodeToString(data, Base64.DEFAULT);
+            data = Base64.decode(base64, Base64.DEFAULT);
+            String text = new String(data, "UTF-8");
+            Toast.makeText(getApplicationContext(),"Password Encoded: "+base64+"\n Password decoded: "+text,Toast.LENGTH_LONG).show();
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+
+        header.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(getApplicationContext(),ProfileActivity.class);
                 drawer.closeDrawer(GravityCompat.START);
-                startActivity(intent);
+                startActivityForResult(intent,PROFILE_CODE);
             }
         });
 
         children = new ArrayList<>();
-        /*children.add(new UserEntity("Bassam Saber","011","11","mail1@mail.com",1,0,0,"22/11/1994"));
-        children.add(new UserEntity("Ahmed Hassan","011","11","mail1@mail.com",2,0,0,"22/11/1994"));
-        children.add(new UserEntity("Bassem Hassan","011","11","mail1@mail.com",3,0,0,"22/11/1994"));
-        children.add(new UserEntity("Islam Said","011","11","mail1@mail.com",4,0,0,"22/11/1994"));*/
-
-
         adapter = new TraineeChildAdapter(getApplicationContext(),R.layout.list_item_trainee_child,children);
         childAccount.setAdapter(adapter);
 
@@ -161,6 +176,12 @@ public class HomeActivity extends AppCompatActivity
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
                 userName.setText(children.get(position).getName());
                 userPhone.setText(children.get(position).getPhone());
+                String ImageUrl = children.get(position).getImgUrl();
+                if (ImageUrl != null && !ImageUrl.equals("")){
+                    Picasso.with(getApplicationContext()).load(Constants.profile_host + ImageUrl).into(profileImage);
+                }
+                else
+                    profileImage.setImageResource(R.mipmap.ic_profile_round);
                 UserEntity Account = globalVars.getUser();
                 globalVars.setUser(children.get(position));
                 updateChildList(position, Account);
@@ -199,6 +220,16 @@ public class HomeActivity extends AppCompatActivity
             fragmentManager.beginTransaction().replace(R.id.content_frame, fragment).commit();
         }
 
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == PROFILE_CODE && resultCode == AppCompatActivity.RESULT_OK){
+            userName.setText(globalVars.getName());
+            userPhone.setText(globalVars.getPhone());
+            Picasso.with(getApplicationContext()).load(Constants.profile_host + globalVars.getImgUrl()).into(profileImage);
+        }
     }
 
     private void toggleMenu() {
@@ -505,14 +536,15 @@ public class HomeActivity extends AppCompatActivity
             }
         }
         adapter.notifyDataSetChanged();
-        if (children.size() > 0)
+        if (children.size() > 0) {
+            globalVars.setMyAccount(globalVars.getUser());
             viewChild.setVisibility(View.VISIBLE);
+        }
         else
             viewChild.setVisibility(View.GONE);
     }
 
     private void updateChildList(int position , UserEntity myAccount){
-        Toast.makeText(getApplicationContext(),"Pos: "+position,Toast.LENGTH_LONG).show();
         children.remove(position);
         if (globalVars.getPerson_id() == myAccount.getId())
             children.add(0,myAccount);
