@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.quantumsit.sportsinc.Aaa_data.Constants;
 import com.quantumsit.sportsinc.Entities.NewsEntity;
 import com.quantumsit.sportsinc.R;
 import com.squareup.picasso.Picasso;
@@ -36,7 +37,7 @@ public class NewsDetailsActivity extends AppCompatActivity {
         String ImageUrl = newsEntity.getImg();
 
         if(!ImageUrl.equals("")) {
-            Picasso.with(getApplicationContext()).load(ImageUrl).into(imageView);
+            Picasso.with(getApplicationContext()).load(Constants.others_host + ImageUrl).into(imageView);
         }
         Content.setText(newsEntity.getContent());
 

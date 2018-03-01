@@ -23,7 +23,7 @@ public class NewsEntity implements Serializable {
     public NewsEntity(JSONObject object) {
         try {
             Content = object.getString("Content");
-            img = object.getString("img");
+            img = object.getString("imgUrl");
         } catch (JSONException e) {
             e.printStackTrace();
         }

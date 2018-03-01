@@ -122,8 +122,6 @@ public class AdminStartClassActivity extends AppCompatActivity {
             fillView(classes);
         }
 
-
-
         reassign_enabling();
         coach_name_checkBox.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -131,7 +129,6 @@ public class AdminStartClassActivity extends AppCompatActivity {
                 reassign_enabling();
             }
         });
-
 
        if (savedInstanceState == null)
             coach_names_list = fill_coach_names_list();
@@ -474,7 +471,6 @@ public class AdminStartClassActivity extends AppCompatActivity {
     }
 
     private void reassign_enabling(){
-
         if(coach_name_checkBox.isChecked()) {
             reassign_spinner.setEnabled(false);
             reassign_spinner.setClickable(false);

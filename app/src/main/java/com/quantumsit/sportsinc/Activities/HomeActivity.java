@@ -152,6 +152,7 @@ public class HomeActivity extends AppCompatActivity
         children.add(new UserEntity("Bassem Hassan","011","11","mail1@mail.com",3,0,0,"22/11/1994"));
         children.add(new UserEntity("Islam Said","011","11","mail1@mail.com",4,0,0,"22/11/1994"));*/
 
+
         adapter = new TraineeChildAdapter(getApplicationContext(),R.layout.list_item_trainee_child,children);
         childAccount.setAdapter(adapter);
 

@@ -36,11 +36,11 @@ public interface Constants {
     String traineeSwitchGroup = server + "switch_group";
 
     String profile = "profile_img";
-    String profile_host = upload_host + profile;
+    String profile_host = upload_host + profile + "/";
     String certification = "certifications";
-    String certification_host = upload_host + certification;
+    String certification_host = upload_host + certification + "/";
     String others = "other_img";
-    String others_host = upload_host + others;
+    String others_host = upload_host + others + "/";
 
     //SQLite DB
     String TABLE_AcademyInfo = "info_academy";

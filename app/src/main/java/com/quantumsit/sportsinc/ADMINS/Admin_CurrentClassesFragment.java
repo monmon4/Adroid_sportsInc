@@ -292,6 +292,8 @@ public class Admin_CurrentClassesFragment extends Fragment {
         startActivity(intent);
     }
 
+
+
     int Year ,Month ,Day ,Hour ,Minute;
 
     private DatePickerDialog.OnDateSetListener dateSetListener;
@@ -506,6 +508,7 @@ public class Admin_CurrentClassesFragment extends Fragment {
     }
 
     private void cancelClass(String note) {
+
         try {
             JSONObject values = new JSONObject();
             values.put("status",1);
@@ -741,6 +744,7 @@ public class Admin_CurrentClassesFragment extends Fragment {
             e.printStackTrace();
         }
     }
+
 
 
 

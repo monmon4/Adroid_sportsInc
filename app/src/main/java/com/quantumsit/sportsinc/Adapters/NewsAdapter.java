@@ -11,6 +11,7 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.quantumsit.sportsinc.Aaa_data.Constants;
 import com.quantumsit.sportsinc.Entities.NewsEntity;
 import com.quantumsit.sportsinc.R;
 import com.squareup.picasso.Picasso;
@@ -58,7 +59,7 @@ public class NewsAdapter  extends ArrayAdapter<NewsEntity> {
         String ImageUrl = eventEntity.getImg();
 
         if(!ImageUrl.equals("")) {
-            Picasso.with(context).load(ImageUrl).into(imageView, new com.squareup.picasso.Callback() {
+            Picasso.with(context).load(Constants.others_host + ImageUrl).into(imageView, new com.squareup.picasso.Callback() {
                 @Override
                 public void onSuccess() {
                     progressBar.setVisibility(View.GONE);

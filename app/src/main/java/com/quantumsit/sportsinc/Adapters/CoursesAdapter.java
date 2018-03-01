@@ -3,6 +3,7 @@ package com.quantumsit.sportsinc.Adapters;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,8 +11,10 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.quantumsit.sportsinc.Aaa_data.Constants;
 import com.quantumsit.sportsinc.Entities.CourseEntity;
 import com.quantumsit.sportsinc.R;
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
@@ -56,9 +59,21 @@ public class CoursesAdapter extends ArrayAdapter<CourseEntity> {
         ImageView icon = view.findViewById(R.id.Course_icon);
 
         String name = mycourse.getCourseName();
+        String ImageUrl = mycourse.getImageUrl();
+        //fillImage(name,icon);
+        if(!ImageUrl.equals("")) {
+            Picasso.with(context).load(Constants.others_host + ImageUrl).into(icon, new com.squareup.picasso.Callback() {
+                @Override
+                public void onSuccess() {
 
-        fillImage(name,icon);
+                }
 
+                @Override
+                public void onError() {
+                    Log.d("Image Loading ","ERROR In Loading");
+                }
+            });
+        }
         Title.setText(name);
         level.setText(mycourse.getLevel());
         price.setText("$ "+mycourse.getPrice());
