@@ -373,9 +373,6 @@ public class ProfileActivity extends AppCompatActivity {
 
     private void updateProfile() {
         try {
-            final String NewName = Name.getText().toString();
-            final String NewMail = Mail.getText().toString();
-            final String NewPhone = Phone.getText().toString();
             if (photoChanged)
                 uploadImageToServer();
 
@@ -388,33 +385,45 @@ public class ProfileActivity extends AppCompatActivity {
             else
                 insertToDb();
 
+            JSONObject values = new JSONObject();
+            values.put("name", NewName);
+            values.put("phone", NewPhone);
+            values.put("email", NewMail);
+
+            JSONObject where = new JSONObject();
+            where.put("id", globalVars.getId());
+
+
             HttpCall httpCall = new HttpCall();
             httpCall.setMethodtype(HttpCall.POST);
             httpCall.setUrl(Constants.updateData);
-            final HashMap<String,String> params = new HashMap<>();
-            params.put("table","users");
-            params.put("where",where.toString());
-            params.put("values",values.toString());
+            final HashMap<String, String> params = new HashMap<>();
+            params.put("table", "users");
+            params.put("where", where.toString());
+            params.put("values", values.toString());
 
             httpCall.setParams(params);
 
-            new HttpRequest(){
+            new HttpRequest() {
                 @Override
                 public void onResponse(JSONArray response) {
                     super.onResponse(response);
-                    if (checkResponse(response)){
+                    if (checkResponse(response)) {
                         globalVars.setName(NewName);
                         globalVars.setMail(NewMail);
                         globalVars.setPhone(NewPhone);
                         saveUpdateToPref();
                         editableProfile(false);
-                        Toast.makeText(ProfileActivity.this,"Changing saved",Toast.LENGTH_SHORT).show();
-                    }else {
-                        Toast.makeText(ProfileActivity.this,"Edit Fail",Toast.LENGTH_SHORT).show();
+                        Toast.makeText(ProfileActivity.this, "Changing saved", Toast.LENGTH_SHORT).show();
+                    } else {
+                        Toast.makeText(ProfileActivity.this, "Edit Fail", Toast.LENGTH_SHORT).show();
                     }
                     dismissProgress();
                 }
             }.execute(httpCall);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
     }
 
 
