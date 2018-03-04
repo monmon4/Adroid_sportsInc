@@ -59,13 +59,13 @@ public class MyClassesFragment extends Fragment {
 
         myclasses_sectionsPagerAdapter = new SectionsPagerAdapter(getChildFragmentManager());
         if(parent){
-            myclasses_sectionsPagerAdapter.addFragment(new ScoresFragment(),"Scores");
+            myclasses_sectionsPagerAdapter.addFragment(new ScoresFragment(),getString(R.string.scores));
         }else if (coach){
-            myclasses_sectionsPagerAdapter.addFragment(new CoachClassesFragment(),"Classes");
+            myclasses_sectionsPagerAdapter.addFragment(new CoachClassesFragment(),getString(R.string.sessions));
         } else {
-            myclasses_sectionsPagerAdapter.addFragment(new Admin_CurrentClassesFragment(),"Current classes");
+            myclasses_sectionsPagerAdapter.addFragment(new Admin_CurrentClassesFragment(),getString(R.string.current_sessions));
         }
-        myclasses_sectionsPagerAdapter.addFragment(new CalendarFragment(),"Calender");
+        myclasses_sectionsPagerAdapter.addFragment(new CalendarFragment(),getString(R.string.calendar));
 
         myclasses_view_pager.setAdapter(myclasses_sectionsPagerAdapter);
 
@@ -80,6 +80,6 @@ public class MyClassesFragment extends Fragment {
     public void onViewStateRestored(@Nullable Bundle savedInstanceState) {
         super.onViewStateRestored(savedInstanceState);
         if (getActivity() != null)
-            ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle(R.string.my_classes);
+            ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle(getString(R.string.my_classes));
     }
 }

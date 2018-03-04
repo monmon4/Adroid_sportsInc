@@ -1,5 +1,6 @@
 package com.quantumsit.sportsinc.Side_menu_fragments;
 
+import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.ActivityNotFoundException;
 import android.content.Intent;
@@ -233,7 +234,8 @@ public class ContactUsFragment extends Fragment implements OnMapReadyCallback {
             callIntent.setData(Uri.parse("tel:" + academy_phone));
             if (ActivityCompat.checkSelfPermission(getActivity(), android.Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
                 // TODO: Consider calling
-                Toast.makeText(getActivity(),"need a permission to call", Toast.LENGTH_SHORT).show();
+                ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.CALL_PHONE},1);
+                //Toast.makeText(getActivity(),"need a permission to call", Toast.LENGTH_SHORT).show();
                 return;
             }
             startActivity(callIntent);

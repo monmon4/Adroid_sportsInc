@@ -35,7 +35,9 @@
                 android:padding="5dp"
                 android:text="@string/pool_entry"
                 android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-                android:textColor="@color/colorWhite" />
+                android:textColor="@color/colorWhite"
+                android:layout_marginLeft="24dp"
+                android:layout_marginRight="16dp" />
 
             <TextView
                 android:id="@+id/textView12"
@@ -59,7 +61,9 @@
                 android:padding="5dp"
                 android:text="@string/punctuality"
                 android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-                android:textColor="@color/colorWhite" />
+                android:textColor="@color/colorWhite"
+                android:layout_marginLeft="24dp"
+                android:layout_marginRight="16dp" />
 
             <TextView
                 android:id="@+id/textView14"
@@ -83,7 +87,9 @@
                 android:padding="5dp"
                 android:text="@string/training_equipment"
                 android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-                android:textColor="@color/colorWhite" />
+                android:textColor="@color/colorWhite"
+                android:layout_marginLeft="24dp"
+                android:layout_marginRight="16dp" />
 
             <TextView
                 android:id="@+id/textView16"
@@ -107,7 +113,9 @@
                 android:padding="5dp"
                 android:text="@string/are_parents_required_to_stay_at_the_pool_during_classes"
                 android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-                android:textColor="@color/colorWhite" />
+                android:textColor="@color/colorWhite"
+                android:layout_marginLeft="24dp"
+                android:layout_marginRight="16dp" />
 
             <TextView
                 android:id="@+id/textView18"
@@ -128,7 +136,9 @@
                 android:layout_marginBottom="10dp"
                 android:text="@string/are_parents2"
                 android:textAppearance="@style/TextAppearance.AppCompat.Small"
-                android:textColor="@color/colorText" />
+                android:textColor="@color/colorText"
+                android:layout_marginRight="30dp"
+                android:layout_marginLeft="35dp" />
 
             <TextView
                 android:id="@+id/textView20"
@@ -141,7 +151,9 @@
                 android:padding="5dp"
                 android:text="@string/parent_etiquette_during_class_time"
                 android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-                android:textColor="@color/colorWhite" />
+                android:textColor="@color/colorWhite"
+                android:layout_marginLeft="24dp"
+                android:layout_marginRight="16dp" />
 
             <TextView
                 android:id="@+id/textView22"
@@ -153,7 +165,9 @@
                 android:padding="5dp"
                 android:text="@string/communication_with_coaches"
                 android:textAppearance="@style/TextAppearance.AppCompat.Small"
-                android:textColor="@color/colorText" />
+                android:textColor="@color/colorText"
+                android:layout_marginLeft="24dp"
+                android:layout_marginRight="16dp" />
 
             <TextView
                 android:id="@+id/textView23"
@@ -177,7 +191,9 @@
                 android:padding="5dp"
                 android:text="@string/starting_the_class"
                 android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-                android:textColor="@color/colorWhite" />
+                android:textColor="@color/colorWhite"
+                android:layout_marginLeft="24dp"
+                android:layout_marginRight="16dp" />
 
             <TextView
                 android:id="@+id/textView25"
@@ -201,7 +217,9 @@
                 android:padding="5dp"
                 android:text="@string/finishing_the_class"
                 android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-                android:textColor="@color/colorWhite" />
+                android:textColor="@color/colorWhite"
+                android:layout_marginLeft="24dp"
+                android:layout_marginRight="16dp" />
 
             <TextView
                 android:id="@+id/textView27"
@@ -225,7 +243,9 @@
                 android:padding="5dp"
                 android:text="@string/locker_changing_rooms"
                 android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-                android:textColor="@color/colorWhite" />
+                android:textColor="@color/colorWhite"
+                android:layout_marginLeft="24dp"
+                android:layout_marginRight="16dp" />
 
             <TextView
                 android:id="@+id/textView29"
@@ -249,7 +269,9 @@
                 android:padding="5dp"
                 android:text="@string/missed_class_policy_refund"
                 android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-                android:textColor="@color/colorWhite" />
+                android:textColor="@color/colorWhite"
+                android:layout_marginLeft="24dp"
+                android:layout_marginRight="16dp" />
 
             <TextView
                 android:id="@+id/textView31"
@@ -273,7 +295,9 @@
                 android:padding="5dp"
                 android:text="@string/general_conduct"
                 android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-                android:textColor="@color/colorWhite" />
+                android:textColor="@color/colorWhite"
+                android:layout_marginLeft="24dp"
+                android:layout_marginRight="16dp" />
 
             <TextView
                 android:id="@+id/textView34"
