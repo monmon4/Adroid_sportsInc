@@ -11,6 +11,7 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.quantumsit.sportsinc.Aaa_data.Constants;
 import com.quantumsit.sportsinc.Aaa_data.GlobalVars;
 import com.quantumsit.sportsinc.Entities.UserEntity;
 import com.quantumsit.sportsinc.R;
@@ -58,14 +59,15 @@ public class TraineeChildAdapter extends ArrayAdapter<UserEntity> {
 
         TextView nameView = view.findViewById(R.id.child_name);
         ImageView imageView = view.findViewById(R.id.child_image);
-        /*final ProgressBar progressBar = (ProgressBar) view.findViewById(R.id.progressBar1);
-        String ImageUrl = eventEntity.getImg();
+        //final ProgressBar progressBar = (ProgressBar) view.findViewById(R.id.progressBar1);
+        String ImageUrl = userEntity.getImgUrl();
+        imageView.setImageResource(R.mipmap.ic_launcher_round);
 
         if(!ImageUrl.equals("")) {
-            Picasso.with(context).load(ImageUrl).into(imageView, new com.squareup.picasso.Callback() {
+            Picasso.with(context).load(Constants.profile_host + ImageUrl).into(imageView, new com.squareup.picasso.Callback() {
                 @Override
                 public void onSuccess() {
-                    progressBar.setVisibility(View.GONE);
+                    //progressBar.setVisibility(View.GONE);
                 }
 
                 @Override
@@ -73,10 +75,7 @@ public class TraineeChildAdapter extends ArrayAdapter<UserEntity> {
 
                 }
             });
-        }else {
-            progressBar.setVisibility(View.GONE);
-        }*/
-        imageView.setImageResource(R.mipmap.ic_launcher_round);
+        }
 
         String meString = "";
         if (globalVars.getPerson_id() == userEntity.getId())

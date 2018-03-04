@@ -406,6 +406,8 @@
     <string name="reassign_to">Reassign to</string>
     <string name="session_score">Session Score</string>
     <string name="news_details">News Details</string>
+    <string name="login_configure">Configuring user...</string>
+    <string name="configure">Configure</string>
     <string name="due">Due</string>
     <string name="check_rules_and_attendance">Check rules and attendance</string>
     <string name="end_class">End session</string>
@@ -413,6 +415,8 @@
 
     <integer name="selectLimit">10</integer>
     <integer name="sliderLimit">3</integer>
+
+    <integer name="ADMIN">2</integer>
 
 
     <string name="session_has_been_cancelled">Session has been canceled</string>

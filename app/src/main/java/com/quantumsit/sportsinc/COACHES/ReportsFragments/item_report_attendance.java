@@ -3,6 +3,7 @@ package com.quantumsit.sportsinc.COACHES.ReportsFragments;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.Serializable;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -11,7 +12,7 @@ import java.util.Date;
  * Created by mona_ on 12/28/2017.
  */
 
-public class item_report_attendance {
+public class item_report_attendance implements Serializable {
 
     String date, course_name, class_number;
     int class_id , attend;

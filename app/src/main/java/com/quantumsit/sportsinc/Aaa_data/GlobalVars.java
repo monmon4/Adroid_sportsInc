@@ -47,6 +47,7 @@ public class GlobalVars extends Application {
 
         this.id = id;
         this.person_id = id;
+        myAccount = null;
         this.type = type;
         this.gender = gender;
         this.date_of_birth = date_of_birth;
@@ -66,7 +67,10 @@ public class GlobalVars extends Application {
     }
 
     public UserEntity getMyAccount() {
-        return myAccount;
+        if (myAccount != null)
+            return myAccount;
+        else
+            return this.getUser();
     }
 
     public void setMyAccount(UserEntity myAccount) {
@@ -105,6 +109,8 @@ public class GlobalVars extends Application {
     }
 
     public void setImgUrl(String imgUrl) {
+        if (myAccount != null && myAccount.getId() == person_id)
+            myAccount.setImgUrl(imgUrl);
         this.imgUrl = imgUrl;
     }
 

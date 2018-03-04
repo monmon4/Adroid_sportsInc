@@ -68,6 +68,8 @@ public class ListViewAdapter extends RecyclerView.Adapter<ListViewAdapter.ViewHo
         return myclasses.size();
     }
 
+
+
     public void setClickListener(MyItemClickListener clickListener) {
         this.clickListener = clickListener;
     }

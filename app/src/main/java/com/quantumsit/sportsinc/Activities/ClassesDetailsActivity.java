@@ -1,11 +1,14 @@
 package com.quantumsit.sportsinc.Activities;
 
+import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.app.ProgressDialog;
 import android.app.TimePickerDialog;
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -21,6 +24,7 @@ import android.widget.TimePicker;
 import android.widget.Toast;
 
 import com.quantumsit.sportsinc.Aaa_data.Constants;
+import com.quantumsit.sportsinc.Aaa_data.GlobalVars;
 import com.quantumsit.sportsinc.Backend.HttpCall;
 import com.quantumsit.sportsinc.Backend.HttpRequest;
 import com.quantumsit.sportsinc.Entities.classesEntity;
@@ -46,6 +50,8 @@ public class ClassesDetailsActivity extends AppCompatActivity {
     LinearLayout buttons;
 
     classesEntity myclass;
+    private int result = -1;
+    private GlobalVars globalVars;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,8 +61,11 @@ public class ClassesDetailsActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         getSupportActionBar().setTitle("Class Details");
+        globalVars = (GlobalVars) getApplication();
 
         progressDialog = new ProgressDialog(ClassesDetailsActivity.this);
+        progressDialog.setCancelable(false);
+        progressDialog.setCanceledOnTouchOutside(false);
         date = findViewById(R.id.class_date_Text);
         start = findViewById(R.id.class_start_Text);
         end = findViewById(R.id.class_end_Text);
@@ -82,13 +91,15 @@ public class ClassesDetailsActivity extends AppCompatActivity {
         cancelClass.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                writeNote(1);
+                result = 1;
+                writeNote(result);
             }
         });
 
         postponedClass.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                result = 2;
                 postpondClass();
             }
         });
@@ -167,30 +178,27 @@ public class ClassesDetailsActivity extends AppCompatActivity {
         courseName.setText(myclass.getCourseName());
         groupName.setText(myclass.getGroupName());
         pool.setText(myclass.getPoolName());
+        buttons = findViewById(R.id.ChangeStatusButtons);
         if(myclass.getStatus().equals("Canceled")){
             LinearLayout reasonlayout = findViewById(R.id.canceled_reason);
             reasonlayout.setVisibility(View.VISIBLE);
             reason.setText(myclass.getReason());
-
-            LinearLayout buttons = findViewById(R.id.ChangeStatusButtons);
             buttons.setVisibility(View.GONE);
         }
         else if(myclass.getStatus().equals("Postponed")){
             LinearLayout postpondlayout = findViewById(R.id.postponded_Time);
             postpondlayout.setVisibility(View.VISIBLE);
             postponedDate.setText(myclass.getPostpondDate()+"\n\t"+myclass.getPostpondStartTime()+" ~ "+myclass.getPostpondEndTime());
-
-            buttons = findViewById(R.id.ChangeStatusButtons);
-            buttons.setVisibility(View.GONE);
-
+            if (globalVars.getType() == getResources().getInteger(R.integer.ADMIN) )
+                buttons.setVisibility(View.VISIBLE);
+            else
+                buttons.setVisibility(View.GONE);
             LinearLayout reasonlayout = findViewById(R.id.canceled_reason);
             reasonlayout.setVisibility(View.VISIBLE);
             reason.setText(myclass.getReason());
         }
         else if (myclass.getStatus().equals("Finished")){
-            buttons = findViewById(R.id.ChangeStatusButtons);
             buttons.setVisibility(View.GONE);
-
             LinearLayout noteLayout = findViewById(R.id.canceled_reason);
             noteLayout.setVisibility(View.VISIBLE);
 
@@ -198,14 +206,22 @@ public class ClassesDetailsActivity extends AppCompatActivity {
             noteLable.setText(R.string.class_note);
             reason.setText(myclass.getReason());
         }
-        else if (myclass.getState() == 2){
-            buttons = findViewById(R.id.ChangeStatusButtons);
-            buttons.setVisibility(View.GONE);
-
-            LinearLayout noteLayout = findViewById(R.id.canceled_reason);
-            noteLayout.setVisibility(View.VISIBLE);
-            reason.setText(myclass.getReason());
+        else {
+            if (globalVars.getType() == getResources().getInteger(R.integer.ADMIN) )
+                buttons.setVisibility(View.VISIBLE);
+            else
+                buttons.setVisibility(View.GONE);
         }
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (result != -1) {
+            Intent returnIntent = new Intent();
+            returnIntent.putExtra("ClassStatus", result);
+            setResult(AppCompatActivity.RESULT_OK, returnIntent);
+        }
+        finish();
     }
 
     @Override

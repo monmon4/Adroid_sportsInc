@@ -15,6 +15,7 @@ import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.quantumsit.sportsinc.Aaa_data.Constants;
 import com.quantumsit.sportsinc.Aaa_data.GlobalVars;
@@ -100,7 +101,7 @@ public class NotificationsFragment extends Fragment {
                     return;
                 Intent intent = new Intent(getContext(), NotificationDetailsActivity.class);
                 intent.putExtra("MyNotification",notificationList.get(i));
-                startActivity(intent);
+                startActivityForResult(intent, 1);
             }
         });
 
@@ -109,6 +110,12 @@ public class NotificationsFragment extends Fragment {
         else
             fillBySavedState(savedInstanceState);
         return root;
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        Toast.makeText(getContext(), "Test ",Toast.LENGTH_LONG).show();
     }
 
     @Override

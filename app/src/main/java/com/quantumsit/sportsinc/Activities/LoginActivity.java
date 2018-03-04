@@ -50,7 +50,7 @@ public class LoginActivity extends AppCompatActivity {
         globalVars = (GlobalVars) getApplication();
 
         progressDialog = new ProgressDialog(LoginActivity.this);
-        progressDialog.setMessage("Configuring user.....");
+        progressDialog.setMessage(getResources().getString(R.string.login_configure));
 
         phone_edittext = findViewById(R.id.phoneEditText_login);
         pass_edittext = findViewById(R.id.passEditText_login);
@@ -96,6 +96,8 @@ public class LoginActivity extends AppCompatActivity {
 
                 httpCall.setParams(params);
                 progressDialog.show();
+                progressDialog.setCancelable(false);
+                progressDialog.setCanceledOnTouchOutside(false);
                 new HttpRequest(){
                     @Override
                     public void onResponse(JSONArray response) {

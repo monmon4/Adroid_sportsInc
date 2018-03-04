@@ -56,6 +56,7 @@ public class Request_addActivity extends AppCompatActivity {
         globalVars = (GlobalVars) getApplication();
         progressDialog = new ProgressDialog(Request_addActivity.this);
         progressDialog.setMessage("Please wait.....");
+        progressDialog.setCanceledOnTouchOutside(false);
 
         date_spinner = findViewById(R.id.dateSpinner_requestadd);
         request_for_spinner = findViewById(R.id.requestforSpinner_requestadd);
