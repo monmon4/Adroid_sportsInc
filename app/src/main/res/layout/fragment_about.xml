@@ -63,7 +63,7 @@
 
     <ListView
         android:id="@+id/listview_about_us"
-        android:layout_margin="16dp"
+        android:layout_margin="5dp"
         android:divider="@null"
         android:dividerHeight="0dp"
         android:layout_width="match_parent"
