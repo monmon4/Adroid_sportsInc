@@ -5,8 +5,28 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="com.quantumsit.sportsinc.AboutUs_fragments.ConditionsFragment">
 
+    <TextView
+        android:id="@+id/textView10"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:text="@string/for_parents"
+        android:textAppearance="@style/TextAppearance.AppCompat.Small"
+        android:textColor="@color/colorText" />
 
-    <ScrollView
+    <ListView
+        android:id="@+id/listView_conditions"
+        android:layout_below="@id/textView10"
+        android:layout_marginStart="16dp"
+        android:layout_marginBottom="16dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:divider="@null"
+        android:dividerHeight="0dp"
+        android:layout_marginLeft="16dp" />
+
+
+    <!--ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
@@ -323,5 +343,5 @@
 
 
         </LinearLayout>
-    </ScrollView>
+    </ScrollView-->
 </RelativeLayout>

@@ -6,7 +6,7 @@
     tools:context="com.quantumsit.sportsinc.AboutUs_fragments.AboutFragment">
 
 
-    <ScrollView
+    <!--ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
@@ -59,6 +59,13 @@
                 android:textAppearance="@style/Base.TextAppearance.AppCompat.Small"
                 android:textColor="@color/colorText" />
         </LinearLayout>
-    </ScrollView>
+    </ScrollView-->
 
+    <ListView
+        android:id="@+id/listview_about_us"
+        android:layout_margin="16dp"
+        android:divider="@null"
+        android:dividerHeight="0dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
 </RelativeLayout>
