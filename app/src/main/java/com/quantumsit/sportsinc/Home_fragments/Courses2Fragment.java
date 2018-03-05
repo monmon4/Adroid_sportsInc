@@ -2,6 +2,7 @@ package com.quantumsit.sportsinc.Home_fragments;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Parcelable;
@@ -61,6 +62,7 @@ public class Courses2Fragment extends Fragment {
 
         return root;
     }
+
 
     /*private void initilizeCourses(final boolean loadMore) {
         if (!isAdded()) {

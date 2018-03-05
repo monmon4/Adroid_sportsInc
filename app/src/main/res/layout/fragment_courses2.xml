@@ -7,7 +7,8 @@
     <GridView
         android:id="@+id/gridView_courses"
         android:gravity="center"
-        android:numColumns="2"
+        android:numColumns="auto_fit"
+        android:columnWidth="200dp"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 </FrameLayout>
