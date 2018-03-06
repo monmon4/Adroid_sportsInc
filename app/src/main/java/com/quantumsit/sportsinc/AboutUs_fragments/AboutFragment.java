@@ -6,10 +6,14 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 
 import com.quantumsit.sportsinc.Aaa_data.Constants;
 import com.quantumsit.sportsinc.Adapters.SectionsPagerAdapter;
@@ -19,6 +23,7 @@ import com.quantumsit.sportsinc.COACHES.ListView_Adapter_trainees_attendance_coa
 import com.quantumsit.sportsinc.R;
 import com.quantumsit.sportsinc.Reports_fragments.CorsesFragment;
 import com.quantumsit.sportsinc.Reports_fragments.PaymentFragment;
+import com.quantumsit.sportsinc.util.ConnectionUtilities;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -33,7 +38,10 @@ public class AboutFragment extends Fragment {
     ListView listView;
     ListView_Adapter_about_us listView_adapter;
 
-    ProgressDialog progressDialog;
+    SwipeRefreshLayout mSwipeRefreshLayout;
+    LinearLayout retry;
+    ProgressBar progressBar;
+    RelativeLayout loading;
 
     ArrayList<item_about> items;
 
@@ -43,12 +51,20 @@ public class AboutFragment extends Fragment {
         View root = inflater.inflate(R.layout.fragment_about,container,false);
 
         listView = root.findViewById(R.id.listview_about_us);
+        listView.setSelector(android.R.color.transparent);
         items = new ArrayList<>();
 
-        progressDialog= new ProgressDialog(getContext());
-        progressDialog.setMessage("Please wait");
+        mSwipeRefreshLayout = root.findViewById(R.id.swipeRefresh);
+        mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                get_list_items();
+            }
+        });
+        loading = root.findViewById(R.id.LoadingData);
+        progressBar = root.findViewById(R.id.progress_bar);
+        retry = root.findViewById(R.id.layout_retry);
 
-        progressDialog.show();
         get_list_items();
 
         listView_adapter = new ListView_Adapter_about_us(getContext(), items);
@@ -59,7 +75,11 @@ public class AboutFragment extends Fragment {
     }
 
     private void get_list_items(){
-
+        if (!checkConnection()){
+            progressBar.setVisibility(View.GONE);
+            retry.setVisibility(View.VISIBLE);
+            return;
+        }
         JSONObject where_info = new JSONObject();
         try {
             where_info.put("type",0);
@@ -87,7 +107,7 @@ public class AboutFragment extends Fragment {
     }
 
     private void fill_list_items (JSONArray response) {
-
+        mSwipeRefreshLayout.setRefreshing(false);
         try {
             for (int i=0; i<response.length(); i++) {
                 JSONObject result = null;
@@ -104,6 +124,15 @@ public class AboutFragment extends Fragment {
         }
 
         listView_adapter.notifyDataSetChanged();
-        progressDialog.dismiss();
+        loading.setVisibility(View.GONE);
+    }
+
+    private boolean checkConnection() {
+        // first, check connectivity
+        if (ConnectionUtilities
+                .checkInternetConnection(getContext())) {
+            return true;
+        }
+        return false;
     }
 }

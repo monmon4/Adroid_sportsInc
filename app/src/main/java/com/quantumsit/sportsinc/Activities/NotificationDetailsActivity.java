@@ -113,11 +113,11 @@ public class NotificationDetailsActivity extends AppCompatActivity {
         super.onNewIntent(intent);
         final int notify_id = intent.getIntExtra("notify_id",-1);
 
+        loadingView.loading();
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
                 if (notify_id != -1) {
-                    loadingView.loading();
                     retrieveNotification(notify_id, globalVars.getId());
                 }
                 else {
@@ -145,7 +145,7 @@ public class NotificationDetailsActivity extends AppCompatActivity {
         }
         try {
             JSONObject where_info = new JSONObject();
-            where_info.put("notification.to_id",2);
+            where_info.put("notification.to_id",user_id);
             where_info.put("notify_info.id",notify_id);
 
             HttpCall httpCall = new HttpCall();

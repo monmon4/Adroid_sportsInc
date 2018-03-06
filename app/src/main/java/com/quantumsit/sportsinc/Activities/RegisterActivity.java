@@ -23,12 +23,14 @@ import android.widget.Toast;
 import android.view.ViewGroup.LayoutParams;
 
 import com.google.gson.Gson;
+import com.quantumsit.sportsinc.Aaa_data.Config;
 import com.quantumsit.sportsinc.Aaa_data.Constants;
 import com.quantumsit.sportsinc.Aaa_data.GlobalVars;
 import com.quantumsit.sportsinc.Backend.HttpCall;
 import com.quantumsit.sportsinc.Backend.HttpRequest;
 import com.quantumsit.sportsinc.Activities.HomeActivity;
 import com.quantumsit.sportsinc.R;
+import com.quantumsit.sportsinc.util.ConnectionUtilities;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -41,6 +43,8 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Random;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class RegisterActivity extends AppCompatActivity {
 
@@ -90,11 +94,37 @@ public class RegisterActivity extends AppCompatActivity {
 
     }
 
+    private boolean checkConnection() {
+        // first, check connectivity
+        if (ConnectionUtilities
+                .checkInternetConnection(this)) {
+            return true;
+        }
+        return false;
+    }
+
+    public static boolean isValidPhone(String phone)
+    {
+        String expression = "^([0-9\\+]|\\(\\d{1,3}\\))[0-9\\-\\. ]{3,15}$";
+        CharSequence inputString = phone;
+        Pattern pattern = Pattern.compile(expression);
+        Matcher matcher = pattern.matcher(inputString);
+        if (matcher.matches())
+        {
+            return true;
+        }
+        else{
+            return false;
+        }
+    }
 
     public void done_register(View view) {
+        if (!checkConnection()){
+            show_toast(getResources().getString(R.string.no_connection));
+            return;
+        }
 
         progressDialog.show();
-
         boolean all_good = false;
 
         user_name = name_edittext.getText().toString();
@@ -244,7 +274,8 @@ public class RegisterActivity extends AppCompatActivity {
                     show_toast("Code has been sent");
 
                 } else {
-                    show_toast("An error occurred");
+                    show_toast("An error has occurred");
+                    verfication_popup_window.dismiss();
                 }
 
             }
@@ -282,9 +313,10 @@ public class RegisterActivity extends AppCompatActivity {
        /* verfication_popup_window.dismiss();
         globalVars.setType(5);
         finish();*/
+        SharedPreferences tokenPref = getSharedPreferences(Config.SHARED_PREF, MODE_PRIVATE);
+        String user_token = tokenPref.getString("regId", "");
 
-
-       JSONObject info = new JSONObject();
+        JSONObject info = new JSONObject();
         try {
             info.put("name",user_name);
             info.put("phone",phone);
@@ -293,6 +325,8 @@ public class RegisterActivity extends AppCompatActivity {
             info.put("pass",pass);
             info.put("date_of_birth",date_of_birth);
             info.put("type",5);
+            if (!user_token.equals(""))
+                info.put("token",user_token);
 
             HttpCall httpCall = new HttpCall();
             httpCall.setMethodtype(HttpCall.POST);

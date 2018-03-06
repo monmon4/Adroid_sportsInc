@@ -436,5 +436,6 @@
     <string name="sessions">Sessions</string>
     <string name="scores">Scores</string>
     <string name="calendar">Calender</string>
+    <string name="no_connection">No Internet Connection</string>
 
 </resources>

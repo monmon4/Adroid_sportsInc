@@ -29,6 +29,17 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="false"
         android:theme="@style/AppTheme">
+        <activity
+            android:name=".Activities.SplashScreenActivity"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:screenOrientation="sensorPortrait">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
         <activity android:name=".Activities.LoginActivity"
             android:theme="@style/AppTheme.NoActionBar"/>
         <activity android:name=".Activities.RegisterActivity"/>
@@ -67,18 +78,6 @@
             android:name=".Activities.EventsActivity"/>
         <activity
             android:name=".Activities.RequestDetailsActivity" />
-        <activity
-            android:name=".Activities.SplashScreenActivity"
-            android:theme="@style/AppTheme.NoActionBar"
-            android:screenOrientation="sensorPortrait">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
-
-
         <activity
             android:name=".Activities.ComplainDetailsActivity" />
         <activity

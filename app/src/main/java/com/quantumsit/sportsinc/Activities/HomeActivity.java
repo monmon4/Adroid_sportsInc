@@ -340,9 +340,7 @@ public class HomeActivity extends AppCompatActivity
         return check[0];
     }
 
-
-
-
+    
     @Override
     public void onBackPressed() {
         DrawerLayout drawer =  findViewById(R.id.drawer_layout);

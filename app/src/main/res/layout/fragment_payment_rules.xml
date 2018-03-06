@@ -5,7 +5,57 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="com.quantumsit.sportsinc.AboutUs_fragments.PaymentRulesFragment">
 
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/swiperefresh"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+    <RelativeLayout
+        android:id="@+id/LoadingData"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <ProgressBar
+            android:id="@+id/progress_bar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"/>
+        <LinearLayout
+            android:id="@+id/layout_retry"
+            android:visibility="gone"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:orientation="vertical">
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginBottom="40dp"
+                android:src="@drawable/no_internet_icon"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:textColor="@color/colorBlack"
+                android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
+                android:text="No Internet connection."/>
+            <TextView
+                android:id="@+id/layout_retry_button"
+                android:visibility="gone"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginTop="20dp"
+                android:layout_gravity="center_horizontal"
+                android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
+                android:textColor="@color/colorPrimaryDark"
+                android:textStyle="bold|italic"
+                android:drawableStart="@drawable/ic_reload"
+                android:text=" tap to Retry"/>
+        </LinearLayout>
 
+    </RelativeLayout>
     <ListView
         android:id="@+id/listView_paymentRules"
         android:layout_width="match_parent"
@@ -13,81 +63,6 @@
         android:divider="@null"
         android:dividerHeight="0dp"
         android:layout_margin="5dp"/>
-
-    <!--ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="10dp"
-            android:orientation="vertical">
-
-            <TextView
-                android:id="@+id/textViewPayment1"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="16dp"
-                android:background="@drawable/text_view_background"
-                android:padding="10dp"
-                android:text="@string/booking_fee"
-                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-                android:textColor="@color/colorWhite" />
-
-            <TextView
-                android:id="@+id/textViewPayment2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="24dp"
-                android:layout_marginStart="24dp"
-                android:text="@string/booking_fee2"
-                android:textAppearance="@style/TextAppearance.AppCompat.Small"
-                android:textColor="@color/colorText" />
-
-            <TextView
-                android:id="@+id/textViewPayment3"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="16dp"
-                android:background="@drawable/text_view_background"
-                android:padding="10dp"
-                android:text="@string/payment_options"
-                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-                android:textColor="@color/colorWhite" />
-
-            <TextView
-                android:id="@+id/textViewPayment4"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="24dp"
-                android:layout_marginStart="24dp"
-                android:text="@string/payment_options2"
-                android:textAppearance="@style/TextAppearance.AppCompat.Small"
-                android:textColor="@color/colorText" />
-
-            <TextView
-                android:id="@+id/textViewPayment5"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="16dp"
-                android:background="@drawable/text_view_background"
-                android:padding="10dp"
-                android:text="@string/term_payment_policy"
-                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-                android:textColor="@color/colorWhite" />
-
-            <TextView
-                android:id="@+id/textViewPayment6"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="24dp"
-                android:layout_marginStart="24dp"
-                android:text="@string/term_payment_policy2"
-                android:textAppearance="@style/TextAppearance.AppCompat.Small"
-                android:textColor="@color/colorText" />
-
-
-        </LinearLayout>
-    </ScrollView-->
+    </LinearLayout>
+    </android.support.v4.widget.SwipeRefreshLayout>
 </RelativeLayout>

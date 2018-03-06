@@ -81,7 +81,7 @@
                     android:textSize="18sp"
                     android:textColor="@color/colorTextLight"
                     android:background="@drawable/button_blue_background"
-                    android:onClick="loginClicked"
+                    android:onClick="registerClicked"
                     android:text="@string/register" />
 
                 <Button
@@ -106,7 +106,7 @@
                 android:id="@+id/registerTextView_login"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:visibility="invisible"
+                android:visibility="gone"
                 android:gravity="center"
                 android:padding="10dp"
                 android:clickable="true"

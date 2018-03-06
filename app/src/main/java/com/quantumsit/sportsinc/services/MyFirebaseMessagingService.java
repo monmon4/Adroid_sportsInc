@@ -2,15 +2,20 @@ package com.quantumsit.sportsinc.services;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.util.Log;
 
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
+import com.google.gson.Gson;
 import com.quantumsit.sportsinc.Aaa_data.Config;
+import com.quantumsit.sportsinc.Aaa_data.GlobalVars;
 import com.quantumsit.sportsinc.Activities.ComplainDetailsActivity;
 import com.quantumsit.sportsinc.Activities.HomeActivity;
 import com.quantumsit.sportsinc.Activities.NotificationDetailsActivity;
 import com.quantumsit.sportsinc.Activities.RequestDetailsActivity;
+import com.quantumsit.sportsinc.Activities.SplashScreenActivity;
+import com.quantumsit.sportsinc.Entities.UserEntity;
 import com.quantumsit.sportsinc.util.NotificationUtils;
 
 import org.json.JSONException;
@@ -94,6 +99,9 @@ public class MyFirebaseMessagingService  extends FirebaseMessagingService {
                 case 3:
                     resultIntent = new Intent(getApplicationContext(), NotificationDetailsActivity.class);
                     break;
+                case 4:
+                    userTypeUpdate();
+                    break;
             }
             // resultIntent.putExtra("Notification",Config.NOTIFICATION_ID);
             resultIntent.putExtra("notify_id", notify_id);
@@ -105,6 +113,27 @@ public class MyFirebaseMessagingService  extends FirebaseMessagingService {
         } catch (Exception e) {
             Log.v(TAG, "Exception: " + e.getMessage());
         }
+    }
+
+    private void userTypeUpdate() {
+        Gson gson = new Gson();
+        SharedPreferences mPrefs = getSharedPreferences("UserFile", MODE_PRIVATE);
+        String json = mPrefs.getString("CurrentUser", "");
+        UserEntity userEntity = gson.fromJson(json, UserEntity.class);
+        if (userEntity != null) {
+            GlobalVars globalVars = (GlobalVars) getApplication();
+            globalVars.setUser(userEntity);
+            globalVars.setPerson_id(userEntity.getId());
+            globalVars.setType(0);
+            saveUpdateToPref(globalVars);
+        }
+    }
+    private void saveUpdateToPref(GlobalVars globalVars) {
+        SharedPreferences.Editor preferences = getSharedPreferences("UserFile", MODE_PRIVATE).edit();
+        Gson gson = new Gson();
+        String json = gson.toJson(globalVars.getMyAccount());
+        preferences.putString("CurrentUser", json);
+        preferences.apply();
     }
 
     /**

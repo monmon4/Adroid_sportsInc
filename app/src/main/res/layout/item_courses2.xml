@@ -20,9 +20,10 @@
 
             <ImageView
                 android:id="@+id/imageView_courseitem"
-                android:layout_width="150dp"
+                android:layout_width="match_parent"
                 android:layout_height="150dp"
                 android:layout_margin="5dp"
+                android:gravity="center"
                 android:background="@color/colorWhite"
                 android:scaleType="centerCrop" />
 

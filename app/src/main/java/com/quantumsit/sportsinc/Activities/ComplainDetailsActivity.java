@@ -76,6 +76,7 @@ public class ComplainDetailsActivity extends AppCompatActivity {
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
         final int notify_id = intent.getIntExtra("notify_id",-1);
+        loadingView.loading();
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {

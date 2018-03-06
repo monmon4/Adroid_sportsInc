@@ -11,6 +11,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.quantumsit.sportsinc.Aaa_data.Constants;
+import com.quantumsit.sportsinc.Entities.CourseEntity;
 import com.quantumsit.sportsinc.R;
 import com.squareup.picasso.Picasso;
 
@@ -22,11 +23,11 @@ import java.util.ArrayList;
 
 public class GridView_courses_Adapter extends BaseAdapter {
 
-    ArrayList<item_courses> items;
+    ArrayList<CourseEntity> items;
     Context context;
     private static LayoutInflater inflater=null;
 
-    public GridView_courses_Adapter(Context context, ArrayList<item_courses> items) {
+    public GridView_courses_Adapter(Context context, ArrayList<CourseEntity> items) {
         // TODO Auto-generated constructor stub
         this.items = items;
         this.context = context;
@@ -68,8 +69,8 @@ public class GridView_courses_Adapter extends BaseAdapter {
         holder.price_textView = rowView.findViewById(R.id.priceTextView_courseitem);
         holder.level_ImageView = rowView.findViewById(R.id.imageView_courseitem);
 
-        holder.price_textView.setText("$" + items.get(position).price);
-        String img_url = items.get(position).img;
+        holder.price_textView.setText("$" + items.get(position).getPrice());
+        String img_url = items.get(position).getImageUrl();
         if(!img_url.equals("")) {
             Picasso.with(context).load(Constants.others_host + img_url).into(holder.level_ImageView, new com.squareup.picasso.Callback() {
                 @Override
@@ -83,17 +84,6 @@ public class GridView_courses_Adapter extends BaseAdapter {
                 }
             });
         }
-
-
-
-        rowView.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-                // TODO Auto-generated method stub
-                Toast.makeText(context, "You Clicked "+items.get(position).price, Toast.LENGTH_SHORT).show();
-            }
-        });
 
         return rowView;
     }
