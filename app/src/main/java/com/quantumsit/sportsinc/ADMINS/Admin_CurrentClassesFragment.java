@@ -242,19 +242,19 @@ public class Admin_CurrentClassesFragment extends Fragment {
             if (status == 3) {
                 if (start_time_double - current_time_double > 1.0) {
                     //list_children.clear();
-                    list_new_child.add(String.valueOf(R.string.check_rules_and_attendance));
-                    list_new_child.add(String.valueOf(R.string.postpone_class));
-                    list_new_child.add(String.valueOf(R.string.cancel_class));
+                    list_new_child.add(getString(R.string.check_rules_and_attendance));
+                    list_new_child.add(getString(R.string.postpone_class));
+                    list_new_child.add(getString(R.string.cancel_class));
                 } else if (start_time_double - current_time_double < 0.11) {
                     //list_children.clear();
-                    list_new_child.add(String.valueOf(R.string.check_rules_and_attendance));
-                    list_new_child.add(String.valueOf(R.string.start_class));
+                    list_new_child.add(getString(R.string.check_rules_and_attendance));
+                    list_new_child.add(getString(R.string.start_class));
                 } else {
-                    list_new_child.add(String.valueOf(R.string.check_rules_and_attendance));
+                    list_new_child.add(getString(R.string.check_rules_and_attendance));
                 }
             } else if (status == 0) {
                 //list_children.clear();
-                list_new_child.add(String.valueOf(R.string.end_class));
+                list_new_child.add(getString(R.string.end_class));
             } else {
                 list_new_child.add("Up coming");
             }

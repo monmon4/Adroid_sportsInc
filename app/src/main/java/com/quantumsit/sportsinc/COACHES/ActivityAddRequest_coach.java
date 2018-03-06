@@ -182,7 +182,9 @@ public class ActivityAddRequest_coach extends AppCompatActivity {
 
         }
         if(classList.size() == 0){
-            classList.add("");
+
+            //class_number_spinner.setHint(R.string.no_sessions);
+            classList.add(getString(R.string.no_sessions));
         }
 
         ArrayAdapter<String> classNameAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item,classList);
@@ -313,18 +315,20 @@ public class ActivityAddRequest_coach extends AppCompatActivity {
     private void checkRequestInfo(){
         String requestFor = request_for_spinner.getText().toString();
         String CourseName = course_name_spinner.getText().toString();
+        String ClassNum = class_number_spinner.getText().toString();
 
-        if (requestFor.equals("")){
-            show_toast("Select Request for what");
-            return;
-        }
-        if (CourseName.equals("")){
-            show_toast("Select Request for which level");
-            return;
-        }
-        sendRequest();
+        if (requestFor.equals(""))
+            show_toast(getString(R.string.select_request_for_what));
+         else if (CourseName.equals(""))
+            show_toast(getString(R.string.select_request_for_which_level));
+        else if (ClassNum.equals("") || ClassNum.equals(getString(R.string.no_sessions)))
+            show_toast(getString(R.string.select_the_session_date));
+        else
+            sendRequest();
+
+
+
     }
-
 
     private void sendRequest() {
         JSONObject values = new JSONObject();

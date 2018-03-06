@@ -14,16 +14,16 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.quantumsit.sportsinc.Aaa_data.Constants;
 import com.quantumsit.sportsinc.Aaa_data.GlobalVars;
+import com.quantumsit.sportsinc.Aaa_looks.Custom_Spinner_Adapter;
 import com.quantumsit.sportsinc.Backend.HttpCall;
 import com.quantumsit.sportsinc.Backend.HttpRequest;
 import com.quantumsit.sportsinc.Activities.HomeActivity;
-import com.quantumsit.sportsinc.Entities.ComplainEntity;
 import com.quantumsit.sportsinc.R;
 import com.weiwangcn.betterspinner.library.material.MaterialBetterSpinner;
 
@@ -31,6 +31,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 
@@ -43,6 +44,8 @@ public class Complains_SendFragment extends Fragment {
 
     View root;
     GlobalVars globalVars;
+
+    Spinner simple_regarding_spinner;
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
@@ -70,7 +73,12 @@ public class Complains_SendFragment extends Fragment {
         ArrayAdapter<CharSequence> regarding_spinner_adapter = ArrayAdapter.createFromResource(getActivity(), R.array.regarding_array, android.R.layout.simple_dropdown_item_1line);
         regarding_spinner_adapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
 
+        //ArrayList<String> items = new ArrayList<>(R.array.regarding_array);
+        //Custom_Spinner_Adapter regarding_spinner_adapter2 = new Custom_Spinner_Adapter(getContext(),items );
         regarding_spinner.setAdapter(regarding_spinner_adapter);
+
+        //simple_regarding_spinner = root.findViewById(R.id.spinner);
+        //simple_regarding_spinner.setAdapter(regarding_spinner_adapter2);
 
         return root;
     }

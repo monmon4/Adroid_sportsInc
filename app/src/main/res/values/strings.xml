@@ -426,5 +426,15 @@
     <string name="session">Session  </string>
     <string name="coach">Coach  </string>
     <string name="trainee">Trainee  </string>
+    <string name="forgot_password">Forgot password</string>
+    <string name="no_sessions_for_this_level">No sessions for this level</string>
+    <string name="select_request_for_what">Select Request for what</string>
+    <string name="select_request_for_which_level">Select Request for which level</string>
+    <string name="select_the_session_date">Select the session date</string>
+    <string name="no_sessions">No sessions</string>
+    <string name="current_sessions">Current sessions</string>
+    <string name="sessions">Sessions</string>
+    <string name="scores">Scores</string>
+    <string name="calendar">Calender</string>
 
 </resources>

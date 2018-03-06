@@ -153,6 +153,21 @@ public class HomeActivity extends AppCompatActivity
         header.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+               openProfile();
+            }
+        });
+
+        userName.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                openProfile();
+            }
+        });
+
+        userPhone.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                openProfile();
                 Intent intent = new Intent(getApplicationContext(),ProfileActivity.class);
                 drawer.closeDrawer(GravityCompat.START);
                 startActivityForResult(intent,PROFILE_CODE);
@@ -554,5 +569,11 @@ public class HomeActivity extends AppCompatActivity
             children.add(position,myAccount);
         adapter.notifyDataSetChanged();
 
+    }
+
+    private void openProfile (){
+        Intent intent = new Intent(getApplicationContext(),ProfileActivity.class);
+        drawer.closeDrawer(GravityCompat.START);
+        startActivity(intent);
     }
 }

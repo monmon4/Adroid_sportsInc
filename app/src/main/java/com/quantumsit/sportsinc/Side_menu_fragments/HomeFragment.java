@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.quantumsit.sportsinc.Adapters.SectionsPagerAdapter;
+import com.quantumsit.sportsinc.Home_fragments.Courses2Fragment;
 import com.quantumsit.sportsinc.Home_fragments.CoursesFragment;
 import com.quantumsit.sportsinc.Home_fragments.EventFragment;
 import com.quantumsit.sportsinc.Home_fragments.MainFragment;
@@ -43,7 +44,7 @@ public class HomeFragment extends Fragment {
     public void setupViewPager(ViewPager mViewPager){
         mSectionsPagerAdapter = new SectionsPagerAdapter(getChildFragmentManager());
         mSectionsPagerAdapter.addFragment(new MainFragment(),"Home");
-        mSectionsPagerAdapter.addFragment(new CoursesFragment(),"Courses");
+        mSectionsPagerAdapter.addFragment(new Courses2Fragment(),"Courses");
 
         mViewPager.setAdapter(mSectionsPagerAdapter);
     }

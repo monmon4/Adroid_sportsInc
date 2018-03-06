@@ -33,6 +33,7 @@ public class ListView_Adapter_request extends ArrayAdapter<item_request> {
         TextView creation_date =  convertView.findViewById(R.id.creationDate_requestitem);
         TextView coursename_and_class =  convertView.findViewById(R.id.courseNameAndClassNumberTextView_coachrequestitem);
         TextView class_date =  convertView.findViewById(R.id.classDate_requestitem);
+
         // Populate the data into the template view using the data object
         creation_date.setText(request.creation_date);
         coursename_and_class.setText(request.course_name_and_class_name);
