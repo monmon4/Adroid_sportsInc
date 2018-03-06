@@ -269,12 +269,12 @@ public class AdminStartClassActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        finish();
         if (coach_reassign_popup_window != null && coach_reassign_popup_window.isShowing()) {
             coach_reassign_popup_window.dismiss();
         } else {
             super.onBackPressed();
         }
+        finish();
     }
 
     private boolean checkConnection() {
@@ -357,8 +357,9 @@ public class AdminStartClassActivity extends AppCompatActivity {
         JSONObject info = new JSONObject();
         try {
             info.put("class_id",session_id);
-            info.put("old_coach_id",old_coach_id);
-            info.put("new_coach_id",new_coach_id);
+            info.put("old_user_id",old_coach_id);
+            info.put("new_reassign_id",new_coach_id);
+            info.put("reassign_type",1);
 
             HttpCall httpCall = new HttpCall();
             httpCall.setMethodtype(HttpCall.POST);
@@ -396,7 +397,7 @@ public class AdminStartClassActivity extends AppCompatActivity {
         JSONObject values = new JSONObject();
         try {
             where.put("class_id",session_id);
-            values.put("new_coach_id",new_coach_id);
+            values.put("new_reassign_id",new_coach_id);
 
             HttpCall httpCall = new HttpCall();
             httpCall.setMethodtype(HttpCall.POST);
@@ -474,7 +475,6 @@ public class AdminStartClassActivity extends AppCompatActivity {
         if(coach_name_checkBox.isChecked()) {
             reassign_spinner.setVisibility(View.GONE);
             reassign_spinner.setEnabled(false);
-            Toast.makeText(getApplicationContext(),"Enable Value: "+reassign_spinner.isEnabled(),Toast.LENGTH_LONG).show();
             reassign_spinner.setClickable(false);
         } else {
             reassign_spinner.setVisibility(View.VISIBLE);

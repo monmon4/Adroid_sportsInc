@@ -79,13 +79,9 @@ public class Coach_CurrentClassNoteFragment extends Fragment {
 
         info = (MyClass_info) getActivity().getIntent().getSerializableExtra("MyRunningClass");
         info.setClass_note(notes);
-        List<Rule_info> uncheckedRules = global.getMyDB().getUncheckedRules(info.getClass_id());
         List<Trainees_info> classTrainees = global.getMyDB().getClassTrainees(info.getClass_id());
 
-        expectedCounter = uncheckedRules.size()+classTrainees.size()+1;
-
-        for (Rule_info ruleItem: uncheckedRules)
-            insertRule(ruleItem);
+        expectedCounter = classTrainees.size()+1;
 
         for (Trainees_info trainee : classTrainees)
             insertTrainee(trainee);

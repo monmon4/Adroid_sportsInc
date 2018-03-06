@@ -128,6 +128,10 @@ public class CoachClassesFragment extends Fragment {
         current_class_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if (popupWindow != null && popupWindow.isShowing()){
+                    popupWindow.dismiss();
+                    return;
+                }
                 if (current_class.size()>1){
                     initializePopUpWindow(root);
                     return;
@@ -350,8 +354,7 @@ public class CoachClassesFragment extends Fragment {
 
         final LinearLayout parentView = root.findViewById(R.id.coach_classes_Layout);
         popupWindow.showAtLocation(parentView, Gravity.CENTER,-20,-180);
-        popupWindow.setFocusable(true);
-        popupWindow.setOutsideTouchable(false);
+        popupWindow.setOutsideTouchable(true);
         popupWindow.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
 
         Drawable dim = new ColorDrawable(Color.BLACK);
@@ -374,7 +377,6 @@ public class CoachClassesFragment extends Fragment {
        runningClasses.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                Toast.makeText(getContext(),"I :"+i,Toast.LENGTH_LONG).show();
                 Intent intent = new Intent(getActivity(), ActivityCurrentClass_coach.class);
                 intent.putExtra("MyRunningClass",current_class.get(i));
                 startActivity(intent);

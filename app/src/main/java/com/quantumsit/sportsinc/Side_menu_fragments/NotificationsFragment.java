@@ -113,12 +113,6 @@ public class NotificationsFragment extends Fragment {
     }
 
     @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        Toast.makeText(getContext(), "Test ",Toast.LENGTH_LONG).show();
-    }
-
-    @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putParcelable("ScrollPosition", listView.onSaveInstanceState());

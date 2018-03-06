@@ -36,7 +36,6 @@ public class GridViewAdapter extends RecyclerView.Adapter<GridViewAdapter.ViewHo
     MyItemClickListener clickListener;
 
     public void setClickListener(MyItemClickListener clickListener) {
-        Log.d(TAG,"In Setting Listener");
         this.clickListener = clickListener;
     }
 
@@ -89,7 +88,6 @@ public class GridViewAdapter extends RecyclerView.Adapter<GridViewAdapter.ViewHo
         }
 
         if(formattedDate.equals(SelectedDate)) {
-            Log.d(TAG,SelectedDate+" : "+formattedDate);
             setSelectedItem(viewHolder.view, viewHolder.parent, position, -1);
         }
     }
@@ -178,9 +176,7 @@ public class GridViewAdapter extends RecyclerView.Adapter<GridViewAdapter.ViewHo
 
         @Override
         public void onClick(View view) {
-            Log.d(TAG,"On Item Click Reycecle");
             if (clickListener != null){
-                Log.d(TAG,"Not Null Listener");
                 clickListener.onClick(view, getAdapterPosition());
             }
         }

@@ -7,6 +7,7 @@ import android.os.Parcelable;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -47,6 +48,9 @@ public class CoachRequestReceivedFragment extends Fragment {
     SwipeRefreshLayout mSwipeRefreshLayout;
     ArrayList<item_request_coach> list_items;
     ListView_Adapter_request_coach arrayAdapter;
+
+    private int REQUEST_UPDATE = 7;
+    private int request_position = -1;
 
     @Nullable
     @Override
@@ -95,9 +99,10 @@ public class CoachRequestReceivedFragment extends Fragment {
                 if (i >= list_items.size())
                     return;
                 Intent intent = new Intent(getContext(), RequestDetailsActivity.class);
+                request_position = i;
                 intent.putExtra("MyRequest", list_items.get(i));
                 intent.putExtra("requestType",1);
-                startActivity(intent);
+                startActivityForResult(intent ,REQUEST_UPDATE);
             }
         });
         if (savedInstanceState == null)
@@ -107,6 +112,16 @@ public class CoachRequestReceivedFragment extends Fragment {
             fillBySavedState(savedInstanceState);
 
         return root;
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == REQUEST_UPDATE && resultCode == AppCompatActivity.RESULT_OK && data != null){
+            int new_status = data.getIntExtra("request_status", 2);
+            list_items.get(request_position).status = new_status;
+            arrayAdapter.notifyDataSetChanged();
+        }
     }
 
     @Override

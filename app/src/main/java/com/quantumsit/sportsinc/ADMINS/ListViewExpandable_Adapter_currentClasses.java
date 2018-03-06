@@ -124,12 +124,12 @@ public class ListViewExpandable_Adapter_currentClasses extends BaseExpandableLis
         if (header.status == 0) {
             class_number.setTextColor(Color.GREEN);
         } else if (header.status == 3){
-
-            if (coach_info != null && rule_info!= null)
-                class_number.setTextColor(Color.parseColor("#f98a03"));
-
             if (start_time_double - current_time_double < 0.11)
                 class_number.setTextColor(Color.RED);
+            else if (coach_info != null && rule_info!= null)
+                class_number.setTextColor(context.getResources().getColor(R.color.colorWaiting));
+            else
+                class_number.setTextColor(context.getResources().getColor(R.color.colorTextDark));
         }
 
         return convertView;

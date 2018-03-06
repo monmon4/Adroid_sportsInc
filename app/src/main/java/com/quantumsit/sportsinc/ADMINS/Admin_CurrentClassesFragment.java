@@ -167,7 +167,7 @@ public class Admin_CurrentClassesFragment extends Fragment {
 
             HttpCall httpCall = new HttpCall();
             httpCall.setMethodtype(HttpCall.POST);
-            httpCall.setUrl(Constants.admin_currentClasses);
+            httpCall.setUrl("http://192.168.1.14:8080/sport_inc/api/current_classes");//Constants.admin_currentClasses);
 
             JSONObject limit_info = new JSONObject();
             limit_info.put("start", currentStart);

@@ -167,6 +167,9 @@ public class DB_Sqlite_Handler extends SQLiteOpenHelper {
 
 
     public boolean addClass(MyClass_info info){
+        if (getRunningClass(info.getClass_id()) != null)
+            return false;
+
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
         values.put(KeyClassId,info.getClass_id());
@@ -175,7 +178,7 @@ public class DB_Sqlite_Handler extends SQLiteOpenHelper {
         values.put(KeyClassNote,info.getClass_note());
         values.put(KeyClassGroup,info.getGroup_id());
 
-        long rowInserted = db.insert(TABLE_classes,null,values);
+        long rowInserted = db.insert(TABLE_classes, null, values);
         db.close();
 
         if (rowInserted != -1)
@@ -356,7 +359,7 @@ public class DB_Sqlite_Handler extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getReadableDatabase();
         List<Trainees_info> trainees = new ArrayList<>();
 
-        Cursor cursor = db.rawQuery("select * from "+TABLE_trainee+" where "+KeyTraineeAttend+" = 1 AND "+KeyTraineeClass+" = "+class_id,null);
+        Cursor cursor = db.rawQuery("select * from "+TABLE_trainee+" where "+KeyTraineeAttend+"= 1 AND "+KeyTraineeClass+" = "+class_id,null);
         if (cursor.getCount() !=0){
             while (cursor.moveToNext()){
                 Trainees_info info = new Trainees_info(cursor.getInt(0),cursor.getInt(1),cursor.getString(2),cursor.getInt(3),cursor.getInt(4),cursor.getInt(5),cursor.getString(6));
@@ -380,10 +383,10 @@ public class DB_Sqlite_Handler extends SQLiteOpenHelper {
         return classes;
     }
 
-    public MyClass_info getRunningClass(){
+    public MyClass_info getRunningClass(int class_id){
         SQLiteDatabase db = this.getReadableDatabase();
 
-        Cursor cursor = db.rawQuery("select * from "+TABLE_classes,null);
+        Cursor cursor = db.rawQuery("select * from "+TABLE_classes+" WHERE " + KeyClassId + " = " + class_id,null);
         MyClass_info info = null;
         if (cursor.getCount() !=0){
             if (cursor.moveToNext()){
@@ -478,8 +481,8 @@ public class DB_Sqlite_Handler extends SQLiteOpenHelper {
         values.put(KeyTraineeScore,info.getTrainee_score());
         values.put(KeyTraineeNote,info.getTrainee_note());
         // updating row
-        return db.update(TABLE_trainee, values, KeyClassId + " = ?",
-                new String[]{String.valueOf(info.getClass_id())});
+        return db.update(TABLE_trainee, values, KeyPrimary + " = ?",
+                new String[]{String.valueOf(info.getID())});
     }
 
     public int updateStartClass(StartClass_info info) {

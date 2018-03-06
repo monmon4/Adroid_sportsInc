@@ -109,6 +109,8 @@ public class CalendarCustomView extends LinearLayout {
 
         GridLayoutManager gridLayoutManager = new GridLayoutManager(getContext(),7);
         calendarGridView.setLayoutManager(gridLayoutManager);
+        ItemOffsetDecoration itemDecoration = new ItemOffsetDecoration(context, R.dimen.item_offset);
+        calendarGridView.addItemDecoration(itemDecoration);
         calendarGridView.setNestedScrollingEnabled(true);
     }
 
@@ -131,9 +133,7 @@ public class CalendarCustomView extends LinearLayout {
         nextButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.d(TAG ,"BeFCalendar : "+SelectedDay.getTime().toString());
                 SelectedDay.add(Calendar.MONTH,1);
-                Log.d(TAG ,"AFTCalendar : "+SelectedDay.getTime().toString());
                 SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy");
                 SelectedDate = df.format(SelectedDay.getTime());
                 UpdateCalendar(1);
@@ -197,7 +197,6 @@ public class CalendarCustomView extends LinearLayout {
 
 
     public void calendarItemClick(View view, int position) {
-        Log.d(TAG,"In Click Lisener");
         Calendar dateCal = Calendar.getInstance();
         dateCal.setTime(mAdapter.getItem(position));
         int CurrentMonth = mAdapter.getCurrentDate().get(Calendar.MONTH);
@@ -209,7 +208,6 @@ public class CalendarCustomView extends LinearLayout {
         SelectedDate = df.format(dateCal.getTime());
         setUpEventsAapter(SelectedDate);
         SelectedDay.setTime(mAdapter.getItem(position));
-        Log.d(TAG ,"ADDCalendar : "+SelectedDay.getTime().toString());
 
         if(SelectedYear > CurrentYear || (SelectedYear == CurrentYear &&CurrentMonth < SelectedMonth) ){
             UpdateCalendar(1);

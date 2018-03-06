@@ -1,6 +1,7 @@
 package com.quantumsit.sportsinc.Activities;
 
 import android.annotation.SuppressLint;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
@@ -83,6 +84,7 @@ public class HomeActivity extends AppCompatActivity
 
     private int PROFILE_CODE = 7;
     private ImageView profileImage;
+    private ProgressDialog progressDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -147,16 +149,6 @@ public class HomeActivity extends AppCompatActivity
         userPhone = header.findViewById(R.id.user_phone);
         userName.setText(globalVars.getName());
         userPhone.setText(globalVars.getPhone());
-
-        try {
-            byte[] data = globalVars.getPass().getBytes("UTF-8");
-            String base64 = Base64.encodeToString(data, Base64.DEFAULT);
-            data = Base64.decode(base64, Base64.DEFAULT);
-            String text = new String(data, "UTF-8");
-            Toast.makeText(getApplicationContext(),"Password Encoded: "+base64+"\n Password decoded: "+text,Toast.LENGTH_LONG).show();
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-        }
 
         header.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -228,7 +220,12 @@ public class HomeActivity extends AppCompatActivity
         if (requestCode == PROFILE_CODE && resultCode == AppCompatActivity.RESULT_OK){
             userName.setText(globalVars.getName());
             userPhone.setText(globalVars.getPhone());
-            Picasso.with(getApplicationContext()).load(Constants.profile_host + globalVars.getImgUrl()).into(profileImage);
+            String ImageUrl = globalVars.getImgUrl();
+            if (ImageUrl != null && !ImageUrl.equals("")){
+                Picasso.with(getApplicationContext()).load(Constants.profile_host + ImageUrl).into(profileImage);
+            }
+            else
+                profileImage.setImageResource(R.mipmap.ic_profile_round);
         }
     }
 
@@ -413,6 +410,10 @@ public class HomeActivity extends AppCompatActivity
             startActivity(browserIntent);
         } else if(id == R.id.nav_logout){
             // LogOut From the System
+            progressDialog = new ProgressDialog(HomeActivity.this);
+            progressDialog.setMessage("Logging Out...");
+            progressDialog.show();
+            progressDialog.setCanceledOnTouchOutside(false);
             unActiveUser(globalVars.getId());
             return true;
         }  else if (id == R.id.nav_contact_us) {
@@ -484,6 +485,7 @@ public class HomeActivity extends AppCompatActivity
             preferences.clear();
             preferences.apply();
             startActivity(new Intent(HomeActivity.this, LoginActivity.class));
+            progressDialog.dismiss();
             finish();
         } catch (JSONException e) {
             e.printStackTrace();

@@ -90,7 +90,7 @@ public class Coach_CurrentClassScoresFragment extends Fragment {
                     viewPager.setCurrentItem(3);
                 }*/
 
-                viewPager.setCurrentItem(3);
+                viewPager.setCurrentItem(2);
             }
         });
 

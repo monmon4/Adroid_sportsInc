@@ -1,5 +1,6 @@
 package com.quantumsit.sportsinc.COACHES;
 
+import android.content.Intent;
 import android.os.Parcelable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -57,6 +58,8 @@ public class ActivityAddRequest_coach extends AppCompatActivity {
 
     Date current_date;
 
+    item_request_coach added_request ;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -108,6 +111,7 @@ public class ActivityAddRequest_coach extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
                  ClassDate = classEntities.get(position).class_date;
+                 class_number_spinner.setText(ClassDate);
             }
         });
 
@@ -304,8 +308,6 @@ public class ActivityAddRequest_coach extends AppCompatActivity {
 
     public void send_clicked() {
         checkRequestInfo();
-        onBackPressed();
-        finish();
     }
 
     private void checkRequestInfo(){
@@ -323,44 +325,8 @@ public class ActivityAddRequest_coach extends AppCompatActivity {
         sendRequest();
     }
 
+
     private void sendRequest() {
-        try {
-            JSONObject where_info = new JSONObject();
-            where_info.put("type",3);
-
-            HttpCall httpCall = new HttpCall();
-            httpCall.setMethodtype(HttpCall.POST);
-            httpCall.setUrl(Constants.selectData);
-            HashMap<String,String> params = new HashMap<>();
-            params.put("table","users");
-            params.put("where",where_info.toString());
-
-            httpCall.setParams(params);
-
-            new HttpRequest(){
-                @Override
-                public void onResponse(JSONArray response) {
-                    super.onResponse(response);
-                    if (response != null) {
-                        try {
-                            JSONObject object = response.getJSONObject(0);
-                            int user_id = object.getInt("id");
-                            insertRequest(user_id);
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                    else
-                        show_toast("Error in sending");
-                }
-            }.execute(httpCall);
-
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-    }
-
-    private void insertRequest(int ReceiverID) {
         JSONObject values = new JSONObject();
         try {
             show_toast("sending...");
@@ -375,11 +341,14 @@ public class ActivityAddRequest_coach extends AppCompatActivity {
             DateFormat DateFormat = new SimpleDateFormat("dd/MM/yyyy");
             Date date = DateFormat.parse(date_request);
             date_request = outdateFormat.format(date);
+            Date c = Calendar.getInstance().getTime();
+            String creation_date = outdateFormat.format(c);
+
+            added_request = new item_request_coach(creation_date,title,Message ,CourseName,ClassName,date_request,1);
 
             values.put("title",title);
             values.put("content",Message);
             values.put("from_id",globalVars.getId());
-            values.put("to_id",ReceiverID);
             values.put("course_name",CourseName);
             values.put("sub_course_name",ClassName);
             values.put("date_request",date_request);
@@ -404,8 +373,10 @@ public class ActivityAddRequest_coach extends AppCompatActivity {
                             String result = String.valueOf(response.get(0));
                             if (result.equals("ERROR"))
                                 show_toast("Failed to send");
-                            else
+                            else {
                                 show_toast("Successfully sent");
+                                requestResult();
+                            }
                         }else {
                             show_toast("Failed to send");
                         }
@@ -420,6 +391,14 @@ public class ActivityAddRequest_coach extends AppCompatActivity {
         } catch (ParseException e) {
             e.printStackTrace();
         }
+        onBackPressed();
+    }
+
+    private void requestResult(){
+        Intent intentResult = new Intent();
+        intentResult.putExtra("newRequest",added_request);
+        setResult(AppCompatActivity.RESULT_OK ,intentResult);
+        finish();
     }
 
     private void show_toast(String s) {
@@ -429,7 +408,6 @@ public class ActivityAddRequest_coach extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-        finish();
     }
 
     @Override

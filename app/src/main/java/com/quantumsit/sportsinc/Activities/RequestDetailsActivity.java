@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -41,7 +42,9 @@ public class RequestDetailsActivity extends AppCompatActivity {
     CustomLoadingView loadingView;
     private int ID;
     private int requestID;
+    private int request_status = 2;
     private int loadingTime = 1200;
+    private int REQUEST_UPDATE = 7;
 
 
     @Override
@@ -93,7 +96,7 @@ public class RequestDetailsActivity extends AppCompatActivity {
 
     }
 
-    private void updateRequest(int value){
+    private void updateRequest(final int value){
         try {
             JSONObject where_info = new JSONObject();
             where_info.put("id",requestID);
@@ -116,8 +119,11 @@ public class RequestDetailsActivity extends AppCompatActivity {
                 public void onResponse(JSONArray response) {
                     super.onResponse(response);
                     progressDialog.dismiss();
-                    if (checkResponse(response))
+                    Log.d("RequestDetailsUpdate",String.valueOf(response));
+                    if (checkResponse(response)) {
                         mybuttons.setVisibility(View.GONE);
+                        request_status = value;
+                    }
                     else
                         Toast.makeText(getApplicationContext(),"An error occurred",Toast.LENGTH_LONG).show();
 
@@ -285,5 +291,13 @@ public class RequestDetailsActivity extends AppCompatActivity {
             return true;
         }
         return false;
+    }
+
+    @Override
+    public void onBackPressed() {
+        Intent resultIntent = new Intent();
+        resultIntent.putExtra("request_status",request_status);
+        setResult(AppCompatActivity.RESULT_OK ,resultIntent);
+        finish();
     }
 }

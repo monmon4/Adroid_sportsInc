@@ -8,11 +8,13 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.quantumsit.sportsinc.Aaa_data.Constants;
 import com.quantumsit.sportsinc.Aaa_data.GlobalVars;
@@ -47,6 +49,7 @@ public class CoachRequestSentFragment extends Fragment {
     SwipeRefreshLayout mSwipeRefreshLayout;
     ArrayList<item_request_coach> list_items;
     ListView_Adapter_request_coach arrayAdapter;
+    private int REQUEST_ADD = 4;
 
     @Nullable
     @Override
@@ -85,6 +88,7 @@ public class CoachRequestSentFragment extends Fragment {
             }
         });
         listView = customListView.getListView();
+        listView.setSelector(android.R.color.transparent);
         listViewListener = new myCustomListViewListener(listView , mSwipeRefreshLayout) {
             @Override
             public void loadMoreData() {
@@ -105,6 +109,10 @@ public class CoachRequestSentFragment extends Fragment {
             fillBySavedState(savedInstanceState);
 
         return root;
+    }
+
+    public void addNewRequest(item_request_coach newRequest){
+
     }
 
     @Override

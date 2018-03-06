@@ -6,6 +6,7 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -72,20 +73,8 @@ public class Coach_CurrentClassAttendanceFragment extends Fragment {
             public void onClick(View view) {
 
                 updateTrainee();
-                /*StringBuffer responseText = new StringBuffer();
-                responseText.append("The following were selected...\n");
 
-                List<item_checkbox> list = checkBoxListView_adapter.list_items;
-                for(int i=0;i<list.size();i++){
-                    item_checkbox item = list.get(i);
-                    if(item.getSelected()){
-                        responseText.append("\n" + item.getName());
-                    }
-                }
-
-                Toast.makeText(getContext(), responseText, Toast.LENGTH_LONG).show();*/
-
-                viewPager.setCurrentItem(2);
+                viewPager.setCurrentItem(1);
 
             }
         });

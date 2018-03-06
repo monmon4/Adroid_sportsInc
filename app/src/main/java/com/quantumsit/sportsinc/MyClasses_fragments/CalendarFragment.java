@@ -5,6 +5,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
@@ -67,19 +68,24 @@ public class CalendarFragment extends Fragment {
     @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {
         super.setUserVisibleHint(isVisibleToUser);
+
         if(isVisibleToUser) {
             if (getActivity() != null)
                 getActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR_PORTRAIT);
         }
         else {
             if (getActivity() != null)
-                getActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_FULL_SENSOR);
+                getActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_USER);
         }
     }
+
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+        if (getActivity() != null){
+            getActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR_PORTRAIT);
+        }
         if (requestCode == REQUEST_CODE && resultCode == AppCompatActivity.RESULT_OK && data != null){
             int new_status = data.getIntExtra("ClassStatus",-1);
             if (new_status != -1) {
@@ -94,7 +100,7 @@ public class CalendarFragment extends Fragment {
     public void onPause() {
         super.onPause();
         if (getActivity() != null)
-            getActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_FULL_SENSOR);
+            getActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_USER);
     }
 
     private void fileEventsMap() {

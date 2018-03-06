@@ -1,5 +1,7 @@
 package com.quantumsit.sportsinc.COACHES;
 
+import android.util.Log;
+
 import com.quantumsit.sportsinc.R;
 
 import org.json.JSONException;
@@ -33,12 +35,14 @@ public class item_request_coach implements Serializable {
 
     }
 
-    public item_request_coach(String creation_date, String request_for, String course_name_and_class_number, String date, String accepted) {
+    public item_request_coach(String creation_date, String request_for,String content, String course_name, String class_number, String date, int status) {
         this.creation_date = creation_date;
         this.request_for = request_for;
-        this.course_name = course_name_and_class_number;
+        this.content = content;
+        this.course_name = course_name;
+        this.class_name = class_number ;
         this.date = date;
-        this.accepted = accepted;
+        this.status = status;
     }
 
     public item_request_coach(JSONObject object) {
@@ -73,7 +77,9 @@ public class item_request_coach implements Serializable {
 
 
     public void fillRequest(JSONObject object){
+        Log.d("RequestReturn",String.valueOf(object));
         try {
+            request_ID = object.getInt("requests_id");
             Date date;
             DateFormat outdateFormat = new SimpleDateFormat("dd MMMM, yyyy");
             DateFormat creationDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
