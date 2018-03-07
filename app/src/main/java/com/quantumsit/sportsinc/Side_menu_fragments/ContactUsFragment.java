@@ -159,6 +159,7 @@ public class ContactUsFragment extends Fragment implements OnMapReadyCallback {
             where_info.put("day_status","1");
 
             params.put("table", "times_available");
+            params.put("ordered","true");
             params.put("where",where_info.toString());
 
             httpCall.setParams(params);

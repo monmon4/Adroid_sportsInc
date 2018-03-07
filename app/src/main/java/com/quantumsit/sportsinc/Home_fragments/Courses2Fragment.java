@@ -131,7 +131,7 @@ public class Courses2Fragment extends Fragment {
         }
         HttpCall httpCall = new HttpCall();
         httpCall.setMethodtype(HttpCall.POST);
-        httpCall.setUrl("http://192.168.1.14:8080/sport_inc/api/selectdata");//Constants.selectData);
+        httpCall.setUrl(Constants.selectData);
 
         HashMap<String, String> params = new HashMap<>();
         params.put("table", "courses");
