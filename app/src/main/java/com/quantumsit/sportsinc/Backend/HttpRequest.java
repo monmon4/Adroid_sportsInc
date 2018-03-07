@@ -40,7 +40,9 @@ public class HttpRequest extends AsyncTask<HttpCall, String, JSONArray> {
         try{
             String dataParams = getDataString(httpCall.getParams(), httpCall.getMethodtype());
             URL url = new URL(httpCall.getMethodtype() == HttpCall.GET ? httpCall.getUrl() + dataParams : httpCall.getUrl());
+            Log.d(TAG,"URL :: "+String.valueOf(url));
             urlConnection = (HttpURLConnection) url.openConnection();
+            Log.d(TAG,"Connected");
             urlConnection.setRequestMethod(httpCall.getMethodtype() == HttpCall.GET ? "GET":"POST");
            // urlConnection.setReadTimeout(10000 /* milliseconds */);
            // urlConnection.setConnectTimeout(15000 /* milliseconds */);
