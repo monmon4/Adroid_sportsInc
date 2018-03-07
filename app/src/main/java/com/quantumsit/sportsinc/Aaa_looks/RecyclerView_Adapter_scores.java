@@ -46,9 +46,9 @@ public class RecyclerView_Adapter_scores extends RecyclerView.Adapter<RecyclerVi
 
         holder.course_name.setText(List_Item.get(position).course_name);
         holder.date.setText(List_Item.get(position).class_date);
-        String class_number_string = R.string.class + String.valueOf(List_Item.get(position).class_number);
+        String class_number_string = String.valueOf(R.string.class) + String.valueOf(List_Item.get(position).class_number);
         holder.class_number.setText(class_number_string);
-        String score_string = R.string.score + ": " + String.valueOf(List_Item.get(position).score);
+        String score_string = String.valueOf(R.string.score) + ": " + String.valueOf(List_Item.get(position).score);
         holder.score.setText(score_string);
 
         holder.scores_card.setOnClickListener(new View.OnClickListener() {

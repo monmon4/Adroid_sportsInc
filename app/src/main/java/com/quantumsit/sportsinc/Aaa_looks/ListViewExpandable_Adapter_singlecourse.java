@@ -100,8 +100,8 @@ public class ListViewExpandable_Adapter_singlecourse extends BaseExpandableListA
         } else {
             attendance_image_button.setBackgroundResource(R.drawable.ic_not_checked);
         }
-        String score_string = R.string.score + ":" + String.valueOf(child.score);
-        String coach_note_string = R.string.coach_s_notes + ": \n    " + String.valueOf(child.coach_note);
+        String score_string = String.valueOf(R.string.score) + ":" + String.valueOf(child.score);
+        String coach_note_string = String.valueOf(R.string.coach_s_notes) + ": \n    " + String.valueOf(child.coach_note);
         score_text_view.setText(score_string);
         coach_note_text_view.setText(coach_note_string);
         class_number.setText(child.class_number);
