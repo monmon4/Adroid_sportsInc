@@ -9,4 +9,6 @@
     <dimen name="padding_5">5dp</dimen>
     <dimen name="item_offset">2dp</dimen>
     <dimen name="top_margin">10dp</dimen>
+    <dimen name="ten_dimens">10dp</dimen>
+    <dimen name="twinty_dimens">20dp</dimen>
 </resources>

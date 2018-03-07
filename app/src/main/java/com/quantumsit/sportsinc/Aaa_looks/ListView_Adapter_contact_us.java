@@ -34,7 +34,7 @@ public class ListView_Adapter_contact_us extends ArrayAdapter<item_contact_us> {
         TextView time_textView = convertView.findViewById(R.id.timeTextView_contactUs);
         // Populate the data into the template view using the data object
         day_textView.setText(item.date);
-        time_textView.setText(item.time);
+        time_textView.setText(item.start_time+" ~ "+item.end_time);
         return convertView;
     }
 }

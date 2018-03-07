@@ -426,7 +426,6 @@ public class HomeActivity extends AppCompatActivity
             progressDialog = new ProgressDialog(HomeActivity.this);
             progressDialog.setMessage("Logging Out...");
             progressDialog.show();
-            progressDialog.setCanceledOnTouchOutside(false);
             unActiveUser(globalVars.getId());
             return true;
         }  else if (id == R.id.nav_contact_us) {

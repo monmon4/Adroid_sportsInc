@@ -33,7 +33,9 @@ import com.quantumsit.sportsinc.Aaa_looks.ListView_Adapter_contact_us;
 import com.quantumsit.sportsinc.Aaa_looks.item_contact_us;
 import com.quantumsit.sportsinc.Backend.HttpCall;
 import com.quantumsit.sportsinc.Backend.HttpRequest;
+import com.quantumsit.sportsinc.CustomView.myCustomListView;
 import com.quantumsit.sportsinc.R;
+import com.quantumsit.sportsinc.util.ConnectionUtilities;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -49,6 +51,7 @@ public class ContactUsFragment extends Fragment implements OnMapReadyCallback {
     private Double lat=0.0, lng=0.0;
     private String Title;
 
+    myCustomListView customListView;
     ListView openingHours_listView;
     ListView_Adapter_contact_us listView_adapter;
     ArrayList<item_contact_us> list_items;
@@ -72,6 +75,17 @@ public class ContactUsFragment extends Fragment implements OnMapReadyCallback {
         // Gets the MapView from the XML layout and creates it
         mapView = root.findViewById(R.id.map);
         maps_textView = root.findViewById(R.id.maps_textView);
+
+        customListView = root.findViewById(R.id.openingHoursListView_maps);
+        customListView.setOnRetryClick(new myCustomListView.OnRetryClick() {
+            @Override
+            public void onRetry() {
+                getAvailableTimes();
+            }
+        });
+        openingHours_listView = customListView.getListView();
+        list_items = new ArrayList<>();
+        getAvailableTimes();
         mapView.onCreate(savedInstanceState);
         mapView.getMapAsync(this);
 
@@ -88,15 +102,6 @@ public class ContactUsFragment extends Fragment implements OnMapReadyCallback {
             setLatandLng();
             mapView.onStart();
 
-        openingHours_listView = root.findViewById(R.id.openingHoursListView_maps);
-        list_items = new ArrayList<>();
-
-        list_items.add(new item_contact_us("Saturday", "09:00 ~ 06:00"));
-        list_items.add(new item_contact_us("Sunday", "09:00 ~ 06:00"));
-        list_items.add(new item_contact_us("Monday", "09:00 ~ 06:00"));
-        list_items.add(new item_contact_us("Tuesday", "09:00 ~ 06:00"));
-        list_items.add(new item_contact_us("Thursday", "09:00 ~ 06:00"));
-        list_items.add(new item_contact_us("Wednesday", "09:00 ~ 06:00"));
 
         listView_adapter = new ListView_Adapter_contact_us(getActivity(), list_items);
         openingHours_listView.setAdapter(listView_adapter);
@@ -127,6 +132,61 @@ public class ContactUsFragment extends Fragment implements OnMapReadyCallback {
         });
 
         return root;
+    }
+
+    private boolean checkConnection() {
+        // first, check connectivity
+        if (ConnectionUtilities
+                .checkInternetConnection(getContext())) {
+            return true;
+        }
+        return false;
+    }
+
+    private void getAvailableTimes() {
+        if (!checkConnection()){
+            customListView.retry();
+            return;
+        }
+        try {
+            HttpCall httpCall = new HttpCall();
+            httpCall.setMethodtype(HttpCall.POST);
+            httpCall.setUrl(Constants.selectData);
+
+            HashMap<String, String> params = new HashMap<>();
+
+            JSONObject where_info = new JSONObject();
+            where_info.put("day_status","1");
+
+            params.put("table", "times_available");
+            params.put("where",where_info.toString());
+
+            httpCall.setParams(params);
+            new HttpRequest() {
+                @Override
+                public void onResponse(JSONArray response) {
+                    super.onResponse(response);
+                    fillAdapter(response);
+                }
+            }.execute(httpCall);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void fillAdapter(JSONArray response) {
+        list_items.clear();
+        if (response != null) {
+            try {
+                for (int i = 0; i < response.length(); i++) {
+                    list_items.add(new item_contact_us(response.getJSONObject(i)));
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+        customListView.notifyChange(list_items.size());
+        listView_adapter.notifyDataSetChanged();
     }
 
     @Override
@@ -265,8 +325,10 @@ public class ContactUsFragment extends Fragment implements OnMapReadyCallback {
     public void direction_academy() {
         String geoUri = "http://maps.google.com/maps?q=loc:" + lat + "," + lng + " (" + academy_info.getName() + ")";
         String uri = String.format(Locale.ENGLISH, "geo:%f,%f", lat, lng);
-        Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(uri));
-        startActivity(intent);
+        Intent intent = new Intent(Intent.ACTION_VIEW);
+        intent.setData(Uri.parse(uri));
+        Intent chooser = Intent.createChooser(intent,"Launch Map...");
+        startActivity(chooser);
     }
 
     @Override

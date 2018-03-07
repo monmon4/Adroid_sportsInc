@@ -8,6 +8,7 @@ import android.content.SharedPreferences;
 import android.os.Build;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -105,7 +106,7 @@ public class RegisterActivity extends AppCompatActivity {
 
     public static boolean isValidPhone(String phone)
     {
-        String expression = "^([0-9\\+]|\\(\\d{1,3}\\))[0-9\\-\\. ]{3,15}$";
+        String expression = "^(01([0-2]|5)[0-9]{8})$";
         CharSequence inputString = phone;
         Pattern pattern = Pattern.compile(expression);
         Matcher matcher = pattern.matcher(inputString);
@@ -118,6 +119,67 @@ public class RegisterActivity extends AppCompatActivity {
         }
     }
 
+    public static boolean isValidMail(String mail)
+    {
+        String expression = "^[\\w!#$%&'*+/=?`{|}~^-]+(?:\\.[\\w!#$%&'*+/=?`{|}~^-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,6}$";
+        CharSequence inputString = mail;
+        Pattern pattern = Pattern.compile(expression);
+        Matcher matcher = pattern.matcher(inputString);
+        if (matcher.matches())
+        {
+            return true;
+        }
+        else{
+            return false;
+        }
+    }
+
+    private boolean validateForm() {
+
+        user_name = name_edittext.getText().toString();
+        phone = phone_edittext.getText().toString();
+        mail = mail_edittext.getText().toString();
+        pass = pass_edittext.getText().toString();
+        repass = repass_edittext.getText().toString();
+
+        if (TextUtils.isEmpty(phone)) {
+            phone_edittext.setError("Required.");
+            return false;
+        } else if (!isValidPhone(phone)){
+            phone_edittext.setFocusable(true);
+            phone_edittext.setError("Invalid phone number");
+            return false;
+        }
+        if (TextUtils.isEmpty(user_name)) {
+            name_edittext.setError("Required.");
+            return false;
+        }
+        if (TextUtils.isEmpty(mail)) {
+            mail_edittext.setError("Required.");
+            return false;
+        } else if (!isValidMail(mail)){
+            mail_edittext.setError("Invalid form");
+            return false;
+        }
+        if (TextUtils.isEmpty(pass)) {
+            pass_edittext.setError("Required.");
+            return false;
+        } else if (pass_edittext.length()<8){
+            pass_edittext.setError("Password should be more than 8 characters");
+            return false;
+        }
+        if (!pass.equals(repass)){
+            repass_edittext.setError("Passwords don't match");
+            return false;
+        }
+
+        mail_edittext.setError(null);
+        pass_edittext.setError(null);
+        repass_edittext.setError(null);
+
+        return true;
+    }
+
     public void done_register(View view) {
         if (!checkConnection()){
             show_toast(getResources().getString(R.string.no_connection));
@@ -125,35 +187,20 @@ public class RegisterActivity extends AppCompatActivity {
         }
 
         progressDialog.show();
-        boolean all_good = false;
-
-        user_name = name_edittext.getText().toString();
-        phone = phone_edittext.getText().toString();
-        mail = mail_edittext.getText().toString();
-
-        pass = pass_edittext.getText().toString();
-        repass = repass_edittext.getText().toString();
 
         gender = gender_spinner.getSelectedItem().toString();
-
         day_of_birth = day_edittext.getText().toString();
         month_of_birth = month_edittext.getText().toString();
         year_of_birth = year_edittext.getText().toString();
 
-        if (user_name.equals("")){
-            show_toast("user name is empty");
-        } else if(phone.equals("")){
-            show_toast("Phone is empty");
-        } else if (mail.equals("")) {
-            show_toast("mail is empty");
-        }else if (pass.equals("")){
-            show_toast("password is empty");
-        } else if (repass.equals("")) {
-            show_toast("please, confirm your password");
-        } else if ( !pass.equals(repass)){
-            show_toast("passwords don't match");
-        }else if(day_of_birth.equals("") || month_of_birth.equals("") || year_of_birth.equals("")){
+        if (!validateForm()) {
+            progressDialog.dismiss();
+            return;
+        }
+
+        if(day_of_birth.equals("") || month_of_birth.equals("") || year_of_birth.equals("")){
             show_toast("date of birth is missing ");
+            return;
         } else {
             int day = Integer.valueOf(day_of_birth);
             int month = Integer.valueOf(month_of_birth);
@@ -162,15 +209,11 @@ public class RegisterActivity extends AppCompatActivity {
 
             if (day==0 || month==0 || year==0 || day>31 || month>12 || year>current_year-4 || year < current_year-60) {
                 show_toast("not a valid birthday format");
-            } else {
-                all_good = true;
+                return;
             }
         }
 
-        if (all_good) {
-            checkPhone();
-
-        }
+        checkPhone();
     }
 
     @SuppressLint("StaticFieldLeak")
@@ -198,7 +241,7 @@ public class RegisterActivity extends AppCompatActivity {
                 super.onResponse(response);
 
                 if(response != null){
-                    show_toast("Phone already exists");
+                    phone_edittext.setError("Phone already exists");
 
                 } else {
                     verfication();

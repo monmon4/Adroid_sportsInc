@@ -55,6 +55,8 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Random;
 import java.util.UUID;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -372,58 +374,31 @@ public class ProfileActivity extends AppCompatActivity {
 
 
     private void updateProfile() {
-        try {
-            if (photoChanged)
-                uploadImageToServer();
+        if (photoChanged)
+            uploadImageToServer();
 
-            NewName = Name.getText().toString();
-            NewMail = Mail.getText().toString();
-            NewPhone = Phone.getText().toString();
+        NewName = Name.getText().toString();
+        NewMail = Mail.getText().toString();
+        NewPhone = Phone.getText().toString();
 
-            if (!NewPhone.equals(globalVars.getPhone()))
-                checkPhone(NewPhone);
-            else
-                insertToDb();
-
-            JSONObject values = new JSONObject();
-            values.put("name", NewName);
-            values.put("phone", NewPhone);
-            values.put("email", NewMail);
-
-            JSONObject where = new JSONObject();
-            where.put("id", globalVars.getId());
-
-
-            HttpCall httpCall = new HttpCall();
-            httpCall.setMethodtype(HttpCall.POST);
-            httpCall.setUrl(Constants.updateData);
-            final HashMap<String, String> params = new HashMap<>();
-            params.put("table", "users");
-            params.put("where", where.toString());
-            params.put("values", values.toString());
-
-            httpCall.setParams(params);
-
-            new HttpRequest() {
-                @Override
-                public void onResponse(JSONArray response) {
-                    super.onResponse(response);
-                    if (checkResponse(response)) {
-                        globalVars.setName(NewName);
-                        globalVars.setMail(NewMail);
-                        globalVars.setPhone(NewPhone);
-                        saveUpdateToPref();
-                        editableProfile(false);
-                        Toast.makeText(ProfileActivity.this, "Changing saved", Toast.LENGTH_SHORT).show();
-                    } else {
-                        Toast.makeText(ProfileActivity.this, "Edit Fail", Toast.LENGTH_SHORT).show();
-                    }
-                    dismissProgress();
-                }
-            }.execute(httpCall);
-        } catch (JSONException e) {
-            e.printStackTrace();
+        if (!isValidMail(NewMail)){
+            progressDialog.dismiss();
+            Mail.setError("Invalid e-mail format");
+            return;
         }
+
+
+        if (!NewPhone.equals(globalVars.getPhone())) {
+            if (!isValidPhone(NewPhone)){
+                progressDialog.dismiss();
+                Phone.setError("Invalid Phone Number...");
+                return;
+            }
+            checkPhone(NewPhone);
+            return;
+        }
+
+        insertToDb();
     }
 
 
@@ -471,6 +446,36 @@ public class ProfileActivity extends AppCompatActivity {
 
         } catch (JSONException e) {
             e.printStackTrace();
+        }
+    }
+
+    public static boolean isValidPhone(String phone)
+    {
+        String expression = "^(01([0-2]|5)[0-9]{8})$";
+        CharSequence inputString = phone;
+        Pattern pattern = Pattern.compile(expression);
+        Matcher matcher = pattern.matcher(inputString);
+        if (matcher.matches())
+        {
+            return true;
+        }
+        else{
+            return false;
+        }
+    }
+
+    public static boolean isValidMail(String mail)
+    {
+        String expression = "^[\\w!#$%&'*+/=?`{|}~^-]+(?:\\.[\\w!#$%&'*+/=?`{|}~^-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,6}$";
+        CharSequence inputString = mail;
+        Pattern pattern = Pattern.compile(expression);
+        Matcher matcher = pattern.matcher(inputString);
+        if (matcher.matches())
+        {
+            return true;
+        }
+        else{
+            return false;
         }
     }
 
@@ -531,7 +536,6 @@ public class ProfileActivity extends AppCompatActivity {
     private void checkPhone(final String phone) {
 
         JSONObject where_info = new JSONObject();
-
         try {
             where_info.put("phone",phone);
         } catch (JSONException e) {
@@ -601,6 +605,7 @@ public class ProfileActivity extends AppCompatActivity {
                 String verifcation = verify_edit_text.getText().toString().trim();
                 insertToDb();
                 if (verifcation.equals(String.valueOf(verfication_num))){
+                    verfication_popup_window.dismiss();
                     insertToDb();
                 } else {
                     show_toast("Wrong code");
@@ -627,6 +632,7 @@ public class ProfileActivity extends AppCompatActivity {
                     show_toast("Success");
 
                 } else {
+                    verfication_popup_window.dismiss();
                     show_toast("An error occurred");
                 }
 
@@ -635,6 +641,7 @@ public class ProfileActivity extends AppCompatActivity {
     }
 
     private void insertToDb() {
+        progressDialog.show();
 
         try {
             JSONObject values = new JSONObject();
@@ -679,6 +686,7 @@ public class ProfileActivity extends AppCompatActivity {
     }
 
     private void show_toast(String msg) {
+        progressDialog.dismiss();
         Toast.makeText(ProfileActivity.this, msg, Toast.LENGTH_SHORT).show();
     }
 
