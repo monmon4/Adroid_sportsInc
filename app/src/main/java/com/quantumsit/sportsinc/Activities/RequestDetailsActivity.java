@@ -42,7 +42,7 @@ public class RequestDetailsActivity extends AppCompatActivity {
     CustomLoadingView loadingView;
     private int ID;
     private int requestID;
-    private int request_status = 2;
+    private int requestStatus;
     private int loadingTime = 1200;
     private int REQUEST_UPDATE = 7;
 
@@ -122,7 +122,7 @@ public class RequestDetailsActivity extends AppCompatActivity {
                     Log.d("RequestDetailsUpdate",String.valueOf(response));
                     if (checkResponse(response)) {
                         mybuttons.setVisibility(View.GONE);
-                        request_status = value;
+                        requestStatus = value;
                     }
                     else
                         Toast.makeText(getApplicationContext(),"An error occurred",Toast.LENGTH_LONG).show();
@@ -228,7 +228,7 @@ public class RequestDetailsActivity extends AppCompatActivity {
         }*/
 
         requestID = myRequest.getRequest_ID();
-        int requestStatus = myRequest.getStatus();
+        requestStatus = myRequest.getStatus();
 
         String Status = "Waiting";
 
@@ -296,7 +296,7 @@ public class RequestDetailsActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         Intent resultIntent = new Intent();
-        resultIntent.putExtra("request_status",request_status);
+        resultIntent.putExtra("request_status",requestStatus);
         setResult(AppCompatActivity.RESULT_OK ,resultIntent);
         finish();
     }
