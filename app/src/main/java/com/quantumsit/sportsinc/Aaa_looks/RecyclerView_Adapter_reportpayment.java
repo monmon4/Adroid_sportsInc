@@ -45,7 +45,7 @@ public class RecyclerView_Adapter_reportpayment extends RecyclerView.Adapter<Rec
         holder.creation_date.setText(List_Item.get(position).creation_date);
         String payment = "$" + List_Item.get(position).payment;
         holder.payment.setText(payment);
-        String due_date_string = R.string.due +": " + List_Item.get(position).due_date;
+        String due_date_string = String.valueOf(R.string.due) +": " + List_Item.get(position).due_date;
         holder.due_date.setText(due_date_string);
 
         if (List_Item.get(position).status != 0){
