@@ -9,11 +9,11 @@
     android:orientation="vertical"
     tools:context=".Activities.ClassesDetailsActivity">
 
-    <com.quantumsit.sportsinc.CustomView.CustomLoadingView
+    <!--com.quantumsit.sportsinc.CustomView.CustomLoadingView
         android:id="@+id/LoadingView"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-    </com.quantumsit.sportsinc.CustomView.CustomLoadingView>
+    </com.quantumsit.sportsinc.CustomView.CustomLoadingView-->
 
     <ScrollView
         android:layout_width="match_parent"
@@ -158,7 +158,7 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="No. classes : "
+                            android:text="@string/no_of_sessions"
                             android:paddingStart="16dp"
                             android:textColor="@color/colorBlack"
                             android:textStyle="bold|italic"

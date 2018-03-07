@@ -92,7 +92,7 @@ public class Complains_SendFragment extends Fragment {
             values_info.put("user_id",globalVars.getId());
             values_info.put("Content",content);
             values_info.put("related_to",regarding_spinner.getText().toString());
-            if (globalVars.getType() == 0) {
+            if (globalVars.getType() == 0 && to_spinner.getText().toString().equals("Coach") ){
                 values_info.put("to_id",coach_id);
             }
             values_info.put("readable",0);
@@ -150,7 +150,7 @@ public class Complains_SendFragment extends Fragment {
                         @Override
                         public void onClick(DialogInterface dialogInterface, int i) {
                             int coach_id = 0;
-                            if (globalVars.getType() == 0) {
+                            if (globalVars.getType() == 0 && to_spinner.getText().toString().equals("Coach")) {
                                 coach_id = getCoachId();
                             }
                             send_to_DB(title, content, coach_id);
