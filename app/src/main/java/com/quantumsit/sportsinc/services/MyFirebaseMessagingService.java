@@ -99,6 +99,9 @@ public class MyFirebaseMessagingService  extends FirebaseMessagingService {
                 case 3:
                     resultIntent = new Intent(getApplicationContext(), NotificationDetailsActivity.class);
                     break;
+                case 4:
+                    userTypeUpdate();
+                    break;
             }
             // resultIntent.putExtra("Notification",Config.NOTIFICATION_ID);
             resultIntent.putExtra("notify_id", notify_id);

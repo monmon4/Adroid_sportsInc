@@ -2,6 +2,7 @@ package com.quantumsit.sportsinc.Side_menu_fragments;
 
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -45,12 +46,15 @@ public class Complains_SendFragment extends Fragment {
     View root;
     GlobalVars globalVars;
 
+    ProgressDialog progressDialog;
+
     Spinner simple_regarding_spinner;
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
 
         globalVars = (GlobalVars) getActivity().getApplication();
+        progressDialog = new ProgressDialog(getContext());
 
         if (globalVars.getType() == 0) {
             root = inflater.inflate(R.layout.fragment_complains_send_trainee,container,false);
@@ -92,7 +96,7 @@ public class Complains_SendFragment extends Fragment {
             values_info.put("user_id",globalVars.getId());
             values_info.put("Content",content);
             values_info.put("related_to",regarding_spinner.getText().toString());
-            if (globalVars.getType() == 0 && to_spinner.getText().toString().equals("Coach") ){
+            if (coach_id != 0) {
                 values_info.put("to_id",coach_id);
             }
             values_info.put("readable",0);
@@ -106,6 +110,8 @@ public class Complains_SendFragment extends Fragment {
             params.put("values",values_info.toString());
 
             httpCall.setParams(params);
+            progressDialog.setMessage("Sending...");
+            progressDialog.show();
 
             new HttpRequest(){
                 @Override
@@ -120,6 +126,7 @@ public class Complains_SendFragment extends Fragment {
                     } else {
                         Toast.makeText(getContext(), "An error occurred", Toast.LENGTH_SHORT).show();
                     }
+                    progressDialog.dismiss();
 
                 }
             }.execute(httpCall);
@@ -149,11 +156,11 @@ public class Complains_SendFragment extends Fragment {
                     new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialogInterface, int i) {
-                            int coach_id = 0;
                             if (globalVars.getType() == 0 && to_spinner.getText().toString().equals("Coach")) {
-                                coach_id = getCoachId();
+                                getCoachId(title, content);
                             }
-                            send_to_DB(title, content, coach_id);
+                            else
+                                send_to_DB(title, content , 0);
                             dialogInterface.dismiss();
                         }
                     });
@@ -169,7 +176,7 @@ public class Complains_SendFragment extends Fragment {
     }
 
     @SuppressLint("StaticFieldLeak")
-    private int getCoachId() {
+    private void getCoachId(final String title , final String content) {
         final int[] coach_id = {0};
 
         try {
@@ -195,8 +202,8 @@ public class Complains_SendFragment extends Fragment {
                         if (response != null) {
                             JSONObject result = response.getJSONObject(0);
                             coach_id[0] = result.getInt("coach_id");
+                            send_to_DB(title, content, coach_id[0]);
                         }
-
 
                     } catch (JSONException e) {
                         e.printStackTrace();
@@ -206,8 +213,6 @@ public class Complains_SendFragment extends Fragment {
         } catch (JSONException e) {
             e.printStackTrace();
         }
-
-        return coach_id[0];
 
     }
 

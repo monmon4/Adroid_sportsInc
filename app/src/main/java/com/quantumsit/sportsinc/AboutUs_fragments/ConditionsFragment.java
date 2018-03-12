@@ -49,7 +49,7 @@ public class ConditionsFragment extends Fragment {
         listView.setSelector(android.R.color.transparent);
         items = new ArrayList<>();
 
-        mSwipeRefreshLayout = root.findViewById(R.id.swipeRefresh);
+        mSwipeRefreshLayout = root.findViewById(R.id.swiperefresh);
         mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {

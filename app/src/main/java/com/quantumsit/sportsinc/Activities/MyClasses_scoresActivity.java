@@ -42,10 +42,10 @@ public class MyClasses_scoresActivity extends AppCompatActivity {
         score = getIntent().getExtras().getInt("score");
         class_number = getIntent().getExtras().getInt("class_number");
 
-        String course = R.string.course_name+": " + course_name;
-        String group = R.string.group_number +": " + group_name;
-        String class_name = R.string.session +" " + String.valueOf(class_number);
-        String score_text = R.string.score +": " + String.valueOf(score);
+        String course = getResources().getString(R.string.course_name)+": " + course_name;
+        String group = getResources().getString(R.string.group_number) +": " + group_name;
+        String class_name = getResources().getString(R.string.session) +" " + String.valueOf(class_number);
+        String score_text = getResources().getString(R.string.score) +": " + String.valueOf(score);
 
         course_name_textview.setText(course);
         date_textview.setText(class_date);

@@ -137,9 +137,9 @@ public class ClassesDetailsActivity extends AppCompatActivity {
                 public void onResponse(JSONArray response) {
                     super.onResponse(response);
                     if(checkResponse(response)) {
-                        show_toast(String.valueOf(R.string.session_has_been_cancelled));
+                        show_toast(getResources().getString(R.string.session_has_been_cancelled));
                     }else {
-                        show_toast(String.valueOf(R.string.failed_to_cancel_session));
+                        show_toast(getResources().getString(R.string.failed_to_cancel_session));
                     }
                     progressDialog.dismiss();
                     dismissButtons();
@@ -375,7 +375,7 @@ public class ClassesDetailsActivity extends AppCompatActivity {
                     if(checkResponse(response)) {
                         show_toast(msg);
                     }else {
-                        show_toast(String.valueOf(R.string.failed_to_postpone_session));
+                        show_toast(getResources().getString(R.string.failed_to_postpone_session));
                     }
                     progressDialog.dismiss();
                     dismissButtons();

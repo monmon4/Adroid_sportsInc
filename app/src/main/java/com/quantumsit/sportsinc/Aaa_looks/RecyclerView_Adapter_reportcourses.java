@@ -44,9 +44,9 @@ public class RecyclerView_Adapter_reportcourses extends RecyclerView.Adapter<Rec
 
 
         holder.course_name.setText(List_Item.get(position).course_name);
-        String attendance_string = String.valueOf(R.string.attendance)+": " + String.valueOf(List_Item.get(position).attendance) + "%";
+        String attendance_string = context.getResources().getString(R.string.attendance)+": " + String.valueOf(List_Item.get(position).attendance) + "%";
         holder.attendance.setText(attendance_string);
-        String score_string = String.valueOf(R.string.score)+": " + String.valueOf(List_Item.get(position).score);
+        String score_string = context.getResources().getString(R.string.score)+": " + String.valueOf(List_Item.get(position).score);
         holder.score.setText(score_string);
 
         holder.course_card.setOnClickListener(new View.OnClickListener() {
