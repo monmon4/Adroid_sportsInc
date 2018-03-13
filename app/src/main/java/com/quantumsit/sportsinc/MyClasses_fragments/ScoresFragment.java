@@ -80,6 +80,7 @@ public class ScoresFragment extends Fragment {
                 fill_list(false);
             }
         });
+
         recycler_view = customRecyclerView.getRecyclerView();
         layoutManager = new MyCustomLayoutManager(getActivity());
         recycler_view.setLayoutManager(layoutManager);
@@ -180,14 +181,21 @@ public class ScoresFragment extends Fragment {
         mSwipeRefreshLayout.setRefreshing(false);
         try {
             if (response != null) {
+                JSONObject first_result = response.getJSONObject(0);
+                int Num_classes = first_result.getInt("Num_classes");
+                int num_attended_classes = 0;
                 for (int i=0; i<response.length(); i++){
                     JSONObject result = response.getJSONObject(i);
                     String course_name = result.getString("course_name");
                     String group_name = result.getString("group_name");
                     String class_date = result.getString("class_date");
                     int class_number = result.getInt("class_number");
-                    int score = result.getInt("attend");
-                    int attend = result.getInt("score");
+                    int attend = result.getInt("attend");
+
+                    if (attend == 1)
+                        num_attended_classes++;
+
+                    int score = num_attended_classes;
                     String coach_name = result.getString("coach_name");
                     String coach_notes = result.getString("coach_note");
                     list_item.add(new item_single_scores(course_name, group_name, class_date, coach_name, coach_notes, attend, score, class_number));

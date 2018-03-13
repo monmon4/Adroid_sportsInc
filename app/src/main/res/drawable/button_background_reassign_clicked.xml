@@ -23,6 +23,6 @@
         /-->
     <stroke
         android:width="0dp"
-        android:color="@color/colorBlue"
+        android:color="@color/colorLogoBlue"
         />
 </shape>

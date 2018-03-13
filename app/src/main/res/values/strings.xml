@@ -9,13 +9,14 @@
         <item>Absence</item>
         <item>Vacation</item>
         <item>Class suspend</item>
+        <item>Other</item>
     </string-array>
 
     <string-array name="trainee_request_for_array">
         <item>Absence</item>
         <item>Switch class</item>
+        <item>Other</item>
     </string-array>
-
 
 
     <string-array name="class_numbers_array">
@@ -437,6 +438,29 @@
     <string name="scores">Scores</string>
     <string name="calendar">Calender</string>
     <string name="no_connection">No Internet Connection</string>
-    <string name="no_of_sessions">No. sessions :</string>
+    <string name="no_of_sessions">No. sessions:</string>
+    <string name="price_">Price:</string>
+    <string name="description_">Description:</string>
+    <string name="description">Description</string>
+    <string name="session_">Session:</string>
+    <string name="level_">Level:</string>
+    <string name="class_">Class:</string>
+    <string name="bad">Bad</string>
+    <string name="average">Average</string>
+    <string name="good">Good</string>
+    <string name="excellent">Excellent</string>
+    <string name="first_name">First name</string>
+    <string name="last_name">Last name</string>
+    <string name="get_started">Get started</string>
+    <string name="step1">Step 1</string>
+    <string name="step2">Step 2</string>
+    <string name="step3">Step 3</string>
+    <string name="step4">Step 4</string>
+
+    <integer name="grinning_face">0x1F604</integer>
+    <integer name="smiley_face">0x1F642</integer>
+    <integer name="neutral_face">0x1F610</integer>
+    <integer name="sad_face">0x1F641</integer>
+
 
 </resources>

@@ -48,7 +48,7 @@ public class RecyclerView_Adapter_scores extends RecyclerView.Adapter<RecyclerVi
         holder.date.setText(List_Item.get(position).class_date);
         String class_number_string = context.getResources().getString(R.string.class_number) + String.valueOf(List_Item.get(position).class_number);
         holder.class_number.setText(class_number_string);
-        String score_string = context.getResources().getString(R.string.score) + ": " + String.valueOf(List_Item.get(position).score);
+        String score_string = context.getResources().getString(R.string.score) + ": " + String.valueOf(List_Item.get(position).score) + " out of " + String.valueOf(List_Item.get(position).class_number);
         holder.score.setText(score_string);
 
         holder.scores_card.setOnClickListener(new View.OnClickListener() {

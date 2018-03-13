@@ -32,6 +32,7 @@ import com.quantumsit.sportsinc.Backend.HttpCall;
 import com.quantumsit.sportsinc.Backend.HttpRequest;
 import com.quantumsit.sportsinc.Entities.UserEntity;
 import com.quantumsit.sportsinc.R;
+import com.quantumsit.sportsinc.RegisterationForm_fragments.RegisterationFormFragment;
 import com.quantumsit.sportsinc.util.ConnectionUtilities;
 
 import org.json.JSONArray;
@@ -40,6 +41,8 @@ import org.json.JSONObject;
 
 import java.util.HashMap;
 import java.util.Random;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -48,10 +51,11 @@ public class LoginActivity extends AppCompatActivity {
     TextView forgetPassword;
     PopupWindow verfication_popup_window;
 
-    EditText phone_edittext, pass_edittext;
-    String phone, pass;
+    EditText mail_edittext, pass_edittext;
+    String mail, pass;
 
-    String received_pass, received_mail, received_name, received_imgUrl ,received_date_of_birth;
+    String received_pass, received_mail, received_name, received_imgUrl
+            ,received_date_of_birth, received_phone;
     int received_id, received_gender, received_type;
 
     ProgressDialog progressDialog;
@@ -70,7 +74,7 @@ public class LoginActivity extends AppCompatActivity {
         progressDialog = new ProgressDialog(LoginActivity.this);
         progressDialog.setMessage(getResources().getString(R.string.login_configure));
 
-        phone_edittext = findViewById(R.id.phoneEditText_login);
+        mail_edittext = findViewById(R.id.mailEditText_login);
         pass_edittext = findViewById(R.id.passEditText_login);
 
         forgetPassword = findViewById(R.id.forgetpassTextView_login);
@@ -79,23 +83,23 @@ public class LoginActivity extends AppCompatActivity {
         forgetPassword.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                phone = phone_edittext.getText().toString();
-                if (phone.equals(""))
+                mail = mail_edittext.getText().toString();
+                if (mail.equals(""))
                     show_toast("Enter your phone number first...");
 
                 else
-                    checkPhone();
+                    checkMail();
             }
         });
 
     }
 
-    private void checkPhone() {
+    private void checkMail() {
 
         JSONObject where_info = new JSONObject();
 
         try {
-            where_info.put("phone",phone);
+            where_info.put("email",mail);
 
             HttpCall httpCall = new HttpCall();
             httpCall.setMethodtype(HttpCall.POST);
@@ -111,11 +115,12 @@ public class LoginActivity extends AppCompatActivity {
                     super.onResponse(response);
 
                     if (response == null) {
-                        show_toast("Phone not exists");
+                        show_toast("Email does not exist");
 
                     } else {
                         try {
                             JSONObject result = response.getJSONObject(0);
+                            received_phone = result.getString("phone");
                             received_id = result.getInt("id");
                             received_name = result.getString("name");
                             received_imgUrl = result.getString("ImageUrl");
@@ -139,76 +144,11 @@ public class LoginActivity extends AppCompatActivity {
 
 
     private void verfication(){
-        progressDialog.dismiss();
-        Random random_num = new Random();
-        final int verfication_num = random_num.nextInt(9999 - 1000) + 1000;
-        Log.d("Verfication","Code: "+verfication_num);
-        //verification_msg = "" + verfication_num;
 
 
-        LayoutInflater inflater = (LayoutInflater) this.getSystemService(LAYOUT_INFLATER_SERVICE);
-        View customView = inflater.inflate(R.layout.window_verficationcode_layout,null);
-
-        verfication_popup_window = new PopupWindow(
-                customView,
-                ViewGroup.LayoutParams.WRAP_CONTENT,
-                ViewGroup.LayoutParams.WRAP_CONTENT
-        );
-
-        if(Build.VERSION.SDK_INT>=21){
-            verfication_popup_window.setElevation(5.0f);
-        }
-
-        final EditText verify_edit_text =  customView.findViewById(R.id.verficationEditText_verify);
-        Button done_button =  customView.findViewById(R.id.doneButton_verify);
-        verify_edit_text.setEnabled(true);
-
-        verfication_popup_window.showAtLocation(login_ll, Gravity.CENTER,0,0);
-        verfication_popup_window.setFocusable(true);
-        verify_edit_text.setFocusable(true);
-        verfication_popup_window.setOutsideTouchable(false);
-        verfication_popup_window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
-        verfication_popup_window.update();
-
-        done_button.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View view){
-                String verifcation = verify_edit_text.getText().toString().trim();
-
-                if (verifcation.equals(String.valueOf(verfication_num))){
-                    verfication_popup_window.dismiss();
-                    newPasswordWindow();
-                } else {
-                    show_toast("Wrong code");
-                }
-
-            }
-        } );
 
 
-        HttpCall httpCall = new HttpCall();
-        httpCall.setMethodtype(HttpCall.POST);
-        httpCall.setUrl(Constants.sendSMS);
-        HashMap<String,String> params = new HashMap<>();
-        params.put("phone",phone);
-        params.put("message",String.valueOf(verfication_num));
-        httpCall.setParams(params);
 
-        new HttpRequest(){
-            @Override
-            public void onResponse(JSONArray response) {
-                super.onResponse(response);
-
-                if(response != null){
-                    show_toast("Code has been sent");
-
-                } else {
-                    show_toast("An error has occurred");
-                    verfication_popup_window.dismiss();
-                }
-
-            }
-        }.execute(httpCall);
     }
 
     private void newPasswordWindow() {
@@ -300,7 +240,10 @@ public class LoginActivity extends AppCompatActivity {
 
     @SuppressLint("StaticFieldLeak")
     public void registerClicked(View view) {
-        Intent intent = new Intent(LoginActivity.this, RegisterActivity.class);
+        //Intent intent = new Intent(LoginActivity.this, RegisterActivity.class);
+        //startActivity(intent);
+
+        Intent intent = new Intent(LoginActivity.this, RegisterationFormFragment.class);
         startActivity(intent);
     }
 
@@ -319,21 +262,22 @@ public class LoginActivity extends AppCompatActivity {
             show_toast(getResources().getString(R.string.no_connection));
             return;
         }
-        phone = phone_edittext.getText().toString();
+        mail = mail_edittext.getText().toString();
         pass = pass_edittext.getText().toString();
         all_good = true;
 
-        if (phone.equals("") ){
-            show_toast("Phone is missing");
-
-        } else if (pass.equals("")) {
-            show_toast("Password is missing");
+        if (TextUtils.isEmpty(mail) ){
+            mail_edittext.setError("Email is missing");
+        } else if (!isValidMail(mail)) {
+            mail_edittext.setError("Wrong email format");
+        } else if (TextUtils.isEmpty(pass)) {
+            pass_edittext.setError("Password is missing");
 
         } else {
             all_good = true;
             JSONObject where_info = new JSONObject();
             try {
-                where_info.put("phone",phone);
+                where_info.put("email",mail);
 
                 HttpCall httpCall = new HttpCall();
                 httpCall.setMethodtype(HttpCall.POST);
@@ -360,6 +304,7 @@ public class LoginActivity extends AppCompatActivity {
                                     all_good = true;
                                     received_id = result.getInt("id");
                                     received_name = result.getString("name");
+                                    received_phone = result.getString("phone");
                                     received_imgUrl = result.getString("ImageUrl");
                                     received_gender= result.getInt("gender");
                                     received_type = result.getInt("type");
@@ -373,7 +318,7 @@ public class LoginActivity extends AppCompatActivity {
 
                             } else {
                                 progressDialog.dismiss();
-                                show_toast("Phone doesn't exist");
+                                show_toast("Email doesn't exist");
                             }
 
 
@@ -428,10 +373,10 @@ public class LoginActivity extends AppCompatActivity {
 
     private void go_to_home(){
 
-        globalVars.settAll(received_name,received_imgUrl, phone, pass, received_mail,
+        globalVars.settAll(received_name,received_imgUrl, received_phone, pass, received_mail,
                             received_id, received_type, received_gender, received_date_of_birth);
 
-        UserEntity userEntity = new UserEntity(received_name,received_imgUrl, phone,pass, received_mail,
+        UserEntity userEntity = new UserEntity(received_name,received_imgUrl, received_phone,pass, received_mail,
                 received_id, received_type, received_gender,received_date_of_birth);
 
         SharedPreferences.Editor preferences = getSharedPreferences("UserFile", MODE_PRIVATE).edit();
@@ -447,7 +392,23 @@ public class LoginActivity extends AppCompatActivity {
 
     }
 
+    public static boolean isValidMail(String mail)
+    {
+        String expression = "^[\\w!#$%&'*+/=?`{|}~^-]+(?:\\.[\\w!#$%&'*+/=?`{|}~^-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,6}$";
+        CharSequence inputString = mail;
+        Pattern pattern = Pattern.compile(expression);
+        Matcher matcher = pattern.matcher(inputString);
+        if (matcher.matches())
+        {
+            return true;
+        }
+        else{
+            return false;
+        }
+    }
+
     public void show_toast(String msg){
         Toast.makeText(LoginActivity.this, msg, Toast.LENGTH_SHORT).show();
     }
+
 }

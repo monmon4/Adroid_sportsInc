@@ -240,7 +240,7 @@ public class CoachClassesFragment extends Fragment {
             limit_info.put("limit", limitValue);
             HashMap<String, String> params = new HashMap<>();
             params.put("where", where_info.toString());
-            params.put("limit",limit_info.toString());
+            //params.put("limit",limit_info.toString());
 
             httpCall.setParams(params);
 
@@ -262,20 +262,6 @@ public class CoachClassesFragment extends Fragment {
         if (!loadMore) {
             header_list.clear();
             child_hashmap.clear();
-           /* for (int i=0;i<30;i++){
-
-                item2_notfinished_course_group entity = new item2_notfinished_course_group("LEVEL "+i,"Group "+i,"pool 1" , (i+1),(i+10),3,4);
-                header_list.add(entity);
-                item_finished_classes finished_class = new item_finished_classes("class TEST","2019-11-22");
-                if (child_hashmap.get(entity.getGroup_id())==null){
-                    child_hashmap.put(entity.getGroup_id(),new ArrayList<item_finished_classes>());
-                }
-                child_hashmap.get(entity.getGroup_id()).add(finished_class);
-            }
-            customExpandableListView.notifyChange(header_list.size());
-            not_finished_courses_adapter.notifyDataSetChanged();
-            listener.setLoading(false);
-            return;*/
         }
         if (response != null) {
             try {

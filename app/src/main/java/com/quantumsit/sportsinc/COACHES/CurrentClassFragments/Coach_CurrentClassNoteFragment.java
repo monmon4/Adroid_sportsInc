@@ -12,6 +12,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 
 import com.quantumsit.sportsinc.Aaa_data.Constants;
 import com.quantumsit.sportsinc.Aaa_data.GlobalVars;
@@ -50,12 +52,27 @@ public class Coach_CurrentClassNoteFragment extends Fragment {
     private static AtomicInteger doneAT = new AtomicInteger(0);
     private static AtomicInteger allAT = new AtomicInteger(0);
 
+    RadioButton Excellent_radioButton, Good_radioButton, Average_radioButton, Bad_radioButton;
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
-        View root = inflater.inflate(R.layout.fragment_coach__current_class_note,container,false);
+        final View root = inflater.inflate(R.layout.fragment_coach__current_class_note,container,false);
         global = (GlobalVars) getActivity().getApplication();
 
+        Excellent_radioButton = root.findViewById(R.id.radioButton1);
+        Good_radioButton = root.findViewById(R.id.radioButton2);
+        Average_radioButton = root.findViewById(R.id.radioButton3);
+        Bad_radioButton = root.findViewById(R.id.radioButton4);
+
+        final RadioGroup radioGroup = root.findViewById(R.id.above_ll);
+        String ex = getString(R.string.excellent)+ " " + getEmojiByUnicode(0x1F604);
+        Excellent_radioButton.setText(ex);
+        ex = getString(R.string.good) + " " +getEmojiByUnicode(0x1F642);
+        Good_radioButton.setText(ex);
+        ex = getString(R.string.average) + " " +getEmojiByUnicode(0x1F610);
+        Average_radioButton.setText(ex);
+        ex = getString(R.string.bad) + " " +getEmojiByUnicode(0x1F641);
+        Bad_radioButton.setText(ex);
         progressDialog = new ProgressDialog(getContext());
 
         notes_edit_text = root.findViewById(R.id.notesEditText_coachcurrentclassnotesfragment);
@@ -64,11 +81,32 @@ public class Coach_CurrentClassNoteFragment extends Fragment {
         done_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                int selected_radioButton_id = radioGroup.getCheckedRadioButtonId();
+                String emoji = "";
 
-                String notes = notes_edit_text.getText().toString();
+                if (selected_radioButton_id != -1) {
+                    RadioButton selected = root.findViewById(selected_radioButton_id);
+                    String emojis[] = selected.getText().toString().split(" ");
+
+                    emoji = emojis[0] + " " ;
+
+                    if (emojis[0].equals("Excellent"))
+                        emoji += 0x1F604 ;
+                    else if (emojis[0].equals("Good"))
+                        emoji += 0x1F642;
+                    else if(emojis[0].equals("Average"))
+                        emoji += 0x1F610;
+                    else if(emojis[0].equals("Bad"))
+                        emoji += 0x1F641;
+                }
+
+                String notes = emoji + " \n " + notes_edit_text.getText().toString() ;
                 updateClass(notes);
             }
         });
+
+
+
 
 
         return root;
@@ -239,5 +277,9 @@ public class Coach_CurrentClassNoteFragment extends Fragment {
             }
         }
         return false;
+    }
+
+    public String getEmojiByUnicode(int unicode){
+        return new String(Character.toChars(unicode));
     }
 }

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#0192b6</color>
-    <color name="colorPrimaryDark">#00708c</color>
+    <color name="colorPrimary">#df1b1c</color>
+    <color name="colorPrimaryDark">#c70001</color>
     <color name="colorAccent">#b12025</color>
 
     <color name="colorTextDark">#2393af</color>
@@ -16,8 +16,17 @@
     <color name="colorGray">#ed4e4d4d</color>
     <color name="colorLightGray">#efaeacac</color>
 
-    <color name="colorBlue">#2393af</color>
-    <color name="colorRed">#b12025</color>
+    <color name="colorLogoBlue">#001b51</color>
+    <color name="colorLogoRed">#df1b1c</color>
+
+
+    <color name="colorRegisterGrayGender">#b7b7b7</color>
+    <color name="colorRegisterGraySteps">#838383</color>
+
+    <color name="colorTopTapsGraySelected">#838383</color>
+    <color name="colorTopTapsGray">#838383</color>
+
+
 
     <color name="colorMaroon">#650000</color>
 

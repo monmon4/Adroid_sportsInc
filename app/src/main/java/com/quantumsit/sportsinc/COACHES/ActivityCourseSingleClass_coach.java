@@ -154,7 +154,7 @@ public class ActivityCourseSingleClass_coach extends AppCompatActivity {
         }
         try {
             JSONObject where_info = new JSONObject();
-            where_info.put("class_info.class_id", class_id);
+            where_info.put("class_id", class_id);
 
             HttpCall httpCall = new HttpCall();
             httpCall.setMethodtype(HttpCall.POST);

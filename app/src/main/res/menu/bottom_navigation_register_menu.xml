@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+
+    <item
+        android:id="@+id/action_step1"
+        android:icon="@drawable/ic_progress_filled"
+        android:title="@string/step1"/>
+    <item
+        android:id="@+id/action_step2"
+        android:icon="@drawable/ic_progress_filled"
+        android:title="@string/step2"/>
+    <item
+        android:id="@+id/action_step3"
+        android:icon="@drawable/ic_progress_filled"
+        android:title="@string/step3"/>
+    <item
+        android:id="@+id/action_step4"
+        android:icon="@drawable/ic_progress_filled"
+        android:title="@string/step4"/>
+</menu>

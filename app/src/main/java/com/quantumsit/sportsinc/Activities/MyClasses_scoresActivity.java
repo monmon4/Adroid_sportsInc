@@ -47,6 +47,16 @@ public class MyClasses_scoresActivity extends AppCompatActivity {
         String class_name = getResources().getString(R.string.session) +" " + String.valueOf(class_number);
         String score_text = getResources().getString(R.string.score) +": " + String.valueOf(score);
 
+        String[] data = coach_notes.split(" ");
+        StringBuilder emoji = new StringBuilder();
+        if (data[0].equals("Excellent") || data[0].equals("Good") || data[0].equals("Average") || data[0].equals("Bad")) {
+            emoji = new StringBuilder(data[0] + " " + getEmojiByUnicode(Integer.valueOf(data[1])));
+            data[0] = data[1] = "";
+        }
+
+        for(int i=0; i<data.length; i++) {
+            emoji.append(data[i]);
+        }
         course_name_textview.setText(course);
         date_textview.setText(class_date);
         group_number_textview.setText(group);
@@ -55,12 +65,16 @@ public class MyClasses_scoresActivity extends AppCompatActivity {
         if (attend == 0)
             attend_textview.setVisibility(View.VISIBLE);
         coach_name_textview.setText(coach_name);
-        coach_note_textview.setText(coach_notes);
+        coach_note_textview.setText(emoji);
     }
 
     @Override
     public boolean onSupportNavigateUp() {
         onBackPressed();
         return true;
+    }
+
+    public String getEmojiByUnicode(int unicode){
+        return new String(Character.toChars(unicode));
     }
 }

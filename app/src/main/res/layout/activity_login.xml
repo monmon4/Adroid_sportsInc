@@ -28,13 +28,13 @@
                 app:srcCompat="@drawable/sh_logo" />
 
             <EditText
-                android:id="@+id/phoneEditText_login"
+                android:id="@+id/mailEditText_login"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="@string/phone"
+                android:hint="@string/email"
                 android:textColor="@color/colorBlack"
                 android:ems="10"
-                android:inputType="phone" />
+                android:inputType="textEmailAddress" />
 
             <EditText
                 android:id="@+id/passEditText_login"
@@ -58,7 +58,7 @@
                 android:textAppearance="@style/TextAppearance.AppCompat.Small"
                 android:focusableInTouchMode="true"
                 android:text="@string/forgot_password"
-                android:textColor="@color/colorRed"
+                android:textColor="@color/colorLogoRed"
                 android:textSize="18sp"
                 android:textStyle="bold|italic"
                 android:layout_marginRight="10dp" />
@@ -113,7 +113,7 @@
                 android:focusable="true"
                 android:focusableInTouchMode="true"
                 android:text="@string/register"
-                android:textColor="@color/colorRed"
+                android:textColor="@color/colorLogoRed"
                 android:textSize="18sp"
                 android:textStyle="bold" />
         </LinearLayout>

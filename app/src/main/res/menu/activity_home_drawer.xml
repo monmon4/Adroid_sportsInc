@@ -21,10 +21,10 @@
             android:id="@+id/nav_requests"
             android:icon="@drawable/ic_side_request"
             android:title="@string/request" />
-        <item
+        <!--item
             android:id="@+id/nav_complains"
             android:icon="@drawable/ic_side_complain"
-            android:title="@string/complains" />
+            android:title="@string/complains" /-->
         <item
             android:id="@+id/nav_reports"
             android:icon="@drawable/ic_side_reports"

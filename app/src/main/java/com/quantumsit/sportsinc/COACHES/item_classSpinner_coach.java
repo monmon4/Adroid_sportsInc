@@ -26,7 +26,7 @@ public class item_classSpinner_coach implements Serializable {
     public item_classSpinner_coach(JSONObject jsonObject) {
         try {
             class_id = jsonObject.getInt("class_id");
-            class_name = R.string.session+ jsonObject.getString("class_name");
+            class_name = "Session"+ jsonObject.getString("class_name");
             course_id = jsonObject.getInt("course_id");
             class_status = jsonObject.getInt("status");
             class_date = jsonObject.getString("class_date");

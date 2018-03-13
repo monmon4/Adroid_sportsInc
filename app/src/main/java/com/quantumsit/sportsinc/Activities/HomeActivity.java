@@ -77,7 +77,7 @@ public class HomeActivity extends AppCompatActivity
     private ImageView viewChild;
     private ListView childAccount;
     private boolean isPickerShown = false;
-    private TextView userName ,userPhone;
+    private TextView userName;
 
     ArrayList<UserEntity> children;
     TraineeChildAdapter adapter;
@@ -146,9 +146,9 @@ public class HomeActivity extends AppCompatActivity
         viewChild = header.findViewById(R.id.childView);
         childAccount = findViewById(R.id.childAccountList);
         userName = header.findViewById(R.id.user_name);
-        userPhone = header.findViewById(R.id.user_phone);
+        //userPhone = header.findViewById(R.id.user_phone);
         userName.setText(globalVars.getName());
-        userPhone.setText(globalVars.getPhone());
+        //userPhone.setText(globalVars.getMail());
 
         header.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -164,7 +164,7 @@ public class HomeActivity extends AppCompatActivity
             }
         });
 
-        userPhone.setOnClickListener(new View.OnClickListener() {
+        /*userPhone.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 openProfile();
@@ -172,7 +172,7 @@ public class HomeActivity extends AppCompatActivity
                 drawer.closeDrawer(GravityCompat.START);
                 startActivityForResult(intent,PROFILE_CODE);
             }
-        });
+        });*/
 
         children = new ArrayList<>();
         adapter = new TraineeChildAdapter(getApplicationContext(),R.layout.list_item_trainee_child,children);
@@ -182,7 +182,7 @@ public class HomeActivity extends AppCompatActivity
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
                 userName.setText(children.get(position).getName());
-                userPhone.setText(children.get(position).getPhone());
+                //userPhone.setText(children.get(position).getPhone());
                 String ImageUrl = children.get(position).getImgUrl();
                 if (ImageUrl != null && !ImageUrl.equals("")){
                     Picasso.with(getApplicationContext()).load(Constants.profile_host + ImageUrl).into(profileImage);
@@ -234,7 +234,7 @@ public class HomeActivity extends AppCompatActivity
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == PROFILE_CODE && resultCode == AppCompatActivity.RESULT_OK){
             userName.setText(globalVars.getName());
-            userPhone.setText(globalVars.getPhone());
+            //userPhone.setText(globalVars.getPhone());
             String ImageUrl = globalVars.getImgUrl();
             if (ImageUrl != null && !ImageUrl.equals("")){
                 Picasso.with(getApplicationContext()).load(Constants.profile_host + ImageUrl).into(profileImage);
@@ -400,13 +400,13 @@ public class HomeActivity extends AppCompatActivity
                 fragmentClass = RequestsFragment.class;
             }
 
-        } else if (id == R.id.nav_complains) {
+        } /*else if (id == R.id.nav_complains) {
             actionBar.setTitle(R.string.complains);
             if(coach)
                 fragmentClass = ComplainsFragment.class;
             else
                 fragmentClass = Complains_SendFragment.class;
-        } else if (id == R.id.nav_reports) {
+        } */else if (id == R.id.nav_reports) {
             actionBar.setTitle(R.string.reports);
             if (parent){
                 fragmentClass = ReportsFragment.class;

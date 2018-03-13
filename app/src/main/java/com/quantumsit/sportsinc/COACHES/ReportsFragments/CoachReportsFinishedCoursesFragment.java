@@ -101,7 +101,7 @@ public class CoachReportsFinishedCoursesFragment extends Fragment {
                 if (position >= list_items.size())
                     return;
                 Intent intent = new Intent(getActivity(), ActivityFinishedCourseSingle_coach.class);
-                intent.putExtra("finished Group",list_items.get(position));
+                intent.putExtra("finishedGroup",list_items.get(position));
                 startActivity(intent);
             }
         });
