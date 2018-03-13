@@ -6,9 +6,14 @@ package com.quantumsit.sportsinc.Aaa_data;
 
 public interface Constants {
 
+    String local_server = "http://192.168.1.13:8080/sport_inc/api/";
+
     String server = "http://173.212.198.28:8010/sport_inc/api/";
     String upload_host = "http://173.212.198.28:8010/sport_inc/assets/uploads/";
     String UPLOAD_URL = "http://173.212.198.28:8010/sport_inc/academy/upload_Image";
+
+
+    String socialLogin = local_server + "social_login";
 
     String selectData = server + "selectdata";
     String updateData = server + "updatedata";

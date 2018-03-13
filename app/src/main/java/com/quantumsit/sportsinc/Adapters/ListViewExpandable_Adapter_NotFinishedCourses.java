@@ -1,4 +1,4 @@
-package com.quantumsit.sportsinc.COACHES;
+package com.quantumsit.sportsinc.Adapters;
 
 import android.content.Context;
 import android.graphics.Typeface;
@@ -8,6 +8,8 @@ import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
 import android.widget.TextView;
 
+import com.quantumsit.sportsinc.Entities.item2_notfinished_course_group;
+import com.quantumsit.sportsinc.COACHES.item_finished_classes;
 import com.quantumsit.sportsinc.R;
 
 import java.util.HashMap;
@@ -70,7 +72,7 @@ public class ListViewExpandable_Adapter_NotFinishedCourses extends BaseExpandabl
         TextView course_group_text_view =  convertView.findViewById(R.id.courseNameAndGroupTextView_notfinishedcourseheaderitem);
 
         course_group_text_view.setTypeface(null, Typeface.BOLD);
-        course_group_text_view.setText(header.getCourseName()+", "+header.getGroupName());
+        course_group_text_view.setText(header.getCourseName()+context.getResources().getString(R.string.Coma)+header.getGroupName());
         //class_text_view.setText(header.class_number);
 
         return convertView;
@@ -91,7 +93,7 @@ public class ListViewExpandable_Adapter_NotFinishedCourses extends BaseExpandabl
 
         TextView class_number_date = convertView.findViewById(R.id.classNumberAndDateTextView_childsingleitem);
 
-        String item = child.class_name + "," + child.class_date;
+        String item = child.getClass_name() + context.getString(R.string.Coma) + child.getClass_date();
         class_number_date.setText(item);
 
         return convertView;

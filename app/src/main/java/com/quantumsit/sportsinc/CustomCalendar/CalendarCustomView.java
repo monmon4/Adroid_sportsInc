@@ -62,7 +62,7 @@ public class CalendarCustomView extends LinearLayout {
 
         Calendar c = Calendar.getInstance();
 
-        SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy");
+        SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy", Locale.ENGLISH);
         Today = df.format(c.getTime());
         SelectedDate =Today;
         PreviousPostion = -1;
@@ -123,7 +123,7 @@ public class CalendarCustomView extends LinearLayout {
             @Override
             public void onClick(View v) {
                 SelectedDay.add(Calendar.MONTH,-1);
-                SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy");
+                SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy", Locale.ENGLISH);
                 SelectedDate = df.format(SelectedDay.getTime());
                 UpdateCalendar(-1);
             }
@@ -134,7 +134,7 @@ public class CalendarCustomView extends LinearLayout {
             @Override
             public void onClick(View v) {
                 SelectedDay.add(Calendar.MONTH,1);
-                SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy");
+                SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy", Locale.ENGLISH);
                 SelectedDate = df.format(SelectedDay.getTime());
                 UpdateCalendar(1);
             }
@@ -204,7 +204,7 @@ public class CalendarCustomView extends LinearLayout {
         int CurrentYear = mAdapter.getCurrentDate().get(Calendar.YEAR);
         int SelectedYear = dateCal.get(Calendar.YEAR);
 
-        SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy");
+        SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy", Locale.ENGLISH);
         SelectedDate = df.format(dateCal.getTime());
         setUpEventsAapter(SelectedDate);
         SelectedDay.setTime(mAdapter.getItem(position));

@@ -20,6 +20,7 @@ import org.json.JSONObject;
 
 import java.text.SimpleDateFormat;
 import java.util.HashMap;
+import java.util.Locale;
 
 public class ComplainDetailsActivity extends AppCompatActivity {
 
@@ -125,7 +126,7 @@ public class ComplainDetailsActivity extends AppCompatActivity {
 
     private void fillView(ComplainEntity complain) {
         subject.setText(complain.getTitle());
-        SimpleDateFormat format = new SimpleDateFormat("dd MMM, yyyy hh:mm");
+        SimpleDateFormat format = new SimpleDateFormat("dd MMM, yyyy hh:mm", Locale.ENGLISH);
         String str = format.format(complain.getDate());
         date.setText(str);
         person.setText(complain.getPersonName());

@@ -7,6 +7,7 @@ import java.io.Serializable;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Locale;
 
 /**
  * Created by Bassam on 2/12/2018.
@@ -32,7 +33,7 @@ public class ComplainEntity implements Serializable {
             this.Title = jsonObject.getString("title");
             this.content = jsonObject.getString("Content");
             String dateFormated =  jsonObject.getString("c_date");
-            SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+            SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss", Locale.ENGLISH);
             this.date = formatter.parse(dateFormated);
         } catch (JSONException e) {
             e.printStackTrace();

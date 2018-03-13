@@ -19,6 +19,7 @@ import com.squareup.picasso.Picasso;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 /**
  * Created by Bassam on 1/3/2018.
@@ -65,7 +66,7 @@ public class EventAdapter  extends ArrayAdapter<EventEntity> {
         ImageView eventImage = view.findViewById(R.id.eventsImage);
 
         Date mDate = eventEntity.getDate();
-        SimpleDateFormat df = new SimpleDateFormat("E MMM dd yyyy");
+        SimpleDateFormat df = new SimpleDateFormat("E MMM dd yyyy", Locale.ENGLISH);
         String formattedDate = df.format(mDate);
         String[] data = formattedDate.split(" ");
 

@@ -1,9 +1,6 @@
 package com.quantumsit.sportsinc.Reports_fragments;
 
 import android.annotation.SuppressLint;
-import android.app.ProgressDialog;
-import android.content.Context;
-import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
@@ -13,15 +10,12 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import com.quantumsit.sportsinc.Aaa_data.Constants;
 import com.quantumsit.sportsinc.Aaa_data.GlobalVars;
 import com.quantumsit.sportsinc.Aaa_looks.MyCustomLayoutManager;
 import com.quantumsit.sportsinc.Aaa_looks.RecyclerView_Adapter_reportcourses;
-import com.quantumsit.sportsinc.Aaa_looks.RecyclerView_Adapter_scores;
 import com.quantumsit.sportsinc.Aaa_looks.item_single_reports_courses;
-import com.quantumsit.sportsinc.Aaa_looks.item_single_scores;
 import com.quantumsit.sportsinc.Backend.HttpCall;
 import com.quantumsit.sportsinc.Backend.HttpRequest;
 import com.quantumsit.sportsinc.CustomView.myCustomRecyclerView;

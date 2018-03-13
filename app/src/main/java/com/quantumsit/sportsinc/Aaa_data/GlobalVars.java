@@ -1,6 +1,7 @@
 package com.quantumsit.sportsinc.Aaa_data;
 
 import android.app.Application;
+import android.content.Context;
 
 import com.quantumsit.sportsinc.BuildConfig;
 import com.quantumsit.sportsinc.Entities.UserEntity;
@@ -15,6 +16,7 @@ import java.util.ArrayList;
 
 public class GlobalVars extends Application {
 
+    private static Context mContext;
     DB_Sqlite_Handler myDB;
 
     String name ="",imgUrl , phone ="", pass ="", mail ="" ,date_of_birth ="";
@@ -26,11 +28,15 @@ public class GlobalVars extends Application {
 
 
     public GlobalVars() {
+        mContext = this;
         UploadService.NAMESPACE = BuildConfig.APPLICATION_ID;
         // Or, you can define it manually.
         UploadService.NAMESPACE = "com.example.bassam.sporstincmanger";
     }
 
+    public static Context getContext(){
+        return mContext;
+    }
     @Override
     public void onCreate() {
         super.onCreate();

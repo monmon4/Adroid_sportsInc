@@ -28,7 +28,7 @@ public class MyClass_info implements Serializable {
     public MyClass_info(JSONObject response) {
         try {
             class_id = response.getInt("class_id");
-            class_name = "class " + response.getString("class_number");
+            class_name = "session " + response.getString("class_number");
             class_date = response.getString("class_date");
             class_note = response.getString("class_notes");
             group_id = response.getInt("group_id");
@@ -77,4 +77,14 @@ public class MyClass_info implements Serializable {
         this.class_note = class_note;
     }
 
+    @Override
+    public String toString() {
+        return "MyClass_info{" +
+                "class_id=" + class_id +
+                ", class_name='" + class_name + '\'' +
+                ", class_date='" + class_date + '\'' +
+                ", class_note='" + class_note + '\'' +
+                ", group_id=" + group_id +
+                '}';
+    }
 }

@@ -10,6 +10,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Locale;
 
 /**
  * Created by Bassam on 12/24/2017.
@@ -28,7 +29,7 @@ public class classesEntity implements Serializable {
             this.class_id = jsonObject.getInt("class_id");
             this.className = String.valueOf(R.string.session) +jsonObject.getInt("class_number");
             String dateFormated = jsonObject.getString("class_date");
-            SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+            SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH);
             Date date = formatter.parse(dateFormated);
             formatter = new SimpleDateFormat("dd/MM/yyyy");
             this.classdate = formatter.format(date);

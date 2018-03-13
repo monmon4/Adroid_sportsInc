@@ -325,9 +325,9 @@ public class ContactUsFragment extends Fragment implements OnMapReadyCallback {
 
     public void direction_academy() {
         String geoUri = "http://maps.google.com/maps?q=loc:" + lat + "," + lng + " (" + academy_info.getName() + ")";
-        String uri = String.format(Locale.ENGLISH, "geo:%f,%f", lat, lng);
+        //String uri = String.format(Locale.ENGLISH, "geo:%f,%f", lat, lng);
         Intent intent = new Intent(Intent.ACTION_VIEW);
-        intent.setData(Uri.parse(uri));
+        intent.setData(Uri.parse(geoUri));
         Intent chooser = Intent.createChooser(intent,"Launch Map...");
         startActivity(chooser);
     }

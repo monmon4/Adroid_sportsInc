@@ -28,6 +28,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 
 
 public class ListViewExpandable_Adapter_currentClasses extends BaseExpandableListAdapter {
@@ -111,8 +112,8 @@ public class ListViewExpandable_Adapter_currentClasses extends BaseExpandableLis
         double current_time_double = 0;
         double start_time_double = Double.valueOf(header.startTime.replace(":", "."));
         //double end_time_double = Double.valueOf(endTime.replace(":", "."));
-        Date current_time = Calendar.getInstance().getTime();
-        DateFormat time_format = new SimpleDateFormat("hh:mm a");
+        Date current_time = Calendar.getInstance(Locale.ENGLISH).getTime();
+        DateFormat time_format = new SimpleDateFormat("hh:mm a",Locale.ENGLISH);
         String time = time_format.format(current_time);
         String[] splitin_time = time.split(" ");
 

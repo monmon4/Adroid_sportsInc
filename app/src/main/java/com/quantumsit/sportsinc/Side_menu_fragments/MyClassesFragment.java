@@ -1,7 +1,5 @@
 package com.quantumsit.sportsinc.Side_menu_fragments;
 
-import android.content.Context;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
@@ -28,7 +26,7 @@ public class MyClassesFragment extends Fragment {
     TabLayout tabLayout;
 
     GlobalVars globalVars;
-    boolean parent = false, coach = false, admin = false;
+    boolean trainee = false, coach = false, admin = false;
 
     @Nullable
     @Override
@@ -38,11 +36,18 @@ public class MyClassesFragment extends Fragment {
         globalVars =  (GlobalVars) getActivity().getApplication();
         int type = globalVars.getType();
 
-        if (type == 0) {
-            parent = true;
-        }else if (type == 1) {
+        /*
+        *   Fragment To Determine the content of classes view (what appear with the calender)
+        *   depend on user Type
+        *   Trainee = 0 , Coach = 1 , Admin = 2
+        *
+        * */
+
+        if (type == getResources().getInteger(R.integer.Trainee)) {
+            trainee = true;
+        }else if (type == getResources().getInteger(R.integer.Coach)) {
             coach = true;
-        } else if (type == 2) {
+        } else if (type == getResources().getInteger(R.integer.Admin)) {
             admin = true;
         }
 
@@ -58,7 +63,7 @@ public class MyClassesFragment extends Fragment {
     public void setupViewPager(ViewPager viewPager) {
 
         myclasses_sectionsPagerAdapter = new SectionsPagerAdapter(getChildFragmentManager());
-        if(parent){
+        if(trainee){
             myclasses_sectionsPagerAdapter.addFragment(new ScoresFragment(),getString(R.string.scores));
         }else if (coach){
             myclasses_sectionsPagerAdapter.addFragment(new CoachClassesFragment(),getString(R.string.sessions));

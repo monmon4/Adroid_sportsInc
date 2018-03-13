@@ -19,6 +19,7 @@ import com.squareup.picasso.Picasso;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 /**
  * Created by Bassam on 2/8/2018.
@@ -93,7 +94,7 @@ public class EventsRecyclerAdapter extends RecyclerView.Adapter<EventsRecyclerAd
 
             newsTitle.setText(item.getTitle());
             Date mDate = item.getDate();
-            SimpleDateFormat df = new SimpleDateFormat("E MMM dd yyyy");
+            SimpleDateFormat df = new SimpleDateFormat("E MMM dd yyyy", Locale.ENGLISH);
             String formattedDate = df.format(mDate);
             String[] data = formattedDate.split(" ");
 

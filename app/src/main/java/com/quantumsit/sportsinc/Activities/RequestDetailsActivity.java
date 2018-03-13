@@ -27,6 +27,7 @@ import org.json.JSONObject;
 
 import java.text.SimpleDateFormat;
 import java.util.HashMap;
+import java.util.Locale;
 
 /**
  * Created by Bassam on 2/12/2018.
@@ -257,7 +258,7 @@ public class RequestDetailsActivity extends AppCompatActivity {
         subject.setText(myRequest.getRequest_for());
         person.setText(myRequest.getPerson());
         content.setText(myRequest.getContent());
-        SimpleDateFormat formatter = new SimpleDateFormat("MMM dd, yyyy");
+        SimpleDateFormat formatter = new SimpleDateFormat("MMM dd, yyyy", Locale.ENGLISH);
         String ReqDate = formatter.format(myRequest.getRequestDate());
         date.setText(ReqDate);
         Course.setText(myRequest.getCourse());

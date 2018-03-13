@@ -18,6 +18,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 /**
  * Created by Bassam on 1/4/2018.
@@ -54,7 +55,7 @@ public class NotificationAdapter extends ArrayAdapter<NotificationEntity> {
         }
         Calendar c = Calendar.getInstance();
 
-        SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy");
+        SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy", Locale.ENGLISH);
         String Today = df.format(c.getTime());
 
         NotificationEntity notificationEntity = getItem(position);

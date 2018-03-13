@@ -5,10 +5,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.quantumsit.sportsinc.Entities.item_trainee_attendance;
 import com.quantumsit.sportsinc.R;
 
 import java.util.ArrayList;
@@ -38,8 +38,8 @@ public class ListView_Adapter_trainees_attendance_coach extends ArrayAdapter<ite
         ImageView attended = convertView.findViewById(R.id.attendedImageView_singleItemTraineeAttendance);
 
         // Populate the data into the template view using the data object
-        trainee_name.setText(attendance.name);
-        if (!attendance.attended) {
+        trainee_name.setText(attendance.getName());
+        if (!attendance.isAttended()) {
             attended.setBackgroundResource(R.drawable.ic_not_checked);
         }
         // Return the completed view to render on screen

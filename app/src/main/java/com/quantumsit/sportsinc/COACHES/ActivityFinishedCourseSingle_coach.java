@@ -76,10 +76,10 @@ public class ActivityFinishedCourseSingle_coach extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent intent = new Intent(ActivityFinishedCourseSingle_coach.this, ActivityCourseSingleClass_coach.class);
-                intent.putExtra("courseName",group.getCourse_name());
-                intent.putExtra("groupName",group.getGroup_name());
-                intent.putExtra("poolName",group.getPool_name());
-                intent.putExtra("UserType",2);
+                intent.putExtra(getString(R.string.Key_Course_name),group.getCourse_name());
+                intent.putExtra(getString(R.string.Key_Group_name),group.getGroup_name());
+                intent.putExtra(getString(R.string.Key_Pool_name),group.getPool_name());
+                intent.putExtra(getString(R.string.Key_UserType),2);
                 intent.putExtra("finishedClass",list_items.get(position));
                 startActivity(intent);
 

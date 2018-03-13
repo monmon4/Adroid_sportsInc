@@ -28,7 +28,7 @@ import java.util.HashMap;
 
 public class NotificationDetailsActivity extends AppCompatActivity {
 
-    private static String TAG = "NotificationMethodsTest";
+    private static String TAG = NotificationDetailsActivity.class.getSimpleName();
 
     GlobalVars globalVars;
     ProgressDialog progressDialog;
@@ -112,7 +112,6 @@ public class NotificationDetailsActivity extends AppCompatActivity {
     @Override
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
-        Log.d(TAG,"NewIntent");
         final int notify_id = intent.getIntExtra("notify_id",-1);
 
         loadingView.loading();
@@ -139,7 +138,6 @@ public class NotificationDetailsActivity extends AppCompatActivity {
     }
 
     private void retrieveNotification(int notify_id, int user_id) {
-        Log.d(TAG,"ID: "+notify_id+" User: "+user_id);
         if (!checkConnection()){
             ID = notify_id;
             loadingView.fails();
@@ -148,7 +146,7 @@ public class NotificationDetailsActivity extends AppCompatActivity {
         }
         try {
             JSONObject where_info = new JSONObject();
-            where_info.put("notification.to_id",user_id);
+            where_info.put(getString(R.string.where_notify_toId),user_id);
             where_info.put("notify_info.id",notify_id);
 
             HttpCall httpCall = new HttpCall();

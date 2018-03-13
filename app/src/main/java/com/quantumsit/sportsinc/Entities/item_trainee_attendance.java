@@ -1,4 +1,4 @@
-package com.quantumsit.sportsinc.COACHES;
+package com.quantumsit.sportsinc.Entities;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -30,5 +30,17 @@ public class item_trainee_attendance {
         } catch (JSONException e) {
             e.printStackTrace();
         }
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public int getTrainee_id() {
+        return trainee_id;
+    }
+
+    public boolean isAttended() {
+        return attended;
     }
 }

@@ -1,11 +1,8 @@
 package com.quantumsit.sportsinc.AboutUs_fragments;
 
-import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
-import android.support.v4.view.ViewPager;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,13 +13,11 @@ import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 
 import com.quantumsit.sportsinc.Aaa_data.Constants;
-import com.quantumsit.sportsinc.Adapters.SectionsPagerAdapter;
+import com.quantumsit.sportsinc.Adapters.ListView_Adapter_about_us;
 import com.quantumsit.sportsinc.Backend.HttpCall;
 import com.quantumsit.sportsinc.Backend.HttpRequest;
-import com.quantumsit.sportsinc.COACHES.ListView_Adapter_trainees_attendance_coach;
+import com.quantumsit.sportsinc.Entities.item_about;
 import com.quantumsit.sportsinc.R;
-import com.quantumsit.sportsinc.Reports_fragments.CorsesFragment;
-import com.quantumsit.sportsinc.Reports_fragments.PaymentFragment;
 import com.quantumsit.sportsinc.util.ConnectionUtilities;
 
 import org.json.JSONArray;
