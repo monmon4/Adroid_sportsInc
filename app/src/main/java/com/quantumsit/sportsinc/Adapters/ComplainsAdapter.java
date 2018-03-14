@@ -14,6 +14,7 @@ import com.quantumsit.sportsinc.R;
 
 import java.text.SimpleDateFormat;
 import java.util.List;
+import java.util.Locale;
 
 /**
  * Created by Bassam on 2/12/2018.
@@ -55,7 +56,7 @@ public class ComplainsAdapter extends ArrayAdapter<ComplainEntity> {
         TextView Title = view.findViewById(R.id.complainFrom);
 
         content.setText(complain.getContent());
-        SimpleDateFormat format = new SimpleDateFormat("MMM dd");
+        SimpleDateFormat format = new SimpleDateFormat("MMM dd", Locale.ENGLISH);
         String str = format.format(complain.getDate());
         Date.setText(str);
         Title.setText(complain.getTitle());

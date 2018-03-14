@@ -189,8 +189,8 @@
     <string name="no_rules">No Rules</string>
     <string name="no_news">No News</string>
     <string name="join_now">Join now</string>
-    <string name="register">Register</string>
-    <string name="log_in">Log in</string>
+    <string name="register">Create New Account</string>
+    <string name="log_in">Sign in</string>
     <string name="write_a_note">Write a note</string>
     <string name="_100">100</string>
 
@@ -413,13 +413,6 @@
     <string name="check_rules_and_attendance">Check rules and attendance</string>
     <string name="end_class">End session</string>
 
-
-    <integer name="selectLimit">10</integer>
-    <integer name="sliderLimit">3</integer>
-
-    <integer name="ADMIN">2</integer>
-
-
     <string name="session_has_been_cancelled">Session has been canceled</string>
     <string name="failed_to_cancel_session">Failed To cancel Session...</string>
     <string name="failed_to_postpone_session">Failed To postpone Session...</string>
@@ -427,7 +420,7 @@
     <string name="session">Session  </string>
     <string name="coach">Coach  </string>
     <string name="trainee">Trainee  </string>
-    <string name="forgot_password">Forgot password</string>
+    <string name="forgot_password">Forget password?</string>
     <string name="no_sessions_for_this_level">No sessions for this level</string>
     <string name="select_request_for_what">Select Request for what</string>
     <string name="select_request_for_which_level">Select Request for which level</string>
@@ -465,5 +458,105 @@
     <integer name="neutral_face">0x1F610</integer>
     <integer name="sad_face">0x1F641</integer>
 
+
+
+    <string name="facebook_app_id">195079617933358</string>
+    <string name="fb_login_protocol_scheme">fb502284903486319</string>
+
+    <!--  New String after Edit -->
+
+    <string name="Table_GroupTrainee">group_trainee</string>
+    <string name="Table_Users">users</string>
+    <string name="JoinOn_User_GroupTrainee">group_trainee.trainee_id = users.id</string>
+
+    <string name="select_start">start</string>
+    <string name="select_limit">limit</string>
+
+    <string name="parameter_table1">table1</string>
+    <string name="parameter_table2">table2</string>
+    <string name="parameter_id">id</string>
+    <string name="parameter_date">date</string>
+    <string name="parameter_time">time</string>
+    <string name="parameter_on">on</string>
+    <string name="parameter_limit">limit</string>
+    <string name="parameter_where">where</string>
+
+    <string name="where_group_id">group_id</string>
+    <string name="where_trainee_id">trainee_id</string>
+    <string name="where_coach_id">coach_id</string>
+
+    <string name="Key_UserType">UserType</string>
+    <string name="Key_Course_name">course_name</string>
+    <string name="Key_Group_name">group_name</string>
+    <string name="Key_Pool_name">poolName</string>
+    <string name="Key_Class_date">class_date</string>
+    <string name="Key_Coach_name">coach_name</string>
+    <string name="Key_Coach_note">coach_notes</string>
+    <string name="Key_Attend">attend</string>
+    <string name="Key_Score">score</string>
+    <string name="Key_Class_number">class_number</string>
+    <string name="Key_RunningClass">MyRunningClass</string>
+    <string name="Key_FinishedClass">finishedClass</string>
+    <string name="Key_Scroll_Posit">ScrollPosition</string>
+    <string name="Key_List_items">ListItems</string>
+    <string name="Key_expand_map">HashMap</string>
+
+    <string name="server_dateFormate">yyyy-MM-dd</string>
+    <string name="server_timeFormate">HH:mm:ss</string>
+    <string name="Coma"> ,</string>
+
+
+    <string name="select_course_id">course_id</string>
+    <string name="select_course_name">course_name</string>
+    <string name="select_group_id">group_id</string>
+    <string name="select_group_name">group_name</string>
+    <string name="select_pool_name">pool_name</string>
+    <string name="select_admin_id">admin_id</string>
+    <string name="select_coach_id">coach_id</string>
+    <string name="select_class_date">class_date</string>
+    <string name="select_class_name">class_number</string>
+    <string name="select_attend">attend</string>
+    <string name="select_score">score</string>
+    <string name="select_name">coach_name</string>
+    <string name="select_coach_note">coach_note</string>
+    <string name="where_id">id</string>
+    <string name="where_type">type</string>
+    <string name="where_notify_toId">notification.to_id</string>
+    <string name="parameter_table">table</string>
+    <string name="parameter_values">values</string>
+    <string name="where_user_id">user_id</string>
+    <string name="Key_Home_Side">HomePosition</string>
+    <string name="Key_Notify_Item">MyNotification</string>
+    <string name="intersented">Interested</string>
+    <string name="CalendarEventTitle">Sports Inc. Event</string>
+    <string name="GLogIn">Google Account LogIn</string>
+    <string name="requiredField">Enter your e-mail address first...</string>
+    <string name="MailMissing">E-mail is missing</string>
+    <string name="PassMissing">Password is missing</string>
+    <string name="wrongPass">Password is incorrect</string>
+    <string name="mailNoFound">e-mail doesn\'t exist</string>
+    <string name="NoUseVerify">01147050373</string>
+    <string name="loginCanceled">LogIn Canceled...</string>
+    <string name="loginFail">Fail in LogIn...</string>
+    <string name="login">Logging In</string>
+    <string name="loginError">Error on Login</string>
+    <string name="where_users_mail">email</string>
+    <string name="select_users_pass">pass</string>
+    <string name="select_users_id">id</string>
+    <string name="select_users_name">name</string>
+    <string name="select_users_image">ImageUrl</string>
+    <string name="select_users_gendar">gender</string>
+    <string name="select_users_type">type</string>
+    <string name="select_users_phone">phone</string>
+    <string name="select_users_birthdate">date_of_birth</string>
+    <string name="ToastError">An error has occurred</string>
+    <string name="VerifySent">Code has been sent</string>
+    <string name="VerifyWrong">Wrong code</string>
+    <string name="Key_regID">regId</string>
+    <string name="where_user_active">active</string>
+    <string name="where_user_token">token</string>
+    <string name="select_users_token">token</string>
+    <string name="select_users_active">active</string>
+    <string name="select_users_mail">email</string>
 
 </resources>

@@ -13,6 +13,7 @@ import java.io.Serializable;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Locale;
 
 /**
  * Created by Bassam on 1/22/2018.
@@ -47,7 +48,7 @@ public class item_classSpinner_coach implements Serializable {
 
     public String getClass_date() {
         try {
-            SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+            SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH);
             Date myDate = df.parse(class_date);
 
             df = new SimpleDateFormat("dd/MM/yyyy");

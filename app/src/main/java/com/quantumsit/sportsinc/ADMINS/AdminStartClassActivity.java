@@ -2,41 +2,23 @@ package com.quantumsit.sportsinc.ADMINS;
 
 import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
-import android.content.Context;
-import android.content.Intent;
-import android.os.Build;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.view.Gravity;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
-import android.view.WindowManager;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
-import android.widget.LinearLayout;
-import android.widget.ListView;
 import android.widget.PopupWindow;
-import android.widget.RelativeLayout;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.quantumsit.sportsinc.Aaa_data.Constants;
 import com.quantumsit.sportsinc.Aaa_data.DB_Sqlite_Handler;
 import com.quantumsit.sportsinc.Aaa_data.GlobalVars;
-import com.quantumsit.sportsinc.Aaa_data.MyClass_info;
 import com.quantumsit.sportsinc.Aaa_data.Rule_info;
 import com.quantumsit.sportsinc.Aaa_data.StartClass_info;
 import com.quantumsit.sportsinc.Aaa_data.Trainees_info;
-import com.quantumsit.sportsinc.Activities.HomeActivity;
-import com.quantumsit.sportsinc.Activities.RegisterActivity;
-import com.quantumsit.sportsinc.Adapters.item_checkbox;
 import com.quantumsit.sportsinc.Backend.HttpCall;
 import com.quantumsit.sportsinc.Backend.HttpRequest;
-import com.quantumsit.sportsinc.CustomCalendar.ListViewAdapter;
 import com.quantumsit.sportsinc.CustomView.CustomLoadingView;
 import com.quantumsit.sportsinc.R;
 import com.quantumsit.sportsinc.util.ConnectionUtilities;
@@ -46,11 +28,9 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Random;
 
 public class AdminStartClassActivity extends AppCompatActivity {
 

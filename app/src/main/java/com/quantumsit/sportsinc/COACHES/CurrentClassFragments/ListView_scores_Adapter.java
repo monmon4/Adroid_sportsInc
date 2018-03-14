@@ -1,31 +1,20 @@
 package com.quantumsit.sportsinc.COACHES.CurrentClassFragments;
 
 import android.content.Context;
-import android.os.Build;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.WindowManager;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
-import android.widget.CheckBox;
 import android.widget.EditText;
-import android.widget.ImageView;
-import android.widget.PopupWindow;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.quantumsit.sportsinc.Aaa_data.Trainees_info;
-import com.quantumsit.sportsinc.Adapters.item_checkbox;
 import com.quantumsit.sportsinc.R;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-
-import static android.content.Context.LAYOUT_INFLATER_SERVICE;
 
 /**
  * Created by mona_ on 12/30/2017.

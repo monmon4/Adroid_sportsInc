@@ -194,9 +194,9 @@ public class RequestsFragment extends Fragment {
         }
    }
     private void fill_Adapter(JSONArray response , boolean loadMore){
-        list_items.clear();
+        mSwipeRefreshLayout.setRefreshing(false);
         if (!loadMore)
-            mSwipeRefreshLayout.setRefreshing(false);
+            list_items.clear();
         if(response!= null){
             Date date;
             DateFormat outdateFormat = new SimpleDateFormat("dd MMMM, yyyy");

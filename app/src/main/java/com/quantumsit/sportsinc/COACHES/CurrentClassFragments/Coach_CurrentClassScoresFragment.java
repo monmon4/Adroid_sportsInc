@@ -11,14 +11,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import com.quantumsit.sportsinc.Aaa_data.DB_Sqlite_Handler;
 import com.quantumsit.sportsinc.Aaa_data.GlobalVars;
 import com.quantumsit.sportsinc.Aaa_data.MyClass_info;
 import com.quantumsit.sportsinc.Aaa_data.Trainees_info;
-import com.quantumsit.sportsinc.Adapters.CheckBoxListView_Adapter;
-import com.quantumsit.sportsinc.Adapters.item_checkbox;
 import com.quantumsit.sportsinc.R;
 
 import java.util.ArrayList;

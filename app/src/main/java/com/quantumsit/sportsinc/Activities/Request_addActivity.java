@@ -32,6 +32,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Locale;
 
 public class Request_addActivity extends AppCompatActivity {
 
@@ -159,8 +160,8 @@ public class Request_addActivity extends AppCompatActivity {
                             //status = 2 postponed, 3 upcoming, 5 current;
                             JSONObject result;
                             Date date;
-                            DateFormat outdateFormat = new SimpleDateFormat("dd MMMM, yyyy");
-                            DateFormat DateFormat = new SimpleDateFormat("yyyy-MM-dd");
+                            DateFormat outdateFormat = new SimpleDateFormat("dd MMMM, yyyy", Locale.ENGLISH);
+                            DateFormat DateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH);
 
                             for (int i=0; i<response.length(); i++){
                                 result = response.getJSONObject(i);

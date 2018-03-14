@@ -1,4 +1,4 @@
-package com.quantumsit.sportsinc.Aaa_looks;
+package com.quantumsit.sportsinc.Adapters;
 
 import android.content.Context;
 import android.content.Intent;
@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.quantumsit.sportsinc.Entities.item_single_scores;
 import com.quantumsit.sportsinc.Activities.MyClasses_scoresActivity;
 import com.quantumsit.sportsinc.R;
 
@@ -42,28 +43,35 @@ public class RecyclerView_Adapter_scores extends RecyclerView.Adapter<RecyclerVi
 
     @Override
     public void onBindViewHolder(RecyclerView_Adapter_scores.ViewHolder holder, final int position) {
+        /*
+        * Adapter fill each item in the list by
+        * the course name and class name and Trainee score for this class
+        * */
 
-
-        holder.course_name.setText(List_Item.get(position).course_name);
-        holder.date.setText(List_Item.get(position).class_date);
-        String class_number_string = context.getResources().getString(R.string.class_number) + String.valueOf(List_Item.get(position).class_number);
+        holder.course_name.setText(List_Item.get(position).getCourse_name());
+        holder.date.setText(List_Item.get(position).getClass_date());
+        String class_number_string = context.getResources().getString(R.string.class_number) + String.valueOf(List_Item.get(position).getClass_number());
         holder.class_number.setText(class_number_string);
-        String score_string = context.getResources().getString(R.string.score) + ": " + String.valueOf(List_Item.get(position).score) + " out of " + String.valueOf(List_Item.get(position).class_number);
+        String score_string = context.getResources().getString(R.string.score) + ": " + String.valueOf(List_Item.get(position).getScore());
         holder.score.setText(score_string);
 
         holder.scores_card.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(context, MyClasses_scoresActivity.class);
-                intent.putExtra("course_name", List_Item.get(position).course_name);
-                intent.putExtra("group_name", List_Item.get(position).group_name);
-                intent.putExtra("class_date", List_Item.get(position).class_date);
-                intent.putExtra("coach_name", List_Item.get(position).coach_name);
-                intent.putExtra("coach_notes", List_Item.get(position).coach_notes);
-                intent.putExtra("attend", List_Item.get(position).attend);
-                intent.putExtra("score", List_Item.get(position).score);
-                intent.putExtra("class_number", List_Item.get(position).class_number);
-                context.startActivity(intent);
+            /*
+            * on each item Click View it's details
+            * and pass this item data for details Activity
+            * */
+            Intent intent = new Intent(context, MyClasses_scoresActivity.class);
+            intent.putExtra(context.getString(R.string.Key_Course_name), List_Item.get(position).getCourse_name());
+            intent.putExtra(context.getString(R.string.Key_Group_name), List_Item.get(position).getGroup_name());
+            intent.putExtra(context.getString(R.string.Key_Class_date), List_Item.get(position).getClass_date());
+            intent.putExtra(context.getString(R.string.Key_Coach_name), List_Item.get(position).getCoach_name());
+            intent.putExtra(context.getString(R.string.Key_Coach_note), List_Item.get(position).getCoach_notes());
+            intent.putExtra(context.getString(R.string.Key_Attend), List_Item.get(position).getAttend());
+            intent.putExtra(context.getString(R.string.Key_Score), List_Item.get(position).getScore());
+            intent.putExtra(context.getString(R.string.Key_Class_number), List_Item.get(position).getClass_number());
+            context.startActivity(intent);
 
             }
         });

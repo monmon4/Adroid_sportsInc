@@ -1,4 +1,4 @@
-package com.quantumsit.sportsinc.AboutUs_fragments;
+package com.quantumsit.sportsinc.Adapters;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -7,7 +7,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
-import com.quantumsit.sportsinc.Aaa_looks.item_request;
+import com.quantumsit.sportsinc.Entities.item_about;
 import com.quantumsit.sportsinc.R;
 
 import java.util.ArrayList;
@@ -36,8 +36,8 @@ public class ListView_Adapter_about_us extends ArrayAdapter<item_about> {
 
         // Populate the data into the template view using the data object
         if (item != null) {
-            title.setText(item.title);
-            content.setText(item.content);
+            title.setText(item.getTitle());
+            content.setText(item.getContent());
         }
 
         // Return the completed view to render on screen

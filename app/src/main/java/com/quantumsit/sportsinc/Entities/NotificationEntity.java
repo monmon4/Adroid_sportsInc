@@ -7,6 +7,7 @@ import java.io.Serializable;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Locale;
 
 /**
  * Created by Bassam on 1/4/2018.
@@ -28,7 +29,7 @@ public class NotificationEntity implements Serializable {
             this.subject = jsonObject.getString("title");
             this.content = jsonObject.getString("message");
             this.date = jsonObject.getString("cTime");
-            SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+            SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss", Locale.ENGLISH);
             notification_date = df.parse(date);
             df = new SimpleDateFormat("MMM dd, yyyy, h:mm a");
             this.date = df.format(notification_date);

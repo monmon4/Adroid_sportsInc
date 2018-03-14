@@ -148,7 +148,8 @@ public class Courses2Fragment extends Fragment {
     }
 
     private void fillAdapter(JSONArray response) {
-
+        items.clear();
+        mSwipeRefreshLayout.setRefreshing(false);
         if (response != null) {
             try {
                 for (int i = 0; i < response.length(); i++) {

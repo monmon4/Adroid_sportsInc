@@ -15,6 +15,7 @@ import android.widget.ImageView;
 import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 
+import com.quantumsit.sportsinc.Entities.item_checkbox;
 import com.quantumsit.sportsinc.R;
 
 import java.util.List;

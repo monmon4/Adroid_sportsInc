@@ -12,6 +12,7 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Locale;
 
 /**
  * Created by Mona on 28-Dec-17.
@@ -50,7 +51,7 @@ public class item_request_coach implements Serializable {
             request_ID = object.getInt("id");
             this.request_for = R.string.request_for + ": " + object.getString("title");
             String dateFormated = object.getString("date_request");
-            SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+            SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH);
 
             Date date = formatter.parse(dateFormated);
             formatter = new SimpleDateFormat("dd/MM/yyyy");
@@ -89,7 +90,7 @@ public class item_request_coach implements Serializable {
 
             this.request_for = object.getString("title");
             String dateFormated =  object.getString("date_request");
-            SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+            SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH);
 
             this.requestDate = formatter.parse(dateFormated);
             this.personType = object.getString("type");;

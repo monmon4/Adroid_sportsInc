@@ -17,6 +17,10 @@ public class MyClasses_scoresActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        /*
+        * View The Trainee Class Details
+        * the data would be passed from ScoresFragment (item list Adapter on click listener)
+        * */
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_classes_scores);
         getSupportActionBar().setTitle(R.string.session_score);
@@ -33,14 +37,14 @@ public class MyClasses_scoresActivity extends AppCompatActivity {
         coach_note_textview = findViewById(R.id.coachNoteTextView_my_classes_scores);
 
 
-        course_name = getIntent().getExtras().getString("course_name");
-        group_name = getIntent().getExtras().getString("group_name");
-        class_date = getIntent().getExtras().getString("class_date");
-        coach_name = getIntent().getExtras().getString("coach_name");
-        coach_notes = getIntent().getExtras().getString("coach_notes");
-        attend = getIntent().getExtras().getInt("attend");
-        score = getIntent().getExtras().getInt("score");
-        class_number = getIntent().getExtras().getInt("class_number");
+        course_name = getIntent().getStringExtra(getResources().getString(R.string.Key_Course_name));
+        group_name = getIntent().getStringExtra(getResources().getString(R.string.Key_Group_name));
+        class_date = getIntent().getStringExtra(getResources().getString(R.string.Key_Class_date));
+        coach_name = getIntent().getStringExtra(getResources().getString(R.string.Key_Coach_name));
+        coach_notes = getIntent().getStringExtra(getResources().getString(R.string.Key_Coach_note));
+        attend = getIntent().getIntExtra(getResources().getString(R.string.Key_Attend),getResources().getInteger(R.integer.default_int));
+        score = getIntent().getIntExtra(getResources().getString(R.string.Key_Score),getResources().getInteger(R.integer.default_int));
+        class_number = getIntent().getIntExtra(getResources().getString(R.string.Key_Class_number),getResources().getInteger(R.integer.default_int));
 
         String course = getResources().getString(R.string.course_name)+": " + course_name;
         String group = getResources().getString(R.string.group_number) +": " + group_name;
@@ -62,7 +66,10 @@ public class MyClasses_scoresActivity extends AppCompatActivity {
         group_number_textview.setText(group);
         class_number_textview.setText(class_name);
         score_textview.setText(score_text);
-        if (attend == 0)
+        /*
+        * The Trainee was Absent for this Class show "absent' word in the screen
+        * */
+        if (attend == getResources().getInteger(R.integer.Absent))
             attend_textview.setVisibility(View.VISIBLE);
         coach_name_textview.setText(coach_name);
         coach_note_textview.setText(emoji);

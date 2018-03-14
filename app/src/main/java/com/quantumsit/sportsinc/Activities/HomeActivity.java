@@ -150,7 +150,7 @@ public class HomeActivity extends AppCompatActivity
         userName.setText(globalVars.getName());
         //userPhone.setText(globalVars.getMail());
 
-        header.setOnClickListener(new View.OnClickListener() {
+        profileImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                openProfile();
@@ -168,9 +168,6 @@ public class HomeActivity extends AppCompatActivity
             @Override
             public void onClick(View view) {
                 openProfile();
-                Intent intent = new Intent(getApplicationContext(),ProfileActivity.class);
-                drawer.closeDrawer(GravityCompat.START);
-                startActivityForResult(intent,PROFILE_CODE);
             }
         });*/
 
@@ -212,7 +209,7 @@ public class HomeActivity extends AppCompatActivity
         if (savedInstanceState == null) {
             Fragment fragment = null;
             Class fragmentClass = HomeFragment.class;
-            int Notifi = getIntent().getIntExtra("HomePosition",0);
+            int Notifi = getIntent().getIntExtra(getString(R.string.Key_Home_Side),0);
 
             if(Notifi == Config.NOTIFICATION_ID)
                 fragmentClass = NotificationsFragment.class;
@@ -233,6 +230,8 @@ public class HomeActivity extends AppCompatActivity
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == PROFILE_CODE && resultCode == AppCompatActivity.RESULT_OK){
+           // UserEntity userEntity = (UserEntity) data.getSerializableExtra("userUpdated");
+           // Toast.makeText(getApplicationContext(),userEntity.getName(),Toast.LENGTH_LONG).show();
             userName.setText(globalVars.getName());
             //userPhone.setText(globalVars.getPhone());
             String ImageUrl = globalVars.getImgUrl();
@@ -273,16 +272,16 @@ public class HomeActivity extends AppCompatActivity
         JSONObject where_info = new JSONObject();
         JSONObject values_info = new JSONObject();
         try {
-            where_info.put("id",globalVars.getId());
-            values_info.put("type", globalVars.getType());
+            where_info.put(getString(R.string.where_id),globalVars.getId());
+            values_info.put(getString(R.string.where_type), globalVars.getType());
 
             HttpCall httpCall = new HttpCall();
             httpCall.setMethodtype(HttpCall.POST);
             httpCall.setUrl(Constants.selectData);
             HashMap<String,String> params = new HashMap<>();
-            params.put("table","users");
-            params.put("where",where_info.toString());
-            params.put("values",values_info.toString());
+            params.put(getString(R.string.parameter_table),getString(R.string.Table_Users));
+            params.put(getString(R.string.parameter_where),where_info.toString());
+            params.put(getString(R.string.parameter_values),values_info.toString());
 
             httpCall.setParams(params);
 
@@ -306,13 +305,13 @@ public class HomeActivity extends AppCompatActivity
 
         JSONObject where_info = new JSONObject();
         try {
-            where_info.put("user_id",globalVars.getId());
+            where_info.put(getString(R.string.where_user_id),globalVars.getId());
 
             HttpCall httpCall = new HttpCall();
             httpCall.setMethodtype(HttpCall.POST);
             httpCall.setUrl(Constants.selectData);
             HashMap<String,String> params = new HashMap<>();
-            params.put("table","info_trainee");
+            params.put(getString(R.string.parameter_table),"info_trainee");
             params.put("where",where_info.toString());
 
             httpCall.setParams(params);
@@ -571,6 +570,6 @@ public class HomeActivity extends AppCompatActivity
     private void openProfile (){
         Intent intent = new Intent(getApplicationContext(),ProfileActivity.class);
         drawer.closeDrawer(GravityCompat.START);
-        startActivity(intent);
+        startActivityForResult(intent ,PROFILE_CODE);
     }
 }

@@ -7,6 +7,7 @@ import java.io.Serializable;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Locale;
 
 /**
  * Created by Mona on 02-Jan-18.
@@ -29,7 +30,7 @@ public class item_finsihed_course_single implements Serializable{
             class_name = "class" + jsonObject.getString("class_name");
             coach_note = jsonObject.getString("class_note");
             String dateformate = jsonObject.getString("class_date");
-            SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+            SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH);
             Date myDate = df.parse(dateformate);
             df = new SimpleDateFormat("dd/MM/yyyy");
             class_date = df.format(myDate);

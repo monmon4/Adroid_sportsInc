@@ -8,6 +8,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Locale;
 
 /**
  * Created by Mona on 04-Jan-18.
@@ -35,7 +36,7 @@ public class item_current_classes implements Serializable{
             status = jsonObject.getInt("class_status");
 
             String CDate = jsonObject.getString("class_Date");
-            SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+            SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH);
             Date theDate = df.parse(CDate);
             df = new SimpleDateFormat("MMM dd");
             class_date = df.format(theDate);

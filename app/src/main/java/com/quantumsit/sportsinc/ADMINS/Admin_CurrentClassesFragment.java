@@ -50,6 +50,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 
 import static android.content.Context.LAYOUT_INFLATER_SERVICE;
 
@@ -162,7 +163,7 @@ public class Admin_CurrentClassesFragment extends Fragment {
         }
         try {
             Calendar c = Calendar.getInstance();
-            SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+            SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH);
             String Today = df.format(c.getTime());
 
             HttpCall httpCall = new HttpCall();
@@ -229,8 +230,8 @@ public class Admin_CurrentClassesFragment extends Fragment {
             double current_time_double = 0;
             double start_time_double = Double.valueOf(startTime.replace(":", "."));
             double end_time_double = Double.valueOf(endTime.replace(":", "."));
-            current_time = Calendar.getInstance().getTime();
-            DateFormat time_format = new SimpleDateFormat("hh:mm a");
+            current_time = Calendar.getInstance(Locale.ENGLISH).getTime();
+            DateFormat time_format = new SimpleDateFormat("hh:mm a",Locale.ENGLISH);
             String time = time_format.format(current_time);
             String[] splitin_time = time.split(" ");
 
@@ -403,7 +404,7 @@ public class Admin_CurrentClassesFragment extends Fragment {
         try {
             item_current_classes postponed_class = list_headers.get(CurrentPosition);
             Date PostponeDate = showPostponedTime();
-            SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+            SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy HH:mm", Locale.ENGLISH);
             String date = df.format(PostponeDate);
 
             df = new SimpleDateFormat("yyyy-MM-dd");
@@ -455,7 +456,7 @@ public class Admin_CurrentClassesFragment extends Fragment {
     private void savePostponedTime(int class_postponed_id ,String note) {
         try {
             Date PostponeDate = showPostponedTime();
-            SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+            SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy HH:mm", Locale.ENGLISH);
             String date = df.format(PostponeDate);
             final String msg = list_headers.get(CurrentPosition).class_number+" has been postponed to\n\t"+date;
             df = new SimpleDateFormat("yyyy-MM-dd");

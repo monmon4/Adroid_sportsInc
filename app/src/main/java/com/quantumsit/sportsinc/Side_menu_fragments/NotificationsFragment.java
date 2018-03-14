@@ -100,7 +100,7 @@ public class NotificationsFragment extends Fragment {
                 if (i>= notificationList.size())
                     return;
                 Intent intent = new Intent(getContext(), NotificationDetailsActivity.class);
-                intent.putExtra("MyNotification",notificationList.get(i));
+                intent.putExtra(getString(R.string.Key_Notify_Item),notificationList.get(i));
                 startActivityForResult(intent, 1);
             }
         });
@@ -115,8 +115,8 @@ public class NotificationsFragment extends Fragment {
     @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        outState.putParcelable("ScrollPosition", listView.onSaveInstanceState());
-        outState.putSerializable("NotificationsList", (Serializable) notificationList);
+        outState.putParcelable(getString(R.string.Key_Scroll_Posit), listView.onSaveInstanceState());
+        outState.putSerializable(getString(R.string.Key_List_items), (Serializable) notificationList);
     }
 
 
@@ -124,9 +124,9 @@ public class NotificationsFragment extends Fragment {
         if (getActivity() != null)
             ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle(R.string.notifications);
 
-        ArrayList<NotificationEntity> list1 = (ArrayList<NotificationEntity>) savedInstanceState.getSerializable("NotificationsList");
+        ArrayList<NotificationEntity> list1 = (ArrayList<NotificationEntity>) savedInstanceState.getSerializable(getString(R.string.Key_List_items));
         notificationList.addAll(list1);
-        Parcelable mListInstanceState = savedInstanceState.getParcelable("ScrollPosition");
+        Parcelable mListInstanceState = savedInstanceState.getParcelable(getString(R.string.Key_Scroll_Posit));
         customListView.notifyChange(notificationList.size());
         adapter.notifyDataSetChanged();
         listView.onRestoreInstanceState(mListInstanceState);
@@ -162,17 +162,17 @@ public class NotificationsFragment extends Fragment {
         }
         try {
             JSONObject where_info = new JSONObject();
-            where_info.put("notification.to_id",globalVars.getId());
+            where_info.put(getString(R.string.where_notify_toId),globalVars.getId());
 
             HttpCall httpCall = new HttpCall();
             httpCall.setMethodtype(HttpCall.POST);
             httpCall.setUrl(Constants.notification);
             HashMap<String,String> params = new HashMap<>();
-            params.put("where",where_info.toString());
+            params.put(getString(R.string.parameter_where),where_info.toString());
             JSONObject limit_info = new JSONObject();
-            limit_info.put("start", currentStart);
-            limit_info.put("limit", limitValue);
-            params.put("limit",limit_info.toString());
+            limit_info.put(getString(R.string.select_start), currentStart);
+            limit_info.put(getString(R.string.select_limit), limitValue);
+            params.put(getString(R.string.parameter_limit),limit_info.toString());
             httpCall.setParams(params);
 
             new HttpRequest(){
@@ -198,7 +198,6 @@ public class NotificationsFragment extends Fragment {
                 for (int i = 0; i < response.length(); i++) {
                     NotificationEntity entity = new NotificationEntity(response.getJSONObject(i));
                     notificationList.add(entity);
-                    Log.d("NotificationEntityTest",entity.toString());
                 }
             } catch (JSONException e) {
                 e.printStackTrace();

@@ -1,4 +1,4 @@
-package com.quantumsit.sportsinc.Adapters;
+package com.quantumsit.sportsinc.Entities;
 
 import com.quantumsit.sportsinc.Aaa_data.Rule_info;
 import com.quantumsit.sportsinc.Aaa_data.Trainees_info;

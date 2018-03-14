@@ -2,7 +2,6 @@ package com.quantumsit.sportsinc.COACHES;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -11,6 +10,7 @@ import com.quantumsit.sportsinc.Backend.HttpCall;
 import com.quantumsit.sportsinc.Backend.HttpRequest;
 import com.quantumsit.sportsinc.COACHES.ReportsFragments.item_finsihed_course_single;
 import com.quantumsit.sportsinc.CustomView.CustomLoadingView;
+import com.quantumsit.sportsinc.Entities.item_trainee_attendance;
 import com.quantumsit.sportsinc.R;
 import com.quantumsit.sportsinc.util.ConnectionUtilities;
 
@@ -54,12 +54,10 @@ public class ActivityCourseSingleClass_coach extends AppCompatActivity {
             }
         });
 
-        String course_name = getIntent().getStringExtra("courseName");
-        String group_name = getIntent().getStringExtra("groupName");
-        String pool_name = getIntent().getStringExtra("poolName");
-        int UserType = getIntent().getIntExtra("UserType",1);
-
-        Log.d(TAG,"Type : "+UserType);
+        String course_name = getIntent().getStringExtra(getString(R.string.Key_Course_name));
+        String group_name = getIntent().getStringExtra(getString(R.string.Key_Group_name));
+        String pool_name = getIntent().getStringExtra(getString(R.string.Key_Pool_name));
+        int UserType = getIntent().getIntExtra(getString(R.string.Key_UserType),1);
 
         switch (UserType){
             case 1:

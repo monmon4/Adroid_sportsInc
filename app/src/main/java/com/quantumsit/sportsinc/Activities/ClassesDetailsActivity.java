@@ -38,6 +38,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Locale;
 
 public class ClassesDetailsActivity extends AppCompatActivity {
 
@@ -189,7 +190,7 @@ public class ClassesDetailsActivity extends AppCompatActivity {
             LinearLayout postpondlayout = findViewById(R.id.postponded_Time);
             postpondlayout.setVisibility(View.VISIBLE);
             postponedDate.setText(myclass.getPostpondDate()+"\n\t"+myclass.getPostpondStartTime()+" ~ "+myclass.getPostpondEndTime());
-            if (globalVars.getType() == getResources().getInteger(R.integer.ADMIN) )
+            if (globalVars.getType() == getResources().getInteger(R.integer.Admin) )
                 buttons.setVisibility(View.VISIBLE);
             else
                 buttons.setVisibility(View.GONE);
@@ -207,7 +208,7 @@ public class ClassesDetailsActivity extends AppCompatActivity {
             reason.setText(myclass.getReason());
         }
         else {
-            if (globalVars.getType() == getResources().getInteger(R.integer.ADMIN) )
+            if (globalVars.getType() == getResources().getInteger(R.integer.Admin) )
                 buttons.setVisibility(View.VISIBLE);
             else
                 buttons.setVisibility(View.GONE);
@@ -338,13 +339,13 @@ public class ClassesDetailsActivity extends AppCompatActivity {
         try {
             Date PostponeDate = showPostponedTime();
 
-            SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy hh:mm");
+            SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy hh:mm", Locale.ENGLISH);
             String date = df.format(PostponeDate);
             final String msg = myclass.getClassName()+" has been postponed to\n\t"+date;
 
-            df = new SimpleDateFormat("yyyy-MM-dd");
+            df = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH);
             String postponedDate = df.format(PostponeDate);
-            df = new SimpleDateFormat("hh:mm");
+            df = new SimpleDateFormat("hh:mm", Locale.ENGLISH);
             String postponedTime = df.format(PostponeDate);
 
             JSONObject values = new JSONObject();

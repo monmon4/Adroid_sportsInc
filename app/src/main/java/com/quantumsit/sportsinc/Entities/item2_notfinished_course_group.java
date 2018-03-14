@@ -1,4 +1,10 @@
-package com.quantumsit.sportsinc.COACHES;
+package com.quantumsit.sportsinc.Entities;
+
+import android.content.Context;
+import android.content.res.Resources;
+
+import com.quantumsit.sportsinc.Aaa_data.GlobalVars;
+import com.quantumsit.sportsinc.R;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -25,13 +31,14 @@ public class item2_notfinished_course_group implements Serializable {
 
     public item2_notfinished_course_group(JSONObject jsonObject) {
         try {
-            course_id = jsonObject.getInt("course_id");
-            courseName = jsonObject.getString("course_name");
-            group_id = jsonObject.getInt("group_id");
-            groupName = jsonObject.getString("group_name");
-            poolName = jsonObject.getString("pool_name");
-            admin_id = jsonObject.getInt("admin_id");
-            coach_id = jsonObject.getInt("coach_id");
+            Context context = GlobalVars.getContext();
+            course_id = jsonObject.getInt(context.getResources().getString(R.string.select_course_id));
+            courseName = jsonObject.getString(context.getResources().getString(R.string.select_course_name));
+            group_id = jsonObject.getInt(context.getResources().getString(R.string.select_group_id));
+            groupName = jsonObject.getString(context.getResources().getString(R.string.select_group_name));
+            poolName = jsonObject.getString(context.getResources().getString(R.string.select_pool_name));
+            admin_id = jsonObject.getInt(context.getResources().getString(R.string.select_admin_id));
+            coach_id = jsonObject.getInt(context.getResources().getString(R.string.select_coach_id));
         } catch (JSONException e) {
             e.printStackTrace();
         }

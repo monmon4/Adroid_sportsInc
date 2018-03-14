@@ -15,6 +15,18 @@
       },
       "oauth_client": [
         {
+          "client_id": "49921727544-ssldmsedh3pq3bso67flql13gol6i66s.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.bassam.sporstincmanger",
+            "certificate_hash": "45a8f2b5eb35f446cab4f2985f499a7878538906"
+          }
+        },
+        {
+          "client_id": "49921727544-jc896qjumesgeuhe22qtv83obe1dcp9l.apps.googleusercontent.com",
+          "client_type": 3
+        },
+        {
           "client_id": "49921727544-773g2hfo6hso4821jmo5fmr51dve9440.apps.googleusercontent.com",
           "client_type": 3
         }
@@ -29,8 +41,13 @@
           "status": 1
         },
         "appinvite_service": {
-          "status": 1,
-          "other_platform_oauth_client": []
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "49921727544-jc896qjumesgeuhe22qtv83obe1dcp9l.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
         },
         "ads_service": {
           "status": 2
@@ -46,6 +63,10 @@
       },
       "oauth_client": [
         {
+          "client_id": "49921727544-jc896qjumesgeuhe22qtv83obe1dcp9l.apps.googleusercontent.com",
+          "client_type": 3
+        },
+        {
           "client_id": "49921727544-773g2hfo6hso4821jmo5fmr51dve9440.apps.googleusercontent.com",
           "client_type": 3
         }
@@ -60,8 +81,13 @@
           "status": 1
         },
         "appinvite_service": {
-          "status": 1,
-          "other_platform_oauth_client": []
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "49921727544-jc896qjumesgeuhe22qtv83obe1dcp9l.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
         },
         "ads_service": {
           "status": 2

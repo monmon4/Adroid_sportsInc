@@ -63,6 +63,7 @@ public class HttpRequest extends AsyncTask<HttpCall, String, JSONArray> {
                     response.append(line);
                 }
                 JSONTokener tokener = new JSONTokener(response.toString());
+                Log.d(TAG,"Response:"+String.valueOf(response));
                 JSONObject data = new JSONObject(tokener);
                 Log.d(TAG,String.valueOf(data));
                 object = data.getJSONArray("data");

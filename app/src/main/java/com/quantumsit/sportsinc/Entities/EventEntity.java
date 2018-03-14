@@ -7,6 +7,7 @@ import java.io.Serializable;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Locale;
 
 /**
  * Created by Bassam on 1/3/2018.
@@ -33,7 +34,7 @@ public class EventEntity implements Serializable {
             this.time = object.getString("time");
             time = time.substring(0,time.length()-3);
             String dateFormated =  object.getString("date");
-            SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+            SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH);
             date = formatter.parse(dateFormated);
             this.description = object.getString("description");
         } catch (JSONException e) {

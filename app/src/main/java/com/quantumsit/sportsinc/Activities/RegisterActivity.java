@@ -52,6 +52,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Random;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -448,8 +449,8 @@ public class RegisterActivity extends AppCompatActivity {
 
         String date_of_birth = year + "-" + month + "-" + day;
         Date date;
-        DateFormat outdateFormat = new SimpleDateFormat("yyyy-MM-dd");
-        DateFormat DateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        DateFormat outdateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH);
+        DateFormat DateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH);
 
         try {
             date = DateFormat.parse(date_of_birth);

@@ -14,6 +14,7 @@ import com.quantumsit.sportsinc.R;
 import com.squareup.picasso.Picasso;
 
 import java.text.SimpleDateFormat;
+import java.util.Locale;
 
 public class CourseDetailsActivity extends AppCompatActivity {
     TextView CourseName ,ClassesNum ,CoursePrice ,description ,startDate ,endDate ,CourseLevel;
@@ -23,6 +24,7 @@ public class CourseDetailsActivity extends AppCompatActivity {
     int loadingTime = 1200;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_course_details);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -74,7 +76,7 @@ public class CourseDetailsActivity extends AppCompatActivity {
         }
         ClassesNum.setText(courseEntity.getClasses_Num());
         CoursePrice.setText(courseEntity.getPrice());
-        SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy");
+        SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy", Locale.ENGLISH);
         String date = df.format(courseEntity.getStartDate());
         startDate.setText(date);
         date = df.format(courseEntity.getEndDate());
