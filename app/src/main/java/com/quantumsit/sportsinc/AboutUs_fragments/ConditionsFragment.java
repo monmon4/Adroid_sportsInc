@@ -17,6 +17,7 @@ import com.quantumsit.sportsinc.Adapters.ListView_Adapter_about_us;
 import com.quantumsit.sportsinc.Backend.HttpCall;
 import com.quantumsit.sportsinc.Backend.HttpRequest;
 import com.quantumsit.sportsinc.Entities.item_about;
+import com.quantumsit.sportsinc.CustomView.myCustomListViewListener;
 import com.quantumsit.sportsinc.R;
 import com.quantumsit.sportsinc.util.ConnectionUtilities;
 
@@ -60,6 +61,13 @@ public class ConditionsFragment extends Fragment {
         loading = root.findViewById(R.id.LoadingData);
         progressBar = root.findViewById(R.id.progress_bar);
         retry = root.findViewById(R.id.layout_retry);
+
+        listView.setOnScrollListener(new myCustomListViewListener(listView, mSwipeRefreshLayout) {
+            @Override
+            public void loadMoreData() {
+
+            }
+        });
 
         get_list_items();
 

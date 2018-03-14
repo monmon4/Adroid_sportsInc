@@ -1,15 +1,20 @@
 package com.quantumsit.sportsinc.Activities;
 
 import android.annotation.SuppressLint;
+import android.app.ActionBar;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
+import android.graphics.Paint;
+import android.graphics.Typeface;
 import android.os.Build;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
+import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,10 +25,14 @@ import android.widget.EditText;
 import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 import android.view.ViewGroup.LayoutParams;
 
 import com.google.gson.Gson;
+import com.google.i18n.phonenumbers.PhoneNumberUtil;
+import com.google.i18n.phonenumbers.Phonenumber;
+import com.hbb20.CountryCodePicker;
 import com.quantumsit.sportsinc.Aaa_data.Config;
 import com.quantumsit.sportsinc.Aaa_data.Constants;
 import com.quantumsit.sportsinc.Aaa_data.GlobalVars;
@@ -48,51 +57,110 @@ import java.util.Random;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import io.michaelrocks.libphonenumber.android.NumberParseException;
+
+
 public class RegisterActivity extends AppCompatActivity {
 
 
-    EditText name_edittext, phone_edittext, mail_edittext, pass_edittext, repass_edittext,
-            day_edittext, month_edittext, year_edittext;
+    EditText name_edittext, lastname_edittext, phone_edittext, mail_edittext, pass_edittext, repass_edittext;
 
-    Spinner gender_spinner;
+    //Spinner gender_spinner;
 
-    String user_name, phone, mail, pass, repass, day_of_birth, month_of_birth, year_of_birth, gender;
+    String user_name, phone, mail, pass, repass;
 
-    PopupWindow verfication_popup_window;
-    private Context register_Context;
-    private RelativeLayout register_rl;
+    //PopupWindow verfication_popup_window;
+    //private Context register_Context;
+    //private RelativeLayout register_rl;
     ProgressDialog progressDialog;
 
     GlobalVars globalVars;
+    CountryCodePicker ccp;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
 
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+        getSupportActionBar().setTitle("Sign Up");
+
+        /*
+            // Create a TextView programmatically.
+            TextView tv = new TextView(getApplicationContext());
+
+            // Create a LayoutParams for TextView
+            LayoutParams lp = new RelativeLayout.LayoutParams(
+                    LayoutParams.MATCH_PARENT, // Width of TextView
+                    LayoutParams.WRAP_CONTENT); // Height of TextView
+
+            // Apply the layout parameters to TextView widget
+            tv.setLayoutParams(lp);
+
+            // Set text to display in TextView
+            // This will set the ActionBar title text
+            tv.setText("Sign Up");
+
+            // Set the text color of TextView
+            // This will change the ActionBar title text color
+            tv.setTextColor(Color.parseColor("#FFFFFF"));
+
+            // Center align the ActionBar title
+            tv.setGravity(Gravity.CENTER);
+
+            // Set the serif font for TextView text
+            // This will change ActionBar title text font
+            //tv.setTypeface(Typeface.SERIF, Typeface.ITALIC);
+
+            // Underline the ActionBar title text
+            //tv.setPaintFlags(tv.getPaintFlags()| Paint.UNDERLINE_TEXT_FLAG);
+
+            // Set the ActionBar title font size
+            tv.setTextSize(TypedValue.COMPLEX_UNIT_DIP,20);
+
+            // Display a shadow around ActionBar title text
+            //tv.setShadowLayer(
+                   // 1.f, // radius
+                   // 2.0f, // dx
+                   // 2.0f, // dy
+                   // Color.parseColor("#FF8C00") // shadow color
+           // );
+
+            // Set the ActionBar display option
+            getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
+
+            // Finally, set the newly created TextView as ActionBar custom view
+            getSupportActionBar().setCustomView(tv);
+        */
+
         globalVars = (GlobalVars) getApplication();
         progressDialog = new ProgressDialog(RegisterActivity.this);
         progressDialog.setMessage(getResources().getString(R.string.configure));
         progressDialog.setCanceledOnTouchOutside(false);
 
-        register_Context = getApplicationContext();
-        register_rl =  findViewById(R.id.register_rl);
+        //register_Context = getApplicationContext();
+        //register_rl =  findViewById(R.id.register_rl);
 
-        name_edittext =  findViewById(R.id.nameEditText_register);
+
+        name_edittext =  findViewById(R.id.firstnameEditText_register);
+        lastname_edittext =  findViewById(R.id.lastnameEditText_register);
         phone_edittext =  findViewById(R.id.phoneEditText_register);
         mail_edittext =  findViewById(R.id.mailEditText_register);
         pass_edittext =  findViewById(R.id.passEditText_register);
         repass_edittext =  findViewById(R.id.repassEditText_register);
+        ccp = findViewById(R.id.ccp_register);
 
-        day_edittext =  findViewById(R.id.dayEditText_register);
-        month_edittext =  findViewById(R.id.monthEditText_register);
-        year_edittext =  findViewById(R.id.yearEditText_register);
+        ccp.registerCarrierNumberEditText(phone_edittext);
+        //day_edittext =  findViewById(R.id.dayEditText_register);
+        //month_edittext =  findViewById(R.id.monthEditText_register);
+        //year_edittext =  findViewById(R.id.yearEditText_register);
 
-        gender_spinner =  findViewById(R.id.genderSpinner_register);
+        //gender_spinner =  findViewById(R.id.genderSpinner_register);
 
-        ArrayAdapter<CharSequence> gender_spinner_adapter = ArrayAdapter.createFromResource(this, R.array.Gender_array, android.R.layout.simple_dropdown_item_1line);
-        gender_spinner_adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        gender_spinner.setAdapter(gender_spinner_adapter);
+        //ArrayAdapter<CharSequence> gender_spinner_adapter = ArrayAdapter.createFromResource(this, R.array.Gender_array, android.R.layout.simple_dropdown_item_1line);
+        //gender_spinner_adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        //gender_spinner.setAdapter(gender_spinner_adapter);
 
     }
 
@@ -105,19 +173,21 @@ public class RegisterActivity extends AppCompatActivity {
         return false;
     }
 
-    public static boolean isValidPhone(String phone)
+    public boolean isValidPhone(String phone_num, String country)
     {
-        String expression = "^(01([0-2]|5)[0-9]{8})$";
-        CharSequence inputString = phone;
-        Pattern pattern = Pattern.compile(expression);
-        Matcher matcher = pattern.matcher(inputString);
-        if (matcher.matches())
-        {
-            return true;
+        boolean isValid = false;
+
+        String NumberStr = phone_num;                                       //number to validate
+        PhoneNumberUtil phoneUtil = PhoneNumberUtil.getInstance();
+        try {
+            Phonenumber.PhoneNumber NumberProto = phoneUtil.parse(NumberStr, country);            //with default country
+            isValid = phoneUtil.isValidNumber(NumberProto);                  //returns true
+            phone = phoneUtil.format(NumberProto, PhoneNumberUtil.PhoneNumberFormat.NATIONAL); //(202) 555-0100
+        }  catch (com.google.i18n.phonenumbers.NumberParseException e) {
+            e.printStackTrace();
         }
-        else{
-            return false;
-        }
+
+        return isValid;
     }
 
     public static boolean isValidMail(String mail)
@@ -137,7 +207,7 @@ public class RegisterActivity extends AppCompatActivity {
 
     private boolean validateForm() {
 
-        user_name = name_edittext.getText().toString();
+        user_name = name_edittext.getText().toString() + lastname_edittext.getText().toString();
         phone = phone_edittext.getText().toString();
         mail = mail_edittext.getText().toString();
         pass = pass_edittext.getText().toString();
@@ -146,7 +216,7 @@ public class RegisterActivity extends AppCompatActivity {
         if (TextUtils.isEmpty(phone)) {
             phone_edittext.setError("Required.");
             return false;
-        } else if (!isValidPhone(phone)){
+        } else if (!isValidPhone(ccp.getFullNumber(), ccp.getSelectedCountryNameCode())){
             phone_edittext.setFocusable(true);
             phone_edittext.setError("Invalid phone number");
             return false;
@@ -159,7 +229,7 @@ public class RegisterActivity extends AppCompatActivity {
             mail_edittext.setError("Required.");
             return false;
         } else if (!isValidMail(mail)){
-            mail_edittext.setError("Invalid form");
+            mail_edittext.setError("Invalid email");
             return false;
         }
         if (TextUtils.isEmpty(pass)) {
@@ -189,17 +259,17 @@ public class RegisterActivity extends AppCompatActivity {
 
         progressDialog.show();
 
-        gender = gender_spinner.getSelectedItem().toString();
-        day_of_birth = day_edittext.getText().toString();
-        month_of_birth = month_edittext.getText().toString();
-        year_of_birth = year_edittext.getText().toString();
+        //gender = gender_spinner.getSelectedItem().toString();
+        //day_of_birth = day_edittext.getText().toString();
+        //month_of_birth = month_edittext.getText().toString();
+        //year_of_birth = year_edittext.getText().toString();
 
         if (!validateForm()) {
             progressDialog.dismiss();
             return;
         }
 
-        if(day_of_birth.equals("") || month_of_birth.equals("") || year_of_birth.equals("")){
+        /*if(day_of_birth.equals("") || month_of_birth.equals("") || year_of_birth.equals("")){
             show_toast("date of birth is missing ");
             return;
         } else {
@@ -212,9 +282,47 @@ public class RegisterActivity extends AppCompatActivity {
                 show_toast("not a valid birthday format");
                 return;
             }
-        }
+        }*/
 
         checkPhone();
+
+    }
+
+    @SuppressLint("StaticFieldLeak")
+    private void checkMail() {
+
+        JSONObject where_info = new JSONObject();
+
+        try {
+            where_info.put("email",mail);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        HttpCall httpCall = new HttpCall();
+        httpCall.setMethodtype(HttpCall.POST);
+        httpCall.setUrl(Constants.selectData);
+        HashMap<String,String> params = new HashMap<>();
+        params.put("table","users");
+        params.put("where",where_info.toString());
+        httpCall.setParams(params);
+
+        new HttpRequest(){
+            @Override
+            public void onResponse(JSONArray response) {
+                super.onResponse(response);
+
+                if(response != null){
+                    progressDialog.dismiss();
+                    mail_edittext.setError("Email already exists");
+
+                } else {
+                    insert_to_DB();
+                    //verfication();
+                }
+
+            }
+        }.execute(httpCall);
     }
 
     @SuppressLint("StaticFieldLeak")
@@ -242,17 +350,19 @@ public class RegisterActivity extends AppCompatActivity {
                 super.onResponse(response);
 
                 if(response != null){
+                    progressDialog.dismiss();
                     phone_edittext.setError("Phone already exists");
 
                 } else {
-                    verfication();
+                    checkMail();
+                    //verfication();
                 }
 
             }
         }.execute(httpCall);
     }
 
-    @SuppressLint("StaticFieldLeak")
+   /* @SuppressLint("StaticFieldLeak")
     private void verfication(){
         progressDialog.dismiss();
         String verification_msg;
@@ -324,19 +434,14 @@ public class RegisterActivity extends AppCompatActivity {
 
             }
         }.execute(httpCall);
-    }
+    }*/
 
     @SuppressLint("StaticFieldLeak")
     public void insert_to_DB(){
         progressDialog.setMessage(getResources().getString(R.string.log_in));
         progressDialog.show();
-        final int gender_int;
-        if (gender.equals("Male")){
-            gender_int = 0;
-        } else {
-            gender_int = 1;
-        }
-        int current_year = Calendar.getInstance().get(Calendar.YEAR);
+
+        /*int current_year = Calendar.getInstance().get(Calendar.YEAR);
         int day = Integer.valueOf(day_of_birth);
         int month = Integer.valueOf(month_of_birth);
         int year = Integer.valueOf(year_of_birth);
@@ -352,7 +457,7 @@ public class RegisterActivity extends AppCompatActivity {
             date_of_birth = outdateFormat.format(date);
         } catch (ParseException e) {
             e.printStackTrace();
-        }
+        }*/
 
        /* verfication_popup_window.dismiss();
         globalVars.setType(5);
@@ -360,14 +465,13 @@ public class RegisterActivity extends AppCompatActivity {
         SharedPreferences tokenPref = getSharedPreferences(Config.SHARED_PREF, MODE_PRIVATE);
         String user_token = tokenPref.getString("regId", "");
 
+
         JSONObject info = new JSONObject();
         try {
             info.put("name",user_name);
             info.put("phone",phone);
             info.put("email",mail);
-            info.put("gender",gender_int);
             info.put("pass",pass);
-            info.put("date_of_birth",date_of_birth);
             info.put("type",5);
             if (!user_token.equals(""))
                 info.put("token",user_token);
@@ -381,7 +485,7 @@ public class RegisterActivity extends AppCompatActivity {
 
             httpCall.setParams(params);
 
-            final String finalDate_of_birth = date_of_birth;
+            //final String finalDate_of_birth = date_of_birth;
             new HttpRequest(){
                 @Override
                 public void onResponse(JSONArray response) {
@@ -389,14 +493,14 @@ public class RegisterActivity extends AppCompatActivity {
 
                     if(response != null){
                         try {
-                            verfication_popup_window.dismiss();
+                            //verfication_popup_window.dismiss();
                             int ID = response.getInt(0);
-                            logIn(ID,finalDate_of_birth,gender_int);
+                            logIn(ID);
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
                     } else {
-                        verfication_popup_window.dismiss();
+                        //verfication_popup_window.dismiss();
                         show_toast("An error occurred");
                     }
 
@@ -408,9 +512,9 @@ public class RegisterActivity extends AppCompatActivity {
         }
     }
 
-    private void logIn(int id, String finalDate_of_birth, int gender_int) {
+    private void logIn(int id) {
         Log.d("Verfication","ID: "+id);
-        globalVars.settAll(user_name, "", phone, pass, mail, id, 5, gender_int, finalDate_of_birth);
+        globalVars.settAll(user_name, "", phone, pass, mail, id, 5, 0, "0");
         SharedPreferences.Editor preferences = getSharedPreferences("UserFile", MODE_PRIVATE).edit();
         Gson gson = new Gson();
         String json = gson.toJson(globalVars.getUser());
@@ -425,5 +529,9 @@ public class RegisterActivity extends AppCompatActivity {
     public void show_toast(String msg){
         progressDialog.dismiss();
         Toast.makeText(RegisterActivity.this, msg, Toast.LENGTH_SHORT).show();
+    }
+
+    private  void SetActionBarText(ActionBar ab){
+
     }
 }

@@ -13,7 +13,7 @@
         android:layout_height="wrap_content"
         android:gravity="center_horizontal"
         android:padding="@dimen/ten_dimens"
-        android:textColor="@color/colorRed"
+        android:textColor="@color/colorLogoRed"
         android:textAppearance="@style/TextAppearance.AppCompat.Headline"
         android:text="@string/log_in"/>
 
@@ -36,7 +36,7 @@
                 app:srcCompat="@drawable/sh_logo" />
 
             <EditText
-                android:id="@+id/phoneEditText_login"
+                android:id="@+id/mailEditText_login"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/email"
@@ -86,9 +86,25 @@
                     android:textAppearance="@style/TextAppearance.AppCompat.Small"
                     android:focusableInTouchMode="true"
                     android:text="@string/forgot_password"
-                    android:textColor="@color/colorRed"
+                    android:textColor="@color/colorLogoRed"
                     android:textStyle="bold|italic"
                     android:layout_marginRight="10dp" />
+            <TextView
+                android:id="@+id/forgetpassTextView_login"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="end"
+                android:padding="5dp"
+                android:layout_marginEnd="10dp"
+                android:clickable="true"
+                android:focusable="true"
+                android:textAppearance="@style/TextAppearance.AppCompat.Small"
+                android:focusableInTouchMode="true"
+                android:text="@string/forgot_password"
+                android:textColor="@color/colorLogoRed"
+                android:textSize="18sp"
+                android:textStyle="bold|italic"
+                android:layout_marginRight="10dp" />
 
             </LinearLayout>
             <Button
@@ -138,6 +154,22 @@
 
             </LinearLayout>
 
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/registerTextView_login"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:visibility="gone"
+                android:gravity="center"
+                android:padding="10dp"
+                android:clickable="true"
+                android:focusable="true"
+                android:focusableInTouchMode="true"
+                android:text="@string/register"
+                android:textColor="@color/colorLogoRed"
+                android:textSize="18sp"
+                android:textStyle="bold" />
         </LinearLayout>
             <com.facebook.login.widget.LoginButton
                 android:id="@+id/fb_login_button"

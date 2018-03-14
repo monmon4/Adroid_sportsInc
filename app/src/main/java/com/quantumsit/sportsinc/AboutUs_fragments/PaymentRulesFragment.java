@@ -17,6 +17,7 @@ import com.quantumsit.sportsinc.Adapters.ListView_Adapter_about_us;
 import com.quantumsit.sportsinc.Backend.HttpCall;
 import com.quantumsit.sportsinc.Backend.HttpRequest;
 import com.quantumsit.sportsinc.Entities.item_about;
+import com.quantumsit.sportsinc.CustomView.myCustomListViewListener;
 import com.quantumsit.sportsinc.R;
 import com.quantumsit.sportsinc.util.ConnectionUtilities;
 
@@ -64,7 +65,12 @@ public class PaymentRulesFragment extends Fragment {
 
         listView_adapter = new ListView_Adapter_about_us(getContext(), items);
         listView.setAdapter(listView_adapter);
+        listView.setOnScrollListener(new myCustomListViewListener(listView, mSwipeRefreshLayout) {
+            @Override
+            public void loadMoreData() {
 
+            }
+        });
 
         return root;
     }

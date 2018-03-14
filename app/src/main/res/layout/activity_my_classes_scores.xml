@@ -86,7 +86,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:visibility="gone"
-                    android:textColor="@color/colorRed"
+                    android:textColor="@color/colorLogoRed"
                     android:textStyle="bold|italic"
                     android:layout_marginEnd="16dp"
                     android:layout_marginStart="16dp"
@@ -136,6 +136,7 @@
                 android:layout_marginEnd="18dp"
                 android:layout_marginBottom="18dp"
                 card_view:cardElevation="@dimen/cardview_default_elevation">
+
 
                 <TextView
                     android:id="@+id/coachNoteTextView_my_classes_scores"

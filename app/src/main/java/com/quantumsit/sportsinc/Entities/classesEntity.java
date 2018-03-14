@@ -1,5 +1,7 @@
 package com.quantumsit.sportsinc.Entities;
 
+import android.content.res.Resources;
+
 import com.quantumsit.sportsinc.R;
 
 import org.json.JSONException;
@@ -27,7 +29,7 @@ public class classesEntity implements Serializable {
     public classesEntity(JSONObject jsonObject) {
         try {
             this.class_id = jsonObject.getInt("class_id");
-            this.className = String.valueOf(R.string.session) +jsonObject.getInt("class_number");
+            this.className ="Session" +jsonObject.getInt("class_number");
             String dateFormated = jsonObject.getString("class_date");
             SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH);
             Date date = formatter.parse(dateFormated);

@@ -34,7 +34,7 @@
                     android:gravity="center"
                     android:background="@color/colorLightGray"
                     android:textSize="14sp"
-                    android:textColor="@color/colorBlue"
+                    android:textColor="@color/colorLogoBlue"
                     android:text="@string/not_available" />
             </RelativeLayout>
 
@@ -68,7 +68,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:background="@color/colorBlue"
+        android:background="@color/colorLogoBlue"
         android:orientation="horizontal">
 
 

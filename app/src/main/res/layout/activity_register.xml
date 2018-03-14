@@ -7,10 +7,9 @@
     android:layout_height="match_parent"
     tools:context="com.quantumsit.sportsinc.Activities.RegisterActivity">
 
-
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:id="@+id/register_rl">
 
 
@@ -19,34 +18,83 @@
             android:id="@+id/aboveLinearLayout_register"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="16dp"
             android:orientation="vertical">
 
-            <EditText
-                android:id="@+id/nameEditText_register"
-                android:layout_width="match_parent"
-                android:layout_margin="5dp"
-                android:layout_height="wrap_content"
-                android:ems="10"
-                android:inputType="textPersonName"
-                android:hint="@string/user_name" />
-
-
-
-            <EditText
-                android:id="@+id/phoneEditText_register"
+            <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="5dp"
-                android:hint="@string/phone"
-                android:ems="10"
-                android:inputType="phone" />
+                android:layout_marginBottom="2.5dp">
+
+                <ImageView
+                    android:id="@+id/imageView2"
+                    android:layout_width="match_parent"
+                    android:layout_height="250dp"
+                    android:adjustViewBounds="true"
+                    android:background="@drawable/signup_dark"
+                    android:scaleType="centerCrop" />
+
+                <android.support.v7.widget.CardView
+                    android:layout_width="120dp"
+                    android:layout_height="120dp"
+                    android:layout_centerInParent="true"
+                    android:background="@color/colorWhite"
+                    app:cardCornerRadius="10dp">
+
+                    <ImageButton
+                        android:id="@+id/imageButton"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginTop="10dp"
+                        android:background="@drawable/ic_camera_signup" />
+
+                </android.support.v7.widget.CardView>
+
+
+
+            </RelativeLayout>
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2.5dp"
+                android:layout_marginBottom="2.5dp"
+                android:orientation="horizontal">
+
+                <EditText
+                    android:id="@+id/firstnameEditText_register"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:background="@color/colorWhite"
+                    android:ems="10"
+                    android:layout_marginEnd="5dp"
+                    android:padding="16dp"
+                    android:hint="@string/first_name"
+                    android:inputType="textPersonName" />
+
+                <EditText
+                    android:id="@+id/lastnameEditText_register"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:background="@color/colorWhite"
+                    android:ems="10"
+                    android:padding="16dp"
+                    android:inputType="textPersonName"
+                    android:hint="@string/last_name" />
+            </LinearLayout>
 
             <EditText
                 android:id="@+id/mailEditText_register"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="5dp"
+                android:layout_weight="1"
+                android:padding="16dp"
+                android:background="@color/colorWhite"
+                android:layout_marginTop="2.5dp"
+                android:layout_marginBottom="2.5dp"
                 android:hint="@string/email"
                 android:ems="10"
                 android:inputType="textEmailAddress" />
@@ -55,7 +103,11 @@
                 android:id="@+id/passEditText_register"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="5dp"
+                android:layout_weight="1"
+                android:padding="16dp"
+                android:background="@color/colorWhite"
+                android:layout_marginTop="2.5dp"
+                android:layout_marginBottom="2.5dp"
                 android:hint="@string/password"
                 android:ems="10"
                 android:inputType="textPassword" />
@@ -64,115 +116,81 @@
                 android:id="@+id/repassEditText_register"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="5dp"
+                android:layout_weight="1"
+                android:padding="16dp"
+                android:background="@color/colorWhite"
+                android:layout_marginTop="2.5dp"
+                android:layout_marginBottom="2.5dp"
                 android:hint="@string/confirm_password"
                 android:ems="10"
                 android:inputType="textPassword" />
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="5dp"
+                android:layout_height="match_parent"
+                android:layout_marginTop="2.5dp"
+                android:layout_marginBottom="2.5dp"
                 android:orientation="horizontal">
 
-                <TextView
-                    android:id="@+id/dateTextView_register"
+
+                <com.hbb20.CountryCodePicker
+                    android:id="@+id/ccp_register"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_margin="5dp"
-                    android:textColor="@color/colorText"
-                    android:textSize="16sp"
-                    android:text="@string/date_of_birth" />
+                    android:layout_gravity="center_vertical"
+                    android:background="@color/colorWhite"
+                    android:padding="9dp"
+                    android:layout_marginEnd="5dp"
+                    app:ccp_defaultNameCode="AE"/>
 
                 <EditText
-                    android:id="@+id/dayEditText_register"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:nextFocusDown = "@+id/monthEditText_register"
-                    android:ems="2"
-                    android:textAlignment="center"
-                    android:padding="10dp"
-                    android:maxLength="2"
-                    android:inputType="number" />
-
-                <TextView
-                    android:id="@+id/textView2"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/slash" />
-
-                <EditText
-                    android:id="@+id/monthEditText_register"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:nextFocusDown = "@+id/yearEditText_register"
-                    android:ems="2"
-                    android:textAlignment="center"
-                    android:padding="10dp"
-                    android:maxLength="2"
-                    android:inputType="number" />
-
-                <TextView
-                    android:id="@+id/textView3"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/slash" />
-
-                <EditText
-                    android:id="@+id/yearEditText_register"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:nextFocusDown = "@+id/genderSpinner_register"
-                    android:ems="4"
-                    android:textAlignment="center"
-                    android:padding="10dp"
-                    android:maxLength="4"
-                    android:inputType="number" />
-
+                    android:id="@+id/phoneEditText_register"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:background="@color/colorWhite"
+                    android:ems="10"
+                    android:hint="@string/phone"
+                    android:inputType="phone"
+                    android:padding="16dp" />
             </LinearLayout>
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="5dp"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:id="@+id/genderTextView_register"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="5dp"
-                    android:textColor="@color/colorText"
-                    android:textSize="16sp"
-                    android:text="@string/gender" />
-
-                <Spinner
-                    android:id="@+id/genderSpinner_register"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="5dp" />
-
-            </LinearLayout>
 
         </LinearLayout>
 
-        <Button
-            android:id="@+id/doneButton_register"
-            android:focusable="true"
-            android:layout_width="130dp"
-            android:layout_height="wrap_content"
-            android:textAllCaps="false"
-            android:textStyle="bold"
-            android:textColor="@color/colorTextLight"
-            android:textSize="16sp"
-            android:background="@drawable/button_red_background"
-            android:layout_below="@id/aboveLinearLayout_register"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentEnd="true"
-            android:layout_margin="16dp"
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/colorLogoRed"
             android:onClick="done_register"
-            android:text="@string/done" />
+            android:layout_alignParentBottom="true"
+            android:layout_below="@id/aboveLinearLayout_register"
+            android:orientation="horizontal">
 
+            <TextView
+                android:id="@+id/doneButton_register"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingStart="10dp"
+                android:layout_weight="1"
+                android:background="@android:color/transparent"
+                android:focusable="true"
+                android:layout_gravity="center_vertical"
+                android:gravity="end|center_vertical"
+                android:onClick="done_register"
+                android:text="@string/get_started"
+                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                android:textColor="@color/colorWhite" />
+
+            <ImageView
+                android:id="@+id/imageView3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:paddingTop="10dp"
+                android:background="@color/colorLogoRed"
+                android:src="@drawable/ic_arrow_right_signup" />
+        </LinearLayout>
 
     </RelativeLayout>
 

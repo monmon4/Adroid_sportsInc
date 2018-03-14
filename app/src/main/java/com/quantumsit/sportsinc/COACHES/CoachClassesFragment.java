@@ -257,6 +257,8 @@ public class CoachClassesFragment extends Fragment {
             HashMap<String, String> params = new HashMap<>();
             params.put(getString(R.string.parameter_where), where_info.toString());
            // params.put(getString(R.string.parameter_limit),limit_info.toString());
+            params.put("where", where_info.toString());
+            //params.put("limit",limit_info.toString());
 
             httpCall.setParams(params);
 

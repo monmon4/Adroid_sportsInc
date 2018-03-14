@@ -58,6 +58,8 @@ import com.quantumsit.sportsinc.Backend.HttpCall;
 import com.quantumsit.sportsinc.Backend.HttpRequest;
 import com.quantumsit.sportsinc.Entities.UserEntity;
 import com.quantumsit.sportsinc.R;
+import com.quantumsit.sportsinc.RegisterationForm_fragments.BookingFirstFormActivity;
+import com.quantumsit.sportsinc.RegisterationForm_fragments.BookingFormActivity;
 import com.quantumsit.sportsinc.util.ConnectionUtilities;
 
 import org.json.JSONArray;
@@ -72,6 +74,8 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Random;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -80,10 +84,12 @@ public class LoginActivity extends AppCompatActivity {
     TextView forgetPassword;
     PopupWindow verfication_popup_window;
 
-    EditText phone_edittext, pass_edittext;
+    EditText phone_edittext;
+    EditText mail_edittext, pass_edittext;
     String mail, pass;
 
-    String received_pass, received_phone, received_name, received_imgUrl ,received_date_of_birth;
+    String received_pass, received_mail, received_name, received_imgUrl
+            ,received_date_of_birth, received_phone;
     int received_id, received_gender, received_type;
 
     ProgressDialog progressDialog;
@@ -109,7 +115,7 @@ public class LoginActivity extends AppCompatActivity {
         progressDialog = new ProgressDialog(LoginActivity.this);
         progressDialog.setMessage(getResources().getString(R.string.login_configure));
 
-        phone_edittext = findViewById(R.id.phoneEditText_login);
+        mail_edittext = findViewById(R.id.mailEditText_login);
         pass_edittext = findViewById(R.id.passEditText_login);
 
         forgetPassword = findViewById(R.id.forgetpassTextView_login);
@@ -121,6 +127,9 @@ public class LoginActivity extends AppCompatActivity {
                 mail = phone_edittext.getText().toString();
                 if (mail.equals(""))
                     show_toast(getString(R.string.requiredField));
+                mail = mail_edittext.getText().toString();
+                if (mail.equals(""))
+                    show_toast("Enter your phone number first...");
 
                 else
                     checkMail();
@@ -158,6 +167,7 @@ public class LoginActivity extends AppCompatActivity {
                         public void onCompleted(JSONObject object,
                                                 GraphResponse response) {
 
+    private void checkMail() {
                             Log.i("FaceBookLoginActivity",
                                     response.toString());
                             try {
@@ -260,6 +270,7 @@ public class LoginActivity extends AppCompatActivity {
         JSONObject where_info = new JSONObject();
 
         try {
+            where_info.put("email",mail);
             SharedPreferences tokenPref = getSharedPreferences(Config.SHARED_PREF, MODE_PRIVATE);
             String user_token = tokenPref.getString(getString(R.string.Key_regID), "");
             JSONObject values = new JSONObject();
@@ -285,11 +296,20 @@ public class LoginActivity extends AppCompatActivity {
                     super.onResponse(response);
 
                     if (response == null) {
+                        show_toast("Email does not exist");
                         show_toast(getString(R.string.loginError));
 
                     } else {
                         try {
                             JSONObject result = response.getJSONObject(0);
+                            received_phone = result.getString("phone");
+                            received_id = result.getInt("id");
+                            received_name = result.getString("name");
+                            received_imgUrl = result.getString("ImageUrl");
+                            received_gender = result.getInt("gender");
+                            received_type = result.getInt("type");
+                            received_mail = result.getString("email");
+                            received_date_of_birth = result.getString("date_of_birth");
                             received_id = result.getInt(getString(R.string.select_users_id));
                             received_name = result.getString(getString(R.string.select_users_name));
                             received_imgUrl = result.getString(getString(R.string.select_users_image));
@@ -366,25 +386,10 @@ public class LoginActivity extends AppCompatActivity {
 
 
     private void verfication(){
-        progressDialog.dismiss();
-        Random random_num = new Random();
-        final int verfication_num = random_num.nextInt(9999 - 1000) + 1000;
-        Log.d("Verfication","Code: "+verfication_num);
-        //verification_msg = "" + verfication_num;
 
 
-        LayoutInflater inflater = (LayoutInflater) this.getSystemService(LAYOUT_INFLATER_SERVICE);
-        View customView = inflater.inflate(R.layout.window_verficationcode_layout,null);
 
-        verfication_popup_window = new PopupWindow(
-                customView,
-                ViewGroup.LayoutParams.WRAP_CONTENT,
-                ViewGroup.LayoutParams.WRAP_CONTENT
-        );
 
-        if(Build.VERSION.SDK_INT>=21){
-            verfication_popup_window.setElevation(5.0f);
-        }
 
         final EditText verify_edit_text =  customView.findViewById(R.id.verficationEditText_verify);
         Button done_button =  customView.findViewById(R.id.doneButton_verify);
@@ -527,7 +532,10 @@ public class LoginActivity extends AppCompatActivity {
 
     @SuppressLint("StaticFieldLeak")
     public void registerClicked(View view) {
-        Intent intent = new Intent(LoginActivity.this, RegisterActivity.class);
+        //Intent intent = new Intent(LoginActivity.this, RegisterActivity.class);
+        //startActivity(intent);
+
+        Intent intent = new Intent(LoginActivity.this, BookingFirstFormActivity.class);
         startActivity(intent);
     }
 
@@ -547,6 +555,7 @@ public class LoginActivity extends AppCompatActivity {
             return;
         }
         mail = phone_edittext.getText().toString();
+        mail = mail_edittext.getText().toString();
         pass = pass_edittext.getText().toString();
         all_good = true;
 
@@ -555,11 +564,18 @@ public class LoginActivity extends AppCompatActivity {
 
         } else if (pass.equals("")) {
             show_toast(getString(R.string.PassMissing));
+        if (TextUtils.isEmpty(mail) ){
+            mail_edittext.setError("Email is missing");
+        } else if (!isValidMail(mail)) {
+            mail_edittext.setError("Wrong email format");
+        } else if (TextUtils.isEmpty(pass)) {
+            pass_edittext.setError("Password is missing");
 
         } else {
             all_good = true;
             JSONObject where_info = new JSONObject();
             try {
+                where_info.put("email",mail);
                 where_info.put(getString(R.string.where_users_mail),mail);
 
                 HttpCall httpCall = new HttpCall();
@@ -592,6 +608,14 @@ public class LoginActivity extends AppCompatActivity {
                                     received_type = result.getInt(getString(R.string.select_users_type));
                                     received_phone = result.getString(getString(R.string.select_users_phone));
                                     received_date_of_birth = result.getString(getString(R.string.select_users_birthdate));
+                                    received_id = result.getInt("id");
+                                    received_name = result.getString("name");
+                                    received_phone = result.getString("phone");
+                                    received_imgUrl = result.getString("ImageUrl");
+                                    received_gender= result.getInt("gender");
+                                    received_type = result.getInt("type");
+                                    received_mail = result.getString("email");
+                                    received_date_of_birth = result.getString("date_of_birth");
                                     ActiveUser();
                                 } else {
                                     progressDialog.dismiss();
@@ -601,6 +625,7 @@ public class LoginActivity extends AppCompatActivity {
                             } else {
                                 progressDialog.dismiss();
                                 show_toast(getString(R.string.mailNoFound));
+                                show_toast("Email doesn't exist");
                             }
 
 
@@ -656,9 +681,11 @@ public class LoginActivity extends AppCompatActivity {
     private void go_to_home(){
 
         globalVars.settAll(received_name,received_imgUrl, received_phone, pass, mail,
+        globalVars.settAll(received_name,received_imgUrl, received_phone, pass, received_mail,
                             received_id, received_type, received_gender, received_date_of_birth);
 
         UserEntity userEntity = new UserEntity(received_name,received_imgUrl, received_phone,pass, mail,
+        UserEntity userEntity = new UserEntity(received_name,received_imgUrl, received_phone,pass, received_mail,
                 received_id, received_type, received_gender,received_date_of_birth);
 
         SharedPreferences.Editor preferences = getSharedPreferences("UserFile", MODE_PRIVATE).edit();
@@ -672,6 +699,21 @@ public class LoginActivity extends AppCompatActivity {
         startActivity(intent);
         finish();
 
+    }
+
+    public static boolean isValidMail(String mail)
+    {
+        String expression = "^[\\w!#$%&'*+/=?`{|}~^-]+(?:\\.[\\w!#$%&'*+/=?`{|}~^-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,6}$";
+        CharSequence inputString = mail;
+        Pattern pattern = Pattern.compile(expression);
+        Matcher matcher = pattern.matcher(inputString);
+        if (matcher.matches())
+        {
+            return true;
+        }
+        else{
+            return false;
+        }
     }
 
     public void show_toast(String msg){

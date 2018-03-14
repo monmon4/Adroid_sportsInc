@@ -4,13 +4,56 @@
     android:layout_height="match_parent"
     tools:context="com.quantumsit.sportsinc.COACHES.CurrentClassFragments.Coach_CurrentClassNoteFragment">
 
+        <RadioGroup
+            android:id="@+id/above_ll"
+            android:layout_margin="16dp"
+            android:layout_below="@id/doneFloatingActionButton_coachcurrentclassnotesfragment"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" >
+
+            <RadioButton
+                android:id="@+id/radioButton1"
+                android:textSize="18sp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/excellent" />
+
+            <RadioButton
+                android:id="@+id/radioButton2"
+                android:textSize="18sp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/good" />
+
+            <RadioButton
+                android:id="@+id/radioButton3"
+                android:textSize="18sp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/average" />
+
+            <RadioButton
+                android:id="@+id/radioButton4"
+                android:textSize="18sp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/bad" />
+        </RadioGroup>
+
+
     <EditText
         android:id="@+id/notesEditText_coachcurrentclassnotesfragment"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
         android:hint="@string/write_notes_anout_the_class"
         android:textColor="@color/colorText"
-        android:layout_below="@+id/doneFloatingActionButton_coachcurrentclassnotesfragment"
+        android:layout_below="@+id/above_ll"
         android:inputType="textMultiLine" />
 
     <android.support.design.widget.FloatingActionButton

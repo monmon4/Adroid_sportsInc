@@ -17,6 +17,8 @@ import com.quantumsit.sportsinc.Adapters.ListView_Adapter_about_us;
 import com.quantumsit.sportsinc.Backend.HttpCall;
 import com.quantumsit.sportsinc.Backend.HttpRequest;
 import com.quantumsit.sportsinc.Entities.item_about;
+import com.quantumsit.sportsinc.COACHES.ListView_Adapter_trainees_attendance_coach;
+import com.quantumsit.sportsinc.CustomView.myCustomListViewListener;
 import com.quantumsit.sportsinc.R;
 import com.quantumsit.sportsinc.util.ConnectionUtilities;
 
@@ -45,10 +47,6 @@ public class AboutFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_about,container,false);
 
-        listView = root.findViewById(R.id.listview_about_us);
-        listView.setSelector(android.R.color.transparent);
-        items = new ArrayList<>();
-
         mSwipeRefreshLayout = root.findViewById(R.id.swiperefresh);
         mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
@@ -59,6 +57,16 @@ public class AboutFragment extends Fragment {
         loading = root.findViewById(R.id.LoadingData);
         progressBar = root.findViewById(R.id.progress_bar);
         retry = root.findViewById(R.id.layout_retry);
+
+        listView = root.findViewById(R.id.listview_about_us);
+        listView.setSelector(android.R.color.transparent);
+        listView.setOnScrollListener(new myCustomListViewListener(listView, mSwipeRefreshLayout) {
+            @Override
+            public void loadMoreData() {
+
+            }
+        });
+        items = new ArrayList<>();
 
         get_list_items();
 

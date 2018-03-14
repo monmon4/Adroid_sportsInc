@@ -38,7 +38,6 @@
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -49,6 +48,12 @@
             android:name=".Activities.LoginActivity"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".Activities.RegisterActivity" />
+        <activity
+            android:name=".Activities.LoginActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".Activities.RegisterActivity"
+            android:theme="@style/AppTheme.ActionBar.Transparent" />
         <activity
             android:name=".Activities.HomeActivity"
             android:configChanges="orientation|screenSize"
@@ -114,6 +119,12 @@
         </service>
         <!-- ./Firebase Notifications -->
 
+
+        <activity android:name=".Activities.FirstActivity" />
+        <activity android:name=".RegisterationForm_fragments.BookingForm_FirstFragment" />
+        <activity android:name=".RegisterationForm_fragments.BookingForm_SecondFragment" />
+        <activity android:name=".RegisterationForm_fragments.BookingFormActivity" />
+        <activity android:name=".RegisterationForm_fragments.BookingFirstFormActivity"></activity>
     </application>
 
 </manifest>
