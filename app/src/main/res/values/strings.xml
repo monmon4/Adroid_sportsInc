@@ -456,6 +456,9 @@
     <string name="step2">Step 2</string>
     <string name="step3">Step 3</string>
     <string name="step4">Step 4</string>
+    <string name="back">Back</string>
+    <string name="next">Next</string>
+    <string name="personal_swimmer_data">Personal Swimmer Data</string>
 
     <integer name="grinning_face">0x1F604</integer>
     <integer name="smiley_face">0x1F642</integer>

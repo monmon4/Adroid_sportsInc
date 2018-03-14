@@ -18,8 +18,8 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:background="@color/colorLogoBlue"
-        app:itemIconTint="@color/colorRegisterGraySteps"
-        app:itemTextColor="@color/colorRegisterGraySteps"
+        app:itemIconTint="@drawable/bottom_navigation_bar_on_off"
+        app:itemTextColor="@drawable/bottom_navigation_bar_on_off"
         app:menu="@menu/bottom_navigation_register_menu"/>
 
 </RelativeLayout>

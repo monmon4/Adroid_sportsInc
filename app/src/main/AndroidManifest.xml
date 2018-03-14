@@ -109,7 +109,8 @@
         <activity android:name=".Activities.FirstActivity" />
         <activity android:name=".RegisterationForm_fragments.BookingForm_FirstFragment" />
         <activity android:name=".RegisterationForm_fragments.BookingForm_SecondFragment" />
-        <activity android:name=".RegisterationForm_fragments.BookingFormActivity"></activity>
+        <activity android:name=".RegisterationForm_fragments.BookingFormActivity" />
+        <activity android:name=".RegisterationForm_fragments.BookingFirstFormActivity"></activity>
     </application>
 
 </manifest>

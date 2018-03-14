@@ -32,8 +32,8 @@ import com.quantumsit.sportsinc.Backend.HttpCall;
 import com.quantumsit.sportsinc.Backend.HttpRequest;
 import com.quantumsit.sportsinc.Entities.UserEntity;
 import com.quantumsit.sportsinc.R;
+import com.quantumsit.sportsinc.RegisterationForm_fragments.BookingFirstFormActivity;
 import com.quantumsit.sportsinc.RegisterationForm_fragments.BookingFormActivity;
-import com.quantumsit.sportsinc.RegisterationForm_fragments.RegisterationFormFragment;
 import com.quantumsit.sportsinc.util.ConnectionUtilities;
 
 import org.json.JSONArray;
@@ -244,7 +244,7 @@ public class LoginActivity extends AppCompatActivity {
         //Intent intent = new Intent(LoginActivity.this, RegisterActivity.class);
         //startActivity(intent);
 
-        Intent intent = new Intent(LoginActivity.this, BookingFormActivity.class);
+        Intent intent = new Intent(LoginActivity.this, BookingFirstFormActivity.class);
         startActivity(intent);
     }
 
