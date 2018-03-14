@@ -1,23 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
+    android:background="@drawable/splash"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
     <ImageView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:src="@drawable/last_splash"
+        android:layout_width="170dp"
+        android:layout_height="170dp"
+        android:layout_marginTop="100dp"
+        android:layout_centerHorizontal="true"
+        android:src="@drawable/sportsinc_aquatics_logo"
         android:scaleType="centerCrop"/>
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textColor="@color/colorWhite"
-        android:layout_alignParentBottom="true"
-        android:layout_margin="10dp"
-        android:textStyle="italic"
-        android:layout_alignParentEnd="true"
-        android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
-        android:text = "@string/powered_by_sports_inc"/>
+
 </RelativeLayout>
