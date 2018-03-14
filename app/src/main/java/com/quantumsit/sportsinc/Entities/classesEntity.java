@@ -19,9 +19,9 @@ import java.util.Locale;
  */
 
 public class classesEntity implements Serializable {
-    String courseName, groupName, className, status, coachName, adminName, poolName;
+    String courseName, groupName, className, status, coachName, adminName ,person_name, poolName;
     String startTime, endTime, reason, postpondStartTime, postpondEndTime ,postpondDate ,classdate;
-    int class_id ,Group_id ,Course_id ,Admin_id ,Coach_id , state;
+    int class_id ,Group_id ,Course_id ,Admin_id ,Coach_id , person_id , state;
 
     public classesEntity() {
     }
@@ -60,6 +60,8 @@ public class classesEntity implements Serializable {
             this.coachName = jsonObject.getString("coach_name");
             this.Admin_id = jsonObject.getInt("admin_id");
             this.adminName = jsonObject.getString("admin_name");
+            this.person_id = jsonObject.getInt("person_id");
+            this.person_name = jsonObject.getString("person_name");
             this.poolName = jsonObject.getString("Pool_Name");
             this.startTime = jsonObject.getString("class_time");
             this.startTime = startTime.substring(0,startTime.length()-3);
@@ -288,5 +290,21 @@ public class classesEntity implements Serializable {
                 break;
 
         }
+    }
+
+    public String getPerson_name() {
+        return person_name;
+    }
+
+    public void setPerson_name(String person_name) {
+        this.person_name = person_name;
+    }
+
+    public int getPerson_id() {
+        return person_id;
+    }
+
+    public void setPerson_id(int person_id) {
+        this.person_id = person_id;
     }
 }

@@ -4,11 +4,13 @@ import android.content.Context;
 import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.quantumsit.sportsinc.Aaa_data.GlobalVars;
 import com.quantumsit.sportsinc.Entities.classesEntity;
 import com.quantumsit.sportsinc.R;
 import com.quantumsit.sportsinc.Interfaces.MyItemClickListener;
@@ -24,9 +26,17 @@ public class ListViewAdapter extends RecyclerView.Adapter<ListViewAdapter.ViewHo
     Context context ;
     List<classesEntity> myclasses;
     MyItemClickListener clickListener;
+    int person_id;
 
     public ListViewAdapter(@NonNull Context context, int resource, List<classesEntity> classeslist) {
         this.context = context;
+        this.myclasses = classeslist;
+        mInflater = LayoutInflater.from(context);
+    }
+
+    public ListViewAdapter(@NonNull Context context, int person_id ,int resource, List<classesEntity> classeslist) {
+        this.context = context;
+        this.person_id = person_id;
         this.myclasses = classeslist;
         mInflater = LayoutInflater.from(context);
     }
@@ -56,6 +66,13 @@ public class ListViewAdapter extends RecyclerView.Adapter<ListViewAdapter.ViewHo
             viewHolder.status.setTextColor(Color.parseColor("#2a388f"));
 
         viewHolder.status.setText(classStatus);
+        Log.d("ListItemsChild" ,myclass.getPerson_id() +", "+person_id );
+        if (myclass.getPerson_id() != person_id) {
+            viewHolder.childName.setVisibility(View.VISIBLE);
+            viewHolder.childName.setText(myclass.getPerson_name());
+        }
+        else
+            viewHolder.childName.setVisibility(View.GONE);
         viewHolder.Title.setText(myclass.getCourseName()+" "+myclass.getClassName());
         viewHolder.Time.setText(myclass.getStartTime()+" to "+myclass.getEndTime());
     }
@@ -78,11 +95,12 @@ public class ListViewAdapter extends RecyclerView.Adapter<ListViewAdapter.ViewHo
      * View holder to display each RecylerView item
      */
     protected class ViewHolder extends RecyclerView.ViewHolder  implements View.OnClickListener {
-        private TextView Title ,Time ,status;
+        private TextView Title ,Time ,status , childName;
 
         public ViewHolder(View view) {
             super(view);
             Title = view.findViewById(R.id.class_name);
+            childName = view.findViewById(R.id.child_name);
             Time = view.findViewById(R.id.class_start_end);
             status = view.findViewById(R.id.class_status);
             view.setTag(view);

@@ -19,7 +19,7 @@ public interface Constants {
     String updateData = server + "updatedata";
     String insertData = server + "insertdata";
     String join = server + "joindata";
-    String classesData = server + "class_Details";
+    String classesData = local_server + "class_Details";
     String admin_currentClasses = server + "current_classes";
     String coach_running_class = server + "running_classes";
     String coach_courses = server + "coach_coursesName";

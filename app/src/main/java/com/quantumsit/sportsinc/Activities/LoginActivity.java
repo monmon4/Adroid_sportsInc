@@ -109,6 +109,14 @@ public class LoginActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+
+        getSupportActionBar().setTitle(getResources().getString(R.string.log_in));
+
+        setTitleColor(getResources().getColor(R.color.colorLogoRed));
+
         globalVars = (GlobalVars) getApplication();
 
         login_ll = findViewById(R.id.ll_login);
@@ -209,6 +217,12 @@ public class LoginActivity extends AppCompatActivity {
         Toast.makeText(getApplicationContext(), R.string.GLogIn,Toast.LENGTH_LONG).show();
         Intent signInIntent = mGoogleSignInClient.getSignInIntent();
         startActivityForResult(signInIntent, RC_SIGN_IN);
+    }
+
+    @Override
+    public boolean onSupportNavigateUp() {
+        onBackPressed();
+        return true;
     }
 
     @Override
