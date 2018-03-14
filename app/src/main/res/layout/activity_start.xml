@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.quantumsit.sportsinc.Activities.startActivity">
+    android:background="@color/colorWhite"
+    tools:context="com.quantumsit.sportsinc.Activities.startPageActivity">
 
     <android.support.v4.view.ViewPager
         android:id="@+id/viewPager"
@@ -13,14 +14,91 @@
         android:layout_alignParentTop="true">
     </android.support.v4.view.ViewPager>
 
-    <me.relex.circleindicator.CircleIndicator
-        android:id="@+id/indicator"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="48dp"
-        app:ci_drawable="@drawable/circleindicator_round"
-        android:backgroundTint="@color/colorPrimary"
-        android:pointerIcon="arrow"
-        android:layout_alignParentBottom="true"
-        android:baselineAligned="false" />
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_margin="@dimen/ten_dimens"
+        android:layout_alignParentBottom="true">
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:scaleType="fitCenter"
+                android:src="@mipmap/ic_launcher"/>
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_weight="4"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAllCaps="true"
+                    android:textColor="@color/colorWhite"
+                    android:text="@string/sportDes1"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/colorPrimary"
+                    android:textAllCaps="true"
+                    android:paddingStart="3dp"
+                    android:text="@string/sportDes2"/>
+            </LinearLayout>
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textAllCaps="true"
+                    android:textColor="@color/colorWhite"
+                    android:text="@string/spotDes3"/>
+            </LinearLayout>
+        </LinearLayout>
+        <me.relex.circleindicator.CircleIndicator
+            android:id="@+id/indicator"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:pointerIcon="arrow"
+            android:layout_alignParentBottom="true"
+            android:layout_alignTop="@id/btnLayout"
+            android:baselineAligned="false" /><!--
+            app:ci_drawable="@drawable/circleindicator_round"
+            android:backgroundTint="@color/colorPrimary" />-->
+        <LinearLayout
+            android:id="@+id/btnLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/ten_dimens"
+            android:layout_marginEnd="@dimen/ten_dimens"
+            android:layout_alignBottom="@+id/indicator">
+            <Button
+                android:id="@+id/joinAcademyBtn"
+                android:layout_width="0dp"
+                android:layout_weight="2"
+                android:layout_height="match_parent"
+                android:onClick="joinAcademy"
+                android:textColor="@color/colorWhite"
+                android:background="@color/colorPrimary"
+                android:text = "@string/JoinAcademy"
+                android:layout_marginEnd="5dp"/>
+            <Button
+                android:id="@+id/singInBtn"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_marginStart="5dp"
+                android:layout_height="match_parent"
+                android:onClick="singIn"
+                android:textColor="@color/colorWhite"
+                android:background="@color/colorDarkBlue"
+                android:text="@string/log_in"/>
+        </LinearLayout>
+    </LinearLayout>
 </RelativeLayout>

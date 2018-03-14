@@ -1,9 +1,11 @@
 package com.quantumsit.sportsinc.Activities;
 
+import android.content.Intent;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 
 import com.quantumsit.sportsinc.Adapters.ViewPagerAdapter;
 import com.quantumsit.sportsinc.R;
@@ -15,7 +17,7 @@ import java.util.TimerTask;
 
 import me.relex.circleindicator.CircleIndicator;
 
-public class startActivity extends AppCompatActivity {
+public class startPageActivity extends AppCompatActivity {
 
     private ViewPager viewpager;
     private CircleIndicator indicator;
@@ -44,6 +46,14 @@ public class startActivity extends AppCompatActivity {
         myAdapter = new ViewPagerAdapter(getApplicationContext(),Images);
         viewpager.setAdapter(myAdapter);
         indicator.setViewPager(viewpager);
+    }
+
+    public void singIn(View view) {
+        startActivity(new Intent(startPageActivity.this, LoginActivity.class));
+    }
+
+    public void joinAcademy(View view) {
+        startActivity(new Intent(startPageActivity.this, RegisterActivity.class));
     }
 
     public class MyTimeTask extends TimerTask{

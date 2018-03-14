@@ -529,5 +529,10 @@
     <string name="select_users_token">token</string>
     <string name="select_users_active">active</string>
     <string name="select_users_mail">email</string>
+    <string name="JoinAcademy">Join Sports Inc+</string>
+    <string name="sportDes1">Become A </string>
+    <string name="sportDes2">Sports Inc Aquatics</string>
+    <string name="spotDes3">Member</string>
+    <string name="about">About academy</string>
 
 </resources>

@@ -52,7 +52,7 @@ public class MainFragment extends Fragment {
     NewsRecyclerAdapter newsAdapter ;
     EventsRecyclerAdapter eventsAdapter;
     LinearLayout newsLayout , eventsLayout;
-    TextView newsMore , eventMore;
+    ImageView newsMore, eventMore;
     ArrayList<NewsEntity> NewsList = new ArrayList<>();
     ArrayList<EventEntity> eventsList = new ArrayList<>();
     String logo ,brief;

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#0192b6</color>
-    <color name="colorPrimaryDark">#00708c</color>
+    <color name="colorPrimary">#ce2305</color>
+    <color name="colorPrimaryDark">#ac1b01</color>
     <color name="colorAccent">#b12025</color>
 
     <color name="colorTextDark">#2393af</color>
@@ -31,6 +31,7 @@
 
     <color name="colorCoursesText">#111E3F</color>
     <color name="colorDarkGray">#737373</color>
+    <color name="colorDarkBlue">#0e019f</color>
 
 
 </resources>
