@@ -30,7 +30,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="250dp"
                     android:adjustViewBounds="true"
-                    android:background="@drawable/signup_dark"
+                    android:background="@drawable/signup_blue"
                     android:scaleType="centerCrop" />
 
                 <android.support.v7.widget.CardView

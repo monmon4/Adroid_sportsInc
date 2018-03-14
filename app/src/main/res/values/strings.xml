@@ -573,4 +573,14 @@
     <string name="heart_issues">Heart issues</string>
     <string name="asthma">Asthma</string>
     <string name="other">Other</string>
+    <string name="personal_data_parents_legal_gurdian">Personal Data Parents/Legal gurdian</string>
+    <string name="first_person">First Person</string>
+    <string name="second_person">Second Person</string>
+    <string name="emergency_contact">Emergency Contact</string>
+    <string name="how_did_you_hear_about_us">How Did you hear about us?</string>
+    <string name="friends">Friends</string>
+    <string name="social_media">Social Media</string>
+    <string name="i_agree_to_the_sports_inc_aquatics_terms_amp_conditions_and_pool_safety_rules"><![CDATA[I agree to the Sports Inc. Aquatics Terms & Conditions and Pool Safety Rules*]]></string>
+    <string name="i_agree_to_sports_inc_aquatics_photographing_and_or_videoing_during_trainings_sessions_competitions_and_events_for_the_purpose_of_feedback_education_and_promotional_amp_marketing_purposes"><![CDATA[I agree to Sports Inc. Aquatics photographing and/or videoing during trainings sessions, competitions and events for the purpose of Feedback, Education, and Promotional & Marketing Purposes]]></string>
+    <string name="brochures">Brochures</string>
 </resources>

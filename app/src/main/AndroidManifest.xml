@@ -44,7 +44,7 @@
         </activity>
         <activity
             android:name=".Activities.startPageActivity"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".Activities.LoginActivity"
             android:theme="@style/AppTheme.ActionBar.Transparent" />
@@ -118,7 +118,9 @@
 
         <activity android:name=".RegisterationForm_fragments.BookingFormActivity" />
         <activity android:name=".RegisterationForm_fragments.BookingFirstFormActivity" />
-        <activity android:name=".RegisterationForm_fragments.BookingSecondFormActivity"></activity>
+        <activity android:name=".RegisterationForm_fragments.BookingSecondFormActivity" />
+        <activity android:name=".RegisterationForm_fragments.BookingThirdFormActivity" />
+        <activity android:name=".RegisterationForm_fragments.BookingForthFormActivity"></activity>
     </application>
 
 </manifest>
