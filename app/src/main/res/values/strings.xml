@@ -558,5 +558,6 @@
     <string name="select_users_token">token</string>
     <string name="select_users_active">active</string>
     <string name="select_users_mail">email</string>
+    <string name="last_family_name">Last/Family name</string>
 
 </resources>

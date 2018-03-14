@@ -13,7 +13,7 @@
         android:layout_height="wrap_content"
         android:gravity="center_horizontal"
         android:padding="@dimen/ten_dimens"
-        android:textColor="@color/colorRed"
+        android:textColor="@color/colorLogoRed"
         android:textAppearance="@style/TextAppearance.AppCompat.Headline"
         android:text="@string/log_in"/>
 
@@ -86,7 +86,7 @@
                     android:textAppearance="@style/TextAppearance.AppCompat.Small"
                     android:focusableInTouchMode="true"
                     android:text="@string/forgot_password"
-                    android:textColor="@color/colorRed"
+                    android:textColor="@color/colorLogoRed"
                     android:textStyle="bold|italic"
                     android:layout_marginRight="10dp" />
             <TextView

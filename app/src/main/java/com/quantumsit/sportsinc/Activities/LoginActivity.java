@@ -84,12 +84,10 @@ public class LoginActivity extends AppCompatActivity {
     TextView forgetPassword;
     PopupWindow verfication_popup_window;
 
-    EditText phone_edittext, pass_edittext;
-    String mail, pass;
+    EditText phone_edittext;
     EditText mail_edittext, pass_edittext;
     String mail, pass;
 
-    String received_pass, received_phone, received_name, received_imgUrl ,received_date_of_birth;
     String received_pass, received_mail, received_name, received_imgUrl
             ,received_date_of_birth, received_phone;
     int received_id, received_gender, received_type;
