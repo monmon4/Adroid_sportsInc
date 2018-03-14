@@ -55,9 +55,7 @@ dependencies {
     compile "com.android.support:support-emoji:26.1.0"
     compile 'com.googlecode.libphonenumber:libphonenumber:7.2.2'
     compile 'com.aurelhubert:ahbottomnavigation:0.1.3'
-
     compile 'me.relex:circleindicator:1.2.2@aar'
-
     def uploadServiceVersion = "3.4.2"
     compile "net.gotev:uploadservice:$uploadServiceVersion"
 }

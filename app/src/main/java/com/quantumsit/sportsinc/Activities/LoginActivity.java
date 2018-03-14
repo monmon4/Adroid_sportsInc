@@ -84,7 +84,6 @@ public class LoginActivity extends AppCompatActivity {
     TextView forgetPassword;
     PopupWindow verfication_popup_window;
 
-    EditText phone_edittext;
     EditText mail_edittext, pass_edittext;
     String mail, pass;
 
@@ -105,6 +104,7 @@ public class LoginActivity extends AppCompatActivity {
     LoginButton fbLoginButton;
     SignInButton googleSignInButton;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -124,13 +124,9 @@ public class LoginActivity extends AppCompatActivity {
         forgetPassword.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mail = phone_edittext.getText().toString();
-                if (mail.equals(""))
-                    show_toast(getString(R.string.requiredField));
                 mail = mail_edittext.getText().toString();
                 if (mail.equals(""))
-                    show_toast("Enter your phone number first...");
-
+                    show_toast(getString(R.string.requiredField));
                 else
                     checkMail();
             }
@@ -167,7 +163,6 @@ public class LoginActivity extends AppCompatActivity {
                         public void onCompleted(JSONObject object,
                                                 GraphResponse response) {
 
-    private void checkMail() {
                             Log.i("FaceBookLoginActivity",
                                     response.toString());
                             try {
@@ -386,10 +381,15 @@ public class LoginActivity extends AppCompatActivity {
 
 
     private void verfication(){
+        progressDialog.dismiss();
+        Random random_num = new Random();
+        final int verfication_num = random_num.nextInt(9999 - 1000) + 1000;
+        Log.d("Verfication","Code: "+verfication_num);
+        //verification_msg = "" + verfication_num;
 
 
-
-
+        LayoutInflater inflater = (LayoutInflater) this.getSystemService(LAYOUT_INFLATER_SERVICE);
+        View customView = inflater.inflate(R.layout.window_verficationcode_layout,null);
 
         final EditText verify_edit_text =  customView.findViewById(R.id.verficationEditText_verify);
         Button done_button =  customView.findViewById(R.id.doneButton_verify);
@@ -554,7 +554,6 @@ public class LoginActivity extends AppCompatActivity {
             show_toast(getResources().getString(R.string.no_connection));
             return;
         }
-        mail = phone_edittext.getText().toString();
         mail = mail_edittext.getText().toString();
         pass = pass_edittext.getText().toString();
         all_good = true;
@@ -562,7 +561,7 @@ public class LoginActivity extends AppCompatActivity {
         if (mail.equals("") ){
             show_toast(getString(R.string.MailMissing));
 
-        } else if (pass.equals("")) {
+        } else if (pass.equals(""))
             show_toast(getString(R.string.PassMissing));
         if (TextUtils.isEmpty(mail) ){
             mail_edittext.setError("Email is missing");
@@ -608,14 +607,6 @@ public class LoginActivity extends AppCompatActivity {
                                     received_type = result.getInt(getString(R.string.select_users_type));
                                     received_phone = result.getString(getString(R.string.select_users_phone));
                                     received_date_of_birth = result.getString(getString(R.string.select_users_birthdate));
-                                    received_id = result.getInt("id");
-                                    received_name = result.getString("name");
-                                    received_phone = result.getString("phone");
-                                    received_imgUrl = result.getString("ImageUrl");
-                                    received_gender= result.getInt("gender");
-                                    received_type = result.getInt("type");
-                                    received_mail = result.getString("email");
-                                    received_date_of_birth = result.getString("date_of_birth");
                                     ActiveUser();
                                 } else {
                                     progressDialog.dismiss();
@@ -625,7 +616,6 @@ public class LoginActivity extends AppCompatActivity {
                             } else {
                                 progressDialog.dismiss();
                                 show_toast(getString(R.string.mailNoFound));
-                                show_toast("Email doesn't exist");
                             }
 
 
@@ -681,11 +671,9 @@ public class LoginActivity extends AppCompatActivity {
     private void go_to_home(){
 
         globalVars.settAll(received_name,received_imgUrl, received_phone, pass, mail,
-        globalVars.settAll(received_name,received_imgUrl, received_phone, pass, received_mail,
                             received_id, received_type, received_gender, received_date_of_birth);
 
         UserEntity userEntity = new UserEntity(received_name,received_imgUrl, received_phone,pass, mail,
-        UserEntity userEntity = new UserEntity(received_name,received_imgUrl, received_phone,pass, received_mail,
                 received_id, received_type, received_gender,received_date_of_birth);
 
         SharedPreferences.Editor preferences = getSharedPreferences("UserFile", MODE_PRIVATE).edit();
