@@ -1,44 +1,25 @@
 package com.quantumsit.sportsinc.RegisterationForm_fragments;
 
-
-import android.graphics.Color;
-import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
-import android.view.LayoutInflater;
+import android.os.Bundle;
 import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewGroup;
 
-import com.aurelhubert.ahbottomnavigation.AHBottomNavigation;
-import com.aurelhubert.ahbottomnavigation.AHBottomNavigationItem;
-import com.quantumsit.sportsinc.Aaa_data.GlobalVars;
-import com.quantumsit.sportsinc.Adapters.SectionsPagerAdapter;
 import com.quantumsit.sportsinc.R;
 
-
-public class RegisterationFormFragment extends AppCompatActivity {
-
-    private SectionsPagerAdapter mSectionsPagerAdapter;
-
-    private ViewPager mViewPager;
-
-    GlobalVars globalVars;
+public class BookingFormActivity extends AppCompatActivity {
 
     BottomNavigationView bottomNavigation;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.fragment_registeration_form);
+        setContentView(R.layout.activity_booking_form);
 
-
-        bottomNavigation = findViewById(R.id.navigation);
+        bottomNavigation = findViewById(R.id.bottom_navigation_booking);
 
         bottomNavigation.setOnNavigationItemSelectedListener
                 (new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -60,7 +41,7 @@ public class RegisterationFormFragment extends AppCompatActivity {
                                 break;
                         }
                         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-                        transaction.replace(R.id.frame_layout, selectedFragment);
+                        transaction.replace(R.id.frame_layout_booking, selectedFragment);
                         transaction.commit();
                         return true;
                     }
@@ -68,8 +49,8 @@ public class RegisterationFormFragment extends AppCompatActivity {
 
         //Manually displaying the first fragment - one time only
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-        transaction.replace(R.id.frame_layout, BookingForm_FirstFragment.newInstance());
+        transaction.replace(R.id.frame_layout_booking, BookingForm_FirstFragment.newInstance());
         transaction.commit();
-    }
 
+    }
 }
