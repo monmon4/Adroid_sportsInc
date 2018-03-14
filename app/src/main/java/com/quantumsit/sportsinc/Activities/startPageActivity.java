@@ -9,6 +9,7 @@ import android.view.View;
 
 import com.quantumsit.sportsinc.Adapters.ViewPagerAdapter;
 import com.quantumsit.sportsinc.R;
+import com.quantumsit.sportsinc.RegisterationForm_fragments.BookingFirstFormActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -53,7 +54,8 @@ public class startPageActivity extends AppCompatActivity {
     }
 
     public void joinAcademy(View view) {
-        startActivity(new Intent(startPageActivity.this, RegisterActivity.class));
+        //startActivity(new Intent(startPageActivity.this, RegisterActivity.class));
+        startActivity(new Intent(startPageActivity.this, BookingFirstFormActivity.class));
     }
 
     public class MyTimeTask extends TimerTask{

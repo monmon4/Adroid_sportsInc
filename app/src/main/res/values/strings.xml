@@ -459,7 +459,6 @@
     <integer name="sad_face">0x1F641</integer>
 
 
-
     <string name="facebook_app_id">195079617933358</string>
     <string name="fb_login_protocol_scheme">fb502284903486319</string>
 
@@ -564,4 +563,14 @@
     <string name="spotDes3">Member</string>
     <string name="about">About academy</string>
     <string name="last_family_name">Last/Family name</string>
+    <string name="male"> Male </string>
+    <string name="female">Female</string>
+    <string name="nationality">Nationality</string>
+    <string name="address">Address</string>
+    <string name="medical_conditions">Medical Conditions</string>
+    <string name="chronic_issues_with_ears">Chronic issues with ears</string>
+    <string name="chronic_issues_respiratory_tract">Chronic issues respiratory tract</string>
+    <string name="heart_issues">Heart issues</string>
+    <string name="asthma">Asthma</string>
+    <string name="other">Other</string>
 </resources>

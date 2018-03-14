@@ -38,12 +38,13 @@
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".Activities.startPageActivity"
-            android:theme="@style/AppTheme.NoActionBar">
-        </activity>
+        <activity
+            android:name=".Activities.startPageActivity"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
         <activity
             android:name=".Activities.LoginActivity"
             android:theme="@style/AppTheme.ActionBar.Transparent" />
@@ -115,10 +116,9 @@
         </service>
         <!-- ./Firebase Notifications -->
 
-
-        <activity android:name=".Activities.FirstActivity" />
         <activity android:name=".RegisterationForm_fragments.BookingFormActivity" />
-        <activity android:name=".RegisterationForm_fragments.BookingFirstFormActivity"></activity>
+        <activity android:name=".RegisterationForm_fragments.BookingFirstFormActivity" />
+        <activity android:name=".RegisterationForm_fragments.BookingSecondFormActivity"></activity>
     </application>
 
 </manifest>
