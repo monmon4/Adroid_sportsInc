@@ -150,7 +150,7 @@ public class HomeActivity extends AppCompatActivity
         userName.setText(globalVars.getName());
         userPhone.setText(globalVars.getPhone());
 
-        header.setOnClickListener(new View.OnClickListener() {
+        profileImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                openProfile();
@@ -168,9 +168,6 @@ public class HomeActivity extends AppCompatActivity
             @Override
             public void onClick(View view) {
                 openProfile();
-                Intent intent = new Intent(getApplicationContext(),ProfileActivity.class);
-                drawer.closeDrawer(GravityCompat.START);
-                startActivityForResult(intent,PROFILE_CODE);
             }
         });
 
@@ -233,6 +230,8 @@ public class HomeActivity extends AppCompatActivity
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == PROFILE_CODE && resultCode == AppCompatActivity.RESULT_OK){
+           // UserEntity userEntity = (UserEntity) data.getSerializableExtra("userUpdated");
+           // Toast.makeText(getApplicationContext(),userEntity.getName(),Toast.LENGTH_LONG).show();
             userName.setText(globalVars.getName());
             userPhone.setText(globalVars.getPhone());
             String ImageUrl = globalVars.getImgUrl();
@@ -571,6 +570,6 @@ public class HomeActivity extends AppCompatActivity
     private void openProfile (){
         Intent intent = new Intent(getApplicationContext(),ProfileActivity.class);
         drawer.closeDrawer(GravityCompat.START);
-        startActivity(intent);
+        startActivityForResult(intent ,PROFILE_CODE);
     }
 }

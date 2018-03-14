@@ -17,7 +17,6 @@
     </string-array>
 
 
-
     <string-array name="class_numbers_array">
         <item>Session 1</item>
         <item>Session 2</item>
@@ -430,8 +429,6 @@
     <string name="scores">Scores</string>
     <string name="calendar">Calender</string>
     <string name="no_connection">No Internet Connection</string>
-
-
 
 
     <string name="facebook_app_id">195079617933358</string>

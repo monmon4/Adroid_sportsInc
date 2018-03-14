@@ -3,12 +3,14 @@ package com.quantumsit.sportsinc.Adapters;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.quantumsit.sportsinc.Aaa_data.Constants;
 import com.quantumsit.sportsinc.Activities.NewsDetailsActivity;
@@ -66,8 +68,8 @@ public class NewsRecyclerAdapter extends RecyclerView.Adapter<NewsRecyclerAdapte
             progressBar = (ProgressBar) view.findViewById(R.id.progressBar1);
         }
 
-        public void setData(NewsEntity item , Context context){
-            String ImageUrl = item.getImg();
+        public void setData(NewsEntity item , final Context context){
+            final String ImageUrl = item.getImg();
 
             if(!ImageUrl.equals("")) {
                 Picasso.with(context).load(Constants.others_host + ImageUrl).into(newsImage, new com.squareup.picasso.Callback() {
@@ -78,7 +80,8 @@ public class NewsRecyclerAdapter extends RecyclerView.Adapter<NewsRecyclerAdapte
 
                     @Override
                     public void onError() {
-
+                        Toast.makeText(context,"ERROR",Toast.LENGTH_LONG).show();
+                        Log.d("IMAGEURL",Constants.others_host + ImageUrl);
                     }
                 });
             }else {

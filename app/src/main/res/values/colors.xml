@@ -13,7 +13,7 @@
     <color name="colorWhite">#FFFFFF</color>
     <color name="colorBlack">#000000</color>
 
-    <color name="colorGray">#ed4e4d4d</color>
+    <color name="colorGray">#f4898383</color>
     <color name="colorLightGray">#efaeacac</color>
 
     <color name="colorBlue">#2393af</color>
@@ -30,7 +30,7 @@
 
 
     <color name="colorCoursesText">#111E3F</color>
-
+    <color name="colorDarkGray">#737373</color>
 
 
 </resources>

@@ -107,6 +107,8 @@ public class GlobalVars extends Application {
     }
 
     public void setName(String name) {
+        if (myAccount != null && myAccount.getId() == person_id)
+            myAccount.setName(name);
         this.name = name;
     }
 
@@ -125,6 +127,8 @@ public class GlobalVars extends Application {
     }
 
     public void setPass(String pass) {
+        if (myAccount != null && myAccount.getId() == person_id)
+            myAccount.setPass(pass);
         this.pass = pass;
     }
 
@@ -133,6 +137,8 @@ public class GlobalVars extends Application {
     }
 
     public void setPhone(String phone) {
+        if (myAccount != null && myAccount.getId() == person_id)
+            myAccount.setPhone(phone);
         this.phone = phone;
     }
 
@@ -141,6 +147,8 @@ public class GlobalVars extends Application {
     }
 
     public void setMail(String mail) {
+        if (myAccount != null && myAccount.getId() == person_id)
+            myAccount.setMail(mail);
         this.mail = mail;
     }
 
