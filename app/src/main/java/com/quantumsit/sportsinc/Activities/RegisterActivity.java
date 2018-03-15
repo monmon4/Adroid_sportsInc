@@ -270,21 +270,6 @@ public class RegisterActivity extends AppCompatActivity {
             return;
         }
 
-        /*if(day_of_birth.equals("") || month_of_birth.equals("") || year_of_birth.equals("")){
-            show_toast("date of birth is missing ");
-            return;
-        } else {
-            int day = Integer.valueOf(day_of_birth);
-            int month = Integer.valueOf(month_of_birth);
-            int year = Integer.valueOf(year_of_birth);
-            int current_year = Calendar.getInstance().get(Calendar.YEAR);
-
-            if (day==0 || month==0 || year==0 || day>31 || month>12 || year>current_year-4 || year < current_year-60) {
-                show_toast("not a valid birthday format");
-                return;
-            }
-        }*/
-
         checkPhone();
 
     }

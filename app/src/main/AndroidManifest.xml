@@ -80,9 +80,11 @@
         <activity android:name=".Activities.ComplainDetailsActivity" />
         <activity android:name=".Activities.ComplainsAddActivity" />
 
-        <activity android:name=".Activities.FirstActivity" />
         <activity android:name=".RegisterationForm_fragments.BookingFormActivity" />
         <activity android:name=".RegisterationForm_fragments.BookingFirstFormActivity"></activity>
+        <activity android:name=".RegisterationForm_fragments.BookingSecondFormActivity"></activity>
+        <activity android:name=".RegisterationForm_fragments.BookingThirdFormActivity"></activity>
+        <activity android:name=".RegisterationForm_fragments.BookingForthFormActivity"></activity>
         <!--
             The API key for Google Maps-based APIs is defined as a string resource.
             (See the file "res/values/google_maps_api.xml").

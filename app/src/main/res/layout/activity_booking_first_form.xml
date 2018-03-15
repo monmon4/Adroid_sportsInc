@@ -72,6 +72,7 @@
                 </android.support.design.widget.TextInputLayout>
 
                 <TextView
+                    android:id="@+id/genderTextView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_margin="7.5dp"
@@ -85,7 +86,6 @@
                     android:orientation="horizontal">
 
                     <TextView
-                        android:onClick="male_pressed"
                         android:id="@+id/male_first"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
@@ -100,7 +100,6 @@
                         android:text="@string/male" />
 
                     <TextView
-                        android:onClick="female_pressed"
                         android:id="@+id/female_first"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
@@ -113,6 +112,70 @@
                         android:layout_marginStart="10dp"
                         android:textColor="@color/colorWhite"
                         android:text="@string/female" />
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/dateTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="7.5dp"
+                    android:text="@string/date_of_birth"/>
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_margin="2.5dp"
+                    android:orientation="horizontal">
+
+                    <EditText
+                        android:id="@+id/dayEditText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:maxLength="2"
+                        android:layout_weight="1"
+                        android:padding="5dp"
+                        android:gravity="center"
+                        android:ems="2"
+                        android:inputType="number" />
+
+                    <TextView
+                        android:id="@+id/textView8"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:layout_weight="1"
+                        android:text="@string/slash" />
+
+                    <EditText
+                        android:id="@+id/monthEditText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:maxLength="2"
+                        android:layout_weight="1"
+                        android:padding="5dp"
+                        android:ems="2"
+                        android:gravity="center"
+                        android:inputType="number" />
+
+                    <TextView
+                        android:id="@+id/textView9"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:text="@string/slash" />
+
+                    <EditText
+                        android:id="@+id/yearEditText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:maxLength="4"
+                        android:layout_weight="1"
+                        android:padding="5dp"
+                        android:ems="4"
+                        android:gravity="center"
+                        android:inputType="number" />
                 </LinearLayout>
 
                 <LinearLayout
