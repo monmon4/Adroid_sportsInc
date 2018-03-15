@@ -15,6 +15,7 @@ import android.view.View;
 
 import com.quantumsit.sportsinc.Adapters.ViewPagerAdapter;
 import com.quantumsit.sportsinc.R;
+import com.quantumsit.sportsinc.RegisterationForm_fragments.BookingFirstFormActivity;
 
 import java.io.BufferedInputStream;
 import java.io.IOException;
@@ -63,7 +64,8 @@ public class startPageActivity extends AppCompatActivity {
     }
 
     public void joinAcademy(View view) {
-        startActivity(new Intent(startPageActivity.this, RegisterActivity.class));
+        //startActivity(new Intent(startPageActivity.this, RegisterActivity.class));
+        startActivity(new Intent(startPageActivity.this, BookingFirstFormActivity.class));
         finish();
     }
 
@@ -84,12 +86,5 @@ public class startPageActivity extends AppCompatActivity {
                 }
             });
         }
-    }
-
-    public static Drawable getAssetImage(Context context, String filename) throws IOException {
-        AssetManager assets = context.getResources().getAssets();
-        InputStream buffer = new BufferedInputStream((assets.open("drawable/" + filename + ".png")));
-        Bitmap bitmap = BitmapFactory.decodeStream(buffer);
-        return new BitmapDrawable(context.getResources(), bitmap);
     }
 }
