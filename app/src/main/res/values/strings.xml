@@ -92,6 +92,12 @@
         <item> 0 </item>
     </string-array>
 
+    <string-array name="attendance_notes_array">
+        <item> Late </item>
+        <item> Excused </item>
+        <item> Didn't come at all </item>
+    </string-array>
+
     <string name="app_name">SH AQUATICS</string>
     <string name="done">Done</string>
     <string name="user_name">User name</string>
@@ -422,4 +428,5 @@
     <string name="i_agree_to_the_sports_inc_aquatics_terms_amp_conditions_and_pool_safety_rules"><![CDATA[I agree to the Sports Inc. Aquatics Terms & Conditions and Pool Safety Rules*]]></string>
     <string name="i_agree_to_sports_inc_aquatics_photographing_and_or_videoing_during_trainings_sessions_competitions_and_events_for_the_purpose_of_feedback_education_and_promotional_amp_marketing_purposes"><![CDATA[I agree to Sports Inc. Aquatics photographing and/or videoing during trainings sessions, competitions and events for the purpose of Feedback, Education, and Promotional & Marketing Purposes]]></string>
     <string name="brochures">Brochures</string>
+    <string name="note">Note</string>
 </resources>

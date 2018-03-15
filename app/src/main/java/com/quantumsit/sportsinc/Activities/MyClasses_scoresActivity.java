@@ -49,7 +49,7 @@ public class MyClasses_scoresActivity extends AppCompatActivity {
         String course = getResources().getString(R.string.course_name)+": " + course_name;
         String group = getResources().getString(R.string.group_number) +": " + group_name;
         String class_name = getResources().getString(R.string.session) +" " + String.valueOf(class_number);
-        String score_text = getResources().getString(R.string.score) +": " + String.valueOf(score);
+        String score_text = getResources().getString(R.string.score) +": " + String.valueOf(score) + "out of" + String.valueOf(class_number);
 
         String[] data = coach_notes.split(" ");
         StringBuilder emoji = new StringBuilder();

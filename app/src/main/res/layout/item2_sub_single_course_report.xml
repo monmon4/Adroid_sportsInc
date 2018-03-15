@@ -42,6 +42,7 @@
             android:layout_marginStart="10dp"
             android:layout_marginLeft="10dp"
             android:layout_gravity="center"
+            android:visibility="invisible"
             android:text="@string/score" />
     </LinearLayout>
 

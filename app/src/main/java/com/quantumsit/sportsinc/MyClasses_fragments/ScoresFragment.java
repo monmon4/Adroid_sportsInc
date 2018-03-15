@@ -227,6 +227,7 @@ public class ScoresFragment extends Fragment {
                     int score = num_attended_classes;
                     String coach_name = result.getString("coach_name");
                     String coach_notes = result.getString("coach_note");
+                    coach_notes += "\n Attendance notes: " + result.getString("class_note");
                     list_item.add(new item_single_scores(course_name, group_name, class_date, coach_name, coach_notes, attend, score, class_number));
                 }
 
