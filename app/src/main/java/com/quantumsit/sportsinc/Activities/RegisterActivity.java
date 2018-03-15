@@ -207,7 +207,7 @@ public class RegisterActivity extends AppCompatActivity {
 
     private boolean validateForm() {
 
-        user_name = name_edittext.getText().toString() + lastname_edittext.getText().toString();
+        user_name = name_edittext.getText().toString();
         phone = phone_edittext.getText().toString();
         mail = mail_edittext.getText().toString();
         pass = pass_edittext.getText().toString();
@@ -244,6 +244,7 @@ public class RegisterActivity extends AppCompatActivity {
             return false;
         }
 
+        user_name +=  lastname_edittext.getText().toString();
         mail_edittext.setError(null);
         pass_edittext.setError(null);
         repass_edittext.setError(null);
