@@ -1,8 +1,7 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context="com.quantumsit.sportsinc.COACHES.RequestFragment.CoachRequestReceivedFragment">
+    android:layout_height="match_parent">
 
     <android.support.v4.widget.SwipeRefreshLayout
         android:id="@+id/swipeRefresh"
@@ -11,7 +10,6 @@
 
         <com.quantumsit.sportsinc.CustomView.myCustomListView
             android:id="@+id/customListView"
-            android:listSelector="@android:color/transparent"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
         </com.quantumsit.sportsinc.CustomView.myCustomListView>
@@ -19,4 +17,4 @@
     </android.support.v4.widget.SwipeRefreshLayout>
 
 
-</RelativeLayout>
+</FrameLayout>

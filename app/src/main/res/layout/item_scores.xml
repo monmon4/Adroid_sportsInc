@@ -67,6 +67,15 @@
                 android:layout_marginStart="16dp"
                 android:text="@string/score"
                  />
+            <TextView
+                android:id="@+id/scoreTextView_childName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/colorScores"
+                android:layout_alignParentEnd="true"
+                android:layout_marginStart="16dp"
+                android:text="@string/score"
+                />
         </RelativeLayout>
 
     </LinearLayout>

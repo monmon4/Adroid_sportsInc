@@ -82,7 +82,6 @@ public class MainFragment extends Fragment {
 
         scrollView = root.findViewById(R.id.layoutScrollView);
         mSwipeRefreshLayout = root.findViewById(R.id.swiperefresh);
-        mSwipeRefreshLayout = root.findViewById(R.id.swiperefresh);
         mSwipeRefreshLayout.setProgressBackgroundColorSchemeColor(getResources().getColor(R.color.colorPrimary));
         mSwipeRefreshLayout.setColorSchemeColors(getResources().getColor(R.color.colorWhite));
 

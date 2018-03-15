@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.quantumsit.sportsinc.COACHES.ActivityAddRequest_coach">
+    tools:context="com.quantumsit.sportsinc.COACHES.RequestFragment.ActivityAddRequest_coach">
 
     <com.weiwangcn.betterspinner.library.material.MaterialBetterSpinner
         android:layout_width="wrap_content"

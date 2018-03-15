@@ -49,7 +49,7 @@ public class item_request_coach implements Serializable {
     public item_request_coach(JSONObject object) {
         try {
             request_ID = object.getInt("id");
-            this.request_for = R.string.request_for + ": " + object.getString("title");
+            this.request_for = /*R.string.request_for + */"Request for: " + object.getString("title");
             String dateFormated = object.getString("date_request");
             SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH);
 
@@ -157,6 +157,10 @@ public class item_request_coach implements Serializable {
 
     public String getGroup() {
         return group;
+    }
+
+    public void setStatus(int status) {
+        this.status = status;
     }
 
     public int getStatus() {

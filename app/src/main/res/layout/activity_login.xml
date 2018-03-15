@@ -24,6 +24,8 @@
                 android:id="@+id/imageView"
                 android:layout_width="wrap_content"
                 android:layout_height="100dp"
+                android:layout_marginTop="@dimen/ten_dimens"
+                android:layout_marginBottom="@dimen/twinty_dimens"
                 app:srcCompat="@drawable/sportsinc_aquatics_logo" />
 
             <EditText
@@ -53,6 +55,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/ten_dimens"
                 android:orientation="horizontal">
 
                 <TextView
@@ -79,8 +82,8 @@
                     android:textAppearance="@style/TextAppearance.AppCompat.Small"
                     android:focusableInTouchMode="true"
                     android:text="@string/forgot_password"
-                    android:textColor="@color/colorGray"
-                    android:textStyle="bold|italic"
+                    android:textColor="#8c8c8c"
+                    android:textStyle="italic"
                     android:layout_marginRight="10dp" />
 
 
@@ -95,8 +98,11 @@
                 android:text="@string/log_in"
                 android:textAllCaps="false"
                 android:layout_marginTop="30dp"
+                android:paddingTop="0dp"
+                android:paddingBottom="0dp"
                 android:paddingStart="50dp"
                 android:paddingEnd="50dp"
+                android:backgroundTint="@color/colorLogInBtn"
                 android:textColor="@color/colorTextLight"
                 android:textSize="18sp" />
 

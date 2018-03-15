@@ -9,6 +9,7 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.Signature;
 import android.graphics.Paint;
+import android.graphics.PorterDuff;
 import android.net.Uri;
 import android.os.Build;
 import android.support.annotation.NonNull;
@@ -115,6 +116,7 @@ public class LoginActivity extends AppCompatActivity {
 
         getSupportActionBar().setTitle(getResources().getString(R.string.log_in));
 
+
         setTitleColor(getResources().getColor(R.color.colorLogoRed));
 
         globalVars = (GlobalVars) getApplication();
@@ -127,7 +129,7 @@ public class LoginActivity extends AppCompatActivity {
         pass_edittext = findViewById(R.id.passEditText_login);
 
         forgetPassword = findViewById(R.id.forgetpassTextView_login);
-        forgetPassword.setPaintFlags(forgetPassword.getPaintFlags() |   Paint.UNDERLINE_TEXT_FLAG);
+       // forgetPassword.setPaintFlags(forgetPassword.getPaintFlags() |   Paint.UNDERLINE_TEXT_FLAG);
 
         forgetPassword.setOnClickListener(new View.OnClickListener() {
             @Override

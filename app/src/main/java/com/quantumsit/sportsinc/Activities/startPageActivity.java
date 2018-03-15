@@ -1,6 +1,12 @@
 package com.quantumsit.sportsinc.Activities;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.res.AssetManager;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -10,6 +16,9 @@ import android.view.View;
 import com.quantumsit.sportsinc.Adapters.ViewPagerAdapter;
 import com.quantumsit.sportsinc.R;
 
+import java.io.BufferedInputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Timer;
@@ -50,10 +59,12 @@ public class startPageActivity extends AppCompatActivity {
 
     public void singIn(View view) {
         startActivity(new Intent(startPageActivity.this, LoginActivity.class));
+        finish();
     }
 
     public void joinAcademy(View view) {
         startActivity(new Intent(startPageActivity.this, RegisterActivity.class));
+        finish();
     }
 
     public class MyTimeTask extends TimerTask{
@@ -73,5 +84,12 @@ public class startPageActivity extends AppCompatActivity {
                 }
             });
         }
+    }
+
+    public static Drawable getAssetImage(Context context, String filename) throws IOException {
+        AssetManager assets = context.getResources().getAssets();
+        InputStream buffer = new BufferedInputStream((assets.open("drawable/" + filename + ".png")));
+        Bitmap bitmap = BitmapFactory.decodeStream(buffer);
+        return new BitmapDrawable(context.getResources(), bitmap);
     }
 }
