@@ -72,6 +72,7 @@
                 </android.support.design.widget.TextInputLayout>
 
                 <TextView
+                    android:id="@+id/genderTextView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_margin="7.5dp"
@@ -113,18 +114,82 @@
                         android:text="@string/female" />
                 </LinearLayout>
 
+                <TextView
+                    android:id="@+id/dateTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="7.5dp"
+                    android:text="@string/date_of_birth"/>
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_margin="2.5dp"
+                    android:orientation="horizontal">
+
+                    <EditText
+                        android:id="@+id/dayEditText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:maxLength="2"
+                        android:layout_weight="1"
+                        android:padding="5dp"
+                        android:gravity="center"
+                        android:ems="2"
+                        android:inputType="number" />
+
+                    <TextView
+                        android:id="@+id/textView8"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:layout_weight="1"
+                        android:text="@string/slash" />
+
+                    <EditText
+                        android:id="@+id/monthEditText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:maxLength="2"
+                        android:layout_weight="1"
+                        android:padding="5dp"
+                        android:ems="2"
+                        android:gravity="center"
+                        android:inputType="number" />
+
+                    <TextView
+                        android:id="@+id/textView9"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:text="@string/slash" />
+
+                    <EditText
+                        android:id="@+id/yearEditText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:maxLength="4"
+                        android:layout_weight="1"
+                        android:padding="5dp"
+                        android:ems="4"
+                        android:gravity="center"
+                        android:inputType="number" />
+                </LinearLayout>
+
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
 
                     <com.hbb20.CountryCodePicker
-                        android:id="@+id/ccp_register"
+                        android:id="@+id/ccp_first"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
-                        android:padding="9dp"
                         android:layout_marginEnd="5dp"
-                        app:ccp_defaultNameCode="AE"/>
+                        android:padding="9dp"
+                        app:ccp_defaultNameCode="AE" />
 
                     <android.support.design.widget.TextInputLayout
                         android:id="@+id/input_layout_phone"

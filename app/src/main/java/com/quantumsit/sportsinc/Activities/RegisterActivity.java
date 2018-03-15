@@ -207,7 +207,7 @@ public class RegisterActivity extends AppCompatActivity {
 
     private boolean validateForm() {
 
-        user_name = name_edittext.getText().toString() + lastname_edittext.getText().toString();
+        user_name = name_edittext.getText().toString();
         phone = phone_edittext.getText().toString();
         mail = mail_edittext.getText().toString();
         pass = pass_edittext.getText().toString();
@@ -244,6 +244,7 @@ public class RegisterActivity extends AppCompatActivity {
             return false;
         }
 
+        user_name +=  lastname_edittext.getText().toString();
         mail_edittext.setError(null);
         pass_edittext.setError(null);
         repass_edittext.setError(null);
@@ -268,21 +269,6 @@ public class RegisterActivity extends AppCompatActivity {
             progressDialog.dismiss();
             return;
         }
-
-        /*if(day_of_birth.equals("") || month_of_birth.equals("") || year_of_birth.equals("")){
-            show_toast("date of birth is missing ");
-            return;
-        } else {
-            int day = Integer.valueOf(day_of_birth);
-            int month = Integer.valueOf(month_of_birth);
-            int year = Integer.valueOf(year_of_birth);
-            int current_year = Calendar.getInstance().get(Calendar.YEAR);
-
-            if (day==0 || month==0 || year==0 || day>31 || month>12 || year>current_year-4 || year < current_year-60) {
-                show_toast("not a valid birthday format");
-                return;
-            }
-        }*/
 
         checkPhone();
 

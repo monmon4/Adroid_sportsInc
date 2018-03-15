@@ -26,7 +26,6 @@ public class GlobalVars extends Application {
 
     UserEntity myAccount;
 
-
     public GlobalVars() {
         mContext = this;
         UploadService.NAMESPACE = BuildConfig.APPLICATION_ID;
