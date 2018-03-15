@@ -299,7 +299,7 @@ public class BookingForthFormActivity extends AppCompatActivity {
             httpCall.setMethodtype(HttpCall.POST);
             httpCall.setUrl(Constants.insertData);
             HashMap<String,String> params = new HashMap<>();
-            params.put("table","users");
+            params.put("table","info_trainee");
             params.put("values",info.toString());
 
             httpCall.setParams(params);
