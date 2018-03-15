@@ -64,8 +64,8 @@ public class startPageActivity extends AppCompatActivity {
     }
 
     public void joinAcademy(View view) {
-        //startActivity(new Intent(startPageActivity.this, RegisterActivity.class));
-        startActivity(new Intent(startPageActivity.this, BookingFirstFormActivity.class));
+        startActivity(new Intent(startPageActivity.this, RegisterActivity.class));
+        //startActivity(new Intent(startPageActivity.this, BookingFirstFormActivity.class));
         finish();
     }
 

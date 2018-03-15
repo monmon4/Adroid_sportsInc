@@ -8,9 +8,9 @@ public interface Constants {
 
     String local_server = "http://192.168.1.13:8080/sport_inc/api/";
 
-    String server = "http://173.212.198.28:8010/sport_inc/api/";
-    String upload_host = "http://173.212.198.28:8010/sport_inc/assets/uploads/";
-    String UPLOAD_URL = "http://173.212.198.28:8010/sport_inc/academy/upload_Image";
+    String server = "http://173.212.198.28:8010/sports_inc/api/";
+    String upload_host = "http://173.212.198.28:8010/sports_inc/assets/uploads/";
+    String UPLOAD_URL = "http://173.212.198.28:8010/sports_inc/academy/upload_Image";
 
 
     String socialLogin = server + "social_login";
