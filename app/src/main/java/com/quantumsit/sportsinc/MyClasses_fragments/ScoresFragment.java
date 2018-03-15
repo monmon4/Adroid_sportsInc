@@ -121,6 +121,8 @@ public class ScoresFragment extends Fragment {
             public void onLoadMore() {
                 if (list_item.size() >= limitValue)
                     listLoadMore();
+                else
+                    listener.setLoading(false);
             }};
 
         recycler_view.addOnScrollListener(listener);
@@ -172,8 +174,10 @@ public class ScoresFragment extends Fragment {
         * */
 
         JSONObject where_info = new JSONObject();
+        JSONObject or_where_info = new JSONObject();
         try {
             where_info.put(getString(R.string.where_trainee_id),globalVars.getId());
+            or_where_info.put(getString(R.string.where_parent_id),globalVars.getId());
 
             HttpCall httpCall = new HttpCall();
             httpCall.setMethodtype(HttpCall.POST);
@@ -184,6 +188,7 @@ public class ScoresFragment extends Fragment {
             limit_info.put(getString(R.string.select_limit), limitValue);
             params.put(getString(R.string.parameter_limit),limit_info.toString());
             params.put(getString(R.string.parameter_where), where_info.toString());
+            params.put(getString(R.string.parameter_or_where), or_where_info.toString());
 
             httpCall.setParams(params);
             new HttpRequest(){
@@ -210,12 +215,12 @@ public class ScoresFragment extends Fragment {
         mSwipeRefreshLayout.setRefreshing(false);
         try {
             if (response != null) {
-                JSONObject first_result = response.getJSONObject(0);
+               /* JSONObject first_result = response.getJSONObject(0);
                 int Num_classes = first_result.getInt("Num_classes");
-                int num_attended_classes = 0;
+                int num_attended_classes = 0;*/
                 for (int i=0; i<response.length(); i++){
                     JSONObject result = response.getJSONObject(i);
-                    String course_name = result.getString("course_name");
+                    /*String course_name = result.getString("course_name");
                     String group_name = result.getString("group_name");
                     String class_date = result.getString("class_date");
                     int class_number = result.getInt("class_number");
@@ -226,15 +231,15 @@ public class ScoresFragment extends Fragment {
 
                     int score = num_attended_classes;
                     String coach_name = result.getString("coach_name");
-                    String coach_notes = result.getString("coach_note");
-                    coach_notes += "\n Attendance notes: " + result.getString("class_note");
-                    list_item.add(new item_single_scores(course_name, group_name, class_date, coach_name, coach_notes, attend, score, class_number));
+                    String coach_notes = result.getString("coach_note");*/
+                    list_item.add(new item_single_scores(result));
                 }
 
             }
         } catch (JSONException e) {
             e.printStackTrace();
         }
+        recycler_view_adapter.person_id  = globalVars.getId();
         customRecyclerView.notifyChange(list_item.size());
         customRecyclerView.finishLoading();
         recycler_view_adapter.notifyDataSetChanged();

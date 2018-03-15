@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -51,6 +52,7 @@ public class CalendarCustomView extends LinearLayout {
     private Calendar SelectedDay;
     private int PreviousPostion ;
     private MyItemClickListener EventsListener ;
+    public int person_id;
 
     public CalendarCustomView(Context context) {
         super(context);
@@ -106,6 +108,8 @@ public class CalendarCustomView extends LinearLayout {
         calendarEvents.setLayoutManager(layoutManager);
         calendarEvents.setNestedScrollingEnabled(true);
         calendarEvents.setItemAnimator(new DefaultItemAnimator());
+        calendarEvents.addItemDecoration(new DividerItemDecoration(context,
+                DividerItemDecoration.VERTICAL));
 
         GridLayoutManager gridLayoutManager = new GridLayoutManager(getContext(),7);
         calendarGridView.setLayoutManager(gridLayoutManager);
@@ -186,7 +190,7 @@ public class CalendarCustomView extends LinearLayout {
 
         if(classesList == null)
             classesList = new ArrayList<>();
-        ListViewAdapter adapter = new ListViewAdapter(getContext(),R.layout.classes_list_items,classesList);
+        ListViewAdapter adapter = new ListViewAdapter(getContext() ,person_id ,R.layout.classes_list_items,classesList);
 
         calendarEvents.setAdapter(adapter);
         if (EventsListener != null)
@@ -220,4 +224,5 @@ public class CalendarCustomView extends LinearLayout {
             PreviousPostion = position;
         }
     }
+
 }

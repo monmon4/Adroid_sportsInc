@@ -25,6 +25,7 @@
     <application
         android:name=".Aaa_data.GlobalVars"
         android:allowBackup="true"
+        android:hardwareAccelerated="false"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:largeHeap="true"
@@ -38,7 +39,6 @@
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -47,7 +47,7 @@
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".Activities.LoginActivity"
-            android:theme="@style/AppTheme.ActionBar.Transparent" />
+            android:theme="@style/AppTheme.ActionBar.LogInTransparent" />
         <activity
             android:name=".Activities.RegisterActivity"
             android:theme="@style/AppTheme.ActionBar.Transparent" />
@@ -60,7 +60,7 @@
         <activity android:name=".Activities.MyClasses_scoresActivity" />
         <activity android:name=".Activities.Reports_coursesActivity" />
         <activity android:name=".Activities.Request_addActivity" />
-        <activity android:name=".COACHES.ActivityAddRequest_coach" />
+        <activity android:name=".COACHES.RequestFragment.ActivityAddRequest_coach" />
         <activity android:name=".COACHES.ActivityCurrentClass_coach" />
         <activity android:name=".COACHES.ActivityCourseSingleClass_coach" />
         <activity android:name=".Activities.ClassesDetailsActivity" />
@@ -80,6 +80,9 @@
         <activity android:name=".Activities.ComplainDetailsActivity" />
         <activity android:name=".Activities.ComplainsAddActivity" />
 
+        <activity android:name=".Activities.FirstActivity" />
+        <activity android:name=".RegisterationForm_fragments.BookingFormActivity" />
+        <activity android:name=".RegisterationForm_fragments.BookingFirstFormActivity"></activity>
         <!--
             The API key for Google Maps-based APIs is defined as a string resource.
             (See the file "res/values/google_maps_api.xml").
@@ -115,12 +118,6 @@
             </intent-filter>
         </service>
         <!-- ./Firebase Notifications -->
-
-        <activity android:name=".RegisterationForm_fragments.BookingFormActivity" />
-        <activity android:name=".RegisterationForm_fragments.BookingFirstFormActivity" />
-        <activity android:name=".RegisterationForm_fragments.BookingSecondFormActivity" />
-        <activity android:name=".RegisterationForm_fragments.BookingThirdFormActivity" />
-        <activity android:name=".RegisterationForm_fragments.BookingForthFormActivity"></activity>
     </application>
 
 </manifest>

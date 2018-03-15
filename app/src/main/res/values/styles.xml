@@ -27,8 +27,8 @@
     </style>
     <style name="Base.Widget.Design.TabLayout" parent="android:Widget">
         <item name="tabBackground">@drawable/tab_background</item>
-        <item name="tabIndicatorColor">?attr/colorAccent</item>
-        <item name="tabIndicatorHeight">2dp</item>
+        <!--item name="tabIndicatorColor">?attr/colorAccent</item>
+        <item name="tabIndicatorHeight">2dp</item-->
     </style>
 
     <style name="TextAppearance.Design.Tab" parent="android:TextAppearance">
@@ -39,5 +39,20 @@
         <item name="android:windowContentOverlay">@null</item>
         <item name="windowActionBarOverlay">true</item>
         <item name="colorPrimary">@android:color/transparent</item>
+    </style>
+
+    <style name="AppTheme.ActionBar.LogInTransparent" parent="@style/Theme.AppCompat.Light.DarkActionBar">
+        <item name="windowActionBarOverlay">true</item>
+        <item name="colorPrimary">@android:color/transparent</item>
+        <item name="actionBarStyle">@style/MyActionBar</item>
+        <item name="android:homeAsUpIndicator">@drawable/login_back_arrow</item>
+    </style>
+
+    <style name="MyActionBar" parent="@style/Widget.AppCompat.ActionBar.Solid">
+        <item name="titleTextStyle">@style/MyTitleTextStyle</item>
+    </style>
+
+    <style name="MyTitleTextStyle" parent="@style/TextAppearance.AppCompat.Widget.ActionBar.Title">
+        <item name="android:textColor">@color/colorLogoRed</item>
     </style>
 </resources>

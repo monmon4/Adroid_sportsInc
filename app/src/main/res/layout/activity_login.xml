@@ -8,15 +8,6 @@
     tools:context="com.quantumsit.sportsinc.Activities.LoginActivity"
     android:orientation="vertical">
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center_horizontal"
-        android:padding="@dimen/ten_dimens"
-        android:textColor="@color/colorLogoRed"
-        android:textAppearance="@style/TextAppearance.AppCompat.Headline"
-        android:text="@string/log_in"/>
-
     <android.support.v4.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -33,13 +24,17 @@
                 android:id="@+id/imageView"
                 android:layout_width="wrap_content"
                 android:layout_height="100dp"
-                app:srcCompat="@drawable/sh_logo" />
+                android:layout_marginTop="@dimen/ten_dimens"
+                android:layout_marginBottom="@dimen/twinty_dimens"
+                app:srcCompat="@drawable/sportsinc_aquatics_logo" />
 
             <EditText
                 android:id="@+id/mailEditText_login"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/email"
+                android:padding="10dp"
+                android:background="@color/colorWhite"
                 android:textColor="@color/colorBlack"
                 android:ems="10"
                 android:inputType="textEmailAddress" />
@@ -49,6 +44,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/password"
+                android:padding="10dp"
+                android:background="@color/colorWhite"
                 android:textColor="@color/colorBlack"
                 android:ems="10"
                 android:layout_marginTop="10dp"
@@ -58,11 +55,12 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
+                android:layout_marginTop="@dimen/ten_dimens"
                 android:orientation="horizontal">
 
                 <TextView
                     android:id="@+id/RegisterButton_login"
+                    android:visibility="gone"
                     android:layout_width="0dp"
                     android:textAppearance="@style/TextAppearance.AppCompat.Small"
                     android:layout_height="wrap_content"
@@ -78,16 +76,14 @@
                     android:layout_weight="1"
                     android:layout_height="wrap_content"
                     android:gravity="end"
-                    android:padding="5dp"
-                    android:layout_marginEnd="10dp"
                     android:textAllCaps="true"
                     android:clickable="true"
                     android:focusable="true"
                     android:textAppearance="@style/TextAppearance.AppCompat.Small"
                     android:focusableInTouchMode="true"
                     android:text="@string/forgot_password"
-                    android:textColor="@color/colorLogoRed"
-                    android:textStyle="bold|italic"
+                    android:textColor="#8c8c8c"
+                    android:textStyle="italic"
                     android:layout_marginRight="10dp" />
 
 
@@ -98,12 +94,15 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:gravity="center"
-                android:layout_margin="5dp"
                 android:onClick="loginClicked"
                 android:text="@string/log_in"
                 android:textAllCaps="false"
-                android:paddingStart="40dp"
-                android:paddingEnd="40dp"
+                android:layout_marginTop="30dp"
+                android:paddingTop="0dp"
+                android:paddingBottom="0dp"
+                android:paddingStart="50dp"
+                android:paddingEnd="50dp"
+                android:backgroundTint="@color/colorLogInBtn"
                 android:textColor="@color/colorTextLight"
                 android:textSize="18sp" />
 
@@ -152,7 +151,7 @@
                 android:paddingBottom="12dp"
                 android:layout_marginStart="4dp"
                 android:layout_marginEnd="4dp"
-                android:layout_marginTop="20dp" />
+                android:layout_marginTop="60dp" />
             <com.google.android.gms.common.SignInButton
                 android:id="@+id/ga_login_button"
                 android:layout_width="match_parent"

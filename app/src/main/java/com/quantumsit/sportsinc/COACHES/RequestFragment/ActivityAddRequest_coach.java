@@ -1,10 +1,8 @@
-package com.quantumsit.sportsinc.COACHES;
+package com.quantumsit.sportsinc.COACHES.RequestFragment;
 
 import android.content.Intent;
-import android.os.Parcelable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -17,6 +15,9 @@ import com.quantumsit.sportsinc.Aaa_data.Constants;
 import com.quantumsit.sportsinc.Aaa_data.GlobalVars;
 import com.quantumsit.sportsinc.Backend.HttpCall;
 import com.quantumsit.sportsinc.Backend.HttpRequest;
+import com.quantumsit.sportsinc.COACHES.item_classSpinner_coach;
+import com.quantumsit.sportsinc.COACHES.item_courseSpinner_coach;
+import com.quantumsit.sportsinc.COACHES.item_request_coach;
 import com.quantumsit.sportsinc.R;
 import com.weiwangcn.betterspinner.library.material.MaterialBetterSpinner;
 
@@ -24,7 +25,6 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.Serializable;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -59,6 +59,8 @@ public class ActivityAddRequest_coach extends AppCompatActivity {
     Date current_date;
 
     item_request_coach added_request ;
+    private int classPosition;
+    private int requestType;
 
 
     @Override
@@ -98,10 +100,18 @@ public class ActivityAddRequest_coach extends AppCompatActivity {
         course_name_spinner.setAdapter(courseNameAdapter);
         class_number_spinner.setAdapter(classNameAdapter);
 
+        request_for_spinner.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
+                requestType = position;
+            }
+        });
+
         course_name_spinner.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
                 ClassDate = "";
+                classPosition = -1;
                 class_number_spinner.setText("");
                 classesFilter(classesMap.get(courseEntities.get(position).getCourse_id()));
             }
@@ -110,7 +120,8 @@ public class ActivityAddRequest_coach extends AppCompatActivity {
         class_number_spinner.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
-                 ClassDate = classEntities.get(position).class_date;
+                 ClassDate = classEntities.get(position).getClass_date();
+                 classPosition = position;
                  class_number_spinner.setText(ClassDate);
             }
         });
@@ -165,7 +176,7 @@ public class ActivityAddRequest_coach extends AppCompatActivity {
         String[] current_date_split = current_date_string.split("/");
 
         for (item_classSpinner_coach item : classSpinner_coachList){
-            if(item.class_status == 3) {
+            if(item.getClass_status() == 3) {
                 String class_date = item.getClass_date();
                 String[] date_split = class_date.split("/");
 
@@ -203,16 +214,16 @@ public class ActivityAddRequest_coach extends AppCompatActivity {
             HashMap<String, String> params = new HashMap<>();
 
             JSONObject where_info = new JSONObject();
-            switch (globalVars.getType()){
-                case 1:
-                    where_info.put("groups.coach_id", globalVars.getId());
-                    params.put("where",where_info.toString());
-                    break;
-                case 2:
+            //switch (globalVars.getType()){
+               // case 1:
+            where_info.put("groups.coach_id", globalVars.getId());
+            params.put("where",where_info.toString());
+                 //   break;
+               /* case 2:
                     where_info.put("groups.admin_id", globalVars.getId());
                     params.put("where",where_info.toString());
                     break;
-            }
+            }*/
 
             httpCall.setParams(params);
 
@@ -268,10 +279,10 @@ public class ActivityAddRequest_coach extends AppCompatActivity {
                     where_info.put("groups.coach_id", globalVars.getId());
                     params.put("where",where_info.toString());
                     break;
-                case 2:
+                /*case 2:
                     where_info.put("groups.admin_id", globalVars.getId());
                     params.put("where",where_info.toString());
-                    break;
+                    break;*/
             }
 
             httpCall.setParams(params);
@@ -295,10 +306,10 @@ public class ActivityAddRequest_coach extends AppCompatActivity {
             try {
                 for(int i=0;i<response.length();i++){
                     item_classSpinner_coach entity =new item_classSpinner_coach(response.getJSONObject(i));
-                    if (classesMap.get(entity.course_id) == null){
-                        classesMap.put(entity.course_id,new ArrayList<item_classSpinner_coach>());
+                    if (classesMap.get(entity.getCourse_id()) == null){
+                        classesMap.put(entity.getCourse_id(),new ArrayList<item_classSpinner_coach>());
                     }
-                    classesMap.get(entity.course_id).add(entity);
+                    classesMap.get(entity.getCourse_id()).add(entity);
                 }
 
             } catch (JSONException e) {
@@ -337,8 +348,10 @@ public class ActivityAddRequest_coach extends AppCompatActivity {
             String title = request_for_spinner.getText().toString();
             String Message = reason.getText().toString();
             String CourseName = course_name_spinner.getText().toString();
-            String[] class_split = class_number_spinner.getText().toString().split(",");
-            String ClassName = class_split[0].trim();
+            //String[] class_split = class_number_spinner.getText().toString().split(",");
+            String ClassName = "";
+            if (classPosition != -1)
+                ClassName = classEntities.get(classPosition).getClass_name();//class_split[0].trim();
 
             String date_request = ClassDate;
             DateFormat outdateFormat = new SimpleDateFormat("yyyy-MM-dd");
@@ -355,7 +368,10 @@ public class ActivityAddRequest_coach extends AppCompatActivity {
             values.put("from_id",globalVars.getId());
             values.put("course_name",CourseName);
             values.put("sub_course_name",ClassName);
+            if (classPosition != -1)
+                values.put("session_id",classEntities.get(classPosition).getClass_id());
             values.put("date_request",date_request);
+            values.put("request_type",requestType);
 
             HttpCall httpCall = new HttpCall();
             httpCall.setMethodtype(HttpCall.POST);

@@ -1,6 +1,12 @@
 package com.quantumsit.sportsinc.Activities;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.res.AssetManager;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -11,6 +17,9 @@ import com.quantumsit.sportsinc.Adapters.ViewPagerAdapter;
 import com.quantumsit.sportsinc.R;
 import com.quantumsit.sportsinc.RegisterationForm_fragments.BookingFirstFormActivity;
 
+import java.io.BufferedInputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Timer;
@@ -51,11 +60,13 @@ public class startPageActivity extends AppCompatActivity {
 
     public void singIn(View view) {
         startActivity(new Intent(startPageActivity.this, LoginActivity.class));
+        finish();
     }
 
     public void joinAcademy(View view) {
         //startActivity(new Intent(startPageActivity.this, RegisterActivity.class));
         startActivity(new Intent(startPageActivity.this, BookingFirstFormActivity.class));
+        finish();
     }
 
     public class MyTimeTask extends TimerTask{

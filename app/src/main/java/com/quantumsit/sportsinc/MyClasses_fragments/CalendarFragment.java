@@ -10,6 +10,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -127,22 +128,29 @@ public class CalendarFragment extends Fragment {
     private void initilizeClassesList() {
         try {
             JSONObject where_info = new JSONObject();
+            JSONObject or_where_info = new JSONObject();
 
             HashMap<String, String> params = new HashMap<>();
 
             switch (globalVars.getType()){
                 case 0:
                     where_info.put("group_trainee.trainee_id",globalVars.getId());
+                    or_where_info.put("person.parent_id",globalVars.getId());
                     params.put("where", where_info.toString());
+                    params.put("or_where", or_where_info.toString());
+                    Log.d("CalendarFragment",where_info.toString()+" "+or_where_info.toString());
                     break;
                 case 1:
                     where_info.put("groups.coach_id",globalVars.getId());
+                    or_where_info.put("reassign_coach.new_reassign_id",globalVars.getId());
                     params.put("where", where_info.toString());
+                    params.put("or_where", or_where_info.toString());
+                    params.put("user_type",String.valueOf(globalVars.getType()));
                     break;
-                case 2:
+                /*case 2:
                     where_info.put("groups.admin_id",globalVars.getId());
                     params.put("where", where_info.toString());
-                    break;
+                    break;*/
             }
             HttpCall httpCall = new HttpCall();
             httpCall.setMethodtype(HttpCall.POST);
@@ -168,9 +176,10 @@ public class CalendarFragment extends Fragment {
             try {
                 for (int i = 0; i < response.length(); i++) {
                     classesEntity entity = new classesEntity( response.getJSONObject(i));
-                    if(!classesList.contains(entity))
-                        classesList.add(entity);
+                    //if(!classesList.contains(entity))
+                    classesList.add(entity);
                 }
+                calendarView.person_id = globalVars.getId();
                 fileEventsMap();
             } catch (JSONException e) {
                 e.printStackTrace();

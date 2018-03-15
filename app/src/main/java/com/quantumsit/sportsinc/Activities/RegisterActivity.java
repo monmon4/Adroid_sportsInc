@@ -532,7 +532,10 @@ public class RegisterActivity extends AppCompatActivity {
         Toast.makeText(RegisterActivity.this, msg, Toast.LENGTH_SHORT).show();
     }
 
-    private  void SetActionBarText(ActionBar ab){
 
+    @Override
+    public boolean onSupportNavigateUp() {
+        onBackPressed();
+        return true;
     }
 }

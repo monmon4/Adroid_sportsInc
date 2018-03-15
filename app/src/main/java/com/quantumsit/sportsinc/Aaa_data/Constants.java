@@ -13,7 +13,7 @@ public interface Constants {
     String UPLOAD_URL = "http://173.212.198.28:8010/sport_inc/academy/upload_Image";
 
 
-    String socialLogin = local_server + "social_login";
+    String socialLogin = server + "social_login";
 
     String selectData = server + "selectdata";
     String updateData = server + "updatedata";

@@ -10,6 +10,7 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
 import com.quantumsit.sportsinc.R;
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
@@ -41,7 +42,7 @@ public class ViewPagerAdapter extends PagerAdapter {
         layoutInflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View view = layoutInflater.inflate(R.layout.slide,null);
         ImageView imageView  = (ImageView) view.findViewById(R.id.imageView2);
-        imageView.setImageResource(ImageList.get(position));
+        Picasso.with(mContext).load(ImageList.get(position)).into(imageView);
         ViewPager viewPager = (ViewPager) container;
         viewPager.addView(view,0);
 

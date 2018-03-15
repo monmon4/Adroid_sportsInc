@@ -1,11 +1,10 @@
-package com.quantumsit.sportsinc.COACHES;
+package com.quantumsit.sportsinc.COACHES.RequestFragment;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Parcelable;
 import android.support.annotation.Nullable;
-import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
@@ -13,13 +12,16 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
+import android.widget.AdapterView;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import com.quantumsit.sportsinc.Aaa_data.Constants;
 import com.quantumsit.sportsinc.Aaa_data.GlobalVars;
+import com.quantumsit.sportsinc.Activities.RequestDetailsActivity;
 import com.quantumsit.sportsinc.Backend.HttpCall;
 import com.quantumsit.sportsinc.Backend.HttpRequest;
+import com.quantumsit.sportsinc.COACHES.ListView_Adapter_request_coach;
+import com.quantumsit.sportsinc.COACHES.item_request_coach;
 import com.quantumsit.sportsinc.CustomView.myCustomListView;
 import com.quantumsit.sportsinc.CustomView.myCustomListViewListener;
 import com.quantumsit.sportsinc.R;
@@ -29,6 +31,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -36,11 +39,9 @@ import java.util.HashMap;
  * Created by Bassam on 2/12/2018.
  */
 
-public class CoachRequestSentFragment extends Fragment {
+public class CoachRequestReceivedFragment extends Fragment {
 
     GlobalVars globalVars;
-
-    FloatingActionButton add_request_button;
 
     ListView listView;
     myCustomListView customListView;
@@ -49,61 +50,65 @@ public class CoachRequestSentFragment extends Fragment {
     SwipeRefreshLayout mSwipeRefreshLayout;
     ArrayList<item_request_coach> list_items;
     ListView_Adapter_request_coach arrayAdapter;
-    private int REQUEST_ADD = 4;
+
+    private int REQUEST_UPDATE = 7;
+    private int request_position = -1;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
-        View root = inflater.inflate(R.layout.fragment_coach_request_sent,container,false);
+        View root = inflater.inflate(R.layout.fragment_coach_request_received,container,false);
 
         globalVars = (GlobalVars) getActivity().getApplication();
         limitValue = getResources().getInteger(R.integer.selectLimit);
         currentStart = 0;
-
-        add_request_button = root.findViewById(R.id.floatingActionButton_coachrequest);
-        add_request_button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getActivity(), ActivityAddRequest_coach.class);
-                startActivity(intent);
-            }
-        });
 
         mSwipeRefreshLayout = root.findViewById(R.id.swipeRefresh);
         mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
                 currentStart = 0;
-                initilizeRequests(false);
+                initializeRequests(false);
             }
         });
         customListView = root.findViewById(R.id.customListView);
-        customListView.setmEmptyView(R.drawable.ic_assignment,R.string.no_Events);
+        customListView.setmEmptyView(R.drawable.ic_assignment,R.string.no_requests);
 
         customListView.setOnRetryClick(new myCustomListView.OnRetryClick() {
             @Override
             public void onRetry() {
                 currentStart = 0;
-                initilizeRequests(false);
+                initializeRequests(false);
             }
         });
         listView = customListView.getListView();
-        listView.setSelector(android.R.color.transparent);
-        listViewListener = new myCustomListViewListener(listView , mSwipeRefreshLayout) {
+        listViewListener = new myCustomListViewListener(listView ,mSwipeRefreshLayout) {
             @Override
             public void loadMoreData() {
-                listLoadMore();
+                if (list_items.size() >= limitValue)
+                    listLoadMore();
             }
         };
         listView.setOnScrollListener(listViewListener);
         list_items = new ArrayList<>();
 
-
         arrayAdapter = new ListView_Adapter_request_coach(getContext(), list_items);
         listView.setAdapter(arrayAdapter);
 
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                if (i >= list_items.size())
+                    return;
+                Intent intent = new Intent(getContext(), RequestDetailsActivity.class);
+                request_position = i;
+                intent.putExtra("MyRequest", list_items.get(i));
+                intent.putExtra("requestType",1);
+                startActivityForResult(intent ,REQUEST_UPDATE);
+            }
+        });
         if (savedInstanceState == null)
-            initilizeRequests(false);
+            initializeRequests(true);
 
         else
             fillBySavedState(savedInstanceState);
@@ -111,8 +116,14 @@ public class CoachRequestSentFragment extends Fragment {
         return root;
     }
 
-    public void addNewRequest(item_request_coach newRequest){
-
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == REQUEST_UPDATE && resultCode == AppCompatActivity.RESULT_OK && data != null){
+            int new_status = data.getIntExtra("request_status", 2);
+            list_items.get(request_position).setStatus(new_status);
+            arrayAdapter.notifyDataSetChanged();
+        }
     }
 
     @Override
@@ -138,11 +149,10 @@ public class CoachRequestSentFragment extends Fragment {
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                initilizeRequests(true);
+                initializeRequests(true);
             }
         }, 1500);
     }
-
     private boolean checkConnection() {
         // first, check connectivity
         if (ConnectionUtilities
@@ -153,7 +163,7 @@ public class CoachRequestSentFragment extends Fragment {
     }
 
 
-    private void initilizeRequests(final boolean loadMore) {
+    private void initializeRequests(final boolean loadMore) {
         if (!isAdded())
             return;
         if (!checkConnection()){
@@ -163,24 +173,28 @@ public class CoachRequestSentFragment extends Fragment {
         try {
             HttpCall httpCall = new HttpCall();
             httpCall.setMethodtype(HttpCall.POST);
-            httpCall.setUrl(Constants.selectData);
+            httpCall.setUrl(Constants.join);
             JSONObject where_info = new JSONObject();
-            where_info.put("requests.from_id",globalVars.getId());
+            where_info.put("requests.to_id", globalVars.getId());
             JSONObject limit_info = new JSONObject();
             limit_info.put("start", currentStart);
             limit_info.put("limit", limitValue);
+            String OnCondition = "requests.from_id = users.id";
 
-            HashMap<String,String> params = new HashMap<>();
-            params.put("table","requests");
+            HashMap<String, String> params = new HashMap<>();
+            params.put("table1", "requests");
+            params.put("table2", "users");
+
+            params.put("where", where_info.toString());
             params.put("limit",limit_info.toString());
-            params.put("where",where_info.toString());
+            params.put("on", OnCondition);
 
             httpCall.setParams(params);
             new HttpRequest(){
                 @Override
                 public void onResponse(JSONArray response) {
                     super.onResponse(response);
-                    fillAdapter(response,loadMore);
+                    fillAdapter(response , loadMore);
                 }
             }.execute(httpCall);
         } catch (JSONException e) {
@@ -195,7 +209,9 @@ public class CoachRequestSentFragment extends Fragment {
         if (response != null) {
             try {
                 for (int i = 0; i < response.length(); i++) {
-                    list_items.add(new item_request_coach(response.getJSONObject(i)));
+                    item_request_coach item = new item_request_coach();
+                    item.fillRequest(response.getJSONObject(i));
+                    list_items.add(item);
                 }
             } catch (JSONException e) {
                 e.printStackTrace();

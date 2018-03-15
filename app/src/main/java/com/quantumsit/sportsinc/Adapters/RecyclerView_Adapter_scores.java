@@ -24,6 +24,7 @@ public class RecyclerView_Adapter_scores extends RecyclerView.Adapter<RecyclerVi
 
     private List<item_single_scores> List_Item;
     private Context context;
+    public int person_id;
     //ClientGlobal clientGlobal;
 
 
@@ -55,6 +56,12 @@ public class RecyclerView_Adapter_scores extends RecyclerView.Adapter<RecyclerVi
         String score_string = context.getResources().getString(R.string.score) + ": " + String.valueOf(List_Item.get(position).getScore()) + "out of" + String.valueOf(List_Item.get(position).getClass_number());
         holder.score.setText(score_string);
 
+        if (List_Item.get(position).getPerson_id() == person_id)
+            holder.childName.setText("");
+        else
+            holder.childName.setText(List_Item.get(position).getPersonName());
+
+
         holder.scores_card.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -84,7 +91,7 @@ public class RecyclerView_Adapter_scores extends RecyclerView.Adapter<RecyclerVi
 
     protected class ViewHolder extends RecyclerView.ViewHolder{
         private CardView scores_card;
-        private TextView course_name, date, class_number, score;
+        private TextView course_name, date, class_number, score ,childName;
         public ViewHolder(View view) {
             super(view);
             scores_card =  view.findViewById(R.id.scoresCardView);
@@ -92,7 +99,7 @@ public class RecyclerView_Adapter_scores extends RecyclerView.Adapter<RecyclerVi
             date =  view.findViewById(R.id.dateTextView_scoresitem);
             class_number =  view.findViewById(R.id.attendanveTextView_reportscourses);
             score =  view.findViewById(R.id.scoreTextView_scoresitem);
-
+            childName =  view.findViewById(R.id.scoreTextView_childName);
         }
 
     }

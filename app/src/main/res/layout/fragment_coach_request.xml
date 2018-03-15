@@ -4,7 +4,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context="com.quantumsit.sportsinc.COACHES.CoachRequestFragment">
+    tools:context="com.quantumsit.sportsinc.COACHES.RequestFragment.CoachRequestFragment">
 
     <android.support.design.widget.AppBarLayout
         android:id="@+id/coach_current_class_appbar"
@@ -17,8 +17,6 @@
             android:id="@+id/coach_requests_tabs"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:tabIndicatorHeight="4dp"
-            app:tabIndicatorColor="@color/colorTabIndicator"
             app:tabMaxWidth="0dp"
             app:tabGravity="fill"
             app:tabMode="fixed"/>

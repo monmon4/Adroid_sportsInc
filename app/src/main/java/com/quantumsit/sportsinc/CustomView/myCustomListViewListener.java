@@ -1,8 +1,11 @@
 package com.quantumsit.sportsinc.CustomView;
 
+import android.graphics.Color;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.widget.AbsListView;
 import android.widget.ListView;
+
+import com.quantumsit.sportsinc.R;
 
 /**
  * Created by Bassam on 2/14/2018.
@@ -25,6 +28,8 @@ public abstract class myCustomListViewListener implements AbsListView.OnScrollLi
     public myCustomListViewListener(ListView listView , SwipeRefreshLayout mSwipeRefreshLayout){
         this.listView = listView;
         this.mSwipeRefreshLayout = mSwipeRefreshLayout;
+        this.mSwipeRefreshLayout.setProgressBackgroundColorSchemeColor(Color.parseColor("#df1b1c"));
+        this.mSwipeRefreshLayout.setColorSchemeColors(Color.parseColor("#FFFFFF"));
         isLoading = false;
     }
 

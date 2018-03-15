@@ -22,7 +22,9 @@ import android.widget.TextView;
 
 import com.quantumsit.sportsinc.Aaa_data.Constants;
 import com.quantumsit.sportsinc.Activities.EventsActivity;
+import com.quantumsit.sportsinc.Activities.EventsDetailsActivity;
 import com.quantumsit.sportsinc.Activities.NewsActivity;
+import com.quantumsit.sportsinc.Activities.NewsDetailsActivity;
 import com.quantumsit.sportsinc.Adapters.EventsRecyclerAdapter;
 import com.quantumsit.sportsinc.Adapters.NewsRecyclerAdapter;
 import com.quantumsit.sportsinc.Backend.HttpCall;
@@ -37,9 +39,11 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 
 
 public class MainFragment extends Fragment {
@@ -48,19 +52,26 @@ public class MainFragment extends Fragment {
 
     TextView AboutAcademy;
     ImageView Logo;
-    RecyclerView newsRecyclerView , eventsRecyclerView;
-    NewsRecyclerAdapter newsAdapter ;
-    EventsRecyclerAdapter eventsAdapter;
+    //RecyclerView newsRecyclerView , eventsRecyclerView;
+   // NewsRecyclerAdapter newsAdapter ;
+   // EventsRecyclerAdapter eventsAdapter;
     LinearLayout newsLayout , eventsLayout;
     ImageView newsMore, eventMore;
-    ArrayList<NewsEntity> NewsList = new ArrayList<>();
-    ArrayList<EventEntity> eventsList = new ArrayList<>();
+    //ArrayList<NewsEntity> NewsList = new ArrayList<>();
+    //ArrayList<EventEntity> eventsList = new ArrayList<>();
+    NewsEntity newsEntity;
+    EventEntity eventEntity;
     String logo ,brief;
 
     ProgressBar progressBar;
     LinearLayout retry;
     RelativeLayout loading;
     NestedScrollView scrollView;
+
+    LinearLayout newsItem , eventItem ;
+
+    ImageView newsImage , eventImage;
+    TextView newsDesc , eventDesc , eventDay , eventMonth ;
 
     int limitValue , Counter = 0;
     @Nullable
@@ -71,6 +82,8 @@ public class MainFragment extends Fragment {
 
         scrollView = root.findViewById(R.id.layoutScrollView);
         mSwipeRefreshLayout = root.findViewById(R.id.swiperefresh);
+        mSwipeRefreshLayout.setProgressBackgroundColorSchemeColor(getResources().getColor(R.color.colorPrimary));
+        mSwipeRefreshLayout.setColorSchemeColors(getResources().getColor(R.color.colorWhite));
 
         mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
@@ -80,29 +93,55 @@ public class MainFragment extends Fragment {
             }
         });
 
-        NewsList = new ArrayList<>();
-        eventsList = new ArrayList<>();
+       // NewsList = new ArrayList<>();
+       // eventsList = new ArrayList<>();
         newsLayout = root.findViewById(R.id.homeNewsSection);
         eventsLayout = root.findViewById(R.id.homeNewsSection);
-        newsRecyclerView = root.findViewById(R.id.NewsList);
-        eventsRecyclerView = root.findViewById(R.id.EventsList);
+        //newsRecyclerView = root.findViewById(R.id.NewsList);
+       // eventsRecyclerView = root.findViewById(R.id.EventsList);
         progressBar = root.findViewById(R.id.progress_bar);
         loading = root.findViewById(R.id.LoadingData);
 
         retry = root.findViewById(R.id.layout_retry);
         LinearLayoutManager newsLayoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL , false);
-        newsAdapter = new NewsRecyclerAdapter(getContext(),NewsList);
+        /*newsAdapter = new NewsRecyclerAdapter(getContext(),NewsList);
         newsRecyclerView.setLayoutManager(newsLayoutManager);
         newsRecyclerView.setAdapter(newsAdapter);
 
         LinearLayoutManager eventsLayoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL , false);
         eventsAdapter = new EventsRecyclerAdapter(getContext(),eventsList);
         eventsRecyclerView.setLayoutManager(eventsLayoutManager);
-        eventsRecyclerView.setAdapter(eventsAdapter);
+        eventsRecyclerView.setAdapter(eventsAdapter);*/
+
+        newsItem = root.findViewById(R.id.news_item);
+        eventItem = root.findViewById(R.id.event_item);
+        newsImage = root.findViewById(R.id.news_image);
+        eventImage = root.findViewById(R.id.event_image);
+        newsDesc = root.findViewById(R.id.news_description);
+        eventDesc = root.findViewById(R.id.event_description);
+        eventDay = root.findViewById(R.id.event_day);
+        eventMonth = root.findViewById(R.id.event_month);
 
         newsMore = root.findViewById(R.id.newsMore);
         eventMore = root.findViewById(R.id.eventsMore);
 
+        newsItem.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getContext(), NewsDetailsActivity.class);
+                intent.putExtra("MyNews",newsEntity);
+                startActivity(intent);
+            }
+        });
+
+        eventItem.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getContext(), EventsDetailsActivity.class);
+                intent.putExtra("MyEvent",eventEntity);
+                startActivity(intent);
+            }
+        });
         newsMore.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -132,8 +171,10 @@ public class MainFragment extends Fragment {
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putIntArray("ScrollPosition", new int[]{scrollView.getScrollX() , scrollView.getScrollY()});
-        outState.putSerializable("NewsList", NewsList);
-        outState.putSerializable("EventsList", eventsList);
+        /*outState.putSerializable("NewsList", NewsList);
+        outState.putSerializable("EventsList", eventsList);*/
+        outState.putSerializable("NewsEntity", newsEntity);
+        outState.putSerializable("EventsEntity", eventEntity);
         outState.putString("About",brief);
         outState.putString("logo",logo);
     }
@@ -141,7 +182,7 @@ public class MainFragment extends Fragment {
 
     private void fillBySavedState(Bundle savedInstanceState) {
         loading.setVisibility(View.GONE);
-        ArrayList<NewsEntity> list1 = (ArrayList<NewsEntity>) savedInstanceState.getSerializable("NewsList");
+        /*ArrayList<NewsEntity> list1 = (ArrayList<NewsEntity>) savedInstanceState.getSerializable("NewsList");
         NewsList.addAll(list1);
         ArrayList<EventEntity> list2 = (ArrayList<EventEntity>) savedInstanceState.getSerializable("EventsList");
         eventsList.addAll(list2);
@@ -149,7 +190,10 @@ public class MainFragment extends Fragment {
         logo = savedInstanceState.getString("logo");
 
         newsAdapter.notifyDataSetChanged();
-        eventsAdapter.notifyDataSetChanged();
+        eventsAdapter.notifyDataSetChanged();*/
+        newsEntity = (NewsEntity) savedInstanceState.getSerializable("NewsEntity");
+        eventEntity = (EventEntity) savedInstanceState.getSerializable("EventsEntity");
+
         AboutAcademy.setText(brief);
         if (!logo.equals("")) {
             Picasso.with(getContext()).load(logo).into(Logo);
@@ -240,7 +284,14 @@ public class MainFragment extends Fragment {
                 @Override
                 public void onResponse(JSONArray response) {
                     super.onResponse(response);
-                    fillNewsAdapter(response);
+                    if (response != null) {
+                        try {
+                            newsEntity = new NewsEntity( response.getJSONObject(0));
+                            fillNewsView();
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
                 }
             }.execute(httpCall);
         } catch (JSONException e) {
@@ -248,7 +299,28 @@ public class MainFragment extends Fragment {
         }
     }
 
-    private void fillNewsAdapter(JSONArray response) {
+    private void fillNewsView() {
+        newsDesc.setText(newsEntity.getContent());
+        String ImgUrl = newsEntity.getImg();
+        if (!ImgUrl.equals("")) {
+            Picasso.with(getContext()).load(Constants.others_host + ImgUrl).into(newsImage);
+        }
+        countFinished();
+    }
+
+
+    private void fillEventView() {
+        eventDesc.setText(eventEntity.getDescription());
+        String ImgUrl = eventEntity.getImgUrl();
+        if (!ImgUrl.equals("")) {
+            Picasso.with(getContext()).load(Constants.others_host + ImgUrl).into(eventImage);
+        }
+        SimpleDateFormat formatter = new SimpleDateFormat("dd MMMM", Locale.ENGLISH);
+        String event_date = formatter.format(eventEntity.getDate());
+        eventDay.setText(event_date);
+        countFinished();
+    }
+   /* private void fillNewsAdapter(JSONArray response) {
         NewsList.clear();
         newsAdapter.notifyDataSetChanged();
         if (response != null) {
@@ -262,7 +334,7 @@ public class MainFragment extends Fragment {
             }
         }
         countFinished();
-    }
+    }*/
 
     private void initilizeEvents() {
         try {
@@ -281,7 +353,14 @@ public class MainFragment extends Fragment {
                 @Override
                 public void onResponse(JSONArray response) {
                     super.onResponse(response);
-                    fillEventAdapter(response);
+                    if (response != null) {
+                        try {
+                            eventEntity = new EventEntity( response.getJSONObject(0));
+                            fillEventView();
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
                 }
             }.execute(httpCall);
         } catch (JSONException e) {
@@ -289,7 +368,7 @@ public class MainFragment extends Fragment {
         }
     }
 
-    private void fillEventAdapter(JSONArray response) {
+    /*private void fillEventAdapter(JSONArray response) {
         eventsList.clear();
         if (response != null) {
             try {
@@ -303,7 +382,7 @@ public class MainFragment extends Fragment {
         eventsAdapter.notifyDataSetChanged();
 
         countFinished();
-    }
+    }*/
 
     private boolean checkConnection() {
         // first, check connectivity

@@ -9,6 +9,7 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.Signature;
 import android.graphics.Paint;
+import android.graphics.PorterDuff;
 import android.net.Uri;
 import android.os.Build;
 import android.support.annotation.NonNull;
@@ -109,6 +110,15 @@ public class LoginActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+
+        getSupportActionBar().setTitle(getResources().getString(R.string.log_in));
+
+
+        setTitleColor(getResources().getColor(R.color.colorLogoRed));
+
         globalVars = (GlobalVars) getApplication();
 
         login_ll = findViewById(R.id.ll_login);
@@ -119,7 +129,7 @@ public class LoginActivity extends AppCompatActivity {
         pass_edittext = findViewById(R.id.passEditText_login);
 
         forgetPassword = findViewById(R.id.forgetpassTextView_login);
-        forgetPassword.setPaintFlags(forgetPassword.getPaintFlags() |   Paint.UNDERLINE_TEXT_FLAG);
+       // forgetPassword.setPaintFlags(forgetPassword.getPaintFlags() |   Paint.UNDERLINE_TEXT_FLAG);
 
         forgetPassword.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -209,6 +219,12 @@ public class LoginActivity extends AppCompatActivity {
         Toast.makeText(getApplicationContext(), R.string.GLogIn,Toast.LENGTH_LONG).show();
         Intent signInIntent = mGoogleSignInClient.getSignInIntent();
         startActivityForResult(signInIntent, RC_SIGN_IN);
+    }
+
+    @Override
+    public boolean onSupportNavigateUp() {
+        onBackPressed();
+        return true;
     }
 
     @Override

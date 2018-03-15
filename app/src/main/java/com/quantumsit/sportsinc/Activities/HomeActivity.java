@@ -10,7 +10,6 @@ import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.ActionBar;
-import android.util.Base64;
 import android.util.Log;
 import android.view.View;
 import android.support.design.widget.NavigationView;
@@ -28,23 +27,19 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.gson.Gson;
 import com.quantumsit.sportsinc.Aaa_data.Config;
 import com.quantumsit.sportsinc.Aaa_data.Constants;
 import com.quantumsit.sportsinc.Aaa_data.GlobalVars;
 import com.quantumsit.sportsinc.Adapters.TraineeChildAdapter;
 import com.quantumsit.sportsinc.Backend.HttpCall;
 import com.quantumsit.sportsinc.Backend.HttpRequest;
-import com.quantumsit.sportsinc.COACHES.CoachRequestSentFragment;
 import com.quantumsit.sportsinc.COACHES.ReportsFragments.CoachReportsFragment;
-import com.quantumsit.sportsinc.COACHES.CoachRequestFragment;
+import com.quantumsit.sportsinc.COACHES.RequestFragment.CoachRequestFragment;
 import com.quantumsit.sportsinc.Entities.UserEntity;
 import com.quantumsit.sportsinc.Side_menu_fragments.ContactUsFragment;
 import com.quantumsit.sportsinc.R;
 import com.quantumsit.sportsinc.Side_menu_fragments.AboutUsFragment;
 import com.quantumsit.sportsinc.Side_menu_fragments.CertificatesFragment;
-import com.quantumsit.sportsinc.Side_menu_fragments.ComplainsFragment;
-import com.quantumsit.sportsinc.Side_menu_fragments.Complains_SendFragment;
 import com.quantumsit.sportsinc.Side_menu_fragments.HomeFragment;
 import com.quantumsit.sportsinc.Side_menu_fragments.MyClassesFragment;
 import com.quantumsit.sportsinc.Side_menu_fragments.NotificationsFragment;
@@ -56,8 +51,6 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.UnsupportedEncodingException;
-import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -73,7 +66,7 @@ public class HomeActivity extends AppCompatActivity
 
     GlobalVars globalVars;
 
-    boolean coach = false, parent= false, non_register = false, admin= false ;
+    boolean coach = false, parent= false, non_register = false;//, admin= false ;
     private ImageView viewChild;
     private ListView childAccount;
     private boolean isPickerShown = false;
@@ -106,9 +99,9 @@ public class HomeActivity extends AppCompatActivity
             parent = true;
         }else if (type == 1) {
             coach = true;
-        } else if (type == 2) {
+        }/* else if (type == 2) {
             admin = true;
-        }
+        }*/
 
 
         if (non_register){
@@ -393,9 +386,9 @@ public class HomeActivity extends AppCompatActivity
             actionBar.setTitle(R.string.request);
             if (coach){
                 fragmentClass = CoachRequestFragment.class;
-            } else if (admin) {
+            }/* else if (admin) {
                 fragmentClass = CoachRequestSentFragment.class;
-            } else {
+            }*/ else {
                 fragmentClass = RequestsFragment.class;
             }
 
