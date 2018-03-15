@@ -100,7 +100,7 @@ public class CoachClassesFragment extends Fragment {
             @Override
             public void onRefresh() {
                 currentStart = 0;
-                initilizeRunningClass();
+                //initilizeRunningClass();
                 initilizeFinishedList(false);
             }
         });
@@ -110,7 +110,7 @@ public class CoachClassesFragment extends Fragment {
         customExpandableListView.setOnRetryClick(new myCustomExpandableListView.OnRetryClick() {
             @Override
             public void onRetry() {
-                initilizeRunningClass();
+                //initilizeRunningClass();
                 currentStart = 0;
                 initilizeFinishedList(false);
             }
@@ -183,7 +183,7 @@ public class CoachClassesFragment extends Fragment {
         });
 
 
-        initilizeRunningClass();
+       // initilizeRunningClass();
         if (savedInstanceState == null)
             initilizeFinishedList(false);
         else

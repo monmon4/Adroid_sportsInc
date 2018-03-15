@@ -439,4 +439,5 @@
     <string name="traineeNum">Number of trainees:</string>
     <string name="duration">duration:</string>
     <string name="classesNum">Number of sessions:</string>
+    <string name="class_end">end</string>
 </resources>

@@ -537,4 +537,10 @@ public class RegisterActivity extends AppCompatActivity {
         onBackPressed();
         return true;
     }
+
+    @Override
+    public void onBackPressed() {
+        startActivity(new Intent(RegisterActivity.this , startPageActivity.class));
+        finish();
+    }
 }

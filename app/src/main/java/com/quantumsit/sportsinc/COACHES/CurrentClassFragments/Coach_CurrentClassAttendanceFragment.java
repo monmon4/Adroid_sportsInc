@@ -1,6 +1,7 @@
 package com.quantumsit.sportsinc.COACHES.CurrentClassFragments;
 
 
+import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
@@ -18,6 +19,7 @@ import com.quantumsit.sportsinc.Aaa_data.GlobalVars;
 import com.quantumsit.sportsinc.Aaa_data.MyClass_info;
 import com.quantumsit.sportsinc.Aaa_data.Trainees_info;
 import com.quantumsit.sportsinc.Adapters.CheckBoxListView_Adapter;
+import com.quantumsit.sportsinc.Entities.classesEntity;
 import com.quantumsit.sportsinc.Entities.item_checkbox;
 import com.quantumsit.sportsinc.R;
 
@@ -31,6 +33,7 @@ public class Coach_CurrentClassAttendanceFragment extends Fragment {
 
     ViewPager viewPager;
     FloatingActionButton done_button;
+    ProgressDialog progressDialog;
     ImageView checked_image_view;
 
     CheckBoxListView_Adapter checkBoxListView_adapter;
@@ -47,9 +50,10 @@ public class Coach_CurrentClassAttendanceFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_coach__current_class_attendance,container,false);
 
-        MyClass_info info = (MyClass_info) getActivity().getIntent().getSerializableExtra("MyRunningClass");
+        classesEntity info = (classesEntity) getActivity().getIntent().getSerializableExtra("MyRunningClass");
         global = (GlobalVars) getActivity().getApplication();
 
+        progressDialog = new ProgressDialog(getContext());
         viewPager = getActivity().findViewById(R.id.coach_current_class_viewpager);
         listView = root.findViewById(R.id.rulesCheckListView_coachcurrentclassattendancefragment);
         list_items = new ArrayList<>();
@@ -68,10 +72,8 @@ public class Coach_CurrentClassAttendanceFragment extends Fragment {
         done_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                progressDialog.show();
                 updateTrainee();
-
-                viewPager.setCurrentItem(1);
 
             }
         });
@@ -85,6 +87,8 @@ public class Coach_CurrentClassAttendanceFragment extends Fragment {
         for (item_checkbox item: list_items){
             handler.updateTrainee(item.getTrainee());
         }
+        progressDialog.dismiss();
+        getActivity().onBackPressed();
 
     }
 

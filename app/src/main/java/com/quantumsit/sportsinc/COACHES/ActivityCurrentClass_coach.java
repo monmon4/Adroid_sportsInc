@@ -7,7 +7,9 @@ import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 
 import com.quantumsit.sportsinc.Aaa_data.GlobalVars;
+import com.quantumsit.sportsinc.COACHES.CurrentClassFragments.Coach_CurrentClassAttendanceFragment;
 import com.quantumsit.sportsinc.COACHES.CurrentClassFragments.Coach_CurrentClassFragment;
+import com.quantumsit.sportsinc.COACHES.CurrentClassFragments.Coach_CurrentClassNoteFragment;
 import com.quantumsit.sportsinc.R;
 
 public class ActivityCurrentClass_coach extends AppCompatActivity {
@@ -26,12 +28,17 @@ public class ActivityCurrentClass_coach extends AppCompatActivity {
 
         global = (GlobalVars) getApplication();
 
+        int position = getIntent().getIntExtra("position",0);
+
         actionBar = getSupportActionBar();
 
         if (savedInstanceState == null) {
             Fragment fragment = null;
-            Class fragmentClass = Coach_CurrentClassFragment.class;
-
+            Class fragmentClass = null;
+            if (position == 0)
+                fragmentClass = Coach_CurrentClassAttendanceFragment.class;
+            else
+                fragmentClass = Coach_CurrentClassNoteFragment.class;
             try {
                 fragment = (Fragment) fragmentClass.newInstance();
             } catch (Exception e) {

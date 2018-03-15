@@ -14,6 +14,7 @@ import com.quantumsit.sportsinc.ADMINS.Admin_CurrentClassesFragment;
 import com.quantumsit.sportsinc.Aaa_data.GlobalVars;
 import com.quantumsit.sportsinc.Adapters.SectionsPagerAdapter;
 import com.quantumsit.sportsinc.COACHES.CoachClassesFragment;
+import com.quantumsit.sportsinc.COACHES.CurrentClassFragments.Coach_StartClassFragment;
 import com.quantumsit.sportsinc.MyClasses_fragments.CalendarFragment;
 import com.quantumsit.sportsinc.MyClasses_fragments.ScoresFragment;
 import com.quantumsit.sportsinc.R;
@@ -66,7 +67,7 @@ public class MyClassesFragment extends Fragment {
         if(trainee){
             myclasses_sectionsPagerAdapter.addFragment(new ScoresFragment(),getString(R.string.scores));
         }else if (coach){
-            myclasses_sectionsPagerAdapter.addFragment(new CoachClassesFragment(),getString(R.string.sessions));
+            myclasses_sectionsPagerAdapter.addFragment(new Coach_StartClassFragment(),getString(R.string.sessions));
         } else {
             myclasses_sectionsPagerAdapter.addFragment(new Admin_CurrentClassesFragment(),getString(R.string.current_sessions));
         }

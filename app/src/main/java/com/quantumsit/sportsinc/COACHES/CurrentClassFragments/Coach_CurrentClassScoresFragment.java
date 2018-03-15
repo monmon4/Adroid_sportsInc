@@ -16,6 +16,7 @@ import com.quantumsit.sportsinc.Aaa_data.DB_Sqlite_Handler;
 import com.quantumsit.sportsinc.Aaa_data.GlobalVars;
 import com.quantumsit.sportsinc.Aaa_data.MyClass_info;
 import com.quantumsit.sportsinc.Aaa_data.Trainees_info;
+import com.quantumsit.sportsinc.Entities.classesEntity;
 import com.quantumsit.sportsinc.R;
 
 import java.util.ArrayList;
@@ -35,13 +36,13 @@ public class Coach_CurrentClassScoresFragment extends Fragment {
     ArrayList<Trainees_info> list_items;
 
     GlobalVars global;
-    MyClass_info info;
+    classesEntity info;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_coach__current_class_scores,container,false);
-        info = (MyClass_info) getActivity().getIntent().getSerializableExtra("MyRunningClass");
+        info = (classesEntity) getActivity().getIntent().getSerializableExtra("MyRunningClass");
         global = (GlobalVars) getActivity().getApplication();
 
         viewPager = getActivity().findViewById(R.id.coach_current_class_viewpager);

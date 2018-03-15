@@ -283,7 +283,7 @@ public class LoginActivity extends AppCompatActivity {
         try {
             where_info.put("email",mail);
             SharedPreferences tokenPref = getSharedPreferences(Config.SHARED_PREF, MODE_PRIVATE);
-            String user_token = tokenPref.getString(getString(R.string.Key_regID), "");
+            String user_token = tokenPref.getString("regId", "");
             JSONObject values = new JSONObject();
             values.put(getString(R.string.select_users_name),received_name);
             values.put(getString(R.string.select_users_type),5);
@@ -652,10 +652,11 @@ public class LoginActivity extends AppCompatActivity {
     private void ActiveUser() {
         try {
             SharedPreferences tokenPref = getSharedPreferences(Config.SHARED_PREF, MODE_PRIVATE);
-            String user_token = tokenPref.getString(getString(R.string.Key_regID), "");
+            String user_token = tokenPref.getString("regId", "");
 
             JSONObject where_info = new JSONObject();
-            where_info.put(getString(R.string.where_user_id),received_id);
+            Log.d("WhereID",String.valueOf(received_id));
+            where_info.put("id",received_id);
 
             JSONObject values = new JSONObject();
             values.put(getString(R.string.where_user_active),1);
@@ -725,4 +726,9 @@ public class LoginActivity extends AppCompatActivity {
         Toast.makeText(LoginActivity.this, msg, Toast.LENGTH_SHORT).show();
     }
 
+    @Override
+    public void onBackPressed() {
+        startActivity(new Intent(LoginActivity.this , startPageActivity.class));
+        finish();
+    }
 }

@@ -49,13 +49,13 @@ public class CoursesAdapter extends ArrayAdapter<CourseEntity> {
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
         View view = convertView;
         if (view == null) {
-            view = LayoutInflater.from(getContext()).inflate(R.layout.course_list_item, null);
+            view = LayoutInflater.from(getContext()).inflate(R.layout.list_item_level, null);
         }
         CourseEntity mycourse = getItem(position);
 
-        TextView Title = view.findViewById(R.id.course_item_name);
-        TextView level = view.findViewById(R.id.course_item_level);
-        TextView price = view.findViewById(R.id.course_item_price);
+        TextView SessionNum = view.findViewById(R.id.sessionNum);
+        TextView SessionDur = view.findViewById(R.id.sessionDuration);
+        TextView CourseName = view.findViewById(R.id.CourseName);
         ImageView icon = view.findViewById(R.id.Course_icon);
 
         String name = mycourse.getCourseName();
@@ -74,9 +74,9 @@ public class CoursesAdapter extends ArrayAdapter<CourseEntity> {
                 }
             });
         }
-        Title.setText(name);
-        level.setText(mycourse.getLevel());
-        price.setText("$ "+mycourse.getPrice());
+        CourseName.setText(name);
+        SessionNum.setText(mycourse.getClasses_Num());
+        SessionDur.setText(mycourse.getClassDur());
 
         return  view;
     }
