@@ -17,6 +17,7 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.CardView;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.Gravity;
@@ -26,6 +27,7 @@ import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
@@ -70,9 +72,10 @@ public class ProfileActivity extends AppCompatActivity {
 
     EditText Name ,Phone ,Mail;
     String NewName ,NewPhone ,NewMail;
-    TextView ChangePassword,Gender , DateOfBirth;
-    CircleImageView Image;
-    ImageView Upload_Image;
+    TextView ChangePassword;
+    ImageView Image;
+    ImageButton Upload_Image;
+    CardView cardView;
     Button Edit, Save ,Cancel;
     LinearLayout EditButtons;
     private boolean profileStatus = false;
@@ -95,6 +98,7 @@ public class ProfileActivity extends AppCompatActivity {
     PopupWindow verfication_popup_window;
     private Context profile_Context;
     private LinearLayout profile_ll;
+    private RelativeLayout profile_rl;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -111,23 +115,25 @@ public class ProfileActivity extends AppCompatActivity {
         progressDialog.setCanceledOnTouchOutside(false);
 
         profile_Context = getApplicationContext();
-        profile_ll =  findViewById(R.id.profile_ll);
+        //profile_ll =  findViewById(R.id.profile_ll);
+        profile_rl =  findViewById(R.id.profile_rl);
 
-        Name = findViewById(R.id.profile_userName);
+        Name = findViewById(R.id.nameEditText_profile);
         Image = findViewById(R.id.imageView_profile);
-        Phone = findViewById(R.id.profile_userPhone);
-        Mail = findViewById(R.id.profile_userMail);
+        Phone = findViewById(R.id.phoneEditText_profile);
+        Mail = findViewById(R.id.mailEditText_profile);
         //Gender = findViewById(R.id.profile_gender);
-        DateOfBirth = findViewById(R.id.profile_date_birth);
+        //DateOfBirth = findViewById(R.id.profile_date_birth);
 
         ChangePassword = findViewById(R.id.profile_change_password);
 
-        Upload_Image = findViewById(R.id.upload_new_image);
-        Edit = findViewById(R.id.profile_edit_btn);
-        Save = findViewById(R.id.profile_save_btn);
-        Cancel = findViewById(R.id.profile_cancel_btn);
+        Upload_Image = findViewById(R.id.imageButton_profile);
+        cardView = findViewById(R.id.cardView_profile);
+        Edit = findViewById(R.id.edit_profile);
+        Save = findViewById(R.id.save_profile);
+        Cancel = findViewById(R.id.cancel_profile);
 
-        EditButtons = findViewById(R.id.EDitButtons);
+        EditButtons = findViewById(R.id.editButtons_profile);
 
 
         ChangePassword.setOnClickListener(new View.OnClickListener() {
@@ -307,6 +313,7 @@ public class ProfileActivity extends AppCompatActivity {
         }
         ChangePassword.setVisibility(editProfile);
         Upload_Image.setVisibility(editProfile);
+        cardView.setVisibility(editProfile);
         EditButtons.setVisibility(editProfile);
         Edit.setVisibility(viewProfile);
     }
@@ -333,7 +340,7 @@ public class ProfileActivity extends AppCompatActivity {
             // progressBar.setVisibility(View.GONE);
         }
         //Gender.setText(globalVars.getPersonGender());
-        DateOfBirth.setText(globalVars.getDate_of_birth());
+        //DateOfBirth.setText(globalVars.getDate_of_birth());
     }
 
     private void changeProfilePassword() {
