@@ -48,6 +48,7 @@ public class ActivityFinishedCourseSingle_coach extends AppCompatActivity {
         setContentView(R.layout.activity_coach_finished_course_single);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
+        getSupportActionBar().setTitle("Finished level");
 
         loadingView = findViewById(R.id.LoadingView);
         loadingView.setOnRetryClick(new CustomLoadingView.OnRetryClick() {

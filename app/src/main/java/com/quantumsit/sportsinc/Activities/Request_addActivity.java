@@ -53,6 +53,7 @@ public class Request_addActivity extends AppCompatActivity {
         setContentView(R.layout.activity_request_add);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
+        getSupportActionBar().setTitle("Send a request");
 
         globalVars = (GlobalVars) getApplication();
         progressDialog = new ProgressDialog(Request_addActivity.this);
