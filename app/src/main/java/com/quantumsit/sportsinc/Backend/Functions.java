@@ -1,0 +1,107 @@
+package com.quantumsit.sportsinc.Backend;
+
+import android.annotation.SuppressLint;
+import android.content.Context;
+
+import com.google.i18n.phonenumbers.PhoneNumberUtil;
+import com.google.i18n.phonenumbers.Phonenumber;
+import com.quantumsit.sportsinc.Aaa_data.Constants;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.HashMap;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+/**
+ * Created by Mona on 18-Mar-18.
+ */
+
+public class Functions {
+
+    Context context;
+
+    public Functions(Context context) {
+        this.context = context;
+    }
+
+    @SuppressLint("StaticFieldLeak")
+    public JSONArray searchDB(String table_name, JSONObject where_info) {
+
+        final JSONArray[] result = {new JSONArray()};
+
+        HttpCall httpCall = new HttpCall();
+        httpCall.setMethodtype(HttpCall.POST);
+        httpCall.setUrl(Constants.selectData);
+        HashMap<String,String> params = new HashMap<>();
+        params.put("table",table_name);
+        params.put("where",where_info.toString());
+        httpCall.setParams(params);
+
+        new HttpRequest(){
+            @Override
+            public void onResponse(JSONArray response) {
+                super.onResponse(response);
+                result[0] = response;
+            }
+        }.execute(httpCall);
+        return result[0];
+
+    }
+
+
+    public String getEmojiByUnicode(int unicode){
+        return new String(Character.toChars(unicode));
+    }
+
+    public String getEmoji(String[] data) {
+
+        StringBuilder emoji = new StringBuilder();
+        if (data[0].equals("Excellent") || data[0].equals("Good") || data[0].equals("Average") || data[0].equals("Bad")) {
+            emoji = new StringBuilder(data[0] + " " + getEmojiByUnicode(Integer.valueOf(data[1])));
+            data[0] = data[1] = "";
+        }
+        return emoji.toString();
+    }
+
+
+    public String isValidPhone(String phone_num, String country)
+    {
+        boolean isValid = false;
+        String phone = "";
+        String NumberStr = phone_num; //number to validate
+        PhoneNumberUtil phoneUtil = PhoneNumberUtil.getInstance();
+        try {
+            Phonenumber.PhoneNumber NumberProto = phoneUtil.parse(NumberStr, country);            //with default country
+            isValid = phoneUtil.isValidNumber(NumberProto);                  //returns true
+            if (isValid) {
+                phone = phoneUtil.format(NumberProto, PhoneNumberUtil.PhoneNumberFormat.NATIONAL); //(202) 555-0100
+            }
+
+        }  catch (com.google.i18n.phonenumbers.NumberParseException e) {
+            e.printStackTrace();
+        }
+
+        return phone;
+    }
+
+    public boolean isValidMail(String mail)
+    {
+        String expression = "^[\\w!#$%&'*+/=?`{|}~^-]+(?:\\.[\\w!#$%&'*+/=?`{|}~^-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,6}$";
+        CharSequence inputString = mail;
+        Pattern pattern = Pattern.compile(expression);
+        Matcher matcher = pattern.matcher(inputString);
+        if (matcher.matches())
+        {
+            return true;
+        }
+        else{
+            return false;
+        }
+    }
+
+
+
+}

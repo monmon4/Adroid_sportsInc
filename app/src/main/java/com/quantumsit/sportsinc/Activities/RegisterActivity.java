@@ -36,6 +36,7 @@ import com.hbb20.CountryCodePicker;
 import com.quantumsit.sportsinc.Aaa_data.Config;
 import com.quantumsit.sportsinc.Aaa_data.Constants;
 import com.quantumsit.sportsinc.Aaa_data.GlobalVars;
+import com.quantumsit.sportsinc.Backend.Functions;
 import com.quantumsit.sportsinc.Backend.HttpCall;
 import com.quantumsit.sportsinc.Backend.HttpRequest;
 import com.quantumsit.sportsinc.Activities.HomeActivity;
@@ -76,6 +77,7 @@ public class RegisterActivity extends AppCompatActivity {
 
     GlobalVars globalVars;
     CountryCodePicker ccp;
+    Functions functions;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -85,6 +87,7 @@ public class RegisterActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         getSupportActionBar().setTitle("Sign Up");
+        functions = new Functions(getApplicationContext());
 
         /*
             // Create a TextView programmatically.
@@ -285,7 +288,17 @@ public class RegisterActivity extends AppCompatActivity {
             e.printStackTrace();
         }
 
-        HttpCall httpCall = new HttpCall();
+        JSONArray result = functions.searchDB("users", where_info);
+        if(result != null){
+            progressDialog.dismiss();
+            mail_edittext.setError("Email already exists");
+
+        } else {
+            insert_to_DB();
+            //verfication();
+        }
+
+        /*HttpCall httpCall = new HttpCall();
         httpCall.setMethodtype(HttpCall.POST);
         httpCall.setUrl(Constants.selectData);
         HashMap<String,String> params = new HashMap<>();
@@ -308,7 +321,7 @@ public class RegisterActivity extends AppCompatActivity {
                 }
 
             }
-        }.execute(httpCall);
+        }.execute(httpCall);*/
     }
 
     @SuppressLint("StaticFieldLeak")
