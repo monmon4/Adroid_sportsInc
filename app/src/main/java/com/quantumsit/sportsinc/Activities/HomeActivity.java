@@ -100,7 +100,7 @@ public class HomeActivity extends AppCompatActivity
         }else if (type == 1) {
             coach = true;
         }
-        
+
         if (non_register){
             setContentView(R.layout.activity_home_nonregister);
         } else {
