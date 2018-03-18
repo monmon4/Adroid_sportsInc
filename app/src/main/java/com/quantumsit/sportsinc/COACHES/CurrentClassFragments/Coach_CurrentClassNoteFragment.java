@@ -23,6 +23,7 @@ import com.quantumsit.sportsinc.Aaa_data.Trainees_info;
 import com.quantumsit.sportsinc.Backend.HttpCall;
 import com.quantumsit.sportsinc.Backend.HttpRequest;
 import com.quantumsit.sportsinc.Activities.HomeActivity;
+import com.quantumsit.sportsinc.Entities.classesEntity;
 import com.quantumsit.sportsinc.R;
 
 import org.json.JSONArray;
@@ -47,7 +48,7 @@ public class Coach_CurrentClassNoteFragment extends Fragment {
     EditText notes_edit_text;
     FloatingActionButton done_button;
 
-    MyClass_info info;
+    classesEntity info;
     int expectedCounter = 0;
     private static AtomicInteger doneAT = new AtomicInteger(0);
     private static AtomicInteger allAT = new AtomicInteger(0);
@@ -115,7 +116,7 @@ public class Coach_CurrentClassNoteFragment extends Fragment {
     private void updateClass(String notes) {
         progressDialog.show();
 
-        info = (MyClass_info) getActivity().getIntent().getSerializableExtra("MyRunningClass");
+        info = (classesEntity) getActivity().getIntent().getSerializableExtra("MyRunningClass");
         info.setClass_note(notes);
         List<Trainees_info> classTrainees = global.getMyDB().getClassTrainees(info.getClass_id());
 
@@ -171,7 +172,7 @@ public class Coach_CurrentClassNoteFragment extends Fragment {
         Log.d(TAG,allCounter+" "+doneCounter +" "+expectedCounter);
         if (allCounter==doneCounter){
             if (allCounter == expectedCounter){
-                boolean result = global.getMyDB().deleteClass(info);
+                boolean result = global.getMyDB().deleteClassTrainees(info.getClass_id());
                 progressDialog.dismiss();
                 if (result) {
                     Intent intent = new Intent(getActivity(), HomeActivity.class);

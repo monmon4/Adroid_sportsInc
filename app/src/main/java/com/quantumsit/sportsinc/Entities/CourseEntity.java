@@ -24,6 +24,7 @@ public class CourseEntity implements Serializable {
     String level;
     String classes_Num;
     String description;
+    String classDur;
 
     public CourseEntity() {
     }
@@ -52,6 +53,7 @@ public class CourseEntity implements Serializable {
             this.level = object.getString("level");
             this.classes_Num = object.getString("no_of_classes");;
             this.description = object.getString("description");;
+            this.classDur = object.getString("class_duration");
         } catch (JSONException e) {
             e.printStackTrace();
         } catch (ParseException e) {
@@ -120,5 +122,13 @@ public class CourseEntity implements Serializable {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public String getClassDur() {
+        return classDur;
+    }
+
+    public void setClassDur(String classDur) {
+        this.classDur = classDur;
     }
 }

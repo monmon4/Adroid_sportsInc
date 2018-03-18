@@ -77,7 +77,7 @@ public class CoursesFragment extends Fragment {
         listView.setOnScrollListener(listViewListener);
         courseList=new ArrayList<>();
 
-        adapter = new CoursesAdapter(getContext(),R.layout.course_list_item,courseList);
+        adapter = new CoursesAdapter(getContext(),R.layout.list_item_level,courseList);
         listView.setAdapter(adapter);
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -144,6 +144,7 @@ public class CoursesFragment extends Fragment {
             limit_info.put("limit", limitValue);
             HashMap<String, String> params = new HashMap<>();
             params.put("table", "courses");
+            params.put("ordered","true");
             params.put("limit", limit_info.toString());
 
             httpCall.setParams(params);

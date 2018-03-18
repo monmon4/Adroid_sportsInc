@@ -45,6 +45,7 @@ public class ActivityCourseSingleClass_coach extends AppCompatActivity {
         setContentView(R.layout.activity_couch_course_single_class);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
+        getSupportActionBar().setTitle("Session details");
 
         loadingView = findViewById(R.id.LoadingView);
         loadingView.setOnRetryClick(new CustomLoadingView.OnRetryClick() {

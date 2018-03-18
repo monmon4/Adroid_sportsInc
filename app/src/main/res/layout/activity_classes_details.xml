@@ -315,7 +315,7 @@
                 android:text="@string/cancel_class"
                 android:layout_margin="16dp"
                 android:textColor="#FFFFFF"
-                android:background="@drawable/button_blue_background"/>
+                android:background="@drawable/button_red_background"/>
 
             <Button
                 android:id="@+id/class_postpond_btn"
@@ -326,7 +326,7 @@
                 android:text="@string/postpone_class"
                 android:layout_margin="16dp"
                 android:textColor="#FFFFFF"
-                android:background="@drawable/button_red_background"/>
+                android:background="@drawable/button_blue_background"/>
 
         </LinearLayout>
 

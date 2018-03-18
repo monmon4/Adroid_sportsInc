@@ -45,12 +45,11 @@ public class Coach_CurrentClassFragment extends Fragment {
     public void setupViewPager(ViewPager mViewPager){
         mSectionsPagerAdapter = new SectionsPagerAdapter(getChildFragmentManager());
 
-        if (type == 1) {
+        //if (type == 1) {
             mSectionsPagerAdapter.addFragment(new Coach_CurrentClassAttendanceFragment(),"Attendance");
-            mSectionsPagerAdapter.addFragment(new Coach_CurrentClassScoresFragment(),"Scores");
             mSectionsPagerAdapter.addFragment(new Coach_CurrentClassNoteFragment(),"Notes");
 
-        } /*else {
+        /*}else {
             mSectionsPagerAdapter.addFragment(new Admin_CurrentClassAttendanceFragment(),"Attendance");
             mSectionsPagerAdapter.addFragment(new Admin_CurrentClassRulesFragment(),"Rules");
             mSectionsPagerAdapter.addFragment(new Admin_CurrentClassNoteFragment(),"Notes");

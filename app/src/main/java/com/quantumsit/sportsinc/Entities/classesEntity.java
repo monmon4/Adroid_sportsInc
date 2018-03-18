@@ -19,9 +19,9 @@ import java.util.Locale;
  */
 
 public class classesEntity implements Serializable {
-    String courseName, groupName, className, status, coachName, adminName ,person_name, poolName;
+    String courseName, groupName, className, status, coachName, adminName ,person_name, poolName , Class_note;
     String startTime, endTime, reason, postpondStartTime, postpondEndTime ,postpondDate ,classdate;
-    int class_id ,Group_id ,Course_id ,Admin_id ,Coach_id , person_id , state;
+    int class_id ,Group_id ,Course_id ,Admin_id ,Coach_id , person_id , state , ClassNum;
 
     public classesEntity() {
     }
@@ -29,13 +29,15 @@ public class classesEntity implements Serializable {
     public classesEntity(JSONObject jsonObject) {
         try {
             this.class_id = jsonObject.getInt("class_id");
-            this.className ="Session" +jsonObject.getInt("class_number");
+            this.ClassNum = jsonObject.getInt("class_number");
+            this.className ="Session" + ClassNum;
             String dateFormated = jsonObject.getString("class_date");
             SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH);
             Date date = formatter.parse(dateFormated);
             formatter = new SimpleDateFormat("dd/MM/yyyy");
             this.classdate = formatter.format(date);
             this.courseName = jsonObject.getString("Courses_name");
+            this.Group_id = jsonObject.getInt("group_id");
             this.groupName = jsonObject.getString("Groups_Name");
             state = jsonObject.getInt("status");
             switch (state) {
@@ -60,8 +62,6 @@ public class classesEntity implements Serializable {
             this.coachName = jsonObject.getString("coach_name");
             this.Admin_id = jsonObject.getInt("admin_id");
             this.adminName = jsonObject.getString("admin_name");
-            this.person_id = jsonObject.getInt("person_id");
-            this.person_name = jsonObject.getString("person_name");
             this.poolName = jsonObject.getString("Pool_Name");
             this.startTime = jsonObject.getString("class_time");
             this.startTime = startTime.substring(0,startTime.length()-3);
@@ -77,6 +77,8 @@ public class classesEntity implements Serializable {
             postpondStartTime = postpondStartTime.substring(0,postpondStartTime.length()-3);
             this.postpondEndTime = jsonObject.getString("postpone_end_time");
             postpondEndTime = postpondEndTime.substring(0,postpondEndTime.length()-3);
+            this.person_name = jsonObject.getString("person_name");
+            this.person_id = jsonObject.getInt("person_id");
         } catch (JSONException e) {
             e.printStackTrace();
         } catch (ParseException e) {
@@ -144,6 +146,10 @@ public class classesEntity implements Serializable {
 
     public void setClass_id(int class_id) {
         this.class_id = class_id;
+    }
+
+    public int getClassNum() {
+        return ClassNum;
     }
 
     public int getGroup_id() {
@@ -306,5 +312,17 @@ public class classesEntity implements Serializable {
 
     public void setPerson_id(int person_id) {
         this.person_id = person_id;
+    }
+
+    public String getClass_note() {
+        return Class_note;
+    }
+
+    public void setClass_note(String class_note) {
+        Class_note = class_note;
+    }
+
+    public void setClassNum(int classNum) {
+        ClassNum = classNum;
     }
 }
