@@ -126,7 +126,7 @@ public class HomeActivity extends AppCompatActivity
                 drawer.openDrawer(GravityCompat.START);
             }
         });
-        toggle.setHomeAsUpIndicator(R.drawable.logo_white);
+        toggle.setHomeAsUpIndicator(R.drawable.rsz_logo_white2);
         drawer.addDrawerListener(toggle);
         toggle.syncState();
 
