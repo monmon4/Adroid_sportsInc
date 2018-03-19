@@ -441,4 +441,6 @@
     <string name="classesNum">Number of sessions:</string>
     <string name="class_end">end</string>
     <string name="my_groups">My Classes</string>
+    <string name="pool_">Pool:</string>
+    <string name="coach_s_notes_">Coach\'s notes:</string>
 </resources>

@@ -27,6 +27,7 @@ public class Functions {
         this.context = context;
     }
 
+
     public HttpCall searchDB(String table_name, JSONObject where_info) {
 
         final JSONArray[] result = {new JSONArray()};
@@ -86,12 +87,12 @@ public class Functions {
         StringBuilder full_notes = new StringBuilder();
 
         if (data[0].equals("Excellent") || data[0].equals("Good") || data[0].equals("Average") || data[0].equals("Bad")) {
-            full_notes.append(data[0] + " " + getEmojiByUnicode(Integer.valueOf(data[1]))) ;
+            full_notes.append(data[0]).append(" ").append(getEmojiByUnicode(Integer.valueOf(data[1])));
             data[0] = data[1] = "";
         }
 
         for (int i=0; i<data.length; i++) {
-            full_notes.append(data[i]);
+            full_notes.append(" ").append(data[i]);
         }
         return full_notes.toString();
     }
@@ -99,12 +100,11 @@ public class Functions {
 
     public String isValidPhone(String phone_num, String country)
     {
-        boolean isValid = false;
+        boolean isValid;
         String phone = "";
-        String NumberStr = phone_num; //number to validate
         PhoneNumberUtil phoneUtil = PhoneNumberUtil.getInstance();
         try {
-            Phonenumber.PhoneNumber NumberProto = phoneUtil.parse(NumberStr, country);            //with default country
+            Phonenumber.PhoneNumber NumberProto = phoneUtil.parse(phone_num, country);            //with default country
             isValid = phoneUtil.isValidNumber(NumberProto);                  //returns true
             if (isValid) {
                 phone = phoneUtil.format(NumberProto, PhoneNumberUtil.PhoneNumberFormat.NATIONAL); //(202) 555-0100
@@ -120,9 +120,8 @@ public class Functions {
     public boolean isValidMail(String mail)
     {
         String expression = "^[\\w!#$%&'*+/=?`{|}~^-]+(?:\\.[\\w!#$%&'*+/=?`{|}~^-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,6}$";
-        CharSequence inputString = mail;
         Pattern pattern = Pattern.compile(expression);
-        Matcher matcher = pattern.matcher(inputString);
+        Matcher matcher = pattern.matcher(mail);
         if (matcher.matches())
         {
             return true;

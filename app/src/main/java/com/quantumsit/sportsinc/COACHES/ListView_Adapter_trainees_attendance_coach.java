@@ -34,13 +34,14 @@ public class ListView_Adapter_trainees_attendance_coach extends ArrayAdapter<ite
         }
         // Lookup view for data population
         TextView trainee_name =  convertView.findViewById(R.id.traineeNameTextView_singleItemTraineeAttendance);
-
+        TextView trainee_notes = convertView.findViewById(R.id.traineeAttendanceNoteTextView_singleItemTraineeAttendance);
         ImageView attended = convertView.findViewById(R.id.attendedImageView_singleItemTraineeAttendance);
 
         // Populate the data into the template view using the data object
         trainee_name.setText(attendance.getName());
+       // trainee_notes.setText(attendance.get);
         if (!attendance.isAttended()) {
-            attended.setBackgroundResource(R.drawable.ic_not_checked);
+            attended.setBackgroundResource(R.drawable.ic_not_attended);
         }
         // Return the completed view to render on screen
         return convertView;
