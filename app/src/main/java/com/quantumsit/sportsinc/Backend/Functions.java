@@ -67,7 +67,7 @@ public class Functions {
 
         HttpCall httpCall = new HttpCall();
         httpCall.setMethodtype(HttpCall.POST);
-        httpCall.setUrl(Constants.updateData);
+        httpCall.setUrl(Constants.insertData);
         HashMap<String,String> params = new HashMap<>();
         params.put("table",table_name);
         params.put("values",values.toString());
