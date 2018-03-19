@@ -58,6 +58,7 @@
                 android:id="@+id/openingHoursListView_maps"
                 android:layout_width="match_parent"
                 android:layout_height="fill_parent"
+                android:listSelector="@android:color/transparent"
                 android:layout_margin="@dimen/ten_dimens">
             </com.quantumsit.sportsinc.CustomView.myCustomListView>
 

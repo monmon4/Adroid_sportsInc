@@ -10,7 +10,7 @@ import com.google.firebase.messaging.RemoteMessage;
 import com.google.gson.Gson;
 import com.quantumsit.sportsinc.Aaa_data.Config;
 import com.quantumsit.sportsinc.Aaa_data.GlobalVars;
-import com.quantumsit.sportsinc.Activities.ComplainDetailsActivity;
+//import com.quantumsit.sportsinc.Activities.lComplainDetailsActivity;
 import com.quantumsit.sportsinc.Activities.HomeActivity;
 import com.quantumsit.sportsinc.Activities.NotificationDetailsActivity;
 import com.quantumsit.sportsinc.Activities.RequestDetailsActivity;
@@ -91,7 +91,7 @@ public class MyFirebaseMessagingService  extends FirebaseMessagingService {
             Intent resultIntent = new Intent(getApplicationContext(), HomeActivity.class);
             switch (notify_type){
                 case 1:
-                    resultIntent = new Intent(getApplicationContext(), ComplainDetailsActivity.class);
+                    //resultIntent = new Intent(getApplicationContext(), lComplainDetailsActivity.class);
                     break;
                 case 2:
                     resultIntent = new Intent(getApplicationContext(), RequestDetailsActivity.class);
