@@ -445,4 +445,6 @@
     <string name="courses">Courses</string>
     <string name="booked">Booked</string>
     <string name="account">My Account</string>
+    <string name="pool_">Pool:</string>
+    <string name="coach_s_notes_">Coach\'s notes:</string>
 </resources>
