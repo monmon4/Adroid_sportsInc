@@ -138,7 +138,7 @@ public class CheckBoxListView_Adapter extends ArrayAdapter<item_checkbox> {
         note_spinner_adapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
         note_spinner.setAdapter(note_spinner_adapter);
 
-        final EditText note_edit_text = customView.findViewById(R.id.noteEditText_notewindow);
+        final EditText note_edit_text = customView.findViewById(R.id.noteEditText_notewindowattendance);
         Button done_button = customView.findViewById(R.id.doneButton_notewindow);
         note_edit_text.setEnabled(true);
         note_edit_text.setText(item_checkbox.getNote());

@@ -11,11 +11,16 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.quantumsit.sportsinc.Aaa_data.Constants;
 import com.quantumsit.sportsinc.Entities.EventEntity;
 import com.quantumsit.sportsinc.R;
+import com.squareup.picasso.Picasso;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -25,10 +30,12 @@ import java.util.TimeZone;
 
 public class EventsDetailsActivity extends AppCompatActivity {
 
-    TextView title, date, time, description;
+    TextView  date, time, description;
 
-    Button addToCalendar;
+    LinearLayout addToCalendar;
     private EventEntity eventEntity;
+    private ImageView eventImage;
+    private ProgressBar progressBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,11 +45,12 @@ public class EventsDetailsActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
-        title = findViewById(R.id.eventDetailsTitle);
-        time = findViewById(R.id.eventDetailsTime);
-        date = findViewById(R.id.eventDetailsDate);
-        description = findViewById(R.id.eventDetailsDescription);
-        addToCalendar = findViewById(R.id.addToCalendar);
+        time = findViewById(R.id.eventDetailTime);
+        date = findViewById(R.id.event_date);
+        description = findViewById(R.id.event_description);
+        addToCalendar = findViewById(R.id.event_interested);
+        eventImage = findViewById(R.id.event_Image);
+        progressBar = findViewById(R.id.progress_bar);
 
         addToCalendar.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -110,10 +118,27 @@ public class EventsDetailsActivity extends AppCompatActivity {
     private void fillView(EventEntity eventEntity) {
         SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy", Locale.ENGLISH);
         String formattedDate = df.format(eventEntity.getDate());
-        title.setText(eventEntity.getTitle());
+        getSupportActionBar().setTitle(eventEntity.getTitle());
         time.setText(eventEntity.getTime());
         date.setText(formattedDate);
         description.setText(eventEntity.getDescription());
+        String ImageUrl = eventEntity.getImgUrl();
+
+        if(!ImageUrl.equals("")) {
+            Picasso.with(getApplicationContext()).load(Constants.others_host + ImageUrl).into(eventImage, new com.squareup.picasso.Callback() {
+                @Override
+                public void onSuccess() {
+                    progressBar.setVisibility(View.GONE);
+                }
+
+                @Override
+                public void onError() {
+
+                }
+            });
+        }else {
+            progressBar.setVisibility(View.GONE);
+        }
     }
     @Override
     public boolean onSupportNavigateUp() {
