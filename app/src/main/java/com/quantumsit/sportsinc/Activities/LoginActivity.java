@@ -116,7 +116,6 @@ public class LoginActivity extends AppCompatActivity {
 
         getSupportActionBar().setTitle(getResources().getString(R.string.log_in));
 
-
         setTitleColor(getResources().getColor(R.color.colorLogoRed));
 
         globalVars = (GlobalVars) getApplication();
@@ -127,6 +126,8 @@ public class LoginActivity extends AppCompatActivity {
 
         mail_edittext = findViewById(R.id.mailEditText_login);
         pass_edittext = findViewById(R.id.passEditText_login);
+
+        StringBuilder some = new StringBuilder();
 
         forgetPassword = findViewById(R.id.forgetpassTextView_login);
        // forgetPassword.setPaintFlags(forgetPassword.getPaintFlags() |   Paint.UNDERLINE_TEXT_FLAG);

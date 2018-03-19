@@ -17,6 +17,7 @@ import com.quantumsit.sportsinc.Aaa_data.Constants;
 import com.quantumsit.sportsinc.Entities.CourseEntity;
 import com.quantumsit.sportsinc.R;
 import com.quantumsit.sportsinc.RegisterationForm_fragments.BookingFirstFormActivity;
+import com.quantumsit.sportsinc.RegisterationForm_fragments.BookingForthFormActivity;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
@@ -64,7 +65,7 @@ public class CoursesAdapter extends ArrayAdapter<CourseEntity> {
 
         booking.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
+            public void onClick(View v) {
                 context.startActivity(new Intent(context, BookingFirstFormActivity.class));
             }
         });
