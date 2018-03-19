@@ -43,6 +43,7 @@ import com.google.gson.Gson;
 import com.google.i18n.phonenumbers.PhoneNumberUtil;
 import com.google.i18n.phonenumbers.Phonenumber;
 import com.hbb20.CountryCodePicker;
+import com.makeramen.roundedimageview.RoundedImageView;
 import com.quantumsit.sportsinc.Aaa_data.Bitmap_functions;
 import com.quantumsit.sportsinc.Aaa_data.Config;
 import com.quantumsit.sportsinc.Aaa_data.Constants;
@@ -89,7 +90,7 @@ public class RegisterActivity extends AppCompatActivity {
     String user_name, phone, mail, pass, repass;
 
     CardView cardView;
-    ImageButton imageButton; ImageView imageView;
+    ImageButton imageButton; RoundedImageView imageView;
     private boolean photoChanged = false;
     //Image request code
     private int PICK_IMAGE_REQUEST = 1;
@@ -124,54 +125,6 @@ public class RegisterActivity extends AppCompatActivity {
         getSupportActionBar().setTitle("Sign Up");
         functions = new Functions(getApplicationContext());
 
-        /*
-            // Create a TextView programmatically.
-            TextView tv = new TextView(getApplicationContext());
-
-            // Create a LayoutParams for TextView
-            LayoutParams lp = new RelativeLayout.LayoutParams(
-                    LayoutParams.MATCH_PARENT, // Width of TextView
-                    LayoutParams.WRAP_CONTENT); // Height of TextView
-
-            // Apply the layout parameters to TextView widget
-            tv.setLayoutParams(lp);
-
-            // Set text to display in TextView
-            // This will set the ActionBar title text
-            tv.setText("Sign Up");
-
-            // Set the text color of TextView
-            // This will change the ActionBar title text color
-            tv.setTextColor(Color.parseColor("#FFFFFF"));
-
-            // Center align the ActionBar title
-            tv.setGravity(Gravity.CENTER);
-
-            // Set the serif font for TextView text
-            // This will change ActionBar title text font
-            //tv.setTypeface(Typeface.SERIF, Typeface.ITALIC);
-
-            // Underline the ActionBar title text
-            //tv.setPaintFlags(tv.getPaintFlags()| Paint.UNDERLINE_TEXT_FLAG);
-
-            // Set the ActionBar title font size
-            tv.setTextSize(TypedValue.COMPLEX_UNIT_DIP,20);
-
-            // Display a shadow around ActionBar title text
-            //tv.setShadowLayer(
-                   // 1.f, // radius
-                   // 2.0f, // dx
-                   // 2.0f, // dy
-                   // Color.parseColor("#FF8C00") // shadow color
-           // );
-
-            // Set the ActionBar display option
-            getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
-
-            // Finally, set the newly created TextView as ActionBar custom view
-            getSupportActionBar().setCustomView(tv);
-        */
-
         globalVars = (GlobalVars) getApplication();
         progressDialog = new ProgressDialog(RegisterActivity.this);
         progressDialog.setMessage(getResources().getString(R.string.configure));
@@ -194,6 +147,13 @@ public class RegisterActivity extends AppCompatActivity {
         cardView = findViewById(R.id.cardView_register);
         imageButton = findViewById(R.id.imageButton_register);
         imageButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                requestStoragePermission();
+            }
+        });
+
+        imageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 requestStoragePermission();
@@ -547,7 +507,7 @@ public class RegisterActivity extends AppCompatActivity {
             try {
                 bitmap = Bitmap_functions.getThumbnail(filePath,this,THUMBNAIL_SIZE);
                 imageView.setImageBitmap(bitmap);
-                cardView.setVisibility(View.GONE);
+                //cardView.setVisibility(View.GONE);
                 imageButton.setVisibility(View.GONE);
                 photoChanged = true;
             } catch (IOException e) {

@@ -36,6 +36,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
+import com.makeramen.roundedimageview.RoundedImageView;
 import com.quantumsit.sportsinc.Aaa_data.Bitmap_functions;
 import com.quantumsit.sportsinc.Aaa_data.Constants;
 import com.quantumsit.sportsinc.Aaa_data.GlobalVars;
@@ -73,7 +74,7 @@ public class ProfileActivity extends AppCompatActivity {
     EditText Name ,Phone ,Mail;
     String NewName ,NewPhone ,NewMail;
     TextView ChangePassword;
-    ImageView Image;
+    RoundedImageView Image;
     ImageButton Upload_Image;
     CardView cardView;
     Button Edit, Save ,Cancel;
@@ -201,6 +202,7 @@ public class ProfileActivity extends AppCompatActivity {
             try {
                 bitmap = Bitmap_functions.getThumbnail(filePath,this,THUMBNAIL_SIZE);
                 Image.setImageBitmap(bitmap);
+
                 photoChanged = true;
             } catch (IOException e) {
                 e.printStackTrace();
@@ -313,7 +315,6 @@ public class ProfileActivity extends AppCompatActivity {
         }
         ChangePassword.setVisibility(editProfile);
         Upload_Image.setVisibility(editProfile);
-        cardView.setVisibility(editProfile);
         EditButtons.setVisibility(editProfile);
         Edit.setVisibility(viewProfile);
     }
