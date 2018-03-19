@@ -20,7 +20,7 @@ import java.util.Locale;
 
 public class classesEntity implements Serializable {
     String courseName, groupName, className, status, coachName, adminName ,person_name, poolName , Class_note;
-    String startTime, endTime, reason, postpondStartTime, postpondEndTime ,postpondDate ,classdate;
+    String startTime, endTime, reason, postpondStartTime, postpondEndTime ,postpondDate ,classdate , traineesNum;
     int class_id ,Group_id ,Course_id ,Admin_id ,Coach_id , person_id , state , ClassNum;
 
     public classesEntity() {
@@ -84,6 +84,66 @@ public class classesEntity implements Serializable {
         } catch (ParseException e) {
             e.printStackTrace();
         }
+    }
+
+    public void initClass(JSONObject jsonObject) {
+        try {
+            this.class_id = jsonObject.getInt("class_id");
+            this.ClassNum = jsonObject.getInt("class_number");
+            this.className ="Session" + ClassNum;
+            String dateFormated = jsonObject.getString("class_date");
+            SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH);
+            Date date = formatter.parse(dateFormated);
+            formatter = new SimpleDateFormat("dd/MM/yyyy");
+            this.classdate = formatter.format(date);
+            this.courseName = jsonObject.getString("Courses_name");
+            this.Group_id = jsonObject.getInt("group_id");
+            this.groupName = jsonObject.getString("Groups_Name");
+            this.Coach_id = jsonObject.getInt("coach_id");
+            this.coachName = jsonObject.getString("coach_name");
+            this.Admin_id = jsonObject.getInt("admin_id");
+            this.adminName = jsonObject.getString("admin_name");
+            this.poolName = jsonObject.getString("Pool_Name");
+            this.startTime = jsonObject.getString("class_time");
+            this.startTime = startTime.substring(0,startTime.length()-3);
+            this.endTime= jsonObject.getString("class_end_time");
+            this.endTime = endTime.substring(0,endTime.length()-3);
+            this.reason = jsonObject.getString("class_notes");
+            dateFormated = jsonObject.getString("postpone_date");
+            formatter = new SimpleDateFormat("yyyy-MM-dd");
+            date = formatter.parse(dateFormated);
+            formatter = new SimpleDateFormat("dd/MM/yyyy");
+            this.postpondDate = formatter.format(date);
+            this.postpondStartTime = jsonObject.getString("postpone_start_time");
+            postpondStartTime = postpondStartTime.substring(0,postpondStartTime.length()-3);
+            this.postpondEndTime = jsonObject.getString("postpone_end_time");
+            postpondEndTime = postpondEndTime.substring(0,postpondEndTime.length()-3);
+            this.traineesNum = jsonObject.getString("traineesNum");
+            this.state = jsonObject.getInt("status");
+            switch (state) {
+                case 0:
+                    this.status = "Running";
+                    break;
+                case 1:
+                    this.status = "Canceled";
+                    break;
+                case 2:
+                    this.status = "Postponed";
+                    break;
+                case 3:
+                    this.status = "UpComing";
+                    break;
+                case 4:
+                    this.status = "Finished";
+                    break;
+
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
     }
 
     public classesEntity(classesEntity entity) {
@@ -324,5 +384,9 @@ public class classesEntity implements Serializable {
 
     public void setClassNum(int classNum) {
         ClassNum = classNum;
+    }
+
+    public String getTraineesNum() {
+        return traineesNum;
     }
 }

@@ -77,8 +77,8 @@ public class CheckBoxListView_Adapter extends ArrayAdapter<item_checkbox> {
                     CheckBox cb = (CheckBox) v ;
                     item_checkbox item = (item_checkbox) cb.getTag();
 
-                    /*item.setSelected(cb.isChecked());
-                    if(cb.isChecked()){
+                    item.setSelected(cb.isChecked());
+                    /*if(cb.isChecked()){
                         finalHolder.edit_imgview.setEnabled(false);
                         finalHolder.edit_imgview.setVisibility(View.INVISIBLE);
                     } else {
@@ -105,13 +105,13 @@ public class CheckBoxListView_Adapter extends ArrayAdapter<item_checkbox> {
         holder.checkBox.setChecked(item.getSelected());
         holder.checkBox.setTag(item);
 
-        if(item.getSelected()){
+        /*if(item.getSelected()){
             holder.edit_imgview.setEnabled(false);
             holder.edit_imgview.setVisibility(View.INVISIBLE);
         } else {
             holder.edit_imgview.setEnabled(true);
             holder.edit_imgview.setVisibility(View.VISIBLE);
-        }
+        }*/
 
         return convertView;
 

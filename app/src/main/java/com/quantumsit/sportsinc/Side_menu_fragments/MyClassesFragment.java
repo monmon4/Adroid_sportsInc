@@ -67,9 +67,7 @@ public class MyClassesFragment extends Fragment {
         if(trainee){
             myclasses_sectionsPagerAdapter.addFragment(new ScoresFragment(),getString(R.string.scores));
         }else if (coach){
-            myclasses_sectionsPagerAdapter.addFragment(new Coach_StartClassFragment(),getString(R.string.sessions));
-        } else {
-            myclasses_sectionsPagerAdapter.addFragment(new Admin_CurrentClassesFragment(),getString(R.string.current_sessions));
+            myclasses_sectionsPagerAdapter.addFragment(new CoachClassesFragment(),getString(R.string.my_groups));
         }
         myclasses_sectionsPagerAdapter.addFragment(new CalendarFragment(),getString(R.string.calendar));
 

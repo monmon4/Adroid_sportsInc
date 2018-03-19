@@ -14,6 +14,7 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.Toast;
 
 import com.quantumsit.sportsinc.Aaa_data.Constants;
 import com.quantumsit.sportsinc.Aaa_data.GlobalVars;
@@ -49,9 +50,9 @@ public class Coach_CurrentClassNoteFragment extends Fragment {
     FloatingActionButton done_button;
 
     classesEntity info;
-    int expectedCounter = 0;
-    private static AtomicInteger doneAT = new AtomicInteger(0);
-    private static AtomicInteger allAT = new AtomicInteger(0);
+    int expectedCounter = 0 , counter = 0;
+    //private static AtomicInteger doneAT = new AtomicInteger(0);
+    //private static AtomicInteger allAT = new AtomicInteger(0);
 
     RadioButton Excellent_radioButton, Good_radioButton, Average_radioButton, Bad_radioButton;
     @Nullable
@@ -154,12 +155,13 @@ public class Coach_CurrentClassNoteFragment extends Fragment {
                     super.onResponse(response);
                     int allCounter = 0 , doneCounter = 0;
                     if(checkResponse(response)) {
-                        doneCounter = doneAT.addAndGet(1);
+                       // doneCounter = doneAT.addAndGet(1);
                     }else
                         Log.d(TAG,"class update Error");
-                    allCounter = allAT.addAndGet(1);
+                   // allCounter = allAT.addAndGet(1);
                     Log.d(TAG,"Class ADDing Result: "+allCounter+" "+doneCounter );
-                    removeClass(allCounter,doneCounter);
+                    //removeClass(allCounter,doneCounter);
+                    removeClass();
                 }
             }.execute(httpCall);
 
@@ -168,25 +170,29 @@ public class Coach_CurrentClassNoteFragment extends Fragment {
         }
     }
 
-    private void removeClass(int allCounter, int doneCounter) {
-        Log.d(TAG,allCounter+" "+doneCounter +" "+expectedCounter);
-        if (allCounter==doneCounter){
-            if (allCounter == expectedCounter){
+    synchronized private void removeClass() {
+        Log.d(TAG," "+counter +" "+expectedCounter);
+        counter ++ ;
+        //if (allCounter==doneCounter){
+            if (counter == expectedCounter){
                 boolean result = global.getMyDB().deleteClassTrainees(info.getClass_id());
                 progressDialog.dismiss();
                 if (result) {
                     Intent intent = new Intent(getActivity(), HomeActivity.class);
+                    intent.putExtra("Tab",1);
                     startActivity(intent);
                     getActivity().finish();
                 }else {
                     progressDialog.dismiss();
+                    Toast.makeText(getContext(),"Error will deleting from SQLite",Toast.LENGTH_LONG).show();
                     // error will deleting from SQLite
                 }
             }
-        }else{
+        /*}else{
             progressDialog.dismiss();
+            Toast.makeText(getContext(),"Error will insertion info. or update class",Toast.LENGTH_LONG).show();
             // error will insertion info. or update class
-        }
+        }*/
     }
 
     private void insertTrainee(Trainees_info trainee) {
@@ -214,12 +220,13 @@ public class Coach_CurrentClassNoteFragment extends Fragment {
                     super.onResponse(response);
                     int allCounter = 0 , doneCounter = 0;
                     if(checkResponse(response)) {
-                        doneCounter = doneAT.addAndGet(1);
+                       // doneCounter = doneAT.addAndGet(1);
                     }else
                         Log.d(TAG,"trainee insert Error");
-                    allCounter = allAT.addAndGet(1);
+                   // allCounter = allAT.addAndGet(1);
                     Log.d(TAG,"Trainee ADDing Result: "+allCounter+" "+doneCounter );
-                    removeClass(allCounter,doneCounter);
+                    //removeClass(allCounter,doneCounter);
+                    removeClass();
                 }
             }.execute(httpCall);
 
@@ -227,45 +234,6 @@ public class Coach_CurrentClassNoteFragment extends Fragment {
             e.printStackTrace();
         }
     }
-
-    private void insertRule(Rule_info ruleItem) {
-        try {
-            JSONObject values = new JSONObject();
-            values.put("rule_id",ruleItem.getRule_id());
-            values.put("class_id",ruleItem.getClass_id());
-            values.put("note",ruleItem.getRule_note());
-            values.put("user_id",global.getId());
-
-
-            HttpCall httpCall = new HttpCall();
-            httpCall.setMethodtype(HttpCall.POST);
-            httpCall.setUrl(Constants.insertData);
-            final HashMap<String,String> params = new HashMap<>();
-            params.put("table","class_rules");
-            params.put("values",values.toString());
-
-            httpCall.setParams(params);
-
-            new HttpRequest(){
-                @Override
-                public void onResponse(JSONArray response) {
-                    super.onResponse(response);
-                    int allCounter = 0 , doneCounter = 0;
-                    if(checkResponse(response)) {
-                        doneCounter = doneAT.addAndGet(1);
-                    }else
-                        Log.d(TAG,"rule insert Error");
-                    allCounter = allAT.addAndGet(1);
-                    Log.d(TAG,"Rule ADDing Result: "+allCounter+" "+doneCounter );
-                    removeClass(allCounter,doneCounter);
-                }
-            }.execute(httpCall);
-
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-    }
-
 
     private boolean checkResponse(JSONArray response) {
         if (response != null){

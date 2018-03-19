@@ -35,6 +35,7 @@ import com.quantumsit.sportsinc.Backend.HttpCall;
 import com.quantumsit.sportsinc.Backend.HttpRequest;
 import com.quantumsit.sportsinc.COACHES.ReportsFragments.CoachReportsFragment;
 import com.quantumsit.sportsinc.COACHES.RequestFragment.CoachRequestFragment;
+import com.quantumsit.sportsinc.COACHES.RequestFragment.CoachRequestSentFragment;
 import com.quantumsit.sportsinc.Entities.UserEntity;
 import com.quantumsit.sportsinc.Side_menu_fragments.ContactUsFragment;
 import com.quantumsit.sportsinc.R;
@@ -202,9 +203,9 @@ public class HomeActivity extends AppCompatActivity
         if (savedInstanceState == null) {
             Fragment fragment = null;
             Class fragmentClass = HomeFragment.class;
-            int Notifi = getIntent().getIntExtra(getString(R.string.Key_Home_Side),0);
+            int navigationPos = getIntent().getIntExtra(getString(R.string.Key_Home_Side),0);
 
-            if(Notifi == Config.NOTIFICATION_ID)
+            if(navigationPos == Config.NOTIFICATION_ID)
                 fragmentClass = NotificationsFragment.class;
 
             try {
@@ -377,7 +378,10 @@ public class HomeActivity extends AppCompatActivity
             actionBar.setTitle(R.string.app_name);
             fragmentClass = HomeFragment.class;
         } else if (id == R.id.nav_myClasses) {
-            actionBar.setTitle(R.string.my_classes);
+            if (coach)
+                actionBar.setTitle(R.string.my_groups);
+            else
+                actionBar.setTitle(R.string.my_classes);
             fragmentClass = MyClassesFragment.class;
         } else if (id == R.id.nav_notifications) {
             actionBar.setTitle(R.string.notifications);
@@ -385,20 +389,12 @@ public class HomeActivity extends AppCompatActivity
         } else if (id == R.id.nav_requests) {
             actionBar.setTitle(R.string.request);
             if (coach){
-                fragmentClass = CoachRequestFragment.class;
-            }/* else if (admin) {
                 fragmentClass = CoachRequestSentFragment.class;
-            }*/ else {
+            } else {
                 fragmentClass = RequestsFragment.class;
             }
 
-        } /*else if (id == R.id.nav_complains) {
-            actionBar.setTitle(R.string.complains);
-            if(coach)
-                fragmentClass = ComplainsFragment.class;
-            else
-                fragmentClass = Complains_SendFragment.class;
-        } */else if (id == R.id.nav_reports) {
+        }else if (id == R.id.nav_reports) {
             actionBar.setTitle(R.string.reports);
             if (parent){
                 fragmentClass = ReportsFragment.class;
@@ -530,7 +526,6 @@ public class HomeActivity extends AppCompatActivity
 
     private void fillChildList(JSONArray response) {
         children.clear();
-        Log.d("ChildList",String.valueOf(response));
         if (response != null){
             try {
                 for (int i = 0; i < response.length(); i++) {

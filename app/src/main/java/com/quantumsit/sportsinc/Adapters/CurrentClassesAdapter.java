@@ -51,7 +51,6 @@ public class CurrentClassesAdapter  extends ArrayAdapter<classesEntity>{
     DB_Sqlite_Handler myDB;
     private Button  startBtn, endBtn;
     ImageView editBtn;
-    int currentPosition;
 
     public CurrentClassesAdapter(@NonNull Context context, int resource, ArrayList<classesEntity> classesList, DB_Sqlite_Handler myDB) {
         super(context, resource);
@@ -78,7 +77,7 @@ public class CurrentClassesAdapter  extends ArrayAdapter<classesEntity>{
         if (view == null) {
             view = LayoutInflater.from(getContext()).inflate(R.layout.list_item_current_class, null);
         }
-        currentPosition = position;
+        final int currentPosition = position;
         classesEntity item = getItem(position);
 
         TextView ClassName = view.findViewById(R.id.ClassName);
@@ -89,6 +88,7 @@ public class CurrentClassesAdapter  extends ArrayAdapter<classesEntity>{
         ClassName.setText(item.getGroupName());
         SessionName.setText(""+item.getClassNum());
         SessionTime.setText(item.getStartTime()+":00");
+        TraineeCount.setText(item.getTraineesNum());
 
         startBtn = view.findViewById(R.id.btnStart);
         endBtn = view.findViewById(R.id.btnEnd);
@@ -114,7 +114,7 @@ public class CurrentClassesAdapter  extends ArrayAdapter<classesEntity>{
             public void onClick(View view) {
                 progressDialog.setMessage("Starting Session");
                 progressDialog.show();
-                startClass();
+                startClass(currentPosition);
             }
         });
 
@@ -140,12 +140,12 @@ public class CurrentClassesAdapter  extends ArrayAdapter<classesEntity>{
         return  view;
     }
 
-    private void startSession() {
+    private void startSession(int currentPosition) {
         classesList.get(currentPosition).setState(0);
         this.notifyDataSetChanged();
-        initializeClassTrainee(classesList.get(currentPosition).getGroup_id() ,classesList.get(currentPosition).getClass_id());
+        initializeClassTrainee(classesList.get(currentPosition).getGroup_id() ,classesList.get(currentPosition).getClass_id(),currentPosition);
     }
-    private void startClass() {
+    private void startClass(final int currentPosition) {
         try {
             JSONObject where_info = new JSONObject();
             where_info.put("id", classesList.get(currentPosition).getClass_id());
@@ -169,7 +169,7 @@ public class CurrentClassesAdapter  extends ArrayAdapter<classesEntity>{
                 public void onResponse(JSONArray response) {
                     super.onResponse(response);
                     if(checkResponse(response)) {
-                        startSession();
+                        startSession(currentPosition);
                     }else {
                         Toast.makeText(context, "Failed To start the session", Toast.LENGTH_SHORT).show();
                     }
@@ -182,7 +182,7 @@ public class CurrentClassesAdapter  extends ArrayAdapter<classesEntity>{
     }
 
 
-    private void initializeClassTrainee(int group_id, final int class_id) {
+    private void initializeClassTrainee(int group_id, final int class_id , final int currentPosition) {
         /*
         * get Class Trainee information to attend him and give him score
         * */
@@ -206,7 +206,7 @@ public class CurrentClassesAdapter  extends ArrayAdapter<classesEntity>{
                 @Override
                 public void onResponse(JSONArray response) {
                     super.onResponse(response);
-                    insertTraineesInSql(response,class_id);
+                    insertTraineesInSql(response,class_id , currentPosition);
                 }
             }.execute(httpCall);
 
@@ -215,7 +215,7 @@ public class CurrentClassesAdapter  extends ArrayAdapter<classesEntity>{
         }
     }
 
-    private void insertTraineesInSql(JSONArray response, int class_id) {
+    private void insertTraineesInSql(JSONArray response, int class_id,int currentPosition) {
         /*
         * Cache Class Trainees Information
         * */
@@ -225,10 +225,10 @@ public class CurrentClassesAdapter  extends ArrayAdapter<classesEntity>{
                     Trainees_info info = new Trainees_info(response.getJSONObject(i),class_id);
                     myDB.addTrainee(info);
                 }
-                progressDialog.dismiss();
                 Intent intent = new Intent(context, ActivityCurrentClass_coach.class);
                 intent.putExtra(context.getString(R.string.Key_RunningClass),classesList.get(currentPosition));
                 context.startActivity(intent);
+                progressDialog.dismiss();
             } catch (JSONException e) {
                 e.printStackTrace();
             }

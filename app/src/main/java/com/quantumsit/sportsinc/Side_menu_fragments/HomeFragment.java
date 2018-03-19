@@ -14,6 +14,7 @@ import android.view.ViewGroup;
 import com.quantumsit.sportsinc.Aaa_data.GlobalVars;
 import com.quantumsit.sportsinc.Adapters.SectionsPagerAdapter;
 import com.quantumsit.sportsinc.COACHES.CoachClassesFragment;
+import com.quantumsit.sportsinc.COACHES.CurrentClassFragments.Coach_StartClassFragment;
 import com.quantumsit.sportsinc.Home_fragments.Courses2Fragment;
 import com.quantumsit.sportsinc.Home_fragments.CoursesFragment;
 import com.quantumsit.sportsinc.Home_fragments.EventFragment;
@@ -42,6 +43,9 @@ public class HomeFragment extends Fragment {
         TabLayout tabLayout = (TabLayout) root.findViewById(R.id.hometabs);
         tabLayout.setupWithViewPager(mViewPager);
 
+        int Tab = getActivity().getIntent().getIntExtra("Tab",0);
+        mViewPager.setCurrentItem(Tab);
+
         return root;
     }
 
@@ -49,7 +53,7 @@ public class HomeFragment extends Fragment {
         mSectionsPagerAdapter = new SectionsPagerAdapter(getChildFragmentManager());
         mSectionsPagerAdapter.addFragment(new MainFragment(),"Home");
         if (globalVars.getType() == 1)
-            mSectionsPagerAdapter.addFragment(new CoachClassesFragment(),"Classes");
+            mSectionsPagerAdapter.addFragment(new Coach_StartClassFragment(),"Sessions");
         else
             mSectionsPagerAdapter.addFragment(new CoursesFragment(),"Courses");
 

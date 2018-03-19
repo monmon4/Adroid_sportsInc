@@ -60,7 +60,7 @@ public class Coach_StartClassFragment extends Fragment {
             }
         });
         customListView = root.findViewById(R.id.customListView);
-        customListView.setmEmptyView(R.drawable.ic_assignment,R.string.no_Courses);
+        customListView.setmEmptyView(R.drawable.ic_assignment,R.string.no_sessions);
 
         customListView.setOnRetryClick(new myCustomListView.OnRetryClick() {
             @Override
@@ -79,15 +79,6 @@ public class Coach_StartClassFragment extends Fragment {
 
         adapter = new CurrentClassesAdapter(getContext(),R.layout.list_item_current_class,classesList , globalVars.getMyDB());
         listView.setAdapter(adapter);
-
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                Intent intent = new Intent(getContext(), CourseDetailsActivity.class);
-                intent.putExtra("myClass",classesList.get(i));
-                startActivity(intent);
-            }
-        });
 
         initializeClasses();
         return root;
@@ -135,7 +126,8 @@ public class Coach_StartClassFragment extends Fragment {
         if (response != null) {
             try {
                 for (int i = 0; i < response.length(); i++) {
-                    classesEntity info = new classesEntity(response.getJSONObject(i));
+                    classesEntity info = new classesEntity();
+                    info.initClass(response.getJSONObject(i));
                    classesList.add(info);
                 }
             } catch (JSONException e) {

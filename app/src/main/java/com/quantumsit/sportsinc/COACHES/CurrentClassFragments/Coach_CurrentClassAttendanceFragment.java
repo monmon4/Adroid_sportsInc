@@ -87,8 +87,8 @@ public class Coach_CurrentClassAttendanceFragment extends Fragment {
         for (item_checkbox item: list_items){
             handler.updateTrainee(item.getTrainee());
         }
-        progressDialog.dismiss();
         getActivity().onBackPressed();
+        progressDialog.dismiss();
 
     }
 

@@ -96,7 +96,7 @@ public class Coach_CurrentClassRulesFragment extends Fragment {
     private void updateRules() {
         DB_Sqlite_Handler handler = global.getMyDB();
         for (item_checkbox item: list_items){
-            handler.updateRule(item.getRule());
+         //   handler.updateRule(item.getRule());
         }
 
     }
@@ -106,7 +106,7 @@ public class Coach_CurrentClassRulesFragment extends Fragment {
         list_items.clear();
         for (Rule_info item : rules){
             Log.d(TAG,"RuleNum: "+"name");
-            list_items.add(new item_checkbox(item));
+           // list_items.add(new item_checkbox(item));
         }
         checkBoxListView_adapter.notifyDataSetChanged();
     }
