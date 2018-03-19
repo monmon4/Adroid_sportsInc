@@ -100,10 +100,7 @@ public class HomeActivity extends AppCompatActivity
             parent = true;
         }else if (type == 1) {
             coach = true;
-        }/* else if (type == 2) {
-            admin = true;
-        }*/
-
+        }
 
         if (non_register){
             setContentView(R.layout.activity_home_nonregister);
@@ -121,6 +118,15 @@ public class HomeActivity extends AppCompatActivity
 
         final ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        //////
+        toggle.setDrawerIndicatorEnabled(false);
+        toggle.setToolbarNavigationClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                drawer.openDrawer(GravityCompat.START);
+            }
+        });
+        toggle.setHomeAsUpIndicator(R.drawable.logo_white);
         drawer.addDrawerListener(toggle);
         toggle.syncState();
 
