@@ -99,10 +99,7 @@ public class HomeActivity extends AppCompatActivity
             parent = true;
         }else if (type == 1) {
             coach = true;
-        }/* else if (type == 2) {
-            admin = true;
-        }*/
-
+        }
 
         if (non_register){
             setContentView(R.layout.activity_home_nonregister);
