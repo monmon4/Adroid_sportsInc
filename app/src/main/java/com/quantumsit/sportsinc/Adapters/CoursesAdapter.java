@@ -1,6 +1,7 @@
 package com.quantumsit.sportsinc.Adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.util.Log;
@@ -8,12 +9,15 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.quantumsit.sportsinc.Aaa_data.Constants;
 import com.quantumsit.sportsinc.Entities.CourseEntity;
 import com.quantumsit.sportsinc.R;
+import com.quantumsit.sportsinc.RegisterationForm_fragments.BookingFirstFormActivity;
+import com.quantumsit.sportsinc.RegisterationForm_fragments.BookingForthFormActivity;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
@@ -57,6 +61,14 @@ public class CoursesAdapter extends ArrayAdapter<CourseEntity> {
         TextView SessionDur = view.findViewById(R.id.sessionDuration);
         TextView CourseName = view.findViewById(R.id.CourseName);
         ImageView icon = view.findViewById(R.id.Course_icon);
+        ImageButton booking = view.findViewById(R.id.imageButton_booking);
+
+        booking.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                context.startActivity(new Intent(context, BookingFirstFormActivity.class));
+            }
+        });
 
         String name = mycourse.getCourseName();
         String ImageUrl = mycourse.getImageUrl();

@@ -27,8 +27,7 @@ public class Functions {
         this.context = context;
     }
 
-    @SuppressLint("StaticFieldLeak")
-    public JSONArray searchDB(String table_name, JSONObject where_info) {
+    public HttpCall searchDB(String table_name, JSONObject where_info) {
 
         final JSONArray[] result = {new JSONArray()};
 
@@ -40,14 +39,39 @@ public class Functions {
         params.put("where",where_info.toString());
         httpCall.setParams(params);
 
-        new HttpRequest(){
-            @Override
-            public void onResponse(JSONArray response) {
-                super.onResponse(response);
-                result[0] = response;
-            }
-        }.execute(httpCall);
-        return result[0];
+        return httpCall;
+
+    }
+
+    public HttpCall updateDB(String table_name, JSONObject where_info, JSONObject values) {
+
+        final JSONArray[] result = {new JSONArray()};
+
+        HttpCall httpCall = new HttpCall();
+        httpCall.setMethodtype(HttpCall.POST);
+        httpCall.setUrl(Constants.updateData);
+        HashMap<String,String> params = new HashMap<>();
+        params.put("table",table_name);
+        params.put("where",where_info.toString());
+        params.put("values",values.toString());
+        httpCall.setParams(params);
+
+        return httpCall;
+
+    }
+
+    public HttpCall insertToDB(String table_name, JSONObject values) {
+
+        final JSONArray[] result = {new JSONArray()};
+
+        HttpCall httpCall = new HttpCall();
+        httpCall.setMethodtype(HttpCall.POST);
+        httpCall.setUrl(Constants.updateData);
+        HashMap<String,String> params = new HashMap<>();
+        params.put("table",table_name);
+        params.put("values",values.toString());
+        httpCall.setParams(params);
+        return httpCall;
 
     }
 
@@ -56,14 +80,20 @@ public class Functions {
         return new String(Character.toChars(unicode));
     }
 
-    public String getEmoji(String[] data) {
+    public String getEmoji(String notes) {
 
-        StringBuilder emoji = new StringBuilder();
+        String[] data = notes.split(" ");
+        StringBuilder full_notes = new StringBuilder();
+
         if (data[0].equals("Excellent") || data[0].equals("Good") || data[0].equals("Average") || data[0].equals("Bad")) {
-            emoji = new StringBuilder(data[0] + " " + getEmojiByUnicode(Integer.valueOf(data[1])));
+            full_notes.append(data[0] + " " + getEmojiByUnicode(Integer.valueOf(data[1]))) ;
             data[0] = data[1] = "";
         }
-        return emoji.toString();
+
+        for (int i=0; i<data.length; i++) {
+            full_notes.append(data[i]);
+        }
+        return full_notes.toString();
     }
 
 

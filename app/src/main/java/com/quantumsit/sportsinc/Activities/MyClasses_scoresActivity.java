@@ -5,7 +5,10 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
 
+import com.quantumsit.sportsinc.Backend.Functions;
 import com.quantumsit.sportsinc.R;
+
+import java.util.Arrays;
 
 public class MyClasses_scoresActivity extends AppCompatActivity {
 
@@ -14,6 +17,8 @@ public class MyClasses_scoresActivity extends AppCompatActivity {
 
     String course_name = "", class_date = "", group_name = "", coach_name = "", coach_notes = "";
     int attend = 0, score = 0, class_number = 0;
+
+    Functions functions;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,6 +31,8 @@ public class MyClasses_scoresActivity extends AppCompatActivity {
         getSupportActionBar().setTitle(R.string.session_score);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
+
+        functions = new Functions(getApplicationContext());
 
         course_name_textview = findViewById(R.id.courseNameTextView_my_classes_scores);
         date_textview = findViewById(R.id.dateTextView_my_classes_scores);
@@ -51,16 +58,9 @@ public class MyClasses_scoresActivity extends AppCompatActivity {
         String class_name = getResources().getString(R.string.session) +" " + String.valueOf(class_number);
         String score_text = getResources().getString(R.string.score) +": " + String.valueOf(score) + "out of" + String.valueOf(class_number);
 
-        String[] data = coach_notes.split(" ");
-        StringBuilder emoji = new StringBuilder();
-        if (data[0].equals("Excellent") || data[0].equals("Good") || data[0].equals("Average") || data[0].equals("Bad")) {
-            emoji = new StringBuilder(data[0] + " " + getEmojiByUnicode(Integer.valueOf(data[1])));
-            data[0] = data[1] = "";
-        }
+        String emoji = functions.getEmoji(coach_notes);
 
-        for(int i=0; i<data.length; i++) {
-            emoji.append(data[i]);
-        }
+
         course_name_textview.setText(course);
         date_textview.setText(class_date);
         group_number_textview.setText(group);
@@ -81,7 +81,4 @@ public class MyClasses_scoresActivity extends AppCompatActivity {
         return true;
     }
 
-    public String getEmojiByUnicode(int unicode){
-        return new String(Character.toChars(unicode));
-    }
 }

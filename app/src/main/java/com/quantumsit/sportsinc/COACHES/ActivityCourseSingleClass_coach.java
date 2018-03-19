@@ -6,6 +6,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.quantumsit.sportsinc.Aaa_data.Constants;
+import com.quantumsit.sportsinc.Backend.Functions;
 import com.quantumsit.sportsinc.Backend.HttpCall;
 import com.quantumsit.sportsinc.Backend.HttpRequest;
 import com.quantumsit.sportsinc.COACHES.ReportsFragments.item_finsihed_course_single;
@@ -19,6 +20,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 
 public class ActivityCourseSingleClass_coach extends AppCompatActivity {
@@ -39,6 +41,8 @@ public class ActivityCourseSingleClass_coach extends AppCompatActivity {
     CustomLoadingView loadingView;
     private int ID;
 
+    Functions functions;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -46,6 +50,7 @@ public class ActivityCourseSingleClass_coach extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         getSupportActionBar().setTitle("Session details");
+        functions = new Functions(getApplicationContext());
 
         loadingView = findViewById(R.id.LoadingView);
         loadingView.setOnRetryClick(new CustomLoadingView.OnRetryClick() {
@@ -108,7 +113,10 @@ public class ActivityCourseSingleClass_coach extends AppCompatActivity {
                 }
                 break;
         }
-        coach_note_textView.setText(class_note);
+
+        String emoji = functions.getEmoji(class_note);
+
+        coach_note_textView.setText(emoji);
         class_date_textView.setText(class_date);
         if (savedInstanceState == null)
             initilizeTraineeList(class_id);

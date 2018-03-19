@@ -210,37 +210,6 @@ public class RegisterActivity extends AppCompatActivity {
         return false;
     }
 
-    public boolean isValidPhone(String phone_num, String country)
-    {
-        boolean isValid = false;
-
-        String NumberStr = phone_num;                                       //number to validate
-        PhoneNumberUtil phoneUtil = PhoneNumberUtil.getInstance();
-        try {
-            Phonenumber.PhoneNumber NumberProto = phoneUtil.parse(NumberStr, country);            //with default country
-            isValid = phoneUtil.isValidNumber(NumberProto);                  //returns true
-            phone = phoneUtil.format(NumberProto, PhoneNumberUtil.PhoneNumberFormat.NATIONAL); //(202) 555-0100
-        }  catch (com.google.i18n.phonenumbers.NumberParseException e) {
-            e.printStackTrace();
-        }
-
-        return isValid;
-    }
-
-    public static boolean isValidMail(String mail)
-    {
-        String expression = "^[\\w!#$%&'*+/=?`{|}~^-]+(?:\\.[\\w!#$%&'*+/=?`{|}~^-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,6}$";
-        CharSequence inputString = mail;
-        Pattern pattern = Pattern.compile(expression);
-        Matcher matcher = pattern.matcher(inputString);
-        if (matcher.matches())
-        {
-            return true;
-        }
-        else{
-            return false;
-        }
-    }
 
     private boolean validateForm() {
 
@@ -253,11 +222,14 @@ public class RegisterActivity extends AppCompatActivity {
         if (TextUtils.isEmpty(phone)) {
             phone_edittext.setError("Required.");
             return false;
-        } else if (!isValidPhone(ccp.getFullNumber(), ccp.getSelectedCountryNameCode())){
+        } else if (functions.isValidPhone(ccp.getFullNumber(), ccp.getSelectedCountryNameCode()).equals("")){
             phone_edittext.setFocusable(true);
             phone_edittext.setError("Invalid phone number");
             return false;
+        } else {
+            phone = functions.isValidPhone(ccp.getFullNumber(), ccp.getSelectedCountryNameCode());
         }
+
         if (TextUtils.isEmpty(user_name)) {
             name_edittext.setError("Required.");
             return false;
@@ -265,7 +237,7 @@ public class RegisterActivity extends AppCompatActivity {
         if (TextUtils.isEmpty(mail)) {
             mail_edittext.setError("Required.");
             return false;
-        } else if (!isValidMail(mail)){
+        } else if (!functions.isValidMail(mail)){
             mail_edittext.setError("Invalid email");
             return false;
         }
@@ -297,11 +269,6 @@ public class RegisterActivity extends AppCompatActivity {
 
         progressDialog.show();
 
-        //gender = gender_spinner.getSelectedItem().toString();
-        //day_of_birth = day_edittext.getText().toString();
-        //month_of_birth = month_edittext.getText().toString();
-        //year_of_birth = year_edittext.getText().toString();
-
         if (!validateForm()) {
             if (photoChanged)
                 uploadImageToServer();
@@ -324,40 +291,21 @@ public class RegisterActivity extends AppCompatActivity {
             e.printStackTrace();
         }
 
-        JSONArray result = functions.searchDB("users", where_info);
-        if(result != null){
-            progressDialog.dismiss();
-            mail_edittext.setError("Email already exists");
-
-        } else {
-            insert_to_DB();
-            //verfication();
-        }
-
-        /*HttpCall httpCall = new HttpCall();
-        httpCall.setMethodtype(HttpCall.POST);
-        httpCall.setUrl(Constants.selectData);
-        HashMap<String,String> params = new HashMap<>();
-        params.put("table","users");
-        params.put("where",where_info.toString());
-        httpCall.setParams(params);
+        HttpCall httpCall = functions.searchDB("users", where_info);
 
         new HttpRequest(){
             @Override
             public void onResponse(JSONArray response) {
                 super.onResponse(response);
-
                 if(response != null){
                     progressDialog.dismiss();
                     mail_edittext.setError("Email already exists");
-
                 } else {
                     insert_to_DB();
                     //verfication();
                 }
-
             }
-        }.execute(httpCall);*/
+        }.execute(httpCall);
     }
 
     @SuppressLint("StaticFieldLeak")
@@ -371,13 +319,7 @@ public class RegisterActivity extends AppCompatActivity {
             e.printStackTrace();
         }
 
-        HttpCall httpCall = new HttpCall();
-        httpCall.setMethodtype(HttpCall.POST);
-        httpCall.setUrl(Constants.selectData);
-        HashMap<String,String> params = new HashMap<>();
-        params.put("table","users");
-        params.put("where",where_info.toString());
-        httpCall.setParams(params);
+        HttpCall httpCall = functions.searchDB("users", where_info);
 
         new HttpRequest(){
             @Override
@@ -476,24 +418,6 @@ public class RegisterActivity extends AppCompatActivity {
         progressDialog.setMessage(getResources().getString(R.string.log_in));
         progressDialog.show();
 
-        /*int current_year = Calendar.getInstance().get(Calendar.YEAR);
-        int day = Integer.valueOf(day_of_birth);
-        int month = Integer.valueOf(month_of_birth);
-        int year = Integer.valueOf(year_of_birth);
-        int age = current_year - year;
-
-        String date_of_birth = year + "-" + month + "-" + day;
-        Date date;
-        DateFormat outdateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH);
-        DateFormat DateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH);
-
-        try {
-            date = DateFormat.parse(date_of_birth);
-            date_of_birth = outdateFormat.format(date);
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }*/
-
        /* verfication_popup_window.dismiss();
         globalVars.setType(5);
         finish();*/
@@ -511,16 +435,7 @@ public class RegisterActivity extends AppCompatActivity {
             if (!user_token.equals(""))
                 info.put("token",user_token);
 
-            HttpCall httpCall = new HttpCall();
-            httpCall.setMethodtype(HttpCall.POST);
-            httpCall.setUrl(Constants.insertData);
-            HashMap<String,String> params = new HashMap<>();
-            params.put("table","users");
-            params.put("values",info.toString());
-
-            httpCall.setParams(params);
-
-            //final String finalDate_of_birth = date_of_birth;
+            HttpCall httpCall = functions.insertToDB("users", info);
             new HttpRequest(){
                 @Override
                 public void onResponse(JSONArray response) {
