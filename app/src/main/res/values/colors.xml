@@ -19,6 +19,7 @@
     <color name="colorLogoBlue">#001b51</color>
     <color name="colorLogoBlueTransparent">#bf002774</color>
     <color name="colorLogoRed">#df1b1c</color>
+
     <color name="colorRed">#b12025</color>
 
     <color name="colorRegisterGrayGender">#b7b7b7</color>
@@ -43,6 +44,11 @@
     <color name="colorCoursesText">#111E3F</color>
     <color name="colorDarkGray">#737373</color>
     <color name="colorDarkBlue">#0e019f</color>
+
+
+    <color name="colorCoursesDetails">#fafafa</color>
+
+
 
 
 </resources>

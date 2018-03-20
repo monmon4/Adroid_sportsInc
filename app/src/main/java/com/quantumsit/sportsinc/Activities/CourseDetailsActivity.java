@@ -34,11 +34,11 @@ public class CourseDetailsActivity extends AppCompatActivity {
         loadingView = findViewById(R.id.LoadingView);
         levelImage = findViewById(R.id.Course_icon);
         ClassesNum = findViewById(R.id.course_details_no_classes);
-        CoursePrice = findViewById(R.id.course_details_price);
+        //CoursePrice = findViewById(R.id.course_details_price);
         description = findViewById(R.id.course_details_description);
-        startDate = findViewById(R.id.course_details_start_date);
-        endDate = findViewById(R.id.course_details_end_date);
-        CourseLevel = findViewById(R.id.course_details_level);
+        //startDate = findViewById(R.id.course_details_start_date);
+        //endDate = findViewById(R.id.course_details_end_date);
+        //CourseLevel = findViewById(R.id.course_details_level);
 
         final CourseEntity myCourse = (CourseEntity) getIntent().getSerializableExtra("MyCourse");
 
