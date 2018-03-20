@@ -53,6 +53,7 @@ public class CalendarCustomView extends LinearLayout {
     private int PreviousPostion ;
     private MyItemClickListener EventsListener ;
     public int person_id;
+    public boolean parent;
 
     public CalendarCustomView(Context context) {
         super(context);
@@ -190,7 +191,7 @@ public class CalendarCustomView extends LinearLayout {
 
         if(classesList == null)
             classesList = new ArrayList<>();
-        ListViewAdapter adapter = new ListViewAdapter(getContext() ,person_id ,R.layout.classes_list_items,classesList);
+        ListViewAdapter adapter = new ListViewAdapter(getContext() ,person_id, parent ,R.layout.classes_list_items,classesList);
 
         calendarEvents.setAdapter(adapter);
         if (EventsListener != null)

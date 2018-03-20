@@ -23,6 +23,8 @@ public class RecyclerView_Adapter_reportpayment extends RecyclerView.Adapter<Rec
     private List<item_reports_payment> List_Item;
     private Context context;
 
+    public int person_id;
+    public boolean parent;
 
     public RecyclerView_Adapter_reportpayment(List<item_reports_payment> list_Item, Context context) {
         List_Item = list_Item;
@@ -45,8 +47,15 @@ public class RecyclerView_Adapter_reportpayment extends RecyclerView.Adapter<Rec
         holder.creation_date.setText(List_Item.get(position).creation_date);
         String payment = "$" + List_Item.get(position).payment;
         holder.payment.setText(payment);
-        String due_date_string = String.valueOf(R.string.due) +": " + List_Item.get(position).due_date;
+        String due_date_string = context.getResources().getString(R.string.due) +": " + List_Item.get(position).due_date;
         holder.due_date.setText(due_date_string);
+        holder.childName.setText(List_Item.get(position).trainee_name);
+        if (person_id == List_Item.get(position).trainee_id)
+            holder.childName.setText("me");
+        if (parent)
+            holder.childName.setVisibility(View.VISIBLE);
+        else
+            holder.childName.setVisibility(View.GONE);
 
         if (List_Item.get(position).status != 0){
             holder.payment_image_button.setBackgroundResource(R.drawable.ic_done_all);
@@ -62,7 +71,7 @@ public class RecyclerView_Adapter_reportpayment extends RecyclerView.Adapter<Rec
 
     protected class ViewHolder extends RecyclerView.ViewHolder{
         private CardView payment_card;
-        private TextView course_name, creation_date, payment, due_date;
+        private TextView course_name, creation_date, payment, due_date , childName;
         private ImageButton payment_image_button;
 
 
@@ -74,6 +83,7 @@ public class RecyclerView_Adapter_reportpayment extends RecyclerView.Adapter<Rec
             payment =  view.findViewById(R.id.totalpayTextView_paymentitem);
             due_date = view.findViewById(R.id.dueTextView_paymentitem);
             payment_image_button = view.findViewById(R.id.imageButton_paymentitem);
+            childName = view.findViewById(R.id.child_name);
 
         }
 

@@ -24,7 +24,7 @@ public class GlobalVars extends Application {
                           //GENDER 0 Male, 1 Female
     int person_id;
 
-    UserEntity myAccount;
+    public UserEntity myAccount;
 
     public GlobalVars() {
         mContext = this;

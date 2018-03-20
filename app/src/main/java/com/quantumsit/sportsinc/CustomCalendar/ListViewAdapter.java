@@ -22,6 +22,7 @@ import java.util.List;
  */
 
 public class ListViewAdapter extends RecyclerView.Adapter<ListViewAdapter.ViewHolder> {
+    private boolean parent;
     private LayoutInflater mInflater;
     Context context ;
     List<classesEntity> myclasses;
@@ -37,6 +38,14 @@ public class ListViewAdapter extends RecyclerView.Adapter<ListViewAdapter.ViewHo
     public ListViewAdapter(@NonNull Context context, int person_id ,int resource, List<classesEntity> classeslist) {
         this.context = context;
         this.person_id = person_id;
+        this.myclasses = classeslist;
+        mInflater = LayoutInflater.from(context);
+    }
+
+    public ListViewAdapter(@NonNull Context context, int person_id ,boolean parent ,int resource, List<classesEntity> classeslist) {
+        this.context = context;
+        this.person_id = person_id;
+        this.parent = parent;
         this.myclasses = classeslist;
         mInflater = LayoutInflater.from(context);
     }
@@ -67,13 +76,17 @@ public class ListViewAdapter extends RecyclerView.Adapter<ListViewAdapter.ViewHo
 
         viewHolder.status.setText(classStatus);
         Log.d("ListItemsChild" ,myclass.getPerson_id() +", "+person_id );
-        if (myclass.getPerson_id() != person_id) {
+        if (parent)
             viewHolder.childName.setVisibility(View.VISIBLE);
+        else
+            viewHolder.childName.setVisibility(View.GONE);
+        if (myclass.getPerson_id() != person_id) {
             viewHolder.childName.setText(myclass.getPerson_name());
         }
         else
-            viewHolder.childName.setVisibility(View.GONE);
+            viewHolder.childName.setText("Me");
         viewHolder.Title.setText(myclass.getCourseName()+" "+myclass.getClassName());
+        viewHolder.StartTime.setText(myclass.getStartTime());
         viewHolder.Time.setText(myclass.getStartTime()+" to "+myclass.getEndTime());
     }
     public classesEntity getItem(int position) {
@@ -95,13 +108,14 @@ public class ListViewAdapter extends RecyclerView.Adapter<ListViewAdapter.ViewHo
      * View holder to display each RecylerView item
      */
     protected class ViewHolder extends RecyclerView.ViewHolder  implements View.OnClickListener {
-        private TextView Title ,Time ,status , childName;
+        private TextView Title ,StartTime ,Time ,status , childName;
 
         public ViewHolder(View view) {
             super(view);
             Title = view.findViewById(R.id.class_name);
             childName = view.findViewById(R.id.child_name);
             Time = view.findViewById(R.id.class_start_end);
+            StartTime = view.findViewById(R.id.class_start_time);
             status = view.findViewById(R.id.class_status);
             view.setTag(view);
             view.setOnClickListener(this);

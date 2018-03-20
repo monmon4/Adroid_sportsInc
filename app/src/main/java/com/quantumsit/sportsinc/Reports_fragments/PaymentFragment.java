@@ -2,6 +2,7 @@ package com.quantumsit.sportsinc.Reports_fragments;
 
 
 import android.annotation.SuppressLint;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
@@ -64,6 +65,8 @@ public class PaymentFragment extends Fragment {
         currentStart = 0;
 
         mSwipeRefreshLayout = root.findViewById(R.id.swipeRefresh);
+        mSwipeRefreshLayout.setProgressBackgroundColorSchemeColor(Color.parseColor("#df1b1c"));
+        mSwipeRefreshLayout.setColorSchemeColors(Color.parseColor("#FFFFFF"));
         mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
@@ -155,22 +158,28 @@ public class PaymentFragment extends Fragment {
             return;
         }
         JSONObject where_info = new JSONObject();
-        String on_condition;
+        JSONObject or_where_info = new JSONObject();
+        String on1_condition , on2_condition;
         try {
-            where_info.put("payment.trainee_id",globalVars.getId());
-            on_condition = "payment.course_id = courses.id";
+            where_info.put("trainee_id",globalVars.getId());
+            or_where_info.put("parent_id",globalVars.getId());
+            on1_condition = "payment.course_id = courses.id";
+            on2_condition = "payment.trainee_id = users.id";
             HttpCall httpCall = new HttpCall();
             httpCall.setMethodtype(HttpCall.POST);
-            httpCall.setUrl(Constants.joinData);
+            httpCall.setUrl(Constants.joinDoubleData);
             HashMap<String,String> params = new HashMap<>();
-            params.put("table1","payment");
-            params.put("table2","courses");
+            params.put("tablefrom","payment");
+            params.put("table1","courses");
+            params.put("table2","users");
             JSONObject limit_info = new JSONObject();
             limit_info.put("start", currentStart);
             limit_info.put("limit", limitValue);
             params.put("limit",limit_info.toString());
             params.put("where",where_info.toString());
-            params.put("on",on_condition);
+            params.put("or_where",or_where_info.toString());
+            params.put("on1",on1_condition);
+            params.put("on2",on2_condition);
 
             httpCall.setParams(params);
 
@@ -213,8 +222,9 @@ public class PaymentFragment extends Fragment {
                     creation_date = outdateFormat.format(date_creation);
                     int amount = result.getInt("due_amount");
                     int status = result.getInt("status");
-
-                    list_item.add(new item_reports_payment(course_name, creation_date, amount, due_date, status));
+                    int trainee_id = result.getInt("trainee_id");
+                    String trainee_name = result.getString("trainee_name");
+                    list_item.add(new item_reports_payment(trainee_id , trainee_name ,course_name, creation_date, amount, due_date, status));
                 }
             }
         } catch (JSONException e) {
@@ -224,6 +234,12 @@ public class PaymentFragment extends Fragment {
         }
         customRecyclerView.notifyChange(list_item.size());
         customRecyclerView.finishLoading();
+        if (globalVars.myAccount != null)
+            recyclerView_adapter_reportpayment.parent = true;
+        else
+            recyclerView_adapter_reportpayment.parent = false;
+
+        recyclerView_adapter_reportpayment.person_id = globalVars.getId();
         recyclerView_adapter_reportpayment.notifyDataSetChanged();
         listener.setLoading(false);
     }
