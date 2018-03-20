@@ -532,6 +532,7 @@ public class HomeActivity extends AppCompatActivity
 
     private void fillChildList(JSONArray response) {
         children.clear();
+        Log.d("ChildList",String.valueOf(response));
         if (response != null){
             try {
                 for (int i = 0; i < response.length(); i++) {

@@ -11,4 +11,5 @@
     <dimen name="top_margin">10dp</dimen>
     <dimen name="ten_dimens">10dp</dimen>
     <dimen name="twinty_dimens">20dp</dimen>
+    <dimen name="padding_3">3dp</dimen>
 </resources>

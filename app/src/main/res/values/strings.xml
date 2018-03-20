@@ -371,7 +371,7 @@
     <string name="where_user_id">user_id</string>
     <string name="Key_Home_Side">HomePosition</string>
     <string name="Key_Notify_Item">MyNotification</string>
-    <string name="intersented">Interested</string>
+    <string name="intersented">interested</string>
     <string name="CalendarEventTitle">Sports Inc. Event</string>
     <string name="GLogIn">Google Account LogIn</string>
     <string name="requiredField">Enter your e-mail address first...</string>
@@ -441,6 +441,10 @@
     <string name="classesNum">Number of sessions:</string>
     <string name="class_end">end</string>
     <string name="my_groups">My Classes</string>
+    <string name="descriptionLable">Description:</string>
+    <string name="courses">Courses</string>
+    <string name="booked">Booked</string>
+    <string name="account">My Account</string>
     <string name="pool_">Pool:</string>
     <string name="coach_s_notes_">Coach\'s notes:</string>
 </resources>
