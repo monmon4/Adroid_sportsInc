@@ -14,6 +14,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
+import android.widget.Spinner;
 
 import com.quantumsit.sportsinc.Entities.item_checkbox;
 import com.quantumsit.sportsinc.R;
@@ -122,6 +123,12 @@ public class CheckBoxListView_Adapter extends ArrayAdapter<item_checkbox> {
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(LAYOUT_INFLATER_SERVICE);
         View customView = inflater.inflate(R.layout.window_write_note_attendance_layout,null);
 
+        //final MaterialBetterSpinner note_spinner = customView.findViewById(R.id.noteSpinner_notewindowattendance);
+
+        //ArrayAdapter<CharSequence> note_spinner_adapter = ArrayAdapter.createFromResource(context, R.array.attendance_notes_array, android.R.layout.simple_dropdown_item_1line);
+        //note_spinner_adapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
+        //note_spinner.setAdapter(note_spinner_adapter);
+
         note_popup_window = new PopupWindow(
                 customView,
                 ViewGroup.LayoutParams.WRAP_CONTENT,
@@ -132,11 +139,7 @@ public class CheckBoxListView_Adapter extends ArrayAdapter<item_checkbox> {
             note_popup_window.setElevation(5.0f);
         }
 
-        final MaterialBetterSpinner note_spinner = customView.findViewById(R.id.noteSpinner_notewindowattendance);
 
-        ArrayAdapter<CharSequence> note_spinner_adapter = ArrayAdapter.createFromResource(context, R.array.attendance_notes_array, android.R.layout.simple_dropdown_item_1line);
-        note_spinner_adapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
-        note_spinner.setAdapter(note_spinner_adapter);
 
         final EditText note_edit_text = customView.findViewById(R.id.noteEditText_notewindowattendance);
         Button done_button = customView.findViewById(R.id.doneButton_notewindow);
@@ -147,9 +150,9 @@ public class CheckBoxListView_Adapter extends ArrayAdapter<item_checkbox> {
             @Override
             public void onClick(View view){
                 String note = note_edit_text.getText().toString();
-                if(!note_spinner.getText().toString().equals("")) {
-                    note += "\n Extra note, your attendance was " + note_spinner.getText().toString();
-                }
+                //if(!note_spinner.getText().toString().equals("")) {
+                    //note += "\n Extra note, your attendance was " + note_spinner.getText().toString();
+                //}
 
                 //show_toast("Success" + verifcation);
                 item_checkbox.setNote(note);

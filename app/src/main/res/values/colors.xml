@@ -4,7 +4,7 @@
     <color name="colorPrimaryDark">#c70001</color>
     <color name="colorAccent">#b12025</color>
 
-    <color name="colorTextDark">#2393af</color>
+    <color name="colorTextDark">#001b51</color>
     <color name="colorText">#002a35</color>
     <color name="colorTextLight">#ffffff</color>
 
@@ -32,7 +32,7 @@
 
     <color name="colorMaroon">#650000</color>
 
-    <color name="colorScores">#026f94</color>
+    <color name="colorScores">#001b51</color>
     <color name="colorWaiting">#f98a03</color>
 
 

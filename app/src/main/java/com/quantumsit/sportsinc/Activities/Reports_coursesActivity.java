@@ -178,7 +178,7 @@ public class Reports_coursesActivity extends AppCompatActivity {
                                 String coach_note = result.getString("coach_note");
                                 int attend = result.getInt("attend");
                                 int score = result.getInt("score");
-                                String class_name = "Class" + String.valueOf(class_number) + ", " + class_date;
+                                String class_name = "Session" + String.valueOf(class_number) + ", " + class_date;
                                 item1_list.add(class_name);
                                 item2_hashmap.put(class_name, new item1_reports_courses("", attend, score, coach_note));
 
