@@ -16,6 +16,7 @@ import java.util.Locale;
 public class EventEntity implements Serializable {
     String title,time,description, imgUrl , eventUrl;
     Date date;
+    int event_id;
 
     EventEntity(){}
 
@@ -28,6 +29,7 @@ public class EventEntity implements Serializable {
 
     public EventEntity(JSONObject object){
         try {
+            this.event_id = object.getInt("id");
             this.imgUrl = object.getString("ImageUrl");
             this.eventUrl = object.getString("eventUrl");
             this.title = object.getString("Title");
@@ -42,6 +44,10 @@ public class EventEntity implements Serializable {
         } catch (ParseException e) {
             e.printStackTrace();
         }
+    }
+
+    public int getEvent_id() {
+        return event_id;
     }
 
     public String getTitle() {

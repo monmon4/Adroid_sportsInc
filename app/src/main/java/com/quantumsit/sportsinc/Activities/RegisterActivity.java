@@ -391,6 +391,7 @@ public class RegisterActivity extends AppCompatActivity {
             info.put("phone",phone);
             info.put("email",mail);
             info.put("pass",pass);
+            info.put("ImageUrl",globalVars.getImgUrl());
             info.put("type",5);
             if (!user_token.equals(""))
                 info.put("token",user_token);

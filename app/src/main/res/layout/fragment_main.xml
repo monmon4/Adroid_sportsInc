@@ -125,7 +125,7 @@
                                 <View
                                     android:layout_width="@dimen/ten_dimens"
                                     android:layout_height="match_parent"
-                                    android:background="@color/colorHomeGray"
+                                    android:background="@color/colorLogoBlue"
                                     />
                                 <TextView
                                     android:id="@+id/news_description"
@@ -237,7 +237,7 @@
                                 <View
                                     android:layout_width="@dimen/ten_dimens"
                                     android:layout_height="match_parent"
-                                    android:background="@color/colorHomeGray"
+                                    android:background="@color/colorLogoBlue"
                                     />
                                 <ImageView
                                     android:id="@+id/event_image"

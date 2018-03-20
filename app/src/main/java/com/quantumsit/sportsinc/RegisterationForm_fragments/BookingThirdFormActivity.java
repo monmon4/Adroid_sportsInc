@@ -182,4 +182,10 @@ public class BookingThirdFormActivity extends AppCompatActivity {
             return false;
         }
     }
+
+    @Override
+    public boolean onSupportNavigateUp() {
+        onBackPressed();
+        return true;
+    }
 }

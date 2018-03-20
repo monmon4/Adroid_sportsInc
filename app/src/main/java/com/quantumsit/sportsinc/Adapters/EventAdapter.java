@@ -55,25 +55,17 @@ public class EventAdapter  extends ArrayAdapter<EventEntity> {
         EventEntity eventEntity = getItem(position);
 
         TextView Title = view.findViewById(R.id.eventTitle);
-        TextView Month = view.findViewById(R.id.eventMonth);
-        TextView Day = view.findViewById(R.id.eventDay);
-        //TextView time = view.findViewById(R.id.eventTime);
-        //TextView date = view.findViewById(R.id.eventDate);
-       // TextView content = view.findViewById(R.id.eventContent);
-
-
+        TextView date = view.findViewById(R.id.eventDate);
         final ProgressBar progressBar = view.findViewById(R.id.progressBar1);
         ImageView eventImage = view.findViewById(R.id.eventsImage);
+        /*TextView Month = view.findViewById(R.id.eventMonth);
+        TextView Day = view.findViewById(R.id.eventDay);
+        TextView time = view.findViewById(R.id.eventTime);
+        TextView content = view.findViewById(R.id.eventContent);*/
 
         Date mDate = eventEntity.getDate();
-        SimpleDateFormat df = new SimpleDateFormat("E MMM dd yyyy", Locale.ENGLISH);
+        SimpleDateFormat df = new SimpleDateFormat("dd MMM yyyy, HH:mm ");
         String formattedDate = df.format(mDate);
-        String[] data = formattedDate.split(" ");
-
-        Month.setText(data[1]);
-        Day.setText(data[2]);
-
-        Title.setText(eventEntity.getTitle());
         String ImageUrl = eventEntity.getImgUrl();
 
         if(!ImageUrl.equals("")) {
@@ -91,9 +83,14 @@ public class EventAdapter  extends ArrayAdapter<EventEntity> {
         }else {
             progressBar.setVisibility(View.GONE);
         }
+        /*String[] data = formattedDate.split(" ");
 
-       /* time.setText(eventEntity.getTime());
+        Month.setText(data[1]);
+        Day.setText(data[2]);*/
+
+        Title.setText(eventEntity.getTitle());
         date.setText(formattedDate);
+       /* time.setText(eventEntity.getTime());
         content.setText(eventEntity.getDescription());*/
         return  view;
     }

@@ -3,9 +3,13 @@ package com.quantumsit.sportsinc.Activities;
 import android.Manifest;
 import android.content.ContentResolver;
 import android.content.ContentValues;
+import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.net.Uri;
+import android.os.Handler;
 import android.provider.CalendarContract;
+import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -18,24 +22,40 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.quantumsit.sportsinc.Aaa_data.Constants;
+import com.quantumsit.sportsinc.Aaa_data.GlobalVars;
+import com.quantumsit.sportsinc.Backend.HttpCall;
+import com.quantumsit.sportsinc.Backend.HttpRequest;
+import com.quantumsit.sportsinc.CustomView.CustomLoadingView;
 import com.quantumsit.sportsinc.Entities.EventEntity;
 import com.quantumsit.sportsinc.R;
 import com.squareup.picasso.Picasso;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Locale;
 import java.util.TimeZone;
 
 public class EventsDetailsActivity extends AppCompatActivity {
 
-    TextView  date, time, description;
+    GlobalVars globalVars;
+
+    TextView  date, time, description , event_link;
 
     LinearLayout addToCalendar;
+    TextView interestedLabel;
+    ImageView interestedView;
     private EventEntity eventEntity;
+    CustomLoadingView loadingView;
     private ImageView eventImage;
     private ProgressBar progressBar;
+    int loadingTime = 1200;
+    private int CALENDAR_PERMISSION_CODE = 130;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,12 +65,18 @@ public class EventsDetailsActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
+        globalVars = (GlobalVars) getApplication();
+
+        loadingView = findViewById(R.id.LoadingView);
         time = findViewById(R.id.eventDetailTime);
         date = findViewById(R.id.event_date);
         description = findViewById(R.id.event_description);
+        event_link =findViewById(R.id.event_link);
         addToCalendar = findViewById(R.id.event_interested);
+        interestedView =findViewById(R.id.interestedView);
+        interestedLabel = findViewById(R.id.interestedLabel);
         eventImage = findViewById(R.id.event_Image);
-        progressBar = findViewById(R.id.progress_bar);
+        progressBar = findViewById(R.id.progress_bar2);
 
         addToCalendar.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -59,10 +85,28 @@ public class EventsDetailsActivity extends AppCompatActivity {
             }
         });
 
+        event_link.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(eventEntity.getEventUrl()));
+                startActivity(browserIntent);
+            }
+        });
+
         eventEntity = (EventEntity) getIntent().getSerializableExtra("MyEvent");
-        if (eventEntity != null) {
-            fillView(eventEntity);
-        }
+
+        if (savedInstanceState != null)
+            loadingTime = 0;
+
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                if (eventEntity!=null){
+                    checkInteresting();
+                }
+                else
+                    loadingView.fails(); }
+        }, loadingTime);
 
     }
 
@@ -108,12 +152,95 @@ public class EventsDetailsActivity extends AppCompatActivity {
             //                                          int[] grantResults)
             // to handle the case where the user grants the permission. See the documentation
             // for ActivityCompat#requestPermissions for more details.
-            Toast.makeText(getApplicationContext(),"Not Granted",Toast.LENGTH_LONG).show();
+
+            //And finally ask for the permission
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_CALENDAR}, CALENDAR_PERMISSION_CODE);
+            //Toast.makeText(getApplicationContext(),"Not Granted",Toast.LENGTH_LONG).show();
             return;
         }
         Uri uri = cr.insert(CalendarContract.Events.CONTENT_URI, values);
+        changeInterestedView();
+        insertInterestedToDB();
         Toast.makeText(getApplicationContext(),"Added to Calendar",Toast.LENGTH_LONG).show();
     }
+
+    //This method will be called when the user will tap on allow or deny
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+
+        //Checking the request code of our request
+        if (requestCode == CALENDAR_PERMISSION_CODE) {
+
+            //If permission is granted
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                //Displaying a toast
+                addEventToCalendar();
+            } else {
+                //Displaying another toast if permission is not granted
+                Toast.makeText(this, "Can't access Storage...", Toast.LENGTH_LONG).show();
+            }
+        }
+    }
+
+    private void insertInterestedToDB() {
+        JSONObject values = new JSONObject();
+        try {
+            values.put("person_id",globalVars.getId());
+            values.put("event_id",eventEntity.getEvent_id());
+
+            HttpCall httpCall = new HttpCall();
+            httpCall.setMethodtype(HttpCall.POST);
+            httpCall.setUrl(Constants.insertData);
+            HashMap<String,String> params = new HashMap<>();
+            params.put("table","event_interest");
+            params.put("values",values.toString());
+            httpCall.setParams(params);
+            new HttpRequest(){
+                @Override
+                public void onResponse(JSONArray response) {
+                    super.onResponse(response);
+                }
+            }.execute(httpCall);
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void checkInteresting() {
+        JSONObject where = new JSONObject();
+        try {
+            where.put("person_id",globalVars.getId());
+            where.put("event_id",eventEntity.getEvent_id());
+
+            HttpCall httpCall = new HttpCall();
+            httpCall.setMethodtype(HttpCall.POST);
+            httpCall.setUrl(Constants.selectData);
+            HashMap<String,String> params = new HashMap<>();
+            params.put("table","event_interest");
+            params.put("where",where.toString());
+            httpCall.setParams(params);
+            new HttpRequest(){
+                @Override
+                public void onResponse(JSONArray response) {
+                    super.onResponse(response);
+                    if (response != null)
+                        changeInterestedView();
+                    fillView(eventEntity);
+                }
+            }.execute(httpCall);
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void changeInterestedView() {
+        addToCalendar.setBackgroundColor(Color.parseColor("#001b51"));
+        interestedLabel.setTextColor(Color.parseColor("#FFFFFF"));
+        interestedView.setImageResource(R.drawable.ic_star);
+    }
+
 
     private void fillView(EventEntity eventEntity) {
         SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy", Locale.ENGLISH);
@@ -121,6 +248,10 @@ public class EventsDetailsActivity extends AppCompatActivity {
         getSupportActionBar().setTitle(eventEntity.getTitle());
         time.setText(eventEntity.getTime());
         date.setText(formattedDate);
+        if (eventEntity.getEventUrl() == null || eventEntity.getEventUrl().equals("") )
+            event_link.setVisibility(View.GONE);
+        else
+            event_link.setText(eventEntity.getEventUrl());
         description.setText(eventEntity.getDescription());
         String ImageUrl = eventEntity.getImgUrl();
 
@@ -133,12 +264,13 @@ public class EventsDetailsActivity extends AppCompatActivity {
 
                 @Override
                 public void onError() {
-
+                    progressBar.setVisibility(View.GONE);
                 }
             });
         }else {
             progressBar.setVisibility(View.GONE);
         }
+        loadingView.success();
     }
     @Override
     public boolean onSupportNavigateUp() {

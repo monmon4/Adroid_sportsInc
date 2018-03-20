@@ -8,7 +8,16 @@
     android:fitsSystemWindows="true"
     android:orientation="vertical"
     tools:context=".Activities.EventsDetailsActivity">
+    <com.quantumsit.sportsinc.CustomView.CustomLoadingView
+        android:id="@+id/LoadingView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+    </com.quantumsit.sportsinc.CustomView.CustomLoadingView>
+
+
     <android.support.v4.widget.NestedScrollView
+        android:layout_below="@+id/LoadingView"
         android:layout_above="@+id/belowlayout_navigation"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -33,12 +42,11 @@
                         android:layout_height="wrap_content">
                         <ImageView
                             android:id="@+id/event_Image"
-                            android:background="@color/colorLogoBlue"
                             android:scaleType="centerCrop"
                             android:layout_width="match_parent"
                             android:layout_height="150dp" />
                         <ProgressBar
-                            android:id="@+id/progress_bar"
+                            android:id="@+id/progress_bar2"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_centerInParent="true"/>
@@ -63,25 +71,26 @@
                             android:layout_height="wrap_content"
                             android:orientation="horizontal"
                             android:background="@drawable/border"
-                            android:backgroundTint="@color/colorLogoBlue"
                             android:layout_alignParentEnd="true">
                             <TextView
+                                android:id="@+id/interestedLabel"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginStart="@dimen/padding_5"
                                 android:padding="@dimen/padding_3"
-                                android:textColor="@color/colorWhite"
+                                android:textColor="@color/colorLogoBlue"
                                 android:text="@string/intersented"/>
                             <View
                                 android:layout_width="0.5dp"
                                 android:layout_height="match_parent"
                                 android:background="#0e019f"/>
                             <ImageView
+                                android:id="@+id/interestedView"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:padding="@dimen/padding_3"
                                 android:layout_gravity="center_vertical"
-                                android:src="@drawable/ic_star"/>
+                                android:src="@drawable/ic_star_border"/>
                         </LinearLayout>
                     </RelativeLayout>
                     <View
@@ -164,6 +173,7 @@
 
     <LinearLayout
         android:id="@+id/belowlayout_navigation"
+        android:visibility="gone"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingStart="@dimen/ten_dimens"
