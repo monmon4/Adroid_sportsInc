@@ -447,6 +447,7 @@
     <string name="account">My Account</string>
     <string name="pool_">Pool:</string>
     <string name="coach_s_notes_">Coach\'s notes:</string>
+    <string name="contentLable">Content:</string>
     <string name="year">Year</string>
     <string name="duration_of_session">Duration of session:</string>
     <string name="book">Book</string>

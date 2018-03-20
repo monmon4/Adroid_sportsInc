@@ -1,6 +1,7 @@
 package com.quantumsit.sportsinc.Reports_fragments;
 
 import android.annotation.SuppressLint;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
@@ -55,6 +56,8 @@ public class CorsesFragment extends Fragment {
         currentStart = 0;
 
         mSwipeRefreshLayout = root.findViewById(R.id.swipeRefresh);
+        mSwipeRefreshLayout.setProgressBackgroundColorSchemeColor(Color.parseColor("#df1b1c"));
+        mSwipeRefreshLayout.setColorSchemeColors(Color.parseColor("#FFFFFF"));
         mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
@@ -136,8 +139,10 @@ public class CorsesFragment extends Fragment {
         }
 
         JSONObject where_info = new JSONObject();
+        JSONObject or_where_info = new JSONObject();
         try {
             where_info.put("trainee_id",globalVars.getId());
+            or_where_info.put("parent_id",globalVars.getId());
 
             HttpCall httpCall = new HttpCall();
             httpCall.setMethodtype(HttpCall.POST);
@@ -148,6 +153,7 @@ public class CorsesFragment extends Fragment {
             limit_info.put("limit", limitValue);
 
             params.put("where", where_info.toString());
+            params.put("or_where", or_where_info.toString());
             params.put("limit",limit_info.toString());
 
             httpCall.setParams(params);
@@ -181,7 +187,9 @@ public class CorsesFragment extends Fragment {
                     int attend_num = result.getInt("attend_num");
                     double attendance = ((double) attend_num/(double) classes_num) *100.0;
                     int total_score = result.getInt("total_score");
-                    list_item.add(new item_single_reports_courses(course_name, group_name, course_id, group_id, attendance, total_score));
+                    int trainee_id = result.getInt("trainee_id");
+                    String trainee_name = result.getString("trainee_name");
+                    list_item.add(new item_single_reports_courses(trainee_id ,trainee_name ,course_name, group_name, course_id, group_id, attendance, total_score));
                 }
             }
         } catch (JSONException e) {
@@ -189,6 +197,11 @@ public class CorsesFragment extends Fragment {
         }
         customRecyclerView.notifyChange(list_item.size());
         customRecyclerView.finishLoading();
+        recycler_view_adapter.person_id = globalVars.getId();
+        if (globalVars.myAccount == null)
+            recycler_view_adapter.parent = false;
+        else
+            recycler_view_adapter.parent = true;
         recycler_view_adapter.notifyDataSetChanged();
         listener.setLoading(false);
     }

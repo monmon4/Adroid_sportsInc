@@ -80,11 +80,11 @@ public class GridViewAdapter extends RecyclerView.Adapter<GridViewAdapter.ViewHo
             viewHolder.cellNumber.setTextColor(Color.parseColor("#cccccc"));
         }
         if (TodayDate.equals(formattedDate))
-            viewHolder.cellNumber.setTextColor(Color.parseColor("#932121"));
+            viewHolder.cellNumber.setTextColor(Color.parseColor("#df1b1c"));
 
         if(AllEvents.get(formattedDate) != null) {
             //view.setBackgroundColor(Color.parseColor("#e0c5e7"));
-            viewHolder.eventIndicator.setBackgroundColor(Color.parseColor("#650000"));
+            viewHolder.eventIndicator.setBackgroundColor(Color.parseColor("#001b51"));
         }
 
         if(formattedDate.equals(SelectedDate)) {

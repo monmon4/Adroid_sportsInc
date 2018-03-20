@@ -180,6 +180,10 @@ public class CalendarFragment extends Fragment {
                     classesList.add(entity);
                 }
                 calendarView.person_id = globalVars.getId();
+                Boolean parent = false;
+                if (globalVars.myAccount != null)
+                    parent = true;
+                calendarView.parent = parent;
                 fileEventsMap();
             } catch (JSONException e) {
                 e.printStackTrace();

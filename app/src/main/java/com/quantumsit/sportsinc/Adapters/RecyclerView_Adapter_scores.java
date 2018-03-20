@@ -25,6 +25,7 @@ public class RecyclerView_Adapter_scores extends RecyclerView.Adapter<RecyclerVi
     private List<item_single_scores> List_Item;
     private Context context;
     public int person_id;
+    public boolean parent;
     //ClientGlobal clientGlobal;
 
 
@@ -56,8 +57,13 @@ public class RecyclerView_Adapter_scores extends RecyclerView.Adapter<RecyclerVi
         String score_string = context.getResources().getString(R.string.score) + ": " + String.valueOf(List_Item.get(position).getScore()) + "out of" + String.valueOf(List_Item.get(position).getClass_number());
         holder.score.setText(score_string);
 
+        if (!parent)
+            holder.childName.setVisibility(View.GONE);
+        else
+            holder.childName.setVisibility(View.VISIBLE);
+
         if (List_Item.get(position).getPerson_id() == person_id)
-            holder.childName.setText("");
+            holder.childName.setText("me");
         else
             holder.childName.setText(List_Item.get(position).getPersonName());
 

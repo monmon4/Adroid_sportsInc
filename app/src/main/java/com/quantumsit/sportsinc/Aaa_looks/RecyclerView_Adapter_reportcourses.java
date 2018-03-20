@@ -23,6 +23,8 @@ public class RecyclerView_Adapter_reportcourses extends RecyclerView.Adapter<Rec
 
     private List<item_single_reports_courses> List_Item;
     private Context context;
+    public int person_id;
+    public boolean parent;
     //ClientGlobal clientGlobal;
 
 
@@ -48,7 +50,14 @@ public class RecyclerView_Adapter_reportcourses extends RecyclerView.Adapter<Rec
         holder.attendance.setText(attendance_string);
         String score_string = context.getResources().getString(R.string.score)+": " + String.valueOf(List_Item.get(position).score);
         holder.score.setText(score_string);
+        holder.childName.setText(List_Item.get(position).trainee_name);
+        if (List_Item.get(position).trainee_id == person_id)
+            holder.childName.setText("me");
 
+        if (!parent)
+            holder.childName.setVisibility(View.GONE);
+        else
+            holder.childName.setVisibility(View.VISIBLE);
         holder.course_card.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -70,7 +79,7 @@ public class RecyclerView_Adapter_reportcourses extends RecyclerView.Adapter<Rec
 
     protected class ViewHolder extends RecyclerView.ViewHolder{
         private CardView course_card;
-        private TextView course_name, attendance, score;
+        private TextView course_name, attendance, score , childName;
 
 
         public ViewHolder(View view) {
@@ -79,7 +88,7 @@ public class RecyclerView_Adapter_reportcourses extends RecyclerView.Adapter<Rec
             course_name =  view.findViewById(R.id.courseNameTextView_reportscourses);
             attendance =  view.findViewById(R.id.attendanceTextView_reportscourses);
             score =  view.findViewById(R.id.scoreTextView_reportscourses);
-
+            childName = view.findViewById(R.id.child_name);
         }
 
     }

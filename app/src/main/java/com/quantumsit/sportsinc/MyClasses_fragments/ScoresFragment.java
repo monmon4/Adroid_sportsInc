@@ -1,6 +1,7 @@
 package com.quantumsit.sportsinc.MyClasses_fragments;
 
 import android.annotation.SuppressLint;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
@@ -67,6 +68,8 @@ public class ScoresFragment extends Fragment {
         *
         * */
         mSwipeRefreshLayout = root.findViewById(R.id.swipeRefresh);
+        mSwipeRefreshLayout.setProgressBackgroundColorSchemeColor(Color.parseColor("#df1b1c"));
+        mSwipeRefreshLayout.setColorSchemeColors(Color.parseColor("#FFFFFF"));
         mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
@@ -240,6 +243,10 @@ public class ScoresFragment extends Fragment {
             e.printStackTrace();
         }
         recycler_view_adapter.person_id  = globalVars.getId();
+        if (globalVars.myAccount != null)
+            recycler_view_adapter.parent = true;
+        else
+            recycler_view_adapter.parent = false;
         customRecyclerView.notifyChange(list_item.size());
         customRecyclerView.finishLoading();
         recycler_view_adapter.notifyDataSetChanged();

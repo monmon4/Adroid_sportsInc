@@ -102,6 +102,8 @@ public class NotificationsFragment extends Fragment {
                 Intent intent = new Intent(getContext(), NotificationDetailsActivity.class);
                 intent.putExtra(getString(R.string.Key_Notify_Item),notificationList.get(i));
                 startActivityForResult(intent, 1);
+                notificationList.get(i).setRead(1);
+                adapter.notifyDataSetChanged();
             }
         });
 
