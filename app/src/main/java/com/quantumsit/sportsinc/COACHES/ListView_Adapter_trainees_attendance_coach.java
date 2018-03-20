@@ -40,8 +40,10 @@ public class ListView_Adapter_trainees_attendance_coach extends ArrayAdapter<ite
         // Populate the data into the template view using the data object
         trainee_name.setText(attendance.getName());
        // trainee_notes.setText(attendance.get);
-        if (!attendance.isAttended()) {
-            attended.setBackgroundResource(R.drawable.ic_not_attended);
+        if (attendance.isAttended()) {
+            attended.setImageResource(R.drawable.ic_attended);
+        } else {
+            attended.setImageResource(R.drawable.ic_not_attended);
         }
         // Return the completed view to render on screen
         return convertView;

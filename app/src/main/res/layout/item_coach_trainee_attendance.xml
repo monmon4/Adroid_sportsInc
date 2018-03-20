@@ -22,17 +22,17 @@
         android:id="@+id/attendedImageView_singleItemTraineeAttendance"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:background="@drawable/ic_attended" />
+        android:layout_marginTop="5dp"
+        android:src="@drawable/ic_attended" />
 
     <TextView
         android:id="@+id/traineeAttendanceNoteTextView_singleItemTraineeAttendance"
-        android:layout_width="wrap_content"
+        android:layout_width="100dp"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
         android:layout_marginStart="10dp"
         android:layout_gravity="center"
         android:textSize="14sp"
         android:textColor="@color/colorText"
         android:text="@string/note" />
+
 </LinearLayout>
