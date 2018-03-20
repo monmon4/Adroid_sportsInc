@@ -9,11 +9,11 @@
     android:orientation="vertical"
     tools:context=".Activities.ClassesDetailsActivity">
 
-    <com.quantumsit.sportsinc.CustomView.CustomLoadingView
+    <!--com.quantumsit.sportsinc.CustomView.CustomLoadingView
         android:id="@+id/LoadingView"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-    </com.quantumsit.sportsinc.CustomView.CustomLoadingView>
+    </com.quantumsit.sportsinc.CustomView.CustomLoadingView-->
 
     <ScrollView
         android:layout_width="match_parent"
