@@ -14,6 +14,7 @@
         android:layout_margin="16dp"
         android:text="@string/trainees_attendance" />
 
+
     <View
         android:id="@+id/verticalLine_coachattendance"
         android:layout_below="@+id/textView_coachcurrentclassattendancefragment"

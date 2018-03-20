@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -7,189 +7,198 @@
     tools:context=".Activities.ProfileActivity"
     android:orientation="vertical">
 
-    <RelativeLayout
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:id="@+id/profile_rl">
+        android:layout_height="match_parent">
 
-        <LinearLayout
-            android:id="@+id/aboveLinearLayout_register"
+        <RelativeLayout
+            android:id="@+id/profile_rl"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
-
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="2.5dp">
-
-                <ImageView
-                    android:id="@+id/imageView2_profile"
-                    android:layout_width="match_parent"
-                    android:layout_height="250dp"
-                    android:adjustViewBounds="true"
-                    android:background="@drawable/signup_blue"
-                    android:scaleType="centerCrop" />
-
-                <android.support.v7.widget.CardView
-                    android:id="@+id/cardView_profile"
-                    android:layout_width="120dp"
-                    android:layout_height="120dp"
-                    android:layout_centerInParent="true"
-                    android:background="@color/colorWhite"
-                    app:cardCornerRadius="10dp">
-
-                    <com.makeramen.roundedimageview.RoundedImageView
-                        app:riv_corner_radius="10dp"
-                        android:id="@+id/imageView_profile"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:scaleType="centerCrop" />
-
-                    <ImageButton
-                        android:id="@+id/imageButton_profile"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="end|bottom"
-                        android:visibility="gone"
-                        android:layout_marginEnd="5dp"
-                        android:background="@drawable/ic_camera_signup" />
-
-                </android.support.v7.widget.CardView>
-
-            </RelativeLayout>
-
-                <EditText
-                    android:enabled="false"
-                    android:id="@+id/nameEditText_profile"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:background="@color/colorWhite"
-                    android:ems="10"
-                    android:layout_marginEnd="5dp"
-                    android:padding="16dp"
-                    android:hint="@string/user_name"
-                    android:inputType="textPersonName" />
-
-
-            <EditText
-                android:enabled="false"
-                android:id="@+id/mailEditText_profile"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:padding="16dp"
-                android:background="@color/colorWhite"
-                android:layout_marginTop="2.5dp"
-                android:layout_marginBottom="2.5dp"
-                android:hint="@string/email"
-                android:ems="10"
-                android:inputType="textEmailAddress" />
-
+            android:layout_height="wrap_content">
 
             <LinearLayout
+                android:id="@+id/aboveLinearLayout_register"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginTop="2.5dp"
-                android:layout_marginBottom="2.5dp"
-                android:orientation="horizontal">
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
 
-
-                <com.hbb20.CountryCodePicker
-                    android:id="@+id/ccp_register"
-                    android:layout_width="wrap_content"
+                <RelativeLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:background="@color/colorWhite"
-                    android:padding="9dp"
-                    android:visibility="gone"
-                    android:layout_marginEnd="5dp"
-                    app:ccp_defaultNameCode="AE"/>
+                    android:layout_marginBottom="2.5dp">
+
+                    <ImageView
+                        android:id="@+id/imageView2_profile"
+                        android:layout_width="match_parent"
+                        android:layout_height="250dp"
+                        android:adjustViewBounds="true"
+                        android:background="@drawable/signup_blue"
+                        android:scaleType="centerCrop" />
+
+                    <android.support.v7.widget.CardView
+                        android:id="@+id/cardView_profile"
+                        android:layout_width="120dp"
+                        android:layout_height="120dp"
+                        android:layout_centerInParent="true"
+                        android:background="@color/colorWhite"
+                        app:cardCornerRadius="10dp">
+
+                        <com.makeramen.roundedimageview.RoundedImageView
+                            android:id="@+id/imageView_profile"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:scaleType="centerCrop"
+                            app:riv_corner_radius="10dp" />
+
+                        <ImageButton
+                            android:id="@+id/imageButton_profile"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="end|bottom"
+                            android:layout_marginEnd="5dp"
+                            android:background="@drawable/ic_camera_signup"
+                            android:visibility="gone" />
+
+                    </android.support.v7.widget.CardView>
+
+                </RelativeLayout>
+
+                    <EditText
+                        android:id="@+id/nameEditText_profile"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="5dp"
+                        android:layout_weight="1"
+                        android:background="@color/colorWhite"
+                        android:ems="10"
+                        android:enabled="false"
+                        android:hint="@string/user_name"
+                        android:inputType="textPersonName"
+                        android:padding="16dp" />
+
 
                 <EditText
-                    android:enabled="false"
-                    android:id="@+id/phoneEditText_profile"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
+                    android:id="@+id/mailEditText_profile"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="2.5dp"
+                    android:layout_marginTop="2.5dp"
                     android:layout_weight="1"
                     android:background="@color/colorWhite"
                     android:ems="10"
-                    android:hint="@string/phone"
-                    android:inputType="phone"
+                    android:enabled="false"
+                    android:hint="@string/email"
+                    android:inputType="textEmailAddress"
                     android:padding="16dp" />
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginBottom="2.5dp"
+                    android:layout_marginTop="2.5dp"
+                    android:orientation="horizontal">
+
+
+                    <com.hbb20.CountryCodePicker
+                        android:id="@+id/ccp_register"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginEnd="5dp"
+                        android:background="@color/colorWhite"
+                        android:padding="9dp"
+                        android:visibility="gone"
+                        app:ccp_defaultNameCode="AE" />
+
+                    <EditText
+                        android:id="@+id/phoneEditText_profile"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:background="@color/colorWhite"
+                        android:ems="10"
+                        android:enabled="false"
+                        android:hint="@string/phone"
+                        android:inputType="phone"
+                        android:padding="16dp" />
+                </LinearLayout>
+
+
             </LinearLayout>
 
-            <TextView
-                android:id="@+id/profile_change_password"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:visibility="gone"
-                android:background="@drawable/button_red_background"
-                android:textColor="@color/colorWhite"
-                android:gravity="center"
-                android:text="@string/change_password"
-                android:textStyle="italic"
-                android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"/>
-
-            <Button
-                android:id="@+id/edit_profile"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:padding="16dp"
-                android:background="@drawable/button_blue_background"
-                android:focusable="true"
-                android:layout_gravity="bottom"
-                android:gravity="center"
-                android:text="@string/edit"
-                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-                android:textColor="@color/colorWhite" />
 
 
-        </LinearLayout>
+        </RelativeLayout>
+    </ScrollView>
+
+    <Button
+        android:id="@+id/edit_profile"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:background="@drawable/button_blue_background"
+        android:focusable="true"
+        android:gravity="center"
+        android:padding="16dp"
+        android:text="@string/edit"
+        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+        android:textColor="@color/colorWhite" />
+
+    <TextView
+        android:id="@+id/profile_change_password"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/button_red_background"
+        android:gravity="center"
+        android:text="@string/change_password"
+        android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
+        android:textColor="@color/colorWhite"
+        android:textStyle="italic"
+        android:layout_above="@id/editButtons_profile"
+        android:visibility="gone" />
+
+    <LinearLayout
+        android:id="@+id/editButtons_profile"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:orientation="horizontal"
+        android:visibility="gone">
+
+        <Button
+            android:id="@+id/cancel_profile"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:layout_marginEnd="2.5dp"
+            android:layout_weight="1"
+            android:background="@drawable/button_blue_background"
+            android:focusable="true"
+            android:gravity="center"
+            android:padding="16dp"
+            android:text="@string/cancel"
+            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+            android:textColor="@color/colorWhite" />
+
+        <Button
+            android:id="@+id/save_profile"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:layout_marginStart="2.5dp"
+            android:layout_weight="1"
+            android:background="@drawable/button_blue_background"
+            android:focusable="true"
+            android:gravity="center"
+            android:padding="16dp"
+            android:text="@string/save"
+            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+            android:textColor="@color/colorWhite" />
+    </LinearLayout>
 
 
-        <LinearLayout
-            android:id="@+id/editButtons_profile"
-            android:visibility="gone"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_alignParentBottom="true"
-            android:layout_below="@id/aboveLinearLayout_register"
-            android:orientation="horizontal">
 
-            <Button
-                android:id="@+id/cancel_profile"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:layout_marginEnd="2.5dp"
-                android:padding="16dp"
-                android:background="@drawable/button_blue_background"
-                android:focusable="true"
-                android:layout_gravity="bottom"
-                android:gravity="center"
-                android:text="@string/cancel"
-                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-                android:textColor="@color/colorWhite" />
-
-            <Button
-                android:id="@+id/save_profile"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:layout_marginStart="2.5dp"
-                android:padding="16dp"
-                android:background="@drawable/button_blue_background"
-                android:focusable="true"
-                android:layout_gravity="bottom"
-                android:gravity="center"
-                android:text="@string/save"
-                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-                android:textColor="@color/colorWhite" />
-        </LinearLayout>
-
-    </RelativeLayout>
-</ScrollView>
+</RelativeLayout>
 

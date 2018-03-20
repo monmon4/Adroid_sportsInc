@@ -10,6 +10,7 @@ import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
@@ -22,6 +23,7 @@ import com.quantumsit.sportsinc.Adapters.CheckBoxListView_Adapter;
 import com.quantumsit.sportsinc.Entities.classesEntity;
 import com.quantumsit.sportsinc.Entities.item_checkbox;
 import com.quantumsit.sportsinc.R;
+import com.weiwangcn.betterspinner.library.material.MaterialBetterSpinner;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -59,7 +61,6 @@ public class Coach_CurrentClassAttendanceFragment extends Fragment {
         list_items = new ArrayList<>();
 
         done_button = root.findViewById(R.id.doneFloatingActionButton_coachcurrentclassattendancefragment);
-
 
         checkBoxListView_adapter = new CheckBoxListView_Adapter(getContext(), R.layout.item_checkbox, list_items);
         attendance_rl = root.findViewById(R.id.attendance_rl);
