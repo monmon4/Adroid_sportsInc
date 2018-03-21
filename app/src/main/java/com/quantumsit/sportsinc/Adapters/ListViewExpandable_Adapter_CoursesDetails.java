@@ -25,10 +25,10 @@ public class ListViewExpandable_Adapter_CoursesDetails extends BaseExpandableLis
 
     public Context context;
     public List<item1_courses_details> header_list;
-    public HashMap<Integer, List<item2_courses_details>> child_hashmap;
+    public HashMap<Integer, item2_courses_details> child_hashmap;
 
     public ListViewExpandable_Adapter_CoursesDetails(Context context, List<item1_courses_details> listDataHeader,
-                                                     HashMap<Integer, List<item2_courses_details>> listChildData) {
+                                                     HashMap<Integer, item2_courses_details> listChildData) {
         this.context = context;
         this.header_list = listDataHeader;
         this.child_hashmap = listChildData;
@@ -38,7 +38,7 @@ public class ListViewExpandable_Adapter_CoursesDetails extends BaseExpandableLis
     public int getGroupCount() {return this.header_list.size();}
 
     @Override
-    public int getChildrenCount(int groupPosition) {return this.child_hashmap.get(header_list.get(groupPosition).getClass_id()).size();}
+    public int getChildrenCount(int groupPosition) {return 1;}
 
     @Override
     public long getGroupId(int groupPosition) {return groupPosition;}
@@ -55,8 +55,7 @@ public class ListViewExpandable_Adapter_CoursesDetails extends BaseExpandableLis
     @Override
     public Object getChild(int groupPosition, int childPosititon) {
 
-        return this.child_hashmap.get(this.header_list.get(groupPosition).getClass_id())
-                .get(childPosititon);
+        return this.child_hashmap.get(this.header_list.get(groupPosition).getClass_id());
     }
 
     @Override
@@ -90,7 +89,7 @@ public class ListViewExpandable_Adapter_CoursesDetails extends BaseExpandableLis
         if (convertView == null) {
             LayoutInflater infalInflater = (LayoutInflater) this.context
                     .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            convertView = infalInflater.inflate(R.layout.item_coach_child_notfinishedcoursessingle, null);
+            convertView = infalInflater.inflate(R.layout.item2_courses_details, null);
         }
 
         TextView coach_name_textview = convertView.findViewById(R.id.coachNameTextView_item2coursedetails);
@@ -98,12 +97,16 @@ public class ListViewExpandable_Adapter_CoursesDetails extends BaseExpandableLis
         TextView times_textview = convertView.findViewById(R.id.timesTextView_item2coursedetails);
 
         coach_name_textview.setText(child.getCoach_name());
-        days_textview.setText(child.getDay_time().);
+        StringBuilder days = new StringBuilder();
+        StringBuilder times = new StringBuilder();
 
+        for (int i=0; i<days.length(); i++) {
+            days.append(child.getDay()[i]).append("\n");
+            times.append(child.getTime()[i]).append("\n");
+        }
 
-        String item = child.getClass_name() + context.getString(R.string.Coma) + child.getClass_date();
-        class_number_date.setText(item);
-
+        days_textview.setText(days.toString());
+        times_textview.setText(times.toString());
         return convertView;
     }
 

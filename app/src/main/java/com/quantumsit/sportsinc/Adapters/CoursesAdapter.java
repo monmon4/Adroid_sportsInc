@@ -61,14 +61,14 @@ public class CoursesAdapter extends ArrayAdapter<CourseEntity> {
         TextView SessionDur = view.findViewById(R.id.sessionDuration);
         TextView CourseName = view.findViewById(R.id.CourseName);
         ImageView icon = view.findViewById(R.id.Course_icon);
-        ImageButton booking = view.findViewById(R.id.imageButton_booking);
+        /*ImageButton booking = view.findViewById(R.id.imageButton_booking);
 
         booking.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 context.startActivity(new Intent(context, BookingFirstFormActivity.class));
             }
-        });
+        });*/
 
         String name = mycourse.getCourseName();
         String ImageUrl = mycourse.getImageUrl();

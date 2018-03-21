@@ -1,7 +1,5 @@
 package com.quantumsit.sportsinc.Side_menu_fragments;
 
-import android.content.Context;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
@@ -13,14 +11,9 @@ import android.view.ViewGroup;
 
 import com.quantumsit.sportsinc.Aaa_data.GlobalVars;
 import com.quantumsit.sportsinc.Adapters.SectionsPagerAdapter;
-import com.quantumsit.sportsinc.COACHES.CoachClassesFragment;
 import com.quantumsit.sportsinc.COACHES.CurrentClassFragments.Coach_StartClassFragment;
-import com.quantumsit.sportsinc.Home_fragments.Courses2Fragment;
 import com.quantumsit.sportsinc.Home_fragments.CoursesFragment;
-import com.quantumsit.sportsinc.Home_fragments.EventFragment;
 import com.quantumsit.sportsinc.Home_fragments.MainFragment;
-import com.quantumsit.sportsinc.Home_fragments.NewsFragment;
-import com.quantumsit.sportsinc.Home_fragments.RulesFragment;
 import com.quantumsit.sportsinc.R;
 
 

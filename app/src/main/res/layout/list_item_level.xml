@@ -32,31 +32,23 @@
         android:background="@color/colorLogoBlue">
         <ImageView
             android:id="@+id/Course_icon"
+            android:focusable="false"
+            android:clickable="false"
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="80dp"
             android:layout_marginEnd="@dimen/ten_dimens"
             android:background="@color/colorWhite"
             android:src="@drawable/star"/>
-        <RelativeLayout
-            android:layout_width="0dp"
-            android:layout_weight="2"
-            android:layout_height="80dp"
-            android:background="@color/colorWhite">
-
-            <ImageButton
-                android:id="@+id/imageButton_booking"
-                android:layout_alignParentBottom="true"
-                android:layout_alignParentEnd="true"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@drawable/ic_booking" />
 
             <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="@dimen/ten_dimens"
-                android:orientation="vertical">
+                android:layout_width="0dp"
+                android:layout_weight="2"
+                android:layout_height="80dp"
+                android:paddingStart="10dp"
+                android:paddingTop="10dp"
+                android:orientation="vertical"
+                android:background="@color/colorWhite">
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
@@ -90,7 +82,6 @@
                 </LinearLayout>
             </LinearLayout>
 
-        </RelativeLayout>
     </LinearLayout>
 </android.support.v7.widget.CardView>
 </LinearLayout>
