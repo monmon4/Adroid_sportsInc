@@ -453,5 +453,10 @@
     <string name="book">Book</string>
     <string name="coach_">Coach:</string>
     <string name="days_">Days:</string>
-    <string name="time_">Time:</string>
+    <string name="time_">Times:</string>
+    <string name="trainees">Trainees</string>
+    <string name="add_new_trainee">Add new trainee</string>
+    <string name="check_out">Check out</string>
+
+
 </resources>

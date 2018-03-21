@@ -50,4 +50,6 @@ public interface Constants {
 
     //SQLite DB
     String TABLE_AcademyInfo = "info_academy";
+
+    String D1 = "Saturday";
 }

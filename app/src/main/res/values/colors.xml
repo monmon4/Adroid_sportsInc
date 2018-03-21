@@ -46,7 +46,8 @@
     <color name="colorDarkBlue">#0e019f</color>
 
 
-    <color name="colorCoursesDetails">#fafafa</color>
+    <color name="colorCoursesDetails">#d7d7d7</color>
+    <color name="colorCoursesWindow">#6d6565</color>
 
 
 

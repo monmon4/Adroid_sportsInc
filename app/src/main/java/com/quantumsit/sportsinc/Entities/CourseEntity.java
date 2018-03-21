@@ -16,6 +16,7 @@ import java.util.Locale;
  */
 
 public class CourseEntity implements Serializable {
+    int course_id;
     String ImageUrl;
     String CourseName;
     Date StartDate;
@@ -42,6 +43,7 @@ public class CourseEntity implements Serializable {
 
     public CourseEntity(JSONObject object){
         try {
+            course_id = object.getInt("id");
             CourseName = object.getString("name");
             ImageUrl = object.getString("ImageUrl");
             String dateFormated =  object.getString("start_date");
@@ -64,71 +66,47 @@ public class CourseEntity implements Serializable {
         return CourseName;
     }
 
-    public void setCourseName(String courseName) {
-        CourseName = courseName;
-    }
 
     public String getImageUrl() {
         return ImageUrl;
     }
 
-    public void setImageUrl(String imageUrl) {
-        ImageUrl = imageUrl;
-    }
 
     public Date getStartDate() {
         return StartDate;
     }
 
-    public void setStartDate(Date startDate) {
-        StartDate = startDate;
-    }
 
     public Date getEndDate() {
         return EndDate;
     }
 
-    public void setEndDate(Date endDate) {
-        EndDate = endDate;
-    }
 
     public String getPrice() {
         return price;
     }
 
-    public void setPrice(String price) {
-        this.price = price;
-    }
 
     public String getLevel() {
         return level;
     }
 
-    public void setLevel(String level) {
-        this.level = level;
-    }
 
     public String getClasses_Num() {
         return classes_Num;
-    }
-
-    public void setClasses_Num(String classes_Num) {
-        this.classes_Num = classes_Num;
     }
 
     public String getDescription() {
         return description;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
     public String getClassDur() {
         return classDur;
     }
 
-    public void setClassDur(String classDur) {
-        this.classDur = classDur;
+
+    public int getCourse_id() {
+        return course_id;
     }
+
 }
