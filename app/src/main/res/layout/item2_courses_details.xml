@@ -28,7 +28,8 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="16dp"
+                android:background="@color/colorCoursesDetails"
+                android:padding="16dp"
                 android:orientation="horizontal">
 
                 <TextView
@@ -40,7 +41,7 @@
                     android:text="@string/coach_" />
 
                 <TextView
-                    android:id="@+id/textView12"
+                    android:id="@+id/coachNameTextView_item2coursedetails"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -52,9 +53,9 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:layout_marginEnd="16dp"
-                android:layout_marginBottom="16dp"
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp"
+                android:paddingBottom="16dp"
                 android:orientation="horizontal">
 
                 <TextView
@@ -66,7 +67,7 @@
                     android:text="@string/days_" />
 
                 <TextView
-                    android:id="@+id/textView14"
+                    android:id="@+id/daysTextView_item2coursedetails"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -79,8 +80,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:layout_marginStart="16dp"
-                android:layout_marginEnd="16dp"
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp"
                 android:orientation="horizontal">
 
                 <TextView
@@ -92,7 +93,7 @@
                     android:text="@string/time_" />
 
                 <TextView
-                    android:id="@+id/textView16"
+                    android:id="@+id/timesTextView_item2coursedetails"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -101,7 +102,7 @@
             </LinearLayout>
 
             <Button
-                android:id="@+id/button2"
+                android:id="@+id/bookButton_item2coursedetails"
                 android:layout_width="100dp"
                 android:layout_height="30dp"
                 android:paddingStart="10dp"
