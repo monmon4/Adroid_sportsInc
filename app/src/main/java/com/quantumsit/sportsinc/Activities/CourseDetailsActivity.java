@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ExpandableListView;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.quantumsit.sportsinc.Aaa_data.Constants;
@@ -63,16 +64,14 @@ public class CourseDetailsActivity extends AppCompatActivity {
         progressDialog = new ProgressDialog(CourseDetailsActivity.this);
 
         functions = new Functions(CourseDetailsActivity.this);
-        //CourseName = findViewById(R.id.course_details_name);
+
         loadingView = findViewById(R.id.LoadingView);
         levelImage = findViewById(R.id.Course_icon);
         SessionsNum = findViewById(R.id.course_details_no_classes);
         expandableListView = findViewById(R.id.course_details_expandableListView);
-        //CoursePrice = findViewById(R.id.course_details_price);
+
         description = findViewById(R.id.course_details_description);
-        //startDate = findViewById(R.id.course_details_start_date);
-        //endDate = findViewById(R.id.course_details_end_date);
-        //CourseLevel = findViewById(R.id.course_details_level);
+
 
 
         header_list = new ArrayList<>();
@@ -88,7 +87,6 @@ public class CourseDetailsActivity extends AppCompatActivity {
         child_list.put(2, new item2_courses_details("Omar", days, times));
         child_list.put(3, new item2_courses_details("Omar", days, times));
 
-        adapter_coursesDetails = new ListViewExpandable_Adapter_CoursesDetails(CourseDetailsActivity.this, header_list, child_list);
         //expandableListView.setAdapter(adapter_coursesDetails);
 
         expandableListView.setOnGroupClickListener(new ExpandableListView.OnGroupClickListener() {
@@ -104,7 +102,11 @@ public class CourseDetailsActivity extends AppCompatActivity {
         final CourseEntity myCourse = (CourseEntity) getIntent().getSerializableExtra("MyCourse");
 
         progressDialog.show();
+        adapter_coursesDetails = new ListViewExpandable_Adapter_CoursesDetails(CourseDetailsActivity.this, header_list, child_list, myCourse.getCourse_id());
         fill_list_view(myCourse);
+
+        LinearLayout ll = findViewById(R.id.ll_coursesdetails);
+        adapter_coursesDetails.setLl(ll);
 
         /*if (savedInstanceState!=null)
             loadingTime = 0;
@@ -198,8 +200,10 @@ public class CourseDetailsActivity extends AppCompatActivity {
         }
 
         String OnCondition = "groups.coach_id = users.id";
+        String select = "groups.id, groups.name, users.name, groups.start_date," +
+                "groups.days, groups.daystime";
 
-        HttpCall httpCall = functions.joinDB("groups", "users", where_info, OnCondition);
+        HttpCall httpCall = functions.joinDB("groups", "users", where_info, OnCondition, select);
 
         new HttpRequest(){
             @Override
@@ -226,6 +230,8 @@ public class CourseDetailsActivity extends AppCompatActivity {
                         progressDialog.dismiss();
 
                     } catch (JSONException e) {
+                        progressDialog.dismiss();
+                        expandableListView.setVisibility(View.GONE);
                         e.printStackTrace();
 
                     }

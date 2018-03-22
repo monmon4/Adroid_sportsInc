@@ -17,6 +17,7 @@ import com.google.i18n.phonenumbers.Phonenumber;
 import com.hbb20.CountryCodePicker;
 import com.quantumsit.sportsinc.Aaa_data.Constants;
 import com.quantumsit.sportsinc.Activities.HomeActivity;
+import com.quantumsit.sportsinc.Backend.Functions;
 import com.quantumsit.sportsinc.Backend.HttpCall;
 import com.quantumsit.sportsinc.Backend.HttpRequest;
 import com.quantumsit.sportsinc.R;
@@ -49,6 +50,8 @@ public class BookingForthFormActivity extends AppCompatActivity {
     String hear_about_us;
 
     CheckBox first_checkBox, second_checkBox;
+    Functions functions;
+    int parent_id = -1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,6 +63,7 @@ public class BookingForthFormActivity extends AppCompatActivity {
         getSupportActionBar().setTitle("Registration (4)");
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
 
+        functions = new Functions(BookingForthFormActivity.this);
         first_form_info = getIntent().getStringArrayExtra("first_info");
         gender = getIntent().getIntExtra("gender", gender);
         second_form_info = getIntent().getStringExtra("second_info");
@@ -92,6 +96,7 @@ public class BookingForthFormActivity extends AppCompatActivity {
             }
         });
 
+        check_parent();
     }
 
 
@@ -100,6 +105,42 @@ public class BookingForthFormActivity extends AppCompatActivity {
         finish();
         //startActivity(new Intent(BookingSecondFormActivity.this, BookingFirstFormActivity.class));
 
+    }
+
+    private void check_parent () {
+
+        if (!third_form_info[3].equals("")) {
+            JSONObject where_info = new JSONObject();
+
+            try {
+                where_info.put("email",third_form_info[3]);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+            HttpCall httpCall = functions.searchDB("users", where_info);
+
+            new HttpRequest(){
+                @Override
+                public void onResponse(JSONArray response) {
+                    super.onResponse(response);
+                    if(response != null){
+                        try {
+                            JSONObject result = response.getJSONObject(0);
+                            parent_id = result.getInt("id");
+
+
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    } else {
+                        insert_to_DB();
+                        //verfication();
+                    }
+                }
+            }.execute(httpCall);
+        }
     }
 
 
@@ -157,11 +198,8 @@ public class BookingForthFormActivity extends AppCompatActivity {
             return;
         }
 
+        insert_to_DB();
 
-
-            insert_to_DB();
-            startActivity(new Intent(BookingForthFormActivity.this, HomeActivity.class));
-            finish();
 
 
     }
@@ -217,10 +255,13 @@ public class BookingForthFormActivity extends AppCompatActivity {
         JSONObject info = new JSONObject();
         try {
             info.put("name",first_form_info[0]+first_form_info[1]);
+            if (parent_id != -1) {
+                info.put("parent_id",parent_id);
+            }
             info.put("phone",first_form_info[2]);
             info.put("email",first_form_info[5]);
             info.put("gender",gender);
-            info.put("type",first_form_info[5]);
+            info.put("type",6);
             info.put("date_of_birth",date_of_birth);
             info.put("address",first_form_info[4]);
 
@@ -313,6 +354,9 @@ public class BookingForthFormActivity extends AppCompatActivity {
                     if(response != null){
                         try {
                             int ID = response.getInt(0);
+                            Toast.makeText(BookingForthFormActivity.this, "Success", Toast.LENGTH_SHORT).show();
+                            startActivity(new Intent(BookingForthFormActivity.this, HomeActivity.class));
+                            finish();
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }

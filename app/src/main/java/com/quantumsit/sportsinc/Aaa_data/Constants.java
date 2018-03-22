@@ -6,11 +6,11 @@ package com.quantumsit.sportsinc.Aaa_data;
 
 public interface Constants {
 
-    //String server = "http://192.168.1.7:8080/sport_inc/api/";
+    String server = "http://192.168.1.10:8080/sport_inc/api/";
 
-    String server = "http://173.212.198.28:8010/sports_inc/api/";
-    String upload_host = "http://173.212.198.28:8010/sports_inc/assets/uploads/";
-    String UPLOAD_URL = "http://173.212.198.28:8010/sports_inc/academy/upload_Image";
+    //String server = "http://173.212.198.28:8010/sport_inc/api/";
+    String upload_host = "http://173.212.198.28:8010/sport_inc/assets/uploads/";
+    String UPLOAD_URL = "http://173.212.198.28:8010/sport_inc/academy/upload_Image";
 
 
     String socialLogin = server + "social_login";
@@ -40,6 +40,7 @@ public interface Constants {
     String traineeCoursesData = server + "trainee_finished_courses";
     String traineeClassScores = server + "classes_scores";
     String traineeSwitchGroup = server + "switch_group";
+    String register_trainee = server + "bookClass";
 
     String profile = "profile_img";
     String profile_host = upload_host + profile + "/";

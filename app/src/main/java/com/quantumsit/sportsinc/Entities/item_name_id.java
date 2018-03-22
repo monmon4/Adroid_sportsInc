@@ -7,6 +7,7 @@ package com.quantumsit.sportsinc.Entities;
 public class item_name_id {
 
     int id; String name;
+    boolean selected;
 
     public item_name_id(int id, String name) {
         this.id = id;
@@ -19,6 +20,14 @@ public class item_name_id {
 
     public String getName() {
         return name;
+    }
+
+    public boolean isSelected() {
+        return selected;
+    }
+
+    public void setSelected(boolean selected) {
+        this.selected = selected;
     }
 }
 

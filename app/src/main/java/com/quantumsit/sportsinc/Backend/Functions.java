@@ -43,6 +43,23 @@ public class Functions {
         return httpCall;
     }
 
+    public HttpCall joinDB(String table1, String table2, JSONObject where, String on, String select){
+        HttpCall httpCall = new HttpCall();
+        httpCall.setMethodtype(HttpCall.POST);
+        httpCall.setUrl(Constants.join);
+
+        HashMap<String, String> params = new HashMap<>();
+        params.put("table1", table1);
+        params.put("table2", table2);
+
+        params.put("where", where.toString());
+        params.put("on", on);
+        params.put("Select", select);
+
+        httpCall.setParams(params);
+        return httpCall;
+    }
+
     public HttpCall searchDB(String table_name, JSONObject where_info) {
 
         final JSONArray[] result = {new JSONArray()};
