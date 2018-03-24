@@ -39,7 +39,6 @@ public class Functions {
         return httpCall;
 
     }
-
     public HttpCall joinDB(String table1, String table2, JSONObject where, String on){
         HttpCall httpCall = new HttpCall();
         httpCall.setMethodtype(HttpCall.POST);
