@@ -4,29 +4,59 @@
     android:layout_height="wrap_content"
     android:background="#ffff">
 
+    <RelativeLayout
+        android:id="@+id/NoteHeader"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorNote"
+        android:padding="@dimen/ten_dimens">
+        <TextView
+            android:id="@+id/NoteTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:textColor="@color/colorLogoBlue"
+            android:textStyle="italic"
+            android:text="@string/note"/>
+
+        <ImageView
+            android:id="@+id/noteClose"
+            android:visibility="gone"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:backgroundTint="@color/colorLogoBlue"
+            android:layout_marginEnd="@dimen/ten_dimens"
+            android:src="@drawable/ic_close"/>
+
+    </RelativeLayout>
 
     <EditText
         android:id="@+id/noteEditText_notewindow"
+        android:layout_below="@+id/NoteHeader"
         android:layout_width="match_parent"
         android:layout_height="200dp"
+        android:background="@drawable/note_border"
         android:hint="@string/write_a_note"
         android:gravity="top"
-        android:layout_margin="10dp"
+        android:layout_margin="20dp"
         android:padding="10dp"
         android:textColor="@color/colorMaroon"
         android:inputType="textMultiLine" />
-
-    <Button
-        android:id="@+id/doneButton_notewindow"
-        android:layout_width="150dp"
-        android:layout_height="40dp"
-        android:textAllCaps="false"
-        android:textSize="16sp"
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/padding_3"
         android:background="@drawable/button_blue_background"
-        android:textColor="@color/colorTextLight"
-        android:layout_alignParentEnd="true"
-        android:layout_below="@+id/noteEditText_notewindow"
-        android:layout_marginEnd="16dp"
-        android:layout_marginBottom="16dp"
-        android:text="@string/done" />
+        android:layout_below="@+id/noteEditText_notewindow">
+        <Button
+            android:id="@+id/doneButton_notewindow"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:textAllCaps="false"
+            android:textColor="@color/colorTextLight"
+            android:layout_alignParentEnd="true"
+            android:layout_marginEnd="16dp"
+            android:text="@string/done" />
+    </RelativeLayout>
 </RelativeLayout>

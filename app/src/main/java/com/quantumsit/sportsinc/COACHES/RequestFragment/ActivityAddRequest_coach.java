@@ -120,6 +120,10 @@ public class ActivityAddRequest_coach extends AppCompatActivity {
         class_number_spinner.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
+                if (classEntities.size() == 0) {
+                    class_number_spinner.setText("");
+                    return;
+                }
                  ClassDate = classEntities.get(position).getClass_date();
                  classPosition = position;
                  class_number_spinner.setText(ClassDate);

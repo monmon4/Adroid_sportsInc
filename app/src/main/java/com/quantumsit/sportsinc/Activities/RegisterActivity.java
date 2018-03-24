@@ -106,14 +106,15 @@ public class RegisterActivity extends AppCompatActivity {
     private int THUMBNAIL_SIZE = 150;
     private int Counter = 0;
 
-    //PopupWindow verfication_popup_window;
-    //private Context register_Context;
-    //private RelativeLayout register_rl;
+    PopupWindow verfication_popup_window;
+    private Context register_Context;
+    private RelativeLayout register_rl;
     ProgressDialog progressDialog;
 
     GlobalVars globalVars;
     CountryCodePicker ccp;
     Functions functions;
+    private String ImageName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -130,8 +131,8 @@ public class RegisterActivity extends AppCompatActivity {
         progressDialog.setMessage(getResources().getString(R.string.configure));
         progressDialog.setCanceledOnTouchOutside(false);
 
-        //register_Context = getApplicationContext();
-        //register_rl =  findViewById(R.id.register_rl);
+        register_Context = getApplicationContext();
+        register_rl =  findViewById(R.id.register_rl);
 
 
         name_edittext =  findViewById(R.id.firstnameEditText_register);
@@ -213,7 +214,7 @@ public class RegisterActivity extends AppCompatActivity {
             return false;
         }
 
-        user_name +=  lastname_edittext.getText().toString();
+        user_name +=" " + lastname_edittext.getText().toString();
         mail_edittext.setError(null);
         pass_edittext.setError(null);
         repass_edittext.setError(null);
@@ -229,29 +230,19 @@ public class RegisterActivity extends AppCompatActivity {
 
         progressDialog.show();
 
+
         if (!validateForm()) {
-            if (photoChanged)
-                uploadImageToServer();
             progressDialog.dismiss();
             return;
         }
 
-        checkPhone();
+        checkUserData();
 
     }
 
     @SuppressLint("StaticFieldLeak")
-    private void checkMail() {
-
-        JSONObject where_info = new JSONObject();
-
-        try {
-            where_info.put("email",mail);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-
-        HttpCall httpCall = functions.searchDB("users", where_info);
+    private void checkUserData(){
+        HttpCall httpCall = functions.searchUser(phone ,mail);
 
         new HttpRequest(){
             @Override
@@ -259,53 +250,29 @@ public class RegisterActivity extends AppCompatActivity {
                 super.onResponse(response);
                 if(response != null){
                     progressDialog.dismiss();
-                    mail_edittext.setError("Email already exists");
+                    //Log.d("CheckUserResult",String.valueOf(response));
+                    try {
+                        JSONObject result = response.getJSONObject(0);
+                        String value = result.getString("check_value");
+                        show_toast(value);
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
                 } else {
-                    insert_to_DB();
-                    //verfication();
+                    verification();
                 }
             }
         }.execute(httpCall);
+
     }
 
     @SuppressLint("StaticFieldLeak")
-    private void checkPhone() {
-
-        JSONObject where_info = new JSONObject();
-
-        try {
-            where_info.put("phone",phone);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-
-        HttpCall httpCall = functions.searchDB("users", where_info);
-
-        new HttpRequest(){
-            @Override
-            public void onResponse(JSONArray response) {
-                super.onResponse(response);
-
-                if(response != null){
-                    progressDialog.dismiss();
-                    phone_edittext.setError("Phone already exists");
-
-                } else {
-                    checkMail();
-                    //verfication();
-                }
-
-            }
-        }.execute(httpCall);
-    }
-
-   /* @SuppressLint("StaticFieldLeak")
-    private void verfication(){
+    private void verification(){
         progressDialog.dismiss();
         String verification_msg;
         Random random_num = new Random();
         final int verfication_num = random_num.nextInt(9999 - 1000) + 1000;
-        Log.d("Verfication","Code: "+verfication_num);
+        Log.d("Verification","Code: "+verfication_num);
         //verification_msg = "" + verfication_num;
 
 
@@ -339,7 +306,7 @@ public class RegisterActivity extends AppCompatActivity {
                 String verifcation = verify_edit_text.getText().toString().trim();
 
                 if (verifcation.equals(String.valueOf(verfication_num))){
-                    insert_to_DB();
+                    upload_save_to_DB();
                 } else {
                     show_toast("Wrong code");
                 }
@@ -350,10 +317,10 @@ public class RegisterActivity extends AppCompatActivity {
 
         HttpCall httpCall = new HttpCall();
         httpCall.setMethodtype(HttpCall.POST);
-        httpCall.setUrl(Constants.sendSMS);
+        httpCall.setUrl(Constants.sendMail);
         HashMap<String,String> params = new HashMap<>();
-        params.put("phone",phone);
-        params.put("message",String.valueOf(verfication_num));
+        params.put("email",mail);
+        params.put("code",String.valueOf(verfication_num));
         httpCall.setParams(params);
 
         new HttpRequest(){
@@ -361,29 +328,35 @@ public class RegisterActivity extends AppCompatActivity {
             public void onResponse(JSONArray response) {
                 super.onResponse(response);
 
-                if(response != null){
+               /* if(response != null){
                     show_toast("Code has been sent");
 
                 } else {
                     show_toast("An error has occurred");
                     verfication_popup_window.dismiss();
-                }
+                }*/
 
             }
         }.execute(httpCall);
-    }*/
+    }
 
-    @SuppressLint("StaticFieldLeak")
-    public void insert_to_DB(){
+    private void upload_save_to_DB() {
         progressDialog.setMessage(getResources().getString(R.string.log_in));
         progressDialog.show();
 
-       /* verfication_popup_window.dismiss();
-        globalVars.setType(5);
-        finish();*/
+        verfication_popup_window.dismiss();
+
+        if (photoChanged)
+            uploadImageToServer();
+        else
+            insert_to_DB();
+    }
+
+    @SuppressLint("StaticFieldLeak")
+    public void insert_to_DB(){
+
         SharedPreferences tokenPref = getSharedPreferences(Config.SHARED_PREF, MODE_PRIVATE);
         String user_token = tokenPref.getString("regId", "");
-
 
         JSONObject info = new JSONObject();
         try {
@@ -391,7 +364,7 @@ public class RegisterActivity extends AppCompatActivity {
             info.put("phone",phone);
             info.put("email",mail);
             info.put("pass",pass);
-            info.put("ImageUrl",globalVars.getImgUrl());
+            info.put("ImageUrl",ImageName);
             info.put("type",5);
             if (!user_token.equals(""))
                 info.put("token",user_token);
@@ -404,14 +377,12 @@ public class RegisterActivity extends AppCompatActivity {
 
                     if(response != null){
                         try {
-                            //verfication_popup_window.dismiss();
                             int ID = response.getInt(0);
                             logIn(ID);
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
                     } else {
-                        //verfication_popup_window.dismiss();
                         show_toast("An error occurred");
                     }
 
@@ -425,7 +396,7 @@ public class RegisterActivity extends AppCompatActivity {
 
     private void logIn(int id) {
         Log.d("Verfication","ID: "+id);
-        globalVars.settAll(user_name, "", phone, pass, mail, id, 5, 0, "0");
+        globalVars.settAll(user_name, ImageName, phone, pass, mail, id, 5, 0, "0");
         SharedPreferences.Editor preferences = getSharedPreferences("UserFile", MODE_PRIVATE).edit();
         Gson gson = new Gson();
         String json = gson.toJson(globalVars.getUser());
@@ -538,8 +509,8 @@ public class RegisterActivity extends AppCompatActivity {
 
                         @Override
                         public void onError(Context context, UploadInfo uploadInfo, ServerResponse serverResponse, Exception exception) {
-                            Toast.makeText(getApplicationContext(),"Error while uploading",Toast.LENGTH_LONG).show();
-                            //dismissProgress();
+                            //Toast.makeText(getApplicationContext(),"Error while uploading",Toast.LENGTH_LONG).show();
+                            insert_to_DB();
                         }
 
                         @Override
@@ -549,19 +520,16 @@ public class RegisterActivity extends AppCompatActivity {
                                 JSONObject object = new JSONObject(response);
                                 JSONObject data = object.getJSONObject("data");
                                 JSONObject upload_data = data.getJSONObject("upload_data");
-                                String ImageName = upload_data.getString("file_name");
-                                globalVars.setImgUrl(ImageName);
-                                //saveUpdateToPref();
+                                ImageName = upload_data.getString("file_name");
+                                insert_to_DB();
                             } catch (JSONException e) {
                                 e.printStackTrace();
                             }
-                            dismissProgress();
                         }
 
                         @Override
                         public void onCancelled(Context context, UploadInfo uploadInfo) {
                             Toast.makeText(getApplicationContext(),"Uploading has been canceled",Toast.LENGTH_LONG).show();
-                            dismissProgress();
                         }
                     })
                     .setMaxRetries(2)
@@ -570,12 +538,6 @@ public class RegisterActivity extends AppCompatActivity {
         } catch (Exception exc) {
             Toast.makeText(this, exc.getMessage(), Toast.LENGTH_SHORT).show();
         }
-    }
-
-    private synchronized void dismissProgress() {
-        Counter++;
-        if (Counter >= 2 || photoChanged == false)
-            progressDialog.dismiss();
     }
 
 }

@@ -27,6 +27,18 @@ public class Functions {
         this.context = context;
     }
 
+    public HttpCall searchUser(String phone , String mail) {
+        HttpCall httpCall = new HttpCall();
+        httpCall.setMethodtype(HttpCall.POST);
+        httpCall.setUrl(Constants.checkUser);
+        HashMap<String,String> params = new HashMap<>();
+        params.put("phone",phone);
+        params.put("mail",mail);
+        httpCall.setParams(params);
+
+        return httpCall;
+
+    }
 
     public HttpCall searchDB(String table_name, JSONObject where_info) {
 

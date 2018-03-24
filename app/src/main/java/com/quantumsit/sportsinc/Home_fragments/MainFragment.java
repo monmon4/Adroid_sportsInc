@@ -303,7 +303,8 @@ public class MainFragment extends Fragment {
         newsDesc.setText(newsEntity.getContent());
         String ImgUrl = newsEntity.getImg();
         if (!ImgUrl.equals("")) {
-            Picasso.with(getContext()).load(Constants.others_host + ImgUrl).into(newsImage);
+            if (getContext() != null)
+                Picasso.with(getContext()).load(Constants.others_host + ImgUrl).into(newsImage);
         }
         countFinished();
     }
@@ -313,7 +314,8 @@ public class MainFragment extends Fragment {
         eventDesc.setText(eventEntity.getDescription());
         String ImgUrl = eventEntity.getImgUrl();
         if (!ImgUrl.equals("")) {
-            Picasso.with(getContext()).load(Constants.others_host + ImgUrl).into(eventImage);
+            if (getContext() != null)
+                Picasso.with(getContext()).load(Constants.others_host + ImgUrl).into(eventImage);
         }
         SimpleDateFormat formatter = new SimpleDateFormat("dd MMMM", Locale.ENGLISH);
         String event_date = formatter.format(eventEntity.getDate());

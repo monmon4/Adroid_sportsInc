@@ -77,7 +77,7 @@ public class Coach_StartClassFragment extends Fragment {
         listView.setOnScrollListener(listViewListener);
         classesList =new ArrayList<>();
 
-        adapter = new CurrentClassesAdapter(getContext(),R.layout.list_item_current_class,classesList , globalVars.getMyDB());
+        adapter = new CurrentClassesAdapter(getContext(),R.layout.list_item_current_class,classesList , globalVars.getId() ,globalVars.getMyDB());
         listView.setAdapter(adapter);
 
         initializeClasses();

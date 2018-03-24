@@ -54,7 +54,6 @@ public class AboutUsFragment extends Fragment {
 
         sectionsPagerAdapter = new SectionsPagerAdapter(getChildFragmentManager());
 
-        sectionsPagerAdapter.addFragment(new AboutFragment(),"About us");
         sectionsPagerAdapter.addFragment(new ConditionsFragment(),"Handbook");
         sectionsPagerAdapter.addFragment(new PaymentRulesFragment(),"Payment Rules");
 

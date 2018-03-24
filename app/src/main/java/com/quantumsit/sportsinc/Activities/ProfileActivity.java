@@ -40,6 +40,7 @@ import com.makeramen.roundedimageview.RoundedImageView;
 import com.quantumsit.sportsinc.Aaa_data.Bitmap_functions;
 import com.quantumsit.sportsinc.Aaa_data.Constants;
 import com.quantumsit.sportsinc.Aaa_data.GlobalVars;
+import com.quantumsit.sportsinc.Backend.Functions;
 import com.quantumsit.sportsinc.Backend.HttpCall;
 import com.quantumsit.sportsinc.Backend.HttpRequest;
 import com.quantumsit.sportsinc.R;
@@ -100,6 +101,8 @@ public class ProfileActivity extends AppCompatActivity {
     private Context profile_Context;
     private LinearLayout profile_ll;
     private RelativeLayout profile_rl;
+    Functions functions;
+    private boolean noChange;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -110,6 +113,7 @@ public class ProfileActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
         globalVars = (GlobalVars) getApplication();
+        functions = new Functions(getApplicationContext());
         progressDialog = new ProgressDialog(ProfileActivity.this);
         progressDialog.setMessage("Saving...");
         progressDialog.setCancelable(false);
@@ -177,12 +181,40 @@ public class ProfileActivity extends AppCompatActivity {
         fillProfileData();
     }
 
-    private void saveUpdateToPref() {
-        SharedPreferences.Editor preferences = getSharedPreferences("UserFile", MODE_PRIVATE).edit();
-        Gson gson = new Gson();
-        String json = gson.toJson(globalVars.getMyAccount());
-        preferences.putString("CurrentUser", json);
-        preferences.apply();
+    //Requesting permission
+    private void requestStoragePermission() {
+
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
+            showFileChooser();
+            return;
+        }
+
+        if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.READ_EXTERNAL_STORAGE)) {
+            //If the user has denied the permission previously your code will come to this block
+            //Here you can explain why you need this permission
+            //Explain here why you need this permission
+        }
+        //And finally ask for the permission
+        ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, STORAGE_PERMISSION_CODE);
+
+    }
+
+    //This method will be called when the user will tap on allow or deny
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+
+        //Checking the request code of our request
+        if (requestCode == STORAGE_PERMISSION_CODE) {
+
+            //If permission is granted
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                //Displaying a toast
+                showFileChooser();
+            } else {
+                //Displaying another toast if permission is not granted
+                Toast.makeText(this, "Can't access Storage...", Toast.LENGTH_LONG).show();
+            }
+        }
     }
 
     //method to show file chooser
@@ -210,7 +242,13 @@ public class ProfileActivity extends AppCompatActivity {
         }
     }
 
-
+    private void saveUpdateToPref() {
+        SharedPreferences.Editor preferences = getSharedPreferences("UserFile", MODE_PRIVATE).edit();
+        Gson gson = new Gson();
+        String json = gson.toJson(globalVars.getMyAccount());
+        preferences.putString("CurrentUser", json);
+        preferences.apply();
+    }
 
     private void uploadImageToServer() {
         filePath = Bitmap_functions.getImageUri(getApplicationContext() , bitmap);
@@ -245,6 +283,7 @@ public class ProfileActivity extends AppCompatActivity {
                                 String ImageName = upload_data.getString("file_name");
                                 globalVars.setImgUrl(ImageName);
                                 saveUpdateToPref();
+                                updateUserImage(ImageName);
                             } catch (JSONException e) {
                                 e.printStackTrace();
                             }
@@ -264,43 +303,6 @@ public class ProfileActivity extends AppCompatActivity {
             Toast.makeText(this, exc.getMessage(), Toast.LENGTH_SHORT).show();
         }
     }
-
-    //Requesting permission
-    private void requestStoragePermission() {
-
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
-            showFileChooser();
-            return;
-        }
-
-        if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.READ_EXTERNAL_STORAGE)) {
-            //If the user has denied the permission previously your code will come to this block
-            //Here you can explain why you need this permission
-            //Explain here why you need this permission
-        }
-        //And finally ask for the permission
-        ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, STORAGE_PERMISSION_CODE);
-
-    }
-
-    //This method will be called when the user will tap on allow or deny
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-
-        //Checking the request code of our request
-        if (requestCode == STORAGE_PERMISSION_CODE) {
-
-            //If permission is granted
-            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                //Displaying a toast
-               showFileChooser();
-            } else {
-                //Displaying another toast if permission is not granted
-                Toast.makeText(this, "Can't access Storage...", Toast.LENGTH_LONG).show();
-            }
-        }
-    }
-
 
     private void editableProfile(boolean editable){
         Log.d("ProfileStatus",String.valueOf(profileStatus));
@@ -380,7 +382,6 @@ public class ProfileActivity extends AppCompatActivity {
         alertdialog.show();
     }
 
-
     private void updateProfile() {
         if (photoChanged)
             uploadImageToServer();
@@ -389,12 +390,7 @@ public class ProfileActivity extends AppCompatActivity {
         NewMail = Mail.getText().toString();
         NewPhone = Phone.getText().toString();
 
-        if (!isValidMail(NewMail)){
-            progressDialog.dismiss();
-            Mail.setError("Invalid e-mail format");
-            return;
-        }
-
+        boolean mailChange = false;
 
         if (!NewPhone.equals(globalVars.getPhone())) {
             if (!isValidPhone(NewPhone)){
@@ -402,17 +398,110 @@ public class ProfileActivity extends AppCompatActivity {
                 Phone.setError("Invalid Phone Number...");
                 return;
             }
-            checkPhone(NewPhone);
             return;
         }
 
-        insertToDb();
+        if (!NewMail.equals(globalVars.getMail())) {
+            if (!functions.isValidMail(NewMail)) {
+                progressDialog.dismiss();
+                Mail.setError("Invalid e-mail format");
+                return;
+            }
+            mailChange = true;
+        }
+        if (!NewName.equals(globalVars.getName())) {
+            noChange = true;
+            if (mailChange)
+                checkMail(NewMail);
+            else
+                insertToDb();
+        }
+        else {
+            editableProfile(false);
+            fillProfileData();
+        }
     }
 
+    private void updateUserImage(String imageName) {
+        try {
+            JSONObject values = new JSONObject();
+            values.put("ImageUrl",imageName);
+
+            JSONObject where = new JSONObject();
+            where.put("id",globalVars.getId());
+
+            HttpCall httpCall = new HttpCall();
+            httpCall.setMethodtype(HttpCall.POST);
+            httpCall.setUrl(Constants.updateData);
+            final HashMap<String,String> params = new HashMap<>();
+            params.put("table","users");
+            params.put("where",where.toString());
+            params.put("values",values.toString());
+
+            httpCall.setParams(params);
+
+            new HttpRequest(){
+                @Override
+                public void onResponse(JSONArray response) {
+                    super.onResponse(response);
+                    Log.d(TAG,String.valueOf(response));
+                }
+            }.execute(httpCall);
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void insertToDb() {
+        progressDialog.show();
+
+        try {
+            JSONObject values = new JSONObject();
+            values.put("name",NewName);
+            values.put("phone",NewPhone);
+            values.put("email",NewMail);
+            //values.put("ImageUrl",globalVars.getImgUrl());
+
+            JSONObject where = new JSONObject();
+            where.put("id",globalVars.getId());
+
+            HttpCall httpCall = new HttpCall();
+            httpCall.setMethodtype(HttpCall.POST);
+            httpCall.setUrl(Constants.updateData);
+            final HashMap<String,String> params = new HashMap<>();
+            params.put("table","users");
+            params.put("where",where.toString());
+            params.put("values",values.toString());
+
+            httpCall.setParams(params);
+
+            new HttpRequest(){
+                @Override
+                public void onResponse(JSONArray response) {
+                    super.onResponse(response);
+                    if (checkResponse(response)){
+                        globalVars.setName(NewName);
+                        globalVars.setMail(NewMail);
+                        globalVars.setPhone(NewPhone);
+                        saveUpdateToPref();
+                        editableProfile(false);
+                        Toast.makeText(ProfileActivity.this,"Changing saved",Toast.LENGTH_SHORT).show();
+                    }else {
+                        Toast.makeText(ProfileActivity.this,"Edit Fail",Toast.LENGTH_SHORT).show();
+                    }
+                    progressDialog.dismiss();
+                }
+            }.execute(httpCall);
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
 
     private synchronized void dismissProgress() {
         Counter++;
-        if (Counter >= 2 || photoChanged == false)
+        if (Counter >= 2 || photoChanged == false || noChange == false)
             progressDialog.dismiss();
     }
 
@@ -457,7 +546,6 @@ public class ProfileActivity extends AppCompatActivity {
         }
     }
 
-
     // ERROR In Matching Phone //
     public static boolean isValidPhone(String phone)
     {
@@ -471,21 +559,6 @@ public class ProfileActivity extends AppCompatActivity {
         }
         else{
             return true;
-        }
-    }
-
-    public static boolean isValidMail(String mail)
-    {
-        String expression = "^[\\w!#$%&'*+/=?`{|}~^-]+(?:\\.[\\w!#$%&'*+/=?`{|}~^-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,6}$";
-        CharSequence inputString = mail;
-        Pattern pattern = Pattern.compile(expression);
-        Matcher matcher = pattern.matcher(inputString);
-        if (matcher.matches())
-        {
-            return true;
-        }
-        else{
-            return false;
         }
     }
 
@@ -543,11 +616,11 @@ public class ProfileActivity extends AppCompatActivity {
     }
 
     @SuppressLint("StaticFieldLeak")
-    private void checkPhone(final String phone) {
+    private void checkMail(final String mail) {
 
         JSONObject where_info = new JSONObject();
         try {
-            where_info.put("phone",phone);
+            where_info.put("email",mail);
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -566,10 +639,10 @@ public class ProfileActivity extends AppCompatActivity {
                 super.onResponse(response);
 
                 if(response != null){
-                    show_toast("Phone already exists");
+                    show_toast("Email already exists");
 
                 } else {
-                    verfication(phone);
+                    verfication(mail);
                 }
 
             }
@@ -577,12 +650,13 @@ public class ProfileActivity extends AppCompatActivity {
     }
 
     @SuppressLint("StaticFieldLeak")
-    private void verfication(String phone){
+    private void verfication(String mail){
 
         String verification_msg;
         Random random_num = new Random();
         final int verfication_num = random_num.nextInt(9999 - 1000) + 1000;
-        verification_msg = "Your verfication code: " + verfication_num;
+        Log.d("Verification","Code: "+verfication_num);
+       // verification_msg = "Your verfication code: " + verfication_num;
 
 
         LayoutInflater inflater = (LayoutInflater) profile_Context.getSystemService(LAYOUT_INFLATER_SERVICE);
@@ -613,7 +687,7 @@ public class ProfileActivity extends AppCompatActivity {
             @Override
             public void onClick(View view){
                 String verifcation = verify_edit_text.getText().toString().trim();
-                insertToDb();
+
                 if (verifcation.equals(String.valueOf(verfication_num))){
                     verfication_popup_window.dismiss();
                     insertToDb();
@@ -627,10 +701,10 @@ public class ProfileActivity extends AppCompatActivity {
 
         HttpCall httpCall = new HttpCall();
         httpCall.setMethodtype(HttpCall.POST);
-        httpCall.setUrl(Constants.sendSMS);
+        httpCall.setUrl(Constants.sendMail);
         HashMap<String,String> params = new HashMap<>();
-        params.put("phone",phone);
-        params.put("message",verification_msg);
+        params.put("email",mail);
+        params.put("code",String.valueOf(verfication_num));
         httpCall.setParams(params);
 
         new HttpRequest(){
@@ -638,62 +712,16 @@ public class ProfileActivity extends AppCompatActivity {
             public void onResponse(JSONArray response) {
                 super.onResponse(response);
 
-                if(response != null){
+              /*  if(response != null){
                     show_toast("Success");
 
                 } else {
                     verfication_popup_window.dismiss();
                     show_toast("An error occurred");
-                }
+                }*/
 
             }
         }.execute(httpCall);
-    }
-
-    private void insertToDb() {
-        progressDialog.show();
-
-        try {
-            JSONObject values = new JSONObject();
-            values.put("name",NewName);
-            values.put("phone",NewPhone);
-            values.put("email",NewMail);
-            values.put("ImageUrl",globalVars.getImgUrl());
-
-            JSONObject where = new JSONObject();
-            where.put("id",globalVars.getId());
-
-            HttpCall httpCall = new HttpCall();
-            httpCall.setMethodtype(HttpCall.POST);
-            httpCall.setUrl(Constants.updateData);
-            final HashMap<String,String> params = new HashMap<>();
-            params.put("table","users");
-            params.put("where",where.toString());
-            params.put("values",values.toString());
-
-            httpCall.setParams(params);
-
-            new HttpRequest(){
-                @Override
-                public void onResponse(JSONArray response) {
-                    super.onResponse(response);
-                    if (checkResponse(response)){
-                        globalVars.setName(NewName);
-                        globalVars.setMail(NewMail);
-                        globalVars.setPhone(NewPhone);
-                        saveUpdateToPref();
-                        editableProfile(false);
-                        Toast.makeText(ProfileActivity.this,"Changing saved",Toast.LENGTH_SHORT).show();
-                    }else {
-                        Toast.makeText(ProfileActivity.this,"Edit Fail",Toast.LENGTH_SHORT).show();
-                    }
-                    progressDialog.dismiss();
-                }
-            }.execute(httpCall);
-
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
     }
 
     private void show_toast(String msg) {

@@ -110,6 +110,7 @@ public class AboutFragment extends Fragment {
     }
 
     private void fill_list_items (JSONArray response) {
+        items.clear();
         mSwipeRefreshLayout.setRefreshing(false);
         try {
             for (int i=0; i<response.length(); i++) {

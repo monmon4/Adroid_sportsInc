@@ -8,14 +8,13 @@
     android:fitsSystemWindows="true"
     android:orientation="vertical"
     tools:context=".Activities.EventsDetailsActivity">
+
     <com.quantumsit.sportsinc.CustomView.CustomLoadingView
         android:id="@+id/LoadingView"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
     </com.quantumsit.sportsinc.CustomView.CustomLoadingView>
-
-
     <android.support.v4.widget.NestedScrollView
         android:layout_below="@+id/LoadingView"
         android:layout_above="@+id/belowlayout_navigation"
@@ -29,7 +28,9 @@
             <android.support.v7.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="@dimen/ten_dimens"
+                android:layout_marginStart="@dimen/ten_dimens"
+                android:layout_marginEnd="@dimen/ten_dimens"
+                android:layout_marginBottom="@dimen/ten_dimens"
                 card_view:cardUseCompatPadding="true"
                 card_view:cardCornerRadius="5dp">
 
@@ -37,6 +38,16 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical">
+                    <TextView
+                        android:id="@+id/event_title"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:padding="@dimen/padding_5"
+                        android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
+                        android:background="@color/colorLogoBlue"
+                        android:text="title"
+                        android:textColor="@color/colorWhite"/>
                     <RelativeLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content">

@@ -23,8 +23,8 @@
             <ImageView
                 android:id="@+id/imageView"
                 android:layout_width="wrap_content"
-                android:layout_height="100dp"
-                android:layout_marginTop="@dimen/ten_dimens"
+                android:layout_height="120dp"
+                android:layout_marginTop="@dimen/twinty_dimens"
                 android:layout_marginBottom="@dimen/twinty_dimens"
                 app:srcCompat="@drawable/sportsinc_aquatics_logo" />
 
@@ -34,6 +34,7 @@
                 android:layout_height="wrap_content"
                 android:hint="@string/email"
                 android:padding="10dp"
+                android:layout_marginTop="@dimen/ten_dimens"
                 android:background="@color/colorWhite"
                 android:textColor="@color/colorBlack"
                 android:ems="10"
@@ -141,6 +142,7 @@
             </LinearLayout>
 
             <com.facebook.login.widget.LoginButton
+                android:visibility="gone"
                 android:id="@+id/fb_login_button"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -153,6 +155,7 @@
                 android:layout_marginEnd="4dp"
                 android:layout_marginTop="60dp" />
             <com.google.android.gms.common.SignInButton
+                android:visibility="gone"
                 android:id="@+id/ga_login_button"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

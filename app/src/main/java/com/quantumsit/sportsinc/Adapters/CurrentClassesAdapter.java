@@ -46,15 +46,17 @@ import java.util.Locale;
 
 public class CurrentClassesAdapter  extends ArrayAdapter<classesEntity>{
     Context context;
+    int person_id;
     ArrayList<classesEntity> classesList;
     ProgressDialog progressDialog;
     DB_Sqlite_Handler myDB;
     private Button  startBtn, endBtn;
     ImageView editBtn;
 
-    public CurrentClassesAdapter(@NonNull Context context, int resource, ArrayList<classesEntity> classesList, DB_Sqlite_Handler myDB) {
+    public CurrentClassesAdapter(@NonNull Context context, int resource, ArrayList<classesEntity> classesList,int person_id, DB_Sqlite_Handler myDB) {
         super(context, resource);
         this.context = context;
+        this.person_id = person_id;
         this.myDB = myDB;
         progressDialog = new ProgressDialog(context);
         this.classesList = classesList;
@@ -161,6 +163,8 @@ public class CurrentClassesAdapter  extends ArrayAdapter<classesEntity>{
             params.put("table","classes");
             params.put("values",values.toString());
             params.put("where", where_info.toString());
+            params.put("notify","true");
+            params.put("person_id",String.valueOf(person_id));
 
             httpCall.setParams(params);
 
