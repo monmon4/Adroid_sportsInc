@@ -146,6 +146,7 @@ public class Coach_CurrentClassNoteFragment extends Fragment {
             params.put("table","classes");
             params.put("where",where.toString());
             params.put("values",values.toString());
+            params.put("notify","true");
 
             httpCall.setParams(params);
 

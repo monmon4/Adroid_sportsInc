@@ -118,6 +118,7 @@ public class PaymentRulesFragment extends Fragment {
 
     private void fill_list_items (JSONArray response) {
         mSwipeRefreshLayout.setRefreshing(false);
+        items.clear();
         try {
             for (int i=0; i<response.length(); i++) {
                 JSONObject result = response.getJSONObject(i);

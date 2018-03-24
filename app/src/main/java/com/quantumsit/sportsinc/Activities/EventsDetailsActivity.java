@@ -45,7 +45,7 @@ public class EventsDetailsActivity extends AppCompatActivity {
 
     GlobalVars globalVars;
 
-    TextView  date, time, description , event_link;
+    TextView  title ,date, time, description , event_link;
 
     LinearLayout addToCalendar;
     TextView interestedLabel;
@@ -61,13 +61,14 @@ public class EventsDetailsActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_events_details);
-
+        getSupportActionBar().setTitle("Event Details");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
         globalVars = (GlobalVars) getApplication();
 
         loadingView = findViewById(R.id.LoadingView);
+        title = findViewById(R.id.event_title);
         time = findViewById(R.id.eventDetailTime);
         date = findViewById(R.id.event_date);
         description = findViewById(R.id.event_description);
@@ -245,7 +246,7 @@ public class EventsDetailsActivity extends AppCompatActivity {
     private void fillView(EventEntity eventEntity) {
         SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy", Locale.ENGLISH);
         String formattedDate = df.format(eventEntity.getDate());
-        getSupportActionBar().setTitle(eventEntity.getTitle());
+        title.setText(eventEntity.getTitle());
         time.setText(eventEntity.getTime());
         date.setText(formattedDate);
         if (eventEntity.getEventUrl() == null || eventEntity.getEventUrl().equals("") )

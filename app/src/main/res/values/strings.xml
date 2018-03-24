@@ -457,6 +457,8 @@
     <string name="trainees">Trainees</string>
     <string name="add_new_trainee">Add new trainee</string>
     <string name="check_out">Check out</string>
+    <string name="signUp">Sign Up</string>
+    <string name="RemindNote">Reminder Note</string>
     <string name="terms_amp_conditions"><![CDATA[Terms&Conditions]]></string>
     <string name="your_classes">Your Classes</string>
     <string name="number_of_trainees_">Number of Trainees:</string>

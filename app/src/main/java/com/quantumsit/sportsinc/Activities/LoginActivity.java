@@ -114,7 +114,7 @@ public class LoginActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
-        getSupportActionBar().setTitle(getResources().getString(R.string.log_in));
+        getSupportActionBar().setTitle("");
 
         setTitleColor(getResources().getColor(R.color.colorLogoRed));
 

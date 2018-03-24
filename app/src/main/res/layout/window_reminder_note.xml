@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="wrap_content"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="#ffff">
+    android:background="#ffff"
+    android:orientation="vertical">
 
     <RelativeLayout
-        android:id="@+id/NoteHeader"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/colorNote"
@@ -17,11 +17,10 @@
             android:layout_centerInParent="true"
             android:textColor="@color/colorLogoBlue"
             android:textStyle="italic"
-            android:text="@string/note"/>
+            android:text="@string/RemindNote"/>
 
         <ImageView
             android:id="@+id/noteClose"
-            android:visibility="gone"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
@@ -30,33 +29,41 @@
             android:src="@drawable/ic_close"/>
 
     </RelativeLayout>
-
     <EditText
         android:id="@+id/noteEditText_notewindow"
-        android:layout_below="@+id/NoteHeader"
         android:layout_width="match_parent"
         android:layout_height="200dp"
-        android:background="@drawable/note_border"
         android:hint="@string/write_a_note"
         android:gravity="top"
         android:layout_margin="20dp"
+        android:background="@drawable/note_border"
         android:padding="10dp"
-        android:textColor="@color/colorMaroon"
+        android:textColor="@color/colorBlack"
         android:inputType="textMultiLine" />
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:orientation="horizontal"
         android:padding="@dimen/padding_3"
-        android:background="@drawable/button_blue_background"
-        android:layout_below="@+id/noteEditText_notewindow">
+        android:background="@drawable/button_blue_background">
         <Button
             android:id="@+id/doneButton_notewindow"
             android:layout_width="wrap_content"
             android:layout_height="40dp"
             android:textAllCaps="false"
             android:textColor="@color/colorTextLight"
-            android:layout_alignParentEnd="true"
-            android:layout_marginEnd="16dp"
+            android:backgroundTint="@color/colorGreen"
+            android:layout_toStartOf="@+id/cancelButton_notewindow"
             android:text="@string/done" />
+        <Button
+            android:id="@+id/cancelButton_notewindow"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:textAllCaps="false"
+            android:backgroundTint="@color/colorLogoRed"
+            android:textColor="@color/colorTextLight"
+            android:layout_alignParentEnd="true"
+            android:text="@string/cancel" />
     </RelativeLayout>
-</RelativeLayout>
+</LinearLayout>

@@ -30,6 +30,7 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Locale;
@@ -39,6 +40,7 @@ public class Request_addActivity extends AppCompatActivity {
     EditText reason_editText;
     MaterialBetterSpinner date_spinner, request_for_spinner;
     ArrayList<String> date_list, group_list/*elly hwa esmo group zman*/;
+    ArrayList<Integer> group_id_list;
 
     GlobalVars globalVars;
 
@@ -46,6 +48,7 @@ public class Request_addActivity extends AppCompatActivity {
     String[] empty = {""};
 
     int group_id;
+    private int selectedPosition;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,7 +61,6 @@ public class Request_addActivity extends AppCompatActivity {
         globalVars = (GlobalVars) getApplication();
         progressDialog = new ProgressDialog(Request_addActivity.this);
         progressDialog.setMessage("Please wait.....");
-        progressDialog.setCanceledOnTouchOutside(false);
 
         date_spinner = findViewById(R.id.dateSpinner_requestadd);
         request_for_spinner = findViewById(R.id.requestforSpinner_requestadd);
@@ -66,6 +68,7 @@ public class Request_addActivity extends AppCompatActivity {
 
         date_list = new ArrayList<>();
         group_list = new ArrayList<>();
+        group_id_list = new ArrayList<>();
 
         ArrayAdapter<String> dates_spinner_adapter = new ArrayAdapter<>(this, android.R.layout.simple_dropdown_item_1line, empty);
         ArrayAdapter<CharSequence> requestfor_spinner_adapter = ArrayAdapter.createFromResource(this, R.array.trainee_request_for_array, android.R.layout.simple_dropdown_item_1line);
@@ -118,6 +121,18 @@ public class Request_addActivity extends AppCompatActivity {
 
                 }
                 progressDialog.dismiss();
+            }
+        });
+
+        date_spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int position, long l) {
+                selectedPosition = position;
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
             }
         });
 
@@ -191,6 +206,7 @@ public class Request_addActivity extends AppCompatActivity {
                             //setDate_spinnerAdapter();
 
                         } else {
+                            progressDialog.dismiss();
                             Toast.makeText(Request_addActivity.this, "An error occurred ", Toast.LENGTH_SHORT).show();
                         }
 
@@ -242,6 +258,8 @@ public class Request_addActivity extends AppCompatActivity {
                             for (int i=0; i<response.length(); i++) {
                                 JSONObject result = response.getJSONObject(i);
                                 String group_name = result.getString("name");
+                                int group_id = result.getInt("id");
+                                group_id_list.add(group_id);
                                 group_list.add(group_name);
                             }
 
@@ -275,7 +293,10 @@ public class Request_addActivity extends AppCompatActivity {
                 new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-                        send_to_DB();
+                        if (request_for_spinner.getText().toString().equals("Absence"))
+                            send_to_DB();
+                        else
+                            insert_to_db();
                         dialogInterface.dismiss();
                     }
                 });
@@ -354,27 +375,24 @@ public class Request_addActivity extends AppCompatActivity {
             }
 
             String title = "request for " + request_for_spinner.getText().toString();
-            if (request_for_spinner.getText().toString().equals("Switch class")) {
-                title += " with " + date_spinner.getText().toString();
-            }
-
             String content = reason_editText.getText().toString();
             if (content.equals("")){ content = "none";}
             int type = 1;
             int from_id = globalVars.getId();
 
+            show_toast("Sending...");
             JSONObject values_info = new JSONObject();
             try {
-                values_info.put("type",type);
+                values_info.put("Type",type);
+                values_info.put("request_type",6);
                 values_info.put("from_id",from_id);
                 values_info.put("to_id",to_id);
                 values_info.put("title",title);
                 values_info.put("course_name","");
                 values_info.put("sub_course_name","");
+                values_info.put("session_id",group_id);
                 values_info.put("content",content);
                 values_info.put("date_request",date_request);
-
-
 
                 HttpCall httpCall = new HttpCall();
                 httpCall.setMethodtype(HttpCall.POST);
@@ -394,8 +412,6 @@ public class Request_addActivity extends AppCompatActivity {
                         Log.d("AddRequest","response : "+String.valueOf(response));
                         if (response != null) {
                             show_toast("Success ");
-                            onBackPressed();
-                            finish();
                         } else {
                             show_toast("An error occurred ");
                         }
@@ -406,65 +422,75 @@ public class Request_addActivity extends AppCompatActivity {
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-
-        } else {
-            String title = "request for " + request_for_spinner.getText().toString();
-            if (request_for_spinner.getText().toString().equals("Switch class")) {
-                title += " with " + date_spinner.getText().toString();
-            }
-
-            String content = reason_editText.getText().toString();
-            if (content.equals("")){ content = "none";}
-            int type = 1;
-            int from_id = globalVars.getId();
-
-            JSONObject values_info = new JSONObject();
-            try {
-                values_info.put("type",type);
-                values_info.put("from_id",from_id);
-                values_info.put("to_id",to_id);
-                values_info.put("title",title);
-                values_info.put("course_name","");
-                values_info.put("sub_course_name","");
-                values_info.put("content",content);
-                values_info.put("date_request",date_request);
+            onBackPressed();
+            finish();
+        }
+    }
 
 
-
-                HttpCall httpCall = new HttpCall();
-                httpCall.setMethodtype(HttpCall.POST);
-                httpCall.setUrl(Constants.insertData);
-                HashMap<String,String> params = new HashMap<>();
-                params.put("table","requests");
-                params.put("notify","1");
-                params.put("manager","1");
-                params.put("values",values_info.toString());
-
-                httpCall.setParams(params);
-
-                new HttpRequest(){
-                    @Override
-                    public void onResponse(JSONArray response) {
-                        super.onResponse(response);
-                        Log.d("AddRequest","response : "+String.valueOf(response));
-                        if (response != null) {
-                            show_toast("Success ");
-                            onBackPressed();
-                            finish();
-                        } else {
-                            show_toast("An error occurred ");
-                        }
-                    }
-
-                }.execute(httpCall);
-
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
+    @SuppressLint("StaticFieldLeak")
+    public void insert_to_db() {
+        Calendar c = Calendar.getInstance();
+        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH);
+        String date_request = df.format(c.getTime());
+        int switchGroup = 0;
+        int request_type = 4;
+        String title = "request for " + request_for_spinner.getText().toString();
+        if (request_for_spinner.getText().toString().equals("Switch class")) {
+            title += " with " + date_spinner.getText().toString();
+            switchGroup = group_id_list.get(selectedPosition) ;
+            request_type++;
         }
 
+        String content = reason_editText.getText().toString();
+        if (content.equals("")){ content = "none";}
+        int type = 1;
+        int from_id = globalVars.getId();
+        show_toast("Sending...");
 
+        JSONObject values_info = new JSONObject();
+        try {
+            values_info.put("Type",type);
+            values_info.put("request_type",request_type);
+            values_info.put("from_id",from_id);
+            values_info.put("title",title);
+            values_info.put("course_name","");
+            values_info.put("sub_course_name","");
+            if (switchGroup != 0)
+                values_info.put("session_id",switchGroup);
+            values_info.put("content",content);
+            values_info.put("date_request",date_request);
 
+            HttpCall httpCall = new HttpCall();
+            httpCall.setMethodtype(HttpCall.POST);
+            httpCall.setUrl(Constants.insertData);
+            HashMap<String,String> params = new HashMap<>();
+            params.put("table","requests");
+            params.put("notify","1");
+            params.put("values",values_info.toString());
+
+            httpCall.setParams(params);
+
+            new HttpRequest(){
+                @Override
+                public void onResponse(JSONArray response) {
+                    super.onResponse(response);
+                    Log.d("AddRequest","response : "+String.valueOf(response));
+                    if (response != null) {
+                        show_toast("Success ");
+                    } else {
+                        show_toast("An error occurred ");
+                    }
+                }
+
+            }.execute(httpCall);
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        onBackPressed();
+        finish();
     }
 
     @Override
@@ -485,6 +511,7 @@ public class Request_addActivity extends AppCompatActivity {
     }
 
     private void show_toast(String msg){
+        progressDialog.dismiss();
         Toast.makeText(Request_addActivity.this, msg, Toast.LENGTH_SHORT).show();
     }
 }
