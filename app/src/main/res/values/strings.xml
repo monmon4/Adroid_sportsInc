@@ -276,7 +276,7 @@
     <string name="scores">Scores</string>
     <string name="calendar">Calender</string>
     <string name="no_connection">No Internet Connection</string>
-    <string name="no_of_sessions">No. sessions:</string>
+    <string name="no_of_sessions">Number of sessions:</string>
     <string name="price_">Price:</string>
     <string name="description_">Description:</string>
     <string name="description">Description</string>
@@ -402,7 +402,7 @@
     <string name="select_users_token">token</string>
     <string name="select_users_active">active</string>
     <string name="select_users_mail">email</string>
-    <string name="JoinAcademy">Join Sports Inc.</string>
+    <string name="JoinAcademy">Sign up to Sports Inc.</string>
     <string name="sportDes1">Become A </string>
     <string name="sportDes2">Sports Inc Aquatics</string>
     <string name="spotDes3">Member</string>
@@ -448,6 +448,15 @@
     <string name="pool_">Pool:</string>
     <string name="coach_s_notes_">Coach\'s notes:</string>
     <string name="contentLable">Content:</string>
+    <string name="year">Year</string>
+    <string name="duration_of_session">Duration of session:</string>
+    <string name="book">Book</string>
+    <string name="coach_">Coach:</string>
+    <string name="days_">Days:</string>
+    <string name="time_">Times:</string>
+    <string name="trainees">Trainees</string>
+    <string name="add_new_trainee">Add new trainee</string>
+    <string name="check_out">Check out</string>
     <string name="signUp">Sign Up</string>
     <string name="RemindNote">Reminder Note</string>
 </resources>

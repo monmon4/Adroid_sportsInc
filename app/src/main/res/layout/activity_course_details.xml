@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -15,18 +15,16 @@
         android:layout_height="match_parent">
     </com.quantumsit.sportsinc.CustomView.CustomLoadingView>
 
-    <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:fillViewport="true"
-        android:scrollbars="none">
+
 
         <LinearLayout
+            android:id="@+id/ll_coursesdetails"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical"
-            android:background="@color/colorWhite"
             android:padding="10dp">
+
+
             <ImageView
                 android:id="@+id/Course_icon"
                 android:layout_gravity="center"
@@ -41,44 +39,18 @@
                 android:layout_marginTop="@dimen/top_margin"
                 card_view:cardUseCompatPadding="true"
                 card_view:cardCornerRadius="5dp">
+
+                <!--ScrollView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:fillViewport="true"
+                    android:scrollbars="none"-->
+
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical">
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:paddingTop="10dp"
-                        android:paddingBottom="10dp"
-                        android:orientation="horizontal">
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="@string/price_"
-                            android:paddingEnd="2dp"
-                            android:paddingStart="16dp"
-                            android:textColor="@color/colorCoursesText"
-                            android:textStyle="bold|italic"
-                            android:textAppearance="?android:textAppearanceMedium"
-                            />
-                        <TextView
-                            android:id="@+id/course_details_price"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="10dp"
-                            android:layout_marginEnd="5dp"
-                            android:text="100"
-                            android:textColor="@color/colorText"
-                            android:textAppearance="?android:attr/textAppearanceMedium"
-                            />
-                        <TextView
-                            android:id="@+id/course_details_price_Curencey"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="$"
-                            android:textAppearance="?android:attr/textAppearanceMedium"
-                            />
-                    </LinearLayout>
+
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -92,7 +64,7 @@
                             android:paddingStart="16dp"
                             android:paddingEnd="2dp"
                             android:textColor="@color/colorCoursesText"
-                            android:textStyle="bold|italic"
+                            android:textStyle="bold"
                             android:textAppearance="?android:textAppearanceMedium"/>
                         <TextView
                             android:id="@+id/course_details_no_classes"
@@ -104,103 +76,45 @@
                             android:textAppearance="?android:textAppearanceMedium"
                             />
                     </LinearLayout>
-                </LinearLayout>
-            </android.support.v7.widget.CardView>
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:paddingTop="10dp"
+                        android:paddingBottom="10dp"
+                        android:orientation="horizontal">
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/duration_of_session"
+                            android:paddingEnd="2dp"
+                            android:paddingStart="16dp"
+                            android:textColor="@color/colorCoursesText"
+                            android:textStyle="bold"
+                            android:textAppearance="?android:textAppearanceMedium"
+                            />
+                        <TextView
+                            android:id="@+id/course_details_session_duration"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="10dp"
+                            android:layout_marginEnd="5dp"
+                            android:text="100"
+                            android:textColor="@color/colorText"
+                            android:textAppearance="?android:attr/textAppearanceMedium"
+                            />
 
-            <TextView
-                android:id="@+id/course_details_level"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:visibility="gone"
-                android:gravity="center"
-                android:text="level Beginner"
-                android:textColor="@color/colorPrimaryDark"
-                android:paddingTop="10dp"
-                android:paddingBottom="10dp"
-                android:textAppearance="?android:textAppearanceLarge"
-                />
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:visibility="gone"
-                android:paddingTop="10dp">
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_weight="1"
-                    android:layout_height="wrap_content"
-                    android:gravity="start"
-                    android:textColor="@color/colorBlack"
-                    android:textAppearance="?android:attr/textAppearanceMedium"
-                    android:text="From: "
-                    android:textStyle="bold"
-                    android:textSize="18dp"
-                    android:layout_marginLeft="15dp"
-                    android:layout_marginTop="10dp" />
-
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_weight="3"
-                    android:layout_height="wrap_content"
-                    android:textAppearance="?android:attr/textAppearanceMedium"
-                    android:text="21/01/2018"
-                    android:layout_marginStart="10dp"
-                    android:id="@+id/course_details_start_date"
-                    android:layout_marginTop="10dp"/>
-
-            </LinearLayout>
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:visibility="gone"
-                android:orientation="horizontal"
-                android:paddingBottom="10dp">
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_weight="1"
-                    android:layout_height="wrap_content"
-                    android:gravity="start"
-                    android:textColor="@color/colorBlack"
-                    android:textAppearance="?android:attr/textAppearanceMedium"
-                    android:text="To: "
-                    android:textStyle="bold"
-                    android:textSize="18dp"
-                    android:layout_marginStart="22dp"
-                    android:layout_marginTop="10dp" />
-
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_weight="3"
-                    android:layout_height="wrap_content"
-                    android:textAppearance="?android:attr/textAppearanceMedium"
-                    android:text="01/02/2018"
-                    android:id="@+id/course_details_end_date"
-                    android:layout_marginEnd="15dp"
-                    android:layout_marginTop="10dp"/>
-            </LinearLayout>
-
-
-
-            <android.support.v7.widget.CardView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                card_view:cardUseCompatPadding="true"
-                card_view:cardCornerRadius="5dp">
-                <LinearLayout
-                    android:orientation="vertical"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content">
+                    </LinearLayout>
 
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:textAppearance="?android:textAppearanceMedium"
                         android:layout_marginTop="@dimen/top_margin"
-                        android:text="@string/description"
+                        android:text="@string/description_"
                         android:paddingStart="16dp"
                         android:paddingEnd="2dp"
                         android:textColor="@color/colorCoursesText"
-                        android:textStyle="bold|italic"/>
+                        android:textStyle="bold"/>
 
                     <TextView
                         android:id="@+id/course_details_description"
@@ -214,10 +128,31 @@
                         android:text="this course is for beginners asdasdsalkl dlsadla;sdask"
                         android:textAppearance="?android:textAppearanceMedium"
                         />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Classes:"
+                        android:paddingEnd="2dp"
+                        android:paddingStart="16dp"
+                        android:textColor="@color/colorCoursesText"
+                        android:textStyle="bold"
+                        android:textAppearance="?android:textAppearanceMedium"
+                        />
+
+                    <ExpandableListView
+                        android:id="@+id/course_details_expandableListView"
+                        android:groupIndicator="@drawable/expandable_listview_arrow"
+                        android:layout_margin="10dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" />
+
                 </LinearLayout>
-
+                <!--/ScrollView-->
             </android.support.v7.widget.CardView>
-        </LinearLayout>
-    </ScrollView>
 
-</LinearLayout>
+
+
+        </LinearLayout>
+
+
+</ScrollView>

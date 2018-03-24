@@ -11,11 +11,6 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.quantumsit.sportsinc.Adapters.SectionsPagerAdapter;
-import com.quantumsit.sportsinc.Home_fragments.CoursesFragment;
-import com.quantumsit.sportsinc.Home_fragments.EventFragment;
-import com.quantumsit.sportsinc.Home_fragments.MainFragment;
-import com.quantumsit.sportsinc.Home_fragments.NewsFragment;
-import com.quantumsit.sportsinc.Home_fragments.RulesFragment;
 import com.quantumsit.sportsinc.R;
 
 /**

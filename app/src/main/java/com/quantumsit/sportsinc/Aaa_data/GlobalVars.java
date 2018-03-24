@@ -26,6 +26,8 @@ public class GlobalVars extends Application {
 
     public UserEntity myAccount;
 
+    int course_id, class_id;
+
     public GlobalVars() {
         mContext = this;
         UploadService.NAMESPACE = BuildConfig.APPLICATION_ID;
@@ -193,6 +195,22 @@ public class GlobalVars extends Application {
 
     public void setGender(int gender) {
         this.gender = gender;
+    }
+
+    public int getCourse_id() {
+        return course_id;
+    }
+
+    public void setCourse_id(int course_id) {
+        this.course_id = course_id;
+    }
+
+    public int getClass_id() {
+        return class_id;
+    }
+
+    public void setClass_id(int class_id) {
+        this.class_id = class_id;
     }
 
     public int getAge() {

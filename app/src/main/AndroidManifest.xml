@@ -39,6 +39,7 @@
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -79,12 +80,11 @@
         <activity android:name=".Activities.RequestDetailsActivity" />
         <activity android:name=".Activities.ComplainDetailsActivity" />
         <activity android:name=".Activities.ComplainsAddActivity" />
-
         <activity android:name=".RegisterationForm_fragments.BookingFormActivity" />
-        <activity android:name=".RegisterationForm_fragments.BookingFirstFormActivity"></activity>
-        <activity android:name=".RegisterationForm_fragments.BookingSecondFormActivity"></activity>
-        <activity android:name=".RegisterationForm_fragments.BookingThirdFormActivity"></activity>
-        <activity android:name=".RegisterationForm_fragments.BookingForthFormActivity"></activity>
+        <activity android:name=".RegisterationForm_fragments.BookingFirstFormActivity" />
+        <activity android:name=".RegisterationForm_fragments.BookingSecondFormActivity" />
+        <activity android:name=".RegisterationForm_fragments.BookingThirdFormActivity" />
+        <activity android:name=".RegisterationForm_fragments.BookingForthFormActivity" />
         <!--
             The API key for Google Maps-based APIs is defined as a string resource.
             (See the file "res/values/google_maps_api.xml").
@@ -120,6 +120,7 @@
             </intent-filter>
         </service>
         <!-- ./Firebase Notifications -->
+        <activity android:name=".Activities.PaymentActivity"></activity>
     </application>
 
 </manifest>

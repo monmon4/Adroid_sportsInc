@@ -12,6 +12,7 @@ import android.widget.TextView;
 import com.google.i18n.phonenumbers.PhoneNumberUtil;
 import com.google.i18n.phonenumbers.Phonenumber;
 import com.hbb20.CountryCodePicker;
+import com.quantumsit.sportsinc.Aaa_data.GlobalVars;
 import com.quantumsit.sportsinc.Aaa_data.Trainees_info;
 import com.quantumsit.sportsinc.Activities.startPageActivity;
 import com.quantumsit.sportsinc.R;
@@ -33,6 +34,7 @@ public class BookingFirstFormActivity extends AppCompatActivity {
     TextView gender_textView, maleGender_textView, femaleGender_textView, date_textView;
     int gender = 2;
 
+    GlobalVars globalVars;
     CountryCodePicker ccp;
 
     @Override
@@ -43,6 +45,7 @@ public class BookingFirstFormActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         getSupportActionBar().setTitle("Registration (1)");
+        globalVars = (GlobalVars) getApplication();
 
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
 
@@ -65,6 +68,10 @@ public class BookingFirstFormActivity extends AppCompatActivity {
         nationality_editText = findViewById(R.id.nationality_first);
         address_editText = findViewById(R.id.address_first);
         mail_editText = findViewById(R.id.mail_first);
+
+        firstName_editText.setText(globalVars.getName());
+        mail_editText.setText(globalVars.getMail());
+        phone_editText .setText(globalVars.getPhone());
 
         maleGender_textView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -90,6 +97,7 @@ public class BookingFirstFormActivity extends AppCompatActivity {
         if(validateForm()){
             Intent intent = new Intent(BookingFirstFormActivity.this, BookingSecondFormActivity.class);
 
+            intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
             String[] info = {first_name, last_name, phone, nationality,
                     address, mail, day_of_birth, month_of_birth, year_of_birth};
             intent.putExtra("info", info);

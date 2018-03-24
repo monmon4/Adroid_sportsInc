@@ -71,6 +71,56 @@
 
                 </android.support.design.widget.TextInputLayout>
 
+                <android.support.design.widget.TextInputLayout
+                    android:id="@+id/input_layout_mail"
+                    android:layout_margin="2.5dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <EditText
+                        android:id="@+id/mail_first"
+                        android:layout_margin="5dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="textEmailAddress"
+                        android:singleLine="true"
+                        android:hint="@string/email" />
+
+                </android.support.design.widget.TextInputLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <com.hbb20.CountryCodePicker
+                        android:id="@+id/ccp_first"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginEnd="5dp"
+                        android:padding="9dp"
+                        app:ccp_defaultNameCode="AE" />
+
+                    <android.support.design.widget.TextInputLayout
+                        android:id="@+id/input_layout_phone"
+                        android:layout_margin="2.5dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <EditText
+                            android:id="@+id/phone_first"
+                            android:layout_margin="5dp"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:singleLine="true"
+                            android:inputType="phone"
+                            android:hint="@string/phone" />
+
+                    </android.support.design.widget.TextInputLayout>
+
+                </LinearLayout>
+
                 <TextView
                     android:id="@+id/genderTextView"
                     android:layout_width="wrap_content"
@@ -135,6 +185,7 @@
                         android:maxLength="2"
                         android:layout_weight="1"
                         android:padding="5dp"
+                        android:hint="@string/day"
                         android:gravity="center"
                         android:ems="2"
                         android:inputType="number" />
@@ -155,6 +206,7 @@
                         android:layout_weight="1"
                         android:padding="5dp"
                         android:ems="2"
+                        android:hint="@string/month"
                         android:gravity="center"
                         android:inputType="number" />
 
@@ -175,41 +227,11 @@
                         android:padding="5dp"
                         android:ems="4"
                         android:gravity="center"
+                        android:hint="@string/year"
                         android:inputType="number" />
                 </LinearLayout>
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
 
-                    <com.hbb20.CountryCodePicker
-                        android:id="@+id/ccp_first"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_vertical"
-                        android:layout_marginEnd="5dp"
-                        android:padding="9dp"
-                        app:ccp_defaultNameCode="AE" />
-
-                    <android.support.design.widget.TextInputLayout
-                        android:id="@+id/input_layout_phone"
-                        android:layout_margin="2.5dp"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
-
-                        <EditText
-                            android:id="@+id/phone_first"
-                            android:layout_margin="5dp"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:singleLine="true"
-                            android:inputType="phone"
-                            android:hint="@string/phone" />
-
-                    </android.support.design.widget.TextInputLayout>
-
-                </LinearLayout>
 
                 <android.support.design.widget.TextInputLayout
                     android:id="@+id/input_layout_nationality"
@@ -243,22 +265,6 @@
 
                 </android.support.design.widget.TextInputLayout>
 
-                <android.support.design.widget.TextInputLayout
-                    android:id="@+id/input_layout_mail"
-                    android:layout_margin="2.5dp"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-
-                    <EditText
-                        android:id="@+id/mail_first"
-                        android:layout_margin="5dp"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:inputType="textEmailAddress"
-                        android:singleLine="true"
-                        android:hint="@string/email" />
-
-                </android.support.design.widget.TextInputLayout>
 
 
             </LinearLayout>

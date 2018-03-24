@@ -2,7 +2,7 @@
 <resources>
     <color name="colorPrimary">#df1b1c</color>
     <color name="colorPrimaryDark">#c70001</color>
-    <color name="colorAccent">#b12025</color>
+    <color name="colorAccent">#df1b1c</color>
 
     <color name="colorTextDark">#001b51</color>
     <color name="colorText">#002a35</color>
@@ -19,6 +19,7 @@
     <color name="colorLogoBlue">#001b51</color>
     <color name="colorLogoBlueTransparent">#bf002774</color>
     <color name="colorLogoRed">#df1b1c</color>
+
     <color name="colorRed">#b12025</color>
 
     <color name="colorRegisterGrayGender">#b7b7b7</color>
@@ -45,6 +46,12 @@
     <color name="colorDarkBlue">#0e019f</color>
     <color name="colorNote">#d7d7d7</color>
     <color name="colorGreen">#11be5f</color>
+
+
+    <color name="colorCoursesDetails">#d7d7d7</color>
+    <color name="colorCoursesWindow">#6d6565</color>
+
+
 
 
 </resources>

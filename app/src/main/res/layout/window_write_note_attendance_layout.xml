@@ -32,19 +32,20 @@
 
     </RelativeLayout>
 
-    <!--com.weiwangcn.betterspinner.library.material.MaterialBetterSpinner
+    <com.weiwangcn.betterspinner.library.material.MaterialBetterSpinner
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="@string/note"
+        android:layout_below="@+id/NoteHeader"
         android:dropDownWidth="match_parent"
         android:padding="10dp"
         android:textColorHint="@color/colorAccent"
         app:met_floatingLabel="normal"
-        android:id="@+id/noteSpinner_notewindowattendance"/-->
+        android:id="@+id/noteSpinner_notewindowattendance"/>
 
     <EditText
         android:id="@+id/noteEditText_notewindowattendance"
-        android:layout_below="@+id/NoteHeader"
+        android:layout_below="@+id/noteSpinner_notewindowattendance"
         android:layout_width="match_parent"
         android:layout_height="150dp"
         android:hint="@string/write_a_note"

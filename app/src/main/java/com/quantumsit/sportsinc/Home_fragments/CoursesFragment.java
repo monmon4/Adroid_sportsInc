@@ -79,6 +79,7 @@ public class CoursesFragment extends Fragment {
 
         adapter = new CoursesAdapter(getContext(),R.layout.list_item_level,courseList);
         listView.setAdapter(adapter);
+        listView.setClickable(true);
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override

@@ -40,6 +40,7 @@ public interface Constants {
     String traineeCoursesData = server + "trainee_finished_courses";
     String traineeClassScores = server + "classes_scores";
     String traineeSwitchGroup = server + "switch_group";
+    String register_trainee = server + "bookClass";
 
     String profile = "profile_img";
     String profile_host = upload_host + profile + "/";
@@ -51,4 +52,5 @@ public interface Constants {
     //SQLite DB
     String TABLE_AcademyInfo = "info_academy";
 
+    String D1 = "Saturday";
 }
