@@ -418,7 +418,7 @@
     <string name="heart_issues">Heart issues</string>
     <string name="asthma">Asthma</string>
     <string name="other">Other</string>
-    <string name="personal_data_parents_legal_gurdian">Personal Data Parents/Legal gurdian</string>
+    <string name="personal_data_parents_legal_guardian">Personal Data Parents/Legal guardian</string>
     <string name="first_person">First Person</string>
     <string name="second_person">Second Person</string>
     <string name="emergency_contact">Emergency Contact</string>
@@ -457,6 +457,15 @@
     <string name="trainees">Trainees</string>
     <string name="add_new_trainee">Add new trainee</string>
     <string name="check_out">Check out</string>
+    <string name="terms_amp_conditions"><![CDATA[Terms&Conditions]]></string>
+    <string name="your_classes">Your Classes</string>
+    <string name="number_of_trainees_">Number of Trainees:</string>
+    <string name="trainees_names">Trainees names:</string>
+    <string name="total">Total</string>
+    <string name="select_payment_method">Select payment method</string>
+    <string name="backup_coach_">Backup coach:</string>
+    <string name="confirm">Confirm</string>
+    <string name="pay_later">Pay later</string>
 
 
 </resources>

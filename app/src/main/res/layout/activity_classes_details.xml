@@ -223,7 +223,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceLarge"
-                android:text="Admin: "
+                android:text="@string/backup_coach_"
                 android:textStyle="bold"
                 android:textSize="18dp"
                 android:id="@+id/class_admin_Lable"

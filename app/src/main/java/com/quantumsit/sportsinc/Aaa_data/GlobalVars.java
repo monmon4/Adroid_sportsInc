@@ -4,6 +4,7 @@ import android.app.Application;
 import android.content.Context;
 
 import com.quantumsit.sportsinc.BuildConfig;
+import com.quantumsit.sportsinc.Entities.BookingCourseEntity;
 import com.quantumsit.sportsinc.Entities.UserEntity;
 
 import net.gotev.uploadservice.UploadService;
@@ -27,6 +28,24 @@ public class GlobalVars extends Application {
     public UserEntity myAccount;
 
     int course_id, class_id;
+
+    public ArrayList<BookingCourseEntity> bookingCourseEntities = new ArrayList<>();
+
+    public ArrayList<BookingCourseEntity> getBookingCourseEntities() {
+        return bookingCourseEntities;
+    }
+
+    public void addBookingCourseEntities(BookingCourseEntity bookingCourseEntity) {
+        this.bookingCourseEntities.add(bookingCourseEntity);
+    }
+
+    public void clearBookingCourseEntities () {
+        this.bookingCourseEntities.clear();
+    }
+
+    public void removeBookingCourseEntities(int i) {
+        this.bookingCourseEntities.remove(i);
+    }
 
     public GlobalVars() {
         mContext = this;

@@ -213,7 +213,7 @@ public class RegisterActivity extends AppCompatActivity {
             return false;
         }
 
-        user_name +=  lastname_edittext.getText().toString();
+        user_name += " "  + lastname_edittext.getText().toString();
         mail_edittext.setError(null);
         pass_edittext.setError(null);
         repass_edittext.setError(null);

@@ -36,7 +36,7 @@
                     android:textColor="@color/colorWhite"
                     android:padding="10dp"
                     android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-                    android:text="@string/personal_data_parents_legal_gurdian" />
+                    android:text="@string/personal_data_parents_legal_guardian" />
 
                 <TextView
                     android:id="@+id/textView3"

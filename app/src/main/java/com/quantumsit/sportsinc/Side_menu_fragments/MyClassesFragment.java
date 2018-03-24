@@ -10,11 +10,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.quantumsit.sportsinc.ADMINS.Admin_CurrentClassesFragment;
 import com.quantumsit.sportsinc.Aaa_data.GlobalVars;
 import com.quantumsit.sportsinc.Adapters.SectionsPagerAdapter;
 import com.quantumsit.sportsinc.COACHES.CoachClassesFragment;
-import com.quantumsit.sportsinc.COACHES.CurrentClassFragments.Coach_StartClassFragment;
 import com.quantumsit.sportsinc.MyClasses_fragments.CalendarFragment;
 import com.quantumsit.sportsinc.MyClasses_fragments.ScoresFragment;
 import com.quantumsit.sportsinc.R;
@@ -48,8 +46,6 @@ public class MyClassesFragment extends Fragment {
             trainee = true;
         }else if (type == getResources().getInteger(R.integer.Coach)) {
             coach = true;
-        } else if (type == getResources().getInteger(R.integer.Admin)) {
-            admin = true;
         }
 
         myclasses_view_pager =  root.findViewById(R.id.my_classes_viewpager);

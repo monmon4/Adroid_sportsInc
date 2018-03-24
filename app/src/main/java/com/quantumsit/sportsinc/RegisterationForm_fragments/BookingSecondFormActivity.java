@@ -8,6 +8,7 @@ import android.view.WindowManager;
 import android.widget.CheckBox;
 import android.widget.EditText;
 
+import com.quantumsit.sportsinc.Entities.Booking_info;
 import com.quantumsit.sportsinc.R;
 
 public class BookingSecondFormActivity extends AppCompatActivity {
@@ -15,10 +16,8 @@ public class BookingSecondFormActivity extends AppCompatActivity {
     CheckBox firstIllness_checkBox, secondIllness_checkBox, thirdIllness_checkBox, forthIllness_checkBox;
     EditText otherIllness_editText;
 
-    String[] received_info;
-    int gender;
-
     StringBuilder illness = new StringBuilder();
+    Booking_info booking_info;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -30,8 +29,7 @@ public class BookingSecondFormActivity extends AppCompatActivity {
 
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
 
-        received_info = getIntent().getStringArrayExtra("info");
-        gender = getIntent().getIntExtra("gender",0);
+        booking_info = (Booking_info) getIntent().getSerializableExtra("booking_info");
 
         firstIllness_checkBox = findViewById(R.id.checkBox1_second);
         secondIllness_checkBox = findViewById(R.id.checkBox2_second);
@@ -45,7 +43,6 @@ public class BookingSecondFormActivity extends AppCompatActivity {
     public void back_second(View view) {
         onBackPressed();
         finish();
-        //startActivity(new Intent(BookingSecondFormActivity.this, BookingFirstFormActivity.class));
 
     }
 
@@ -78,11 +75,10 @@ public class BookingSecondFormActivity extends AppCompatActivity {
 
         illness.append(otherIllness_editText.getText());
 
+        booking_info.setSecond(illness.toString());
 
         Intent intent = new Intent(BookingSecondFormActivity.this, BookingThirdFormActivity.class);
-        intent.putExtra("first_info", received_info);
-        intent.putExtra("gender", gender);
-        intent.putExtra("second_info", illness.toString());
+        intent.putExtra("booking_info", booking_info);
         startActivity(intent);
     }
 

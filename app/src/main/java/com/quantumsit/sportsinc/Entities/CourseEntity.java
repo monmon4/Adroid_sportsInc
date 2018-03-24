@@ -27,20 +27,6 @@ public class CourseEntity implements Serializable {
     String description;
     String classDur;
 
-    public CourseEntity() {
-    }
-
-    public CourseEntity(String courseName, Date startDate, Date endDate, String price, String level, String classes_Num, String description) {
-        ImageUrl = "";
-        CourseName = courseName;
-        StartDate = startDate;
-        EndDate = endDate;
-        this.price = price;
-        this.level = level;
-        this.classes_Num = classes_Num;
-        this.description = description;
-    }
-
     public CourseEntity(JSONObject object){
         try {
             course_id = object.getInt("id");

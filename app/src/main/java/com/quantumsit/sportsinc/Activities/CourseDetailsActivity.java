@@ -35,8 +35,7 @@ import java.util.Locale;
 import java.util.Objects;
 
 public class CourseDetailsActivity extends AppCompatActivity {
-    TextView CourseName ,SessionsNum ,description ;
-    TextView DurationOfSession;
+    TextView SessionsNum ,description, durationOfSession ;
 
     ImageView levelImage;
 
@@ -60,6 +59,7 @@ public class CourseDetailsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_course_details);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
+        getSupportActionBar().setTitle("Course details");
 
         progressDialog = new ProgressDialog(CourseDetailsActivity.this);
 
@@ -69,8 +69,8 @@ public class CourseDetailsActivity extends AppCompatActivity {
         levelImage = findViewById(R.id.Course_icon);
         SessionsNum = findViewById(R.id.course_details_no_classes);
         expandableListView = findViewById(R.id.course_details_expandableListView);
-
         description = findViewById(R.id.course_details_description);
+        durationOfSession = findViewById(R.id.course_details_session_duration);
 
 
 
@@ -101,8 +101,28 @@ public class CourseDetailsActivity extends AppCompatActivity {
 
         final CourseEntity myCourse = (CourseEntity) getIntent().getSerializableExtra("MyCourse");
 
+        String ImageUrl = myCourse.getImageUrl();
+        //fillImage(name,icon);
+        if(!ImageUrl.equals("")) {
+            Picasso.with(CourseDetailsActivity.this).load(Constants.others_host + ImageUrl).into(levelImage, new com.squareup.picasso.Callback() {
+                @Override
+                public void onSuccess() {
+
+                }
+
+                @Override
+                public void onError() {
+                    Log.d("Image Loading ","ERROR In Loading");
+                }
+            });
+        }
+        SessionsNum.setText(myCourse.getClasses_Num());
+        durationOfSession.setText(myCourse.getClassDur());
+        description.setText(myCourse.getDescription());
+
+
         progressDialog.show();
-        adapter_coursesDetails = new ListViewExpandable_Adapter_CoursesDetails(CourseDetailsActivity.this, header_list, child_list, myCourse.getCourse_id());
+        adapter_coursesDetails = new ListViewExpandable_Adapter_CoursesDetails(CourseDetailsActivity.this, header_list, child_list, myCourse);
         fill_list_view(myCourse);
 
         LinearLayout ll = findViewById(R.id.ll_coursesdetails);
@@ -142,9 +162,7 @@ public class CourseDetailsActivity extends AppCompatActivity {
                     View listItem = listAdapter.getChildView(i, j, false, null,
                             listView);
                     listItem.measure(desiredWidth, View.MeasureSpec.UNSPECIFIED);
-
                     totalHeight += listItem.getMeasuredHeight();
-
                 }
             }
         }
@@ -260,7 +278,14 @@ public class CourseDetailsActivity extends AppCompatActivity {
     @Override
     public boolean onSupportNavigateUp() {
         onBackPressed();
+        finish();
         return true;
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        finish();
     }
 
     public void checkBooking(){

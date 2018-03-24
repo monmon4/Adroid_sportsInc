@@ -15,6 +15,7 @@ import com.hbb20.CountryCodePicker;
 import com.quantumsit.sportsinc.Aaa_data.GlobalVars;
 import com.quantumsit.sportsinc.Aaa_data.Trainees_info;
 import com.quantumsit.sportsinc.Activities.startPageActivity;
+import com.quantumsit.sportsinc.Entities.Booking_info;
 import com.quantumsit.sportsinc.R;
 
 import java.util.Calendar;
@@ -37,6 +38,8 @@ public class BookingFirstFormActivity extends AppCompatActivity {
     GlobalVars globalVars;
     CountryCodePicker ccp;
 
+    Booking_info booking_info;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -46,6 +49,7 @@ public class BookingFirstFormActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         getSupportActionBar().setTitle("Registration (1)");
         globalVars = (GlobalVars) getApplication();
+        booking_info = new Booking_info();
 
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
 
@@ -91,18 +95,12 @@ public class BookingFirstFormActivity extends AppCompatActivity {
 
     public void next_first(View view) {
 
-        //Intent intent = new Intent(BookingFirstFormActivity.this, BookingSecondFormActivity.class);
-        //startActivity(intent);
-
         if(validateForm()){
             Intent intent = new Intent(BookingFirstFormActivity.this, BookingSecondFormActivity.class);
+            booking_info.setFirst(first_name+" "+last_name, mail, phone, nationality,
+                    day_of_birth, month_of_birth, year_of_birth, address, gender);
 
-            intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
-            String[] info = {first_name, last_name, phone, nationality,
-                    address, mail, day_of_birth, month_of_birth, year_of_birth};
-            intent.putExtra("info", info);
-            intent.putExtra("gender", gender);
-
+            intent.putExtra("booking_info", booking_info);
             startActivity(intent);
         }
 

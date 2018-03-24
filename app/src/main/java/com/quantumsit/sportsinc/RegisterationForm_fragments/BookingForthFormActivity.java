@@ -20,6 +20,7 @@ import com.quantumsit.sportsinc.Activities.HomeActivity;
 import com.quantumsit.sportsinc.Backend.Functions;
 import com.quantumsit.sportsinc.Backend.HttpCall;
 import com.quantumsit.sportsinc.Backend.HttpRequest;
+import com.quantumsit.sportsinc.Entities.Booking_info;
 import com.quantumsit.sportsinc.R;
 
 import org.json.JSONArray;
@@ -36,10 +37,6 @@ import java.util.Locale;
 
 public class BookingForthFormActivity extends AppCompatActivity {
 
-    String[] first_form_info, third_form_info;
-    int gender;
-    String second_form_info;
-
     EditText E_firstName_editText, E_firstPhone_editText, E_secondName_editText, E_secondPhone_editText;
     CountryCodePicker ccp1, ccp2;
     String E_firstName, E_firstPhone, E_secondName, E_secondPhone;
@@ -53,6 +50,8 @@ public class BookingForthFormActivity extends AppCompatActivity {
     Functions functions;
     int parent_id = -1;
 
+    Booking_info booking_info;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -64,11 +63,8 @@ public class BookingForthFormActivity extends AppCompatActivity {
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
 
         functions = new Functions(BookingForthFormActivity.this);
-        first_form_info = getIntent().getStringArrayExtra("first_info");
-        gender = getIntent().getIntExtra("gender", gender);
-        second_form_info = getIntent().getStringExtra("second_info");
-        third_form_info = getIntent().getStringArrayExtra("third_info");
 
+        booking_info = (Booking_info) getIntent().getSerializableExtra("booking_info");
         E_firstName_editText = findViewById(R.id.full_name1_forth);
         E_firstPhone_editText = findViewById(R.id.phone1_forth);
         ccp1 = findViewById(R.id.ccp1_forth);
@@ -103,17 +99,16 @@ public class BookingForthFormActivity extends AppCompatActivity {
     public void back_forth(View view) {
         onBackPressed();
         finish();
-        //startActivity(new Intent(BookingSecondFormActivity.this, BookingFirstFormActivity.class));
 
     }
 
     private void check_parent () {
 
-        if (!third_form_info[3].equals("")) {
+        if (!booking_info.getF_mail().equals("")) {
             JSONObject where_info = new JSONObject();
 
             try {
-                where_info.put("email",third_form_info[3]);
+                where_info.put("email",booking_info.getF_mail());
             } catch (JSONException e) {
                 e.printStackTrace();
             }
@@ -193,10 +188,12 @@ public class BookingForthFormActivity extends AppCompatActivity {
         }
 
         if (!first_checkBox.isChecked() || !second_checkBox.isChecked()) {
-            Toast.makeText(BookingForthFormActivity.this,"You have to accept ouu policy first", Toast.LENGTH_SHORT).show();
+            Toast.makeText(BookingForthFormActivity.this,"You have to accept our policy first", Toast.LENGTH_SHORT).show();
            // all_good = false;
             return;
         }
+
+        booking_info.setForth(E_firstName, E_firstPhone, E_secondName, E_secondPhone, hear_about_us);
 
         insert_to_DB();
 
@@ -240,7 +237,9 @@ public class BookingForthFormActivity extends AppCompatActivity {
 
     private void insert_to_DB() {
 
-        String date_of_birth = first_form_info[8] + "-" + first_form_info[7] + "-" + first_form_info[6];
+        String date_of_birth = booking_info.getYear_of_birth() + "-" +
+                booking_info.getMonth_of_birth()+ "-" +
+                booking_info.getDay_of_birth();
         Date date;
         DateFormat outdateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH);
         DateFormat DateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH);
@@ -254,16 +253,16 @@ public class BookingForthFormActivity extends AppCompatActivity {
 
         JSONObject info = new JSONObject();
         try {
-            info.put("name",first_form_info[0]+first_form_info[1]);
+            info.put("name",booking_info.getName());
             if (parent_id != -1) {
                 info.put("parent_id",parent_id);
             }
-            info.put("phone",first_form_info[2]);
-            info.put("email",first_form_info[5]);
-            info.put("gender",gender);
+            info.put("phone",booking_info.getPhone());
+            info.put("email",booking_info.getMail());
+            info.put("gender",booking_info.getGender());
             info.put("type",6);
             info.put("date_of_birth",date_of_birth);
-            info.put("address",first_form_info[4]);
+            info.put("address",booking_info.getAddress());
 
             HttpCall httpCall = new HttpCall();
             httpCall.setMethodtype(HttpCall.POST);
@@ -319,21 +318,21 @@ public class BookingForthFormActivity extends AppCompatActivity {
         try {
             info.put("user_id", id);
             info.put("date_register", dateFormat.format(date));
-            info.put("father_name",third_form_info[0]);
-            info.put("father_phone",third_form_info[4]);
-            info.put("father_email",third_form_info[3]);
-            info.put("father_address",third_form_info[2]);
-            info.put("father_nationality",third_form_info[1]);
-            info.put("mother_name",third_form_info[5]);
-            info.put("mother_phone",third_form_info[9]);
-            info.put("mother_email",third_form_info[8]);
-            info.put("mother_address",third_form_info[7]);
-            info.put("mother_nationality",third_form_info[6]);
+            info.put("father_name",booking_info.getF_name());
+            info.put("father_phone",booking_info.getF_phone());
+            info.put("father_email",booking_info.getF_mail());
+            info.put("father_address",booking_info.getF_address());
+            info.put("father_nationality",booking_info.getF_nationality());
+            info.put("mother_name",booking_info.getM_name());
+            info.put("mother_phone",booking_info.getM_phone());
+            info.put("mother_email",booking_info.getM_mail());
+            info.put("mother_address",booking_info.getM_address());
+            info.put("mother_nationality",booking_info.getM_nationality());
             info.put("E_name",E_firstName);
             info.put("E_phone",E_firstPhone);
             info.put("E_name1",E_secondName);
             info.put("E_phone1",E_secondPhone);
-            info.put("medical_notes",second_form_info);
+            info.put("medical_notes",booking_info.getMedical());
             info.put("heard_of_us",hear_about_us);
 
             HttpCall httpCall = new HttpCall();

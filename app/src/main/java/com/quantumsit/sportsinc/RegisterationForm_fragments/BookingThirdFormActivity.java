@@ -13,16 +13,13 @@ import android.widget.TextView;
 import com.google.i18n.phonenumbers.PhoneNumberUtil;
 import com.google.i18n.phonenumbers.Phonenumber;
 import com.hbb20.CountryCodePicker;
+import com.quantumsit.sportsinc.Entities.Booking_info;
 import com.quantumsit.sportsinc.R;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class BookingThirdFormActivity extends AppCompatActivity {
-
-    String[] first_form_info;
-    int gender;
-    String second_form_info;
 
     EditText firstName_editText, firstNationality_editText, firstAddress_editText, firstEmail_editText, firstPhone_editText;
     EditText secondName_editText, secondNationality_editText, secondAddress_editText, secondEmail_editText, secondPhone_editText;
@@ -32,7 +29,7 @@ public class BookingThirdFormActivity extends AppCompatActivity {
 
     CountryCodePicker first_ccp, second_ccp;
 
-
+    Booking_info booking_info;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,9 +46,7 @@ public class BookingThirdFormActivity extends AppCompatActivity {
         first_person.setPaintFlags(first_person.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
         second_person.setPaintFlags(second_person.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
 
-        first_form_info = getIntent().getStringArrayExtra("first_info");
-        gender = getIntent().getIntExtra("gender", 0);
-        second_form_info = getIntent().getStringExtra("second_info");
+        booking_info = (Booking_info) getIntent().getSerializableExtra("booking_info");
 
         firstName_editText = findViewById(R.id.full_name1_third);
         firstNationality_editText = findViewById(R.id.nationality1_third);
@@ -77,7 +72,6 @@ public class BookingThirdFormActivity extends AppCompatActivity {
     public void back_third(View view) {
         onBackPressed();
         finish();
-        //startActivity(new Intent(BookingSecondFormActivity.this, BookingFirstFormActivity.class));
 
     }
 
@@ -123,12 +117,9 @@ public class BookingThirdFormActivity extends AppCompatActivity {
 
         if (all_good) {
             Intent intent = new Intent(BookingThirdFormActivity.this, BookingForthFormActivity.class);
-            String[] third_form_info = {firstName, firstNationality,firstAddress, firstEmail, firstPhone
-            , secondName, secondNationality, secondAddress, secondEmail, secondPhone};
-             intent.putExtra("first_info", first_form_info);
-             intent.putExtra("gender", gender);
-             intent.putExtra("second_info", second_form_info);
-             intent.putExtra("third_info", third_form_info);
+            booking_info.setThird(firstName, firstNationality, firstAddress, firstEmail, firstPhone,
+                    secondName, secondNationality, secondAddress, secondEmail, secondPhone);
+            intent.putExtra("booking_info", booking_info);
             startActivity(intent);
 
         }

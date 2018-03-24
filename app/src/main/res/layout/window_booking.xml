@@ -2,8 +2,9 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
+    android:padding="3dp"
     android:orientation="vertical"
-    android:background="#ffff">
+    android:background="@drawable/window_border">
 
 
     <TextView
@@ -25,6 +26,11 @@
         android:paddingStart= "8dp">
     </ListView>
 
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:background="@color/colorHomeGray"/>
+
     <TextView
         android:id="@+id/addTraineeTextView_window"
         android:layout_width="match_parent"
@@ -38,6 +44,7 @@
         android:textColor="@color/colorLogoBlue"
         android:drawableEnd="@drawable/ic_add_box"
         android:text="@string/add_new_trainee" />
+
 
     <LinearLayout
         android:layout_width="match_parent"

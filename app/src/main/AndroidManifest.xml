@@ -74,12 +74,9 @@
         <activity android:name=".Activities.NewsDetailsActivity" />
         <!-- activity android:name=".CourseDetailsActivity" / -->
         <activity android:name=".Activities.NotificationDetailsActivity" />
-        <activity android:name=".ADMINS.AdminStartClassActivity" />
         <activity android:name=".Activities.NewsActivity" />
         <activity android:name=".Activities.EventsActivity" />
         <activity android:name=".Activities.RequestDetailsActivity" />
-        <activity android:name=".Activities.ComplainDetailsActivity" />
-        <activity android:name=".Activities.ComplainsAddActivity" />
         <activity android:name=".RegisterationForm_fragments.BookingFormActivity" />
         <activity android:name=".RegisterationForm_fragments.BookingFirstFormActivity" />
         <activity android:name=".RegisterationForm_fragments.BookingSecondFormActivity" />

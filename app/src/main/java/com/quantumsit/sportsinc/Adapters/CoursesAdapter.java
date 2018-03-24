@@ -93,35 +93,4 @@ public class CoursesAdapter extends ArrayAdapter<CourseEntity> {
         return  view;
     }
 
-    public void fillImage(String name , ImageView levelImage){
-        switch (name){
-            case "Star fish":
-                levelImage.setImageResource(R.drawable.star);
-                break;
-            case "Dolphin":
-                levelImage.setImageResource(R.drawable.dolphin);
-                break;
-            case "Duck":
-                levelImage.setImageResource(R.drawable.duck);
-                break;
-            case "Frog":
-                levelImage.setImageResource(R.drawable.frog);
-                break;
-            case "Jelly fish":
-                levelImage.setImageResource(R.drawable.jellyfish);
-                break;
-            case "Nemo":
-                levelImage.setImageResource(R.drawable.nemo);
-                break;
-            case "Penguin":
-                levelImage.setImageResource(R.drawable.penguin);
-                break;
-            case "Seal":
-                levelImage.setImageResource(R.drawable.seal);
-                break;
-            case "Shark":
-                levelImage.setImageResource(R.drawable.shark);
-                break;
-        }
-    }
 }
