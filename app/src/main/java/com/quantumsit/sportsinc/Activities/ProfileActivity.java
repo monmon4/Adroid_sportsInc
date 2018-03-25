@@ -111,6 +111,7 @@ public class ProfileActivity extends AppCompatActivity {
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
+        getSupportActionBar().setTitle("My profile");
 
         globalVars = (GlobalVars) getApplication();
         functions = new Functions(getApplicationContext());

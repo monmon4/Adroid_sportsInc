@@ -35,7 +35,7 @@ import java.util.Locale;
 import java.util.Objects;
 
 public class CourseDetailsActivity extends AppCompatActivity {
-    TextView SessionsNum ,description, durationOfSession ;
+    TextView SessionsNum ,description, durationOfSession, noClsses ;
 
     ImageView levelImage;
 
@@ -71,21 +71,10 @@ public class CourseDetailsActivity extends AppCompatActivity {
         expandableListView = findViewById(R.id.course_details_expandableListView);
         description = findViewById(R.id.course_details_description);
         durationOfSession = findViewById(R.id.course_details_session_duration);
-
-
+        noClsses = findViewById(R.id.noClassesTextView_coursedetails);
 
         header_list = new ArrayList<>();
-        header_list.add(new item1_courses_details("firstClass", "15/2/2018", 1));
-        header_list.add(new item1_courses_details("secondClass", "20/2/2018", 2));
-        header_list.add(new item1_courses_details("thirdClass", "15/2/2018", 3));
-
-        String[] days = {"Sat", "Mon"};
-        String[] times = {"15:00", "13:00"};
-
         child_list = new HashMap<>();
-        child_list.put(1, new item2_courses_details("Omar", days, times));
-        child_list.put(2, new item2_courses_details("Omar", days, times));
-        child_list.put(3, new item2_courses_details("Omar", days, times));
 
         //expandableListView.setAdapter(adapter_coursesDetails);
 
@@ -243,6 +232,8 @@ public class CourseDetailsActivity extends AppCompatActivity {
                             header_list.add(new item1_courses_details(class_name, start_date,class_id));
                             child_list.put(class_id, new item2_courses_details(coach_name, days, daystime));
                         }
+                        noClsses.setVisibility(View.GONE);
+                        expandableListView.setVisibility(View.VISIBLE);
                         adapter_coursesDetails.notifyDataSetChanged();
                         expandableListView.setAdapter(adapter_coursesDetails);
                         progressDialog.dismiss();
@@ -255,6 +246,8 @@ public class CourseDetailsActivity extends AppCompatActivity {
                     }
 
                 } else {
+                    noClsses.setVisibility(View.VISIBLE);
+                    expandableListView.setVisibility(View.GONE);
                     progressDialog.dismiss();
                     //checkMail();
                     //verfication();
@@ -267,11 +260,17 @@ public class CourseDetailsActivity extends AppCompatActivity {
     }
 
     private String[] get_days(String dayss) {
+        String[] dayss_split;
 
-        String[] dayss_split = dayss.split("@");
-        for (int i=0; i<dayss_split.length; i++) {
-            dayss_split[i] = weekDays[Integer.valueOf(dayss_split[i])];
+        if(dayss != null) {
+            dayss_split = dayss.split("@");
+            for (int i=0; i<dayss_split.length; i++) {
+                dayss_split[i] = weekDays[Integer.valueOf(dayss_split[i])];
+            }
+        } else  {
+            dayss_split = new String[]{" "};
         }
+
         return dayss_split;
     }
 

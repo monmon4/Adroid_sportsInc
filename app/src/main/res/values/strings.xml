@@ -468,6 +468,7 @@
     <string name="backup_coach_">Backup coach:</string>
     <string name="confirm">Confirm</string>
     <string name="pay_later">Pay later</string>
+    <string name="no_classes_available">No classes available</string>
 
 
 </resources>

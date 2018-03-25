@@ -55,6 +55,7 @@ public class RequestDetailsActivity extends AppCompatActivity {
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
+        getSupportActionBar().setTitle("Request details");
 
         loadingView = findViewById(R.id.LoadingView);
         loadingView.setOnRetryClick(new CustomLoadingView.OnRetryClick() {

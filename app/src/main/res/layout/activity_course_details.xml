@@ -8,11 +8,11 @@
     android:fitsSystemWindows="true"
     android:orientation="vertical"
     tools:context=".Activities.ClassesDetailsActivity">
-    <com.quantumsit.sportsinc.CustomView.CustomLoadingView
+    <!--com.quantumsit.sportsinc.CustomView.CustomLoadingView
         android:id="@+id/LoadingView"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-    </com.quantumsit.sportsinc.CustomView.CustomLoadingView>
+    </com.quantumsit.sportsinc.CustomView.CustomLoadingView-->
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -140,6 +140,17 @@
                         android:textStyle="bold"
                         android:textAppearance="?android:textAppearanceMedium"
                         />
+
+
+                    <TextView
+                        android:id="@+id/noClassesTextView_coursedetails"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:drawableStart="@drawable/ic_faded_my_classes_small"
+                        android:gravity="start|center_vertical"
+                        android:layout_gravity="center"
+                        android:visibility="gone"
+                        android:text="@string/no_classes_available" />
 
                     <ExpandableListView
                         android:id="@+id/course_details_expandableListView"
