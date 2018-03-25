@@ -57,7 +57,7 @@ public class ContactUsFragment extends Fragment implements OnMapReadyCallback {
     ArrayList<item_contact_us> list_items;
 
     Academy_info academy_info;
-    GlobalVars globalVars;
+    //GlobalVars globalVars;
 
     MapView mapView;
     TextView maps_textView;
@@ -91,14 +91,14 @@ public class ContactUsFragment extends Fragment implements OnMapReadyCallback {
 
 
 
-        globalVars = (GlobalVars) getActivity().getApplication();
+        //globalVars = (GlobalVars) getActivity().getApplication();
         academy_info = new Academy_info();
 
-        if (globalVars.getMyDB().Academy_empty())
+        //if (globalVars.getMyDB().Academy_empty())
             get_info();
 
-        else
-            academy_info = globalVars.getMyDB().getAcademyInfo();
+        //else
+            //academy_info = globalVars.getMyDB().getAcademyInfo();
             setLatandLng();
             mapView.onStart();
 
@@ -246,7 +246,7 @@ public class ContactUsFragment extends Fragment implements OnMapReadyCallback {
                         academy_info.setPhone(result.getString("phone"));
                         academy_info.setEmail(result.getString("email"));
 
-                        globalVars.getMyDB().addAcademyInfo(academy_info);
+                        //globalVars.getMyDB().addAcademyInfo(academy_info);
                         setLatandLng();
                         mapView.onStart();
 

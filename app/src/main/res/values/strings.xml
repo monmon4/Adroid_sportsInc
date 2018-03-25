@@ -471,6 +471,9 @@
     <string name="no_classes_available">No classes available</string>
     <string name="pay_now">Pay now</string>
     <string name="create_new_account">Create new account</string>
+    <string name="late">Late</string>
+    <string name="execused">Execused</string>
+    <string name="didn_t_come">Didn\'t come</string>
 
 
 </resources>

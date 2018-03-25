@@ -9,12 +9,21 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
+import android.os.Build;
 import android.support.annotation.NonNull;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
+import android.view.WindowManager;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.PopupWindow;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -76,9 +85,12 @@ public class startPageActivity extends AppCompatActivity {
     private GoogleSignInClient mGoogleSignInClient;
     CallbackManager callbackManager;
 
+    PopupWindow signup_popup_window;
+    private Context start_page_Context;
+    private RelativeLayout start_page_rl;
 
-    LoginButton fbLoginButton;
-    SignInButton googleSignInButton;
+    //LoginButton fbLoginButton;
+    //SignInButton googleSignInButton;
     String received_pass, received_mail, received_name, received_imgUrl
             ,received_date_of_birth, received_phone;
     int received_id, received_gender, received_type;
@@ -97,6 +109,9 @@ public class startPageActivity extends AppCompatActivity {
         Images.add(R.drawable.starthome1);
         Images.add(R.drawable.starthome2);
 
+        start_page_Context = getApplicationContext();
+        start_page_rl =  findViewById(R.id.startpage_rl);
+
         viewpager =  findViewById(R.id.viewPager);
         indicator =  findViewById(R.id.indicator);
 
@@ -105,76 +120,23 @@ public class startPageActivity extends AppCompatActivity {
         Timer timer = new Timer();
         timer.scheduleAtFixedRate(new MyTimeTask() , 2000,4000);
         // Configure Google Sign In
-        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                .requestEmail()
-                .build();
-        mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
+        //GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                //.requestEmail()
+                //.build();
+       // mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
 
 
-        googleSignInButton = findViewById(R.id.ga_login_button);
-        setGooglePlusButtonText(googleSignInButton , "Connect");
-        googleSignInButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                googleAccountLogin();
-            }
-        });
-        fbLoginButton = findViewById(R.id.fb_login_button);
-        FacebookSdk.sdkInitialize(getApplicationContext());
-        callbackManager = CallbackManager.Factory.create();
-        List< String > permissionNeeds = Arrays.asList("user_photos", "email",
-                "user_birthday", "public_profile");
-        fbLoginButton.setReadPermissions(permissionNeeds);
-        fbLoginButton.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
-            @Override
-            public void onSuccess(LoginResult loginResult) {
-                // show_toast(loginResult.getAccessToken().getToken() );
-                GraphRequest request = GraphRequest.newMeRequest(
-                        loginResult.getAccessToken(),
-                        new GraphRequest.GraphJSONObjectCallback() {@Override
-                        public void onCompleted(JSONObject object,
-                                                GraphResponse response) {
+       // googleSignInButton = findViewById(R.id.ga_login_button);
+        //setGooglePlusButtonText(googleSignInButton , "Connect");
+        //googleSignInButton.setOnClickListener(new View.OnClickListener() {
+           // @Override
+           // public void onClick(View view) {
+                //googleAccountLogin();
+           // }
+        //});
+        //fbLoginButton = findViewById(R.id.fb_login_button);
 
-                            Log.i("FaceBookLoginActivity",
-                                    response.toString());
-                            try {
-                                String id = object.getString("id");
-                                try {
-                                    URL profile_pic = new URL(
-                                            "http://graph.facebook.com/" + id + "/picture?type=large");
-                                    Log.i("profile_pic",
-                                            profile_pic + "");
 
-                                } catch (MalformedURLException e) {
-                                    e.printStackTrace();
-                                }
-                                received_name = object.getString("name");
-                                received_mail = object.getString("email");
-                                String gender = object.getString("gender");
-                                String birthday = object.getString("birthday");
-                                socialMediaLogIn();
-                            } catch (JSONException e) {
-                                e.printStackTrace();
-                            }
-                        }
-                        });
-                Bundle parameters = new Bundle();
-                parameters.putString("fields",
-                        "id,name,email,gender, birthday");
-                request.setParameters(parameters);
-                request.executeAsync();
-            }
-
-            @Override
-            public void onCancel() {
-                show_toast(getString(R.string.loginCanceled));
-            }
-
-            @Override
-            public void onError(FacebookException error) {
-                show_toast(getString(R.string.loginFail));
-            }
-        });
     }
 
 
@@ -360,6 +322,7 @@ public class startPageActivity extends AppCompatActivity {
     }
 
     public void joinAcademy(View view) {
+        //open_pop_up();
         startActivity(new Intent(startPageActivity.this, RegisterActivity.class));
         //startActivity(new Intent(startPageActivity.this, BookingFirstFormActivity.class));
         finish();
@@ -382,5 +345,112 @@ public class startPageActivity extends AppCompatActivity {
                 }
             });
         }
+    }
+
+    private void open_pop_up() {
+
+        LayoutInflater inflater = (LayoutInflater) start_page_Context.getSystemService(LAYOUT_INFLATER_SERVICE);
+        View customView = inflater.inflate(R.layout.window_signup, null);
+
+        signup_popup_window = new PopupWindow(
+                customView,
+                ViewGroup.LayoutParams.WRAP_CONTENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT
+        );
+
+        if (Build.VERSION.SDK_INT >= 21) {
+            signup_popup_window.setElevation(5.0f);
+        }
+
+        Button sign_up = customView.findViewById(R.id.joinAcademyBtn2);
+        LoginButton fbLoginButton = customView.findViewById(R.id.fb_login_button);
+        SignInButton googleSignInButton = customView.findViewById(R.id.ga_login_button);
+
+        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestEmail()
+                .build();
+        mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
+
+        setGooglePlusButtonText(googleSignInButton , "Connect");
+        googleSignInButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                googleAccountLogin();
+                signup_popup_window.dismiss();
+            }
+        });
+
+        FacebookSdk.sdkInitialize(getApplicationContext());
+        callbackManager = CallbackManager.Factory.create();
+        List< String > permissionNeeds = Arrays.asList("user_photos", "email",
+                "user_birthday", "public_profile");
+        fbLoginButton.setReadPermissions(permissionNeeds);
+        fbLoginButton.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
+            @Override
+            public void onSuccess(LoginResult loginResult) {
+                signup_popup_window.dismiss();
+                // show_toast(loginResult.getAccessToken().getToken() );
+                GraphRequest request = GraphRequest.newMeRequest(
+                        loginResult.getAccessToken(),
+                        new GraphRequest.GraphJSONObjectCallback() {@Override
+                        public void onCompleted(JSONObject object,
+                                                GraphResponse response) {
+
+                            Log.i("FaceBookLoginActivity",
+                                    response.toString());
+                            try {
+                                String id = object.getString("id");
+                                try {
+                                    URL profile_pic = new URL(
+                                            "http://graph.facebook.com/" + id + "/picture?type=large");
+                                    Log.i("profile_pic",
+                                            profile_pic + "");
+
+                                } catch (MalformedURLException e) {
+                                    e.printStackTrace();
+                                }
+                                received_name = object.getString("name");
+                                received_mail = object.getString("email");
+                                socialMediaLogIn();
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                        });
+                Bundle parameters = new Bundle();
+                parameters.putString("fields",
+                        "id,name,email,gender, birthday");
+                request.setParameters(parameters);
+                request.executeAsync();
+            }
+
+            @Override
+            public void onCancel() {
+                signup_popup_window.dismiss();
+                show_toast(getString(R.string.loginCanceled));
+            }
+
+            @Override
+            public void onError(FacebookException error) {
+                signup_popup_window.dismiss();
+                show_toast(getString(R.string.loginFail));
+            }
+        });
+
+        sign_up.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view){
+                startActivity(new Intent(startPageActivity.this, RegisterActivity.class));
+                //startActivity(new Intent(startPageActivity.this, BookingFirstFormActivity.class));
+                finish();
+                signup_popup_window.dismiss();
+            }
+        } );
+
+        signup_popup_window.showAtLocation(start_page_rl, Gravity.CENTER, 0, 0);
+        signup_popup_window.setFocusable(true);
+        signup_popup_window.setOutsideTouchable(false);
+        signup_popup_window.update();
+
     }
 }

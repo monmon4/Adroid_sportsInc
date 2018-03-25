@@ -123,7 +123,7 @@ public class RegisterActivity extends AppCompatActivity {
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
-        getSupportActionBar().setTitle("Sign Up");
+        getSupportActionBar().setTitle(" ");
         functions = new Functions(getApplicationContext());
 
         globalVars = (GlobalVars) getApplication();

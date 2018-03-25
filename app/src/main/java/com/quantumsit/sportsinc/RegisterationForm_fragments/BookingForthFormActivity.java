@@ -34,6 +34,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Locale;
+import java.util.Random;
 
 public class BookingForthFormActivity extends AppCompatActivity {
 
@@ -42,7 +43,7 @@ public class BookingForthFormActivity extends AppCompatActivity {
     String E_firstName, E_firstPhone, E_secondName, E_secondPhone;
 
     RadioGroup radioGroup;
-    RadioButton other_radioButton;
+    RadioButton other_radioButton, first_radioButton, second_radioButton, third_radioButton;
     EditText other_editText;
     String hear_about_us;
 
@@ -82,17 +83,44 @@ public class BookingForthFormActivity extends AppCompatActivity {
         first_checkBox = findViewById(R.id.checkBox1_forth);
         second_checkBox = findViewById(R.id.checkBox2_forth);
 
+        first_radioButton = findViewById(R.id.radioButton_1);
+        second_radioButton = findViewById(R.id.radioButton_2);
+        third_radioButton = findViewById(R.id.radioButton_3);
+
         other_radioButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (other_radioButton.isChecked())
-                    other_editText.setEnabled(true);
-                else
-                    other_editText.setEnabled(false);
+                OtherEditTextEnabling();
+            }
+        });
+
+        first_radioButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                OtherEditTextEnabling();
+            }
+        });
+        second_radioButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                OtherEditTextEnabling();
+            }
+        });
+        third_radioButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                OtherEditTextEnabling();
             }
         });
 
         check_parent();
+    }
+
+    private void OtherEditTextEnabling() {
+        if (other_radioButton.isChecked())
+            other_editText.setEnabled(true);
+        else
+            other_editText.setEnabled(false);
     }
 
 
@@ -102,7 +130,7 @@ public class BookingForthFormActivity extends AppCompatActivity {
 
     }
 
-    private void check_parent () {
+    private void check_parent() {
 
         if (!booking_info.getF_mail().equals("")) {
             JSONObject where_info = new JSONObject();
@@ -124,18 +152,101 @@ public class BookingForthFormActivity extends AppCompatActivity {
                             JSONObject result = response.getJSONObject(0);
                             parent_id = result.getInt("id");
 
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    } else {
 
+                        String random_pass = generateRandomPass();
+                        insert_parent_to_DB(booking_info.getF_name(),
+                                booking_info.getF_mail(), booking_info.getF_phone(),
+                                booking_info.getF_address(), random_pass);
+                        //verfication();
+                    }
+                }
+            }.execute(httpCall);
+        }else if (!booking_info.getM_mail().equals("")) {
+            JSONObject where_info = new JSONObject();
+
+            try {
+                where_info.put("email",booking_info.getM_mail());
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+            HttpCall httpCall = functions.searchDB("users", where_info);
+
+            new HttpRequest(){
+                @Override
+                public void onResponse(JSONArray response) {
+                    super.onResponse(response);
+                    if(response != null){
+                        try {
+                            JSONObject result = response.getJSONObject(0);
+                            parent_id = result.getInt("id");
 
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
                     } else {
-                        insert_to_DB();
+                        String random_pass = generateRandomPass();
+                        insert_parent_to_DB(booking_info.getM_name(),
+                                booking_info.getMail(), booking_info.getM_phone(),
+                                booking_info.getM_address(), random_pass);
                         //verfication();
                     }
                 }
             }.execute(httpCall);
         }
+    }
+
+    private String generateRandomPass() {
+        Random generator = new Random();
+        StringBuilder randomStringBuilder = new StringBuilder();
+        int randomLength = generator.nextInt(10);
+        char tempChar;
+        for (int i = 0; i < randomLength; i++){
+            tempChar = (char) (generator.nextInt(96) + 32);
+            randomStringBuilder.append(tempChar);
+        }
+        return randomStringBuilder.toString();
+    }
+
+    private void insert_parent_to_DB(String name, final String mail, String phone, String address, String pass) {
+
+
+        JSONObject where_info = new JSONObject();
+
+        try {
+            where_info.put("name",name);
+            where_info.put("email",mail);
+            where_info.put("phone",phone);
+            where_info.put("address",address);
+            where_info.put("pass",pass);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        HttpCall httpCall = functions.insertToDB("users", where_info);
+
+        new HttpRequest(){
+            @Override
+            public void onResponse(JSONArray response) {
+                super.onResponse(response);
+                if(response != null){
+                    try {
+                        JSONObject result = response.getJSONObject(0);
+                        parent_id = result.getInt("id");
+
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                } else {
+                ////// a password yetbe3et l mail el parent dah w atl3lo msg en fii mail etb3atlo
+                    Toast.makeText(BookingForthFormActivity.this, "A random password has been sent to:\n" + mail, Toast.LENGTH_LONG).show();
+                }
+            }
+        }.execute(httpCall);
     }
 
 

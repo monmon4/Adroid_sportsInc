@@ -2,6 +2,7 @@ package com.quantumsit.sportsinc.Adapters;
 
 import android.content.Context;
 import android.os.Build;
+import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,11 +14,15 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.PopupWindow;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import com.quantumsit.sportsinc.Entities.item_checkbox;
 import com.quantumsit.sportsinc.R;
+import com.quantumsit.sportsinc.RegisterationForm_fragments.BookingForthFormActivity;
 import com.weiwangcn.betterspinner.library.material.MaterialBetterSpinner;
 
 import java.util.List;
@@ -121,14 +126,9 @@ public class CheckBoxListView_Adapter extends ArrayAdapter<item_checkbox> {
     public void note_popup(final item_checkbox item_checkbox){
 
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(LAYOUT_INFLATER_SERVICE);
-        View customView = inflater.inflate(R.layout.window_write_note_attendance_layout,null);
+        final View customView = inflater.inflate(R.layout.window_write_note_attendance_layout,null);
 
-        final MaterialBetterSpinner note_spinner = customView.findViewById(R.id.noteSpinner_notewindowattendance);
-
-        ArrayAdapter<CharSequence> note_spinner_adapter = ArrayAdapter.createFromResource(context, R.array.attendance_notes_array, android.R.layout.simple_dropdown_item_1line);
-        note_spinner_adapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
-        note_spinner.setAdapter(note_spinner_adapter);
-
+        final RadioGroup radioGroup = customView.findViewById(R.id.attendance_radigroup);
         note_popup_window = new PopupWindow(
                 customView,
                 ViewGroup.LayoutParams.WRAP_CONTENT,
@@ -149,13 +149,14 @@ public class CheckBoxListView_Adapter extends ArrayAdapter<item_checkbox> {
         done_button.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view){
-                String note = note_edit_text.getText().toString();
-                //if(!note_spinner.getText().toString().equals("")) {
-                    //note += "\n Extra note, your attendance was " + note_spinner.getText().toString();
-                //}
-
-                //show_toast("Success" + verifcation);
-                item_checkbox.setNote(note);
+                StringBuilder note = new StringBuilder();
+                int selected_radioButton_id = radioGroup.getCheckedRadioButtonId();
+                if (selected_radioButton_id != -1) {
+                    RadioButton selected = customView.findViewById(selected_radioButton_id);
+                    note.append(selected.getText().toString()).append("\n");
+                }
+                note.append(note_edit_text.getText().toString());
+                item_checkbox.setNote(note.toString());
                 note_popup_window.dismiss();
             }
         } );
