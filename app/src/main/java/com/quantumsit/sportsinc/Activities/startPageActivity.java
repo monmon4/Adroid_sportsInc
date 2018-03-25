@@ -92,6 +92,7 @@ public class startPageActivity extends AppCompatActivity {
         setContentView(R.layout.activity_start);
 
         globalVars = (GlobalVars) getApplication();
+        progressDialog = new ProgressDialog(getApplicationContext());
         Images = new ArrayList<>();
         Images.add(R.drawable.starthome1);
         Images.add(R.drawable.starthome2);
@@ -151,7 +152,7 @@ public class startPageActivity extends AppCompatActivity {
                                 received_mail = object.getString("email");
                                 String gender = object.getString("gender");
                                 String birthday = object.getString("birthday");
-                                //socialMediaLogIn();
+                                socialMediaLogIn();
                             } catch (JSONException e) {
                                 e.printStackTrace();
                             }
@@ -245,7 +246,7 @@ public class startPageActivity extends AppCompatActivity {
                 //Uri personPhoto = acct.getPhotoUrl();
                 received_name = personName+" "+personFamilyName;
                 received_mail = personEmail;
-                //socialMediaLogIn();
+                socialMediaLogIn();
             }
         } catch (ApiException e) {
             // The ApiException status code indicates the detailed failure reason.

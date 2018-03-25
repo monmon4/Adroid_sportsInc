@@ -434,7 +434,7 @@ public class Request_addActivity extends AppCompatActivity {
         SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH);
         String date_request = df.format(c.getTime());
         int switchGroup = 0;
-        int request_type = 4;
+        int request_type = 3;
         String title = "request for " + request_for_spinner.getText().toString();
         if (request_for_spinner.getText().toString().equals("Switch class")) {
             title += " with " + date_spinner.getText().toString();

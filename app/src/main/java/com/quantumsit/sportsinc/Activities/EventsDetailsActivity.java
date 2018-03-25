@@ -124,6 +124,7 @@ public class EventsDetailsActivity extends AppCompatActivity {
     }
 
     private void downloadEventFile() {
+        Toast.makeText(getApplicationContext(),"Download...",Toast.LENGTH_SHORT).show();
         downloadManager = (DownloadManager) getSystemService(Context.DOWNLOAD_SERVICE);
         Uri uri = Uri.parse(Constants.upload_files_host+eventEntity.getEventFileUrl());
         DownloadManager.Request request = new DownloadManager.Request(uri);

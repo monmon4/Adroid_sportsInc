@@ -57,7 +57,6 @@
             android:configChanges="orientation|screenSize"
             android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".Activities.HomeTabsActivity" />
         <activity android:name=".Activities.MyClasses_scoresActivity" />
         <activity android:name=".Activities.Reports_coursesActivity" />
         <activity android:name=".Activities.Request_addActivity" />

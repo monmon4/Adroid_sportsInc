@@ -8,9 +8,10 @@
     tools:context="com.quantumsit.sportsinc.Activities.LoginActivity"
     android:orientation="vertical">
 
-    <android.support.v4.widget.NestedScrollView
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:fillViewport="true">
 
         <LinearLayout
             android:id="@+id/ll_login"
@@ -164,6 +165,6 @@
 
             </com.google.android.gms.common.SignInButton>
         </LinearLayout>
-    </android.support.v4.widget.NestedScrollView>
+    </ScrollView>
 
 </LinearLayout>
