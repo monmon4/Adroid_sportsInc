@@ -437,10 +437,10 @@ public class LoginActivity extends AppCompatActivity {
 
         HttpCall httpCall = new HttpCall();
         httpCall.setMethodtype(HttpCall.POST);
-        httpCall.setUrl(Constants.sendSMS);
+        httpCall.setUrl(Constants.sendMail);
         HashMap<String,String> params = new HashMap<>();
-        params.put("phone",getString(R.string.NoUseVerify));
-        params.put("message",String.valueOf(verfication_num));
+        params.put("email",mail);
+        params.put("code",String.valueOf(verfication_num));
         httpCall.setParams(params);
 
         new HttpRequest(){
@@ -448,13 +448,13 @@ public class LoginActivity extends AppCompatActivity {
             public void onResponse(JSONArray response) {
                 super.onResponse(response);
 
-                if(response != null){
-                    show_toast(getString(R.string.VerifySent));
+               /* if(response != null){
+                    show_toast("Code has been sent");
 
                 } else {
-                    show_toast(getString(R.string.ToastError));
+                    show_toast("An error has occurred");
                     verfication_popup_window.dismiss();
-                }
+                }*/
 
             }
         }.execute(httpCall);
