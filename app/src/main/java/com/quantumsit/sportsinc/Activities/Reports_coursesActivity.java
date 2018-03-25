@@ -54,6 +54,7 @@ public class Reports_coursesActivity extends AppCompatActivity {
         setContentView(R.layout.activity_reports_courses);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
+        getSupportActionBar().setTitle("Course Reports");
 
         globalVars = (GlobalVars) getApplication();
 

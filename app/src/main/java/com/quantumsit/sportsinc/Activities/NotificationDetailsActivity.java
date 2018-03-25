@@ -48,6 +48,7 @@ public class NotificationDetailsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_notification_details);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
+        getSupportActionBar().setTitle("Notification details");
 
         globalVars = (GlobalVars) getApplication();
         loadingView = findViewById(R.id.LoadingView);

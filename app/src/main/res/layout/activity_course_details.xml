@@ -141,6 +141,17 @@
                         android:textAppearance="?android:textAppearanceMedium"
                         />
 
+
+                    <TextView
+                        android:id="@+id/noClassesTextView_coursedetails"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:drawableStart="@drawable/ic_faded_my_classes_small"
+                        android:gravity="start|center_vertical"
+                        android:layout_gravity="center"
+                        android:visibility="gone"
+                        android:text="@string/no_classes_available" />
+
                     <ExpandableListView
                         android:id="@+id/course_details_expandableListView"
                         android:groupIndicator="@drawable/expandable_listview_arrow"

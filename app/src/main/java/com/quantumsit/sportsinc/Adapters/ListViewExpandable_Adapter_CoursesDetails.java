@@ -160,11 +160,17 @@ public class ListViewExpandable_Adapter_CoursesDetails extends BaseExpandableLis
                 if (trainee_names.size()!= 0) {
                     open_popup(groupPosition);
                 } else if ( type == 0 ) {
-                    globalVars.bookingCourseEntities.add(new BookingCourseEntity(globalVars.getName(),
-                            String.valueOf(globalVars.getId()), courseEntity,
-                            header_list.get(groupPosition).getClass_name(),
-                            header_list.get(groupPosition).getClass_id())) ;
+                    ArrayList <BookingCourseEntity> bookingCourseEntity = globalVars.getBookingCourseEntities();
+                    if (bookingCourseEntity.size() == 0) {
+                        globalVars.bookingCourseEntities.add(new BookingCourseEntity(globalVars.getName(),
+                                String.valueOf(globalVars.getId()), courseEntity,
+                                header_list.get(groupPosition).getClass_name(),
+                                header_list.get(groupPosition).getClass_id())) ;
+                    } else {
+                        Toast.makeText(context, "You already booked in a level", Toast.LENGTH_SHORT).show();
+                    }
                     context.startActivity(new Intent(context, PaymentActivity.class));
+
                 } else if (type == 6) {
                     // 3awza aft7lo window eno already booked fi class tany fa hal 3awez y cancel l booking
 

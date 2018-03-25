@@ -198,7 +198,6 @@ public class BookingForthFormActivity extends AppCompatActivity {
         insert_to_DB();
 
 
-
     }
 
     public boolean isValidPhone1(String phone_num, String country)

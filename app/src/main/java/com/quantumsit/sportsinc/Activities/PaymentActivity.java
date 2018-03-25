@@ -143,7 +143,7 @@ public class PaymentActivity extends AppCompatActivity {
         httpCall.setUrl(Constants.register_trainee);
         HashMap<String,String> params = new HashMap<>();
         params.put("user_id",trainee_id);
-        params.put("class_id",String.valueOf(selected_class_id));
+        params.put("group_id",String.valueOf(selected_class_id));
         params.put("course_id",String.valueOf(selected_course_id));
         params.put("payment_type",String.valueOf(payment_type));
 
