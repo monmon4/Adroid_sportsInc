@@ -61,7 +61,7 @@ public class CourseDetailsActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         getSupportActionBar().setTitle("Course details");
 
-        progressDialog = new ProgressDialog(CourseDetailsActivity.this);
+       // progressDialog = new ProgressDialog(CourseDetailsActivity.this);
 
         functions = new Functions(CourseDetailsActivity.this);
 
@@ -121,7 +121,7 @@ public class CourseDetailsActivity extends AppCompatActivity {
         description.setText(myCourse.getDescription());
 
 
-        progressDialog.show();
+       // progressDialog.show();
         adapter_coursesDetails = new ListViewExpandable_Adapter_CoursesDetails(CourseDetailsActivity.this, header_list, child_list, myCourse);
         fill_list_view(myCourse);
 
@@ -245,20 +245,21 @@ public class CourseDetailsActivity extends AppCompatActivity {
                         }
                         adapter_coursesDetails.notifyDataSetChanged();
                         expandableListView.setAdapter(adapter_coursesDetails);
-                        progressDialog.dismiss();
+                       // progressDialog.dismiss();
 
                     } catch (JSONException e) {
-                        progressDialog.dismiss();
+                       // progressDialog.dismiss();
                         expandableListView.setVisibility(View.GONE);
                         e.printStackTrace();
 
                     }
 
                 } else {
-                    progressDialog.dismiss();
+                    //progressDialog.dismiss();
                     //checkMail();
                     //verfication();
                 }
+                loadingView.success();
 
             }
         }.execute(httpCall);

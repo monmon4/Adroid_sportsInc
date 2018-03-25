@@ -14,7 +14,7 @@ import java.util.Locale;
  */
 
 public class EventEntity implements Serializable {
-    String title,time,description, imgUrl , eventUrl;
+    String title,time,description, imgUrl , eventUrl ,eventFileUrl;
     Date date;
     int event_id;
 
@@ -39,6 +39,7 @@ public class EventEntity implements Serializable {
             SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH);
             date = formatter.parse(dateFormated);
             this.description = object.getString("description");
+            this.eventFileUrl = object.getString("event_fileUrl");
         } catch (JSONException e) {
             e.printStackTrace();
         } catch (ParseException e) {
@@ -96,5 +97,9 @@ public class EventEntity implements Serializable {
 
     public void setEventUrl(String eventUrl) {
         this.eventUrl = eventUrl;
+    }
+
+    public String getEventFileUrl() {
+        return eventFileUrl;
     }
 }

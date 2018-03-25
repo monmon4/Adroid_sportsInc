@@ -1,8 +1,10 @@
 package com.quantumsit.sportsinc.Activities;
 
 import android.Manifest;
+import android.app.DownloadManager;
 import android.content.ContentResolver;
 import android.content.ContentValues;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
@@ -45,7 +47,7 @@ public class EventsDetailsActivity extends AppCompatActivity {
 
     GlobalVars globalVars;
 
-    TextView  title ,date, time, description , event_link;
+    TextView  title ,date, time, description , event_link ,eventFile;
 
     LinearLayout addToCalendar;
     TextView interestedLabel;
@@ -56,6 +58,8 @@ public class EventsDetailsActivity extends AppCompatActivity {
     private ProgressBar progressBar;
     int loadingTime = 1200;
     private int CALENDAR_PERMISSION_CODE = 130;
+
+    DownloadManager downloadManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,6 +77,7 @@ public class EventsDetailsActivity extends AppCompatActivity {
         date = findViewById(R.id.event_date);
         description = findViewById(R.id.event_description);
         event_link =findViewById(R.id.event_link);
+        eventFile =findViewById(R.id.event_file);
         addToCalendar = findViewById(R.id.event_interested);
         interestedView =findViewById(R.id.interestedView);
         interestedLabel = findViewById(R.id.interestedLabel);
@@ -94,6 +99,13 @@ public class EventsDetailsActivity extends AppCompatActivity {
             }
         });
 
+        eventFile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                downloadEventFile();
+            }
+        });
+
         eventEntity = (EventEntity) getIntent().getSerializableExtra("MyEvent");
 
         if (savedInstanceState != null)
@@ -109,6 +121,14 @@ public class EventsDetailsActivity extends AppCompatActivity {
                     loadingView.fails(); }
         }, loadingTime);
 
+    }
+
+    private void downloadEventFile() {
+        downloadManager = (DownloadManager) getSystemService(Context.DOWNLOAD_SERVICE);
+        Uri uri = Uri.parse(Constants.upload_files_host+eventEntity.getEventFileUrl());
+        DownloadManager.Request request = new DownloadManager.Request(uri);
+        request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
+        Long reference = downloadManager.enqueue(request);
     }
 
     private void addEventToCalendar() {
@@ -253,6 +273,12 @@ public class EventsDetailsActivity extends AppCompatActivity {
             event_link.setVisibility(View.GONE);
         else
             event_link.setText(eventEntity.getEventUrl());
+
+        if (eventEntity.getEventFileUrl() == null || eventEntity.getEventFileUrl().equals("") )
+            eventFile.setVisibility(View.GONE);
+        else
+            eventFile.setText(eventEntity.getEventFileUrl());
+
         description.setText(eventEntity.getDescription());
         String ImageUrl = eventEntity.getImgUrl();
 
