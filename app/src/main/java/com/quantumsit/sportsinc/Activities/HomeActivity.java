@@ -426,7 +426,7 @@ public class HomeActivity extends AppCompatActivity
             actionBar.setTitle(R.string.contact_us);
             fragmentClass = ContactUsFragment.class;
         }  else if (id == R.id.nav_about_us) {
-            actionBar.setTitle(R.string.about_us);
+            actionBar.setTitle(R.string.terms_amp_conditions);
             fragmentClass = AboutUsFragment.class;
         }
 

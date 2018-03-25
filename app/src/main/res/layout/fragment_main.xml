@@ -331,7 +331,7 @@
                                 android:layout_width="0dp"
                                 android:layout_weight="2"
                                 android:layout_height="40dp"
-                                android:scaleType="fitXY"
+                                android:scaleType="centerInside"
                                 android:layout_marginStart="5dp"
                                 android:src="@drawable/dolfin"
                                 android:layout_marginEnd="@dimen/ten_dimens"
@@ -340,7 +340,7 @@
                                 android:layout_width="0dp"
                                 android:layout_weight="1"
                                 android:layout_height="40dp"
-                                android:scaleType="fitXY"
+                                android:scaleType="centerInside"
                                 android:layout_marginStart="5dp"
                                 android:src="@drawable/sh_logo"
                                 android:layout_marginEnd="@dimen/ten_dimens"
@@ -353,6 +353,7 @@
                                 android:layout_marginEnd="5dp"
                                 android:padding="5dp"
                                 android:layout_marginTop="5dp"
+                                android:scaleType="centerInside"
                                 android:layout_marginStart="@dimen/ten_dimens"
                                 android:src="@drawable/vasa_white"/>
                         </LinearLayout>

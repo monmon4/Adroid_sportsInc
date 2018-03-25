@@ -469,6 +469,8 @@
     <string name="confirm">Confirm</string>
     <string name="pay_later">Pay later</string>
     <string name="no_classes_available">No classes available</string>
+    <string name="pay_now">Pay now</string>
+    <string name="create_new_account">Create new account</string>
 
 
 </resources>
