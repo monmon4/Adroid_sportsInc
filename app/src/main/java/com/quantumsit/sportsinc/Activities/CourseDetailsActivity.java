@@ -135,7 +135,7 @@ public class CourseDetailsActivity extends AppCompatActivity {
                 else
                     loadingView.fails(); }
         }, loadingTime);
-
+        
         check_course(myCourse);
 
     }
