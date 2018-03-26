@@ -13,6 +13,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.quantumsit.sportsinc.Aaa_data.Constants;
+import com.quantumsit.sportsinc.Aaa_data.GlobalVars;
 import com.quantumsit.sportsinc.Adapters.ListViewExpandable_Adapter_CoursesDetails;
 import com.quantumsit.sportsinc.Backend.Functions;
 import com.quantumsit.sportsinc.Backend.HttpCall;
@@ -46,6 +47,7 @@ public class CourseDetailsActivity extends AppCompatActivity {
     HashMap < Integer, item2_courses_details> child_list;
 
     Functions functions;
+    GlobalVars globalVars;
 
     CustomLoadingView loadingView;
     int loadingTime = 1200;
@@ -64,6 +66,9 @@ public class CourseDetailsActivity extends AppCompatActivity {
        // progressDialog = new ProgressDialog(CourseDetailsActivity.this);
 
         functions = new Functions(CourseDetailsActivity.this);
+        globalVars = (GlobalVars) getApplication();
+
+
 
         loadingView = findViewById(R.id.LoadingView);
         levelImage = findViewById(R.id.Course_icon);
@@ -112,24 +117,26 @@ public class CourseDetailsActivity extends AppCompatActivity {
 
        // progressDialog.show();
         adapter_coursesDetails = new ListViewExpandable_Adapter_CoursesDetails(CourseDetailsActivity.this, header_list, child_list, myCourse);
-        fill_list_view(myCourse);
+
 
         LinearLayout ll = findViewById(R.id.ll_coursesdetails);
         adapter_coursesDetails.setLl(ll);
 
-        /*if (savedInstanceState!=null)
+        if (savedInstanceState!=null)
             loadingTime = 0;
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
                 if(myCourse != null){
                     //fillView(myCourse);
-                    progressDialog.show();
-                    fill_list_view(myCourse);
+                    //progressDialog.show();
+                    fillView(myCourse);
                 }
                 else
                     loadingView.fails(); }
-        }, loadingTime);*/
+        }, loadingTime);
+
+        check_course(myCourse);
 
     }
 
@@ -185,13 +192,7 @@ public class CourseDetailsActivity extends AppCompatActivity {
             });
         }
         SessionsNum.setText(courseEntity.getClasses_Num());
-        //CoursePrice.setText(courseEntity.getPrice());
-        SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy", Locale.ENGLISH);
-        String date = df.format(courseEntity.getStartDate());
-        //startDate.setText(date);
-        date = df.format(courseEntity.getEndDate());
-        //endDate.setText(date);
-        //CourseLevel.setText(courseEntity.getLevel());
+        durationOfSession.setText(courseEntity.getClassDur());
         description.setText(courseEntity.getDescription());
         loadingView.success();
     }
@@ -288,7 +289,43 @@ public class CourseDetailsActivity extends AppCompatActivity {
         finish();
     }
 
-    public void checkBooking(){
+    public void check_course(final CourseEntity myCourse) {
+
+        HttpCall httpCall = new HttpCall();
+        httpCall.setMethodtype(HttpCall.POST);
+        httpCall.setUrl(Constants.course_of_trainee);
+        HashMap<String,String> params = new HashMap<>();
+        params.put("user_id",String.valueOf(globalVars.getId()));
+        params.put("level_id",String.valueOf(myCourse.getCourse_id()));
+
+        httpCall.setParams(params);
+        new HttpRequest(){
+            @Override
+            public void onResponse(JSONArray response) {
+                super.onResponse(response);
+                if (response!= null) {
+                    try {
+                        JSONObject result = response.getJSONObject(0);
+                        if (result.getBoolean("enabled"))
+                            fill_list_view(myCourse);
+                        else
+                            disable_classes();
+
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }else {
+                    fill_list_view(myCourse);
+                }
+
+            }
+        }.execute(httpCall);
+    }
+
+    private  void disable_classes(){
+
+        noClsses.setVisibility(View.VISIBLE);
+        expandableListView.setVisibility(View.GONE);
 
     }
 }

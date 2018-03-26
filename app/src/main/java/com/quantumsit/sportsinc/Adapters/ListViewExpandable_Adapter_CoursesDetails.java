@@ -158,6 +158,7 @@ public class ListViewExpandable_Adapter_CoursesDetails extends BaseExpandableLis
             public void onClick(View view) {
                 int type = globalVars.getType();
                 if (trainee_names.size()!= 0) {
+
                     open_popup(groupPosition);
                 } else if ( type == 0 ) {
                     ArrayList <BookingCourseEntity> bookingCourseEntity = globalVars.getBookingCourseEntities();

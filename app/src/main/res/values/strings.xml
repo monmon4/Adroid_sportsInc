@@ -474,6 +474,7 @@
     <string name="late">Late</string>
     <string name="execused">Execused</string>
     <string name="didn_t_come">Didn\'t come</string>
+    <string name="select">Select</string>
 
 
 </resources>
