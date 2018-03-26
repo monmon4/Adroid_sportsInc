@@ -130,7 +130,7 @@ public class ConditionsFragment extends Fragment {
                 int type = result.getInt("Type");
                 String title = result.getString("Title");
                 String content = result.getString("Content");
-                items.add(new item_about(type, title.replace("<br>", "\n"), content.replace("<br>", "\n")));
+                items.add(new item_about(type, title.replace("<br><br>", "\n"), content.replace("<br>", "\n")));
 
             }
         } catch (JSONException e) {

@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:id="@+id/startpage_rl"
     xmlns:facebook="http://schemas.android.com/apk/res-auto"
     android:background="@color/colorWhite"
     tools:context="com.quantumsit.sportsinc.Activities.startPageActivity">
@@ -111,7 +112,7 @@
             android:backgroundTint="@color/colorPrimary"
             android:text = "@string/create_new_account"/>
 
-        <LinearLayout
+        <!--LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
@@ -139,6 +140,6 @@
                 android:paddingTop="12dp"
                 android:paddingBottom="12dp"
                 android:layout_marginTop="@dimen/padding_5"/>
-        </LinearLayout>
+        </LinearLayout-->
     </LinearLayout>
 </RelativeLayout>

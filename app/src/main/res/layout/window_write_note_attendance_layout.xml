@@ -3,49 +3,76 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:background="#ffff">
+    android:background="@drawable/window_border">
 
     <RelativeLayout
         android:id="@+id/NoteHeader"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
         android:background="@color/colorNote"
         android:padding="@dimen/ten_dimens">
+
         <TextView
             android:id="@+id/NoteTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
+            android:text="@string/note"
             android:textColor="@color/colorLogoBlue"
-            android:textStyle="italic"
-            android:text="@string/note"/>
+            android:textStyle="italic" />
 
         <ImageView
             android:id="@+id/noteClose"
-            android:visibility="gone"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
-            android:backgroundTint="@color/colorLogoBlue"
             android:layout_marginEnd="@dimen/ten_dimens"
-            android:src="@drawable/ic_close"/>
+            android:backgroundTint="@color/colorLogoBlue"
+            android:src="@drawable/ic_close"
+            android:visibility="gone" />
 
     </RelativeLayout>
 
-    <com.weiwangcn.betterspinner.library.material.MaterialBetterSpinner
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="@string/note"
+    <RadioGroup
         android:layout_below="@+id/NoteHeader"
-        android:dropDownWidth="match_parent"
-        android:padding="10dp"
-        android:textColorHint="@color/colorAccent"
-        app:met_floatingLabel="normal"
-        android:id="@+id/noteSpinner_notewindowattendance"/>
+        android:id="@+id/attendance_radigroup"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginTop="16dp"
+        android:orientation="vertical"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <RadioButton
+            android:id="@+id/radioButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:textColor="@color/colorLogoBlue"
+            android:text="@string/late" />
+
+        <RadioButton
+            android:id="@+id/radioButton5"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:textColor="@color/colorLogoBlue"
+            android:text="@string/execused" />
+
+        <RadioButton
+            android:id="@+id/radioButton6"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:textColor="@color/colorLogoBlue"
+            android:text="@string/didn_t_come" />
+    </RadioGroup>
 
     <EditText
         android:id="@+id/noteEditText_notewindowattendance"
-        android:layout_below="@+id/noteSpinner_notewindowattendance"
+        android:layout_below="@+id/attendance_radigroup"
         android:layout_width="match_parent"
         android:layout_height="150dp"
         android:hint="@string/write_a_note"
