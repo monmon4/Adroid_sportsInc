@@ -249,7 +249,6 @@ public class CourseDetailsActivity extends AppCompatActivity {
                     //progressDialog.dismiss();
                     noClsses.setVisibility(View.VISIBLE);
                     expandableListView.setVisibility(View.GONE);
-                    progressDialog.dismiss();
                     //checkMail();
                     //verfication();
                 }
