@@ -284,30 +284,41 @@ public class Request_addActivity extends AppCompatActivity {
 
 
     public void send_clicked() {
-        final AlertDialog.Builder builder = new AlertDialog.Builder(Request_addActivity.this,
-                R.style.MyAlertDialogStyle);
-        builder.setTitle(Request_addActivity.this.getResources().getString(R.string.app_name));
-        builder.setCancelable(false);
-        builder.setMessage("     Are you sure?");
-        builder.setPositiveButton("Yes",
-                new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        if (request_for_spinner.getText().toString().equals("Absence"))
-                            send_to_DB();
-                        else
-                            insert_to_db();
-                        dialogInterface.dismiss();
-                    }
-                });
-        builder.setNegativeButton("No",
-                new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        dialogInterface.dismiss();
-                    }
-                });
-        builder.show();
+
+        if(request_for_spinner.getText().toString().equals("")) {
+            Toast.makeText(Request_addActivity.this, "Please select your request for", Toast.LENGTH_SHORT).show();
+
+        } else if (date_spinner.getText().toString().equals("")) {
+            Toast.makeText(Request_addActivity.this, "Please select date", Toast.LENGTH_SHORT).show();
+
+        } else if (reason_editText.getText().toString().equals("")) {
+            Toast.makeText(Request_addActivity.this, "Please specify your reason", Toast.LENGTH_SHORT).show();
+        } else {
+            final AlertDialog.Builder builder = new AlertDialog.Builder(Request_addActivity.this,
+                    R.style.MyAlertDialogStyle);
+            builder.setTitle(Request_addActivity.this.getResources().getString(R.string.app_name));
+            builder.setCancelable(false);
+            builder.setMessage("     Are you sure?");
+            builder.setPositiveButton("Yes",
+                    new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            if (request_for_spinner.getText().toString().equals("Absence"))
+                                send_to_DB();
+                            else
+                                insert_to_db();
+                            dialogInterface.dismiss();
+                        }
+                    });
+            builder.setNegativeButton("No",
+                    new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            dialogInterface.dismiss();
+                        }
+                    });
+            builder.show();
+        }
     }
 
 
