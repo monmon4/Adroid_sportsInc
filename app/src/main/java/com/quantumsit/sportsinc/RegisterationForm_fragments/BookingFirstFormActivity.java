@@ -1,11 +1,16 @@
 package com.quantumsit.sportsinc.RegisterationForm_fragments;
 
+import android.app.AlertDialog;
+import android.app.DatePickerDialog;
+import android.app.Dialog;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -18,16 +23,19 @@ import com.quantumsit.sportsinc.Activities.startPageActivity;
 import com.quantumsit.sportsinc.Entities.Booking_info;
 import com.quantumsit.sportsinc.R;
 
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import android.app.DialogFragment;
+import java.util.Calendar;
 
 public class BookingFirstFormActivity extends AppCompatActivity {
 
     EditText firstName_editText, lastName_editText, phone_editText
             , nationality_editText, address_editText, mail_editText;
 
-    EditText day_editText, month_editText, year_editText;
+    TextView day_editText, month_editText, year_editText;
     String day_of_birth, month_of_birth, year_of_birth;
 
     String name, first_name, last_name, phone, nationality, address, mail;
@@ -64,6 +72,12 @@ public class BookingFirstFormActivity extends AppCompatActivity {
         day_editText = findViewById(R.id.dayEditText);
         month_editText = findViewById(R.id.monthEditText);
         year_editText = findViewById(R.id.yearEditText);
+        day_editText.setClickable(true);
+        month_editText.setClickable(true);
+        day_editText.setClickable(true);
+
+        //datePicker_button = findViewById(R.id.datePickerButton_first);
+        //datePicker_birthdate = findViewById(R.id.datePicker_first);
 
         ccp = findViewById(R.id.ccp_first);
         phone_editText = findViewById(R.id.phone_first);
@@ -88,6 +102,30 @@ public class BookingFirstFormActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 female_pressed();
+            }
+        });
+
+        day_editText.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // Initialize a new date picker dialog fragment
+                DialogFragment dFragment = new DatePickerFragment();
+
+                // Show the date picker dialog fragment
+                dFragment.show(getFragmentManager(), "Date Picker");
+
+            }
+        });
+
+        month_editText.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // Initialize a new date picker dialog fragment
+                DialogFragment dFragment = new DatePickerFragment();
+
+                // Show the date picker dialog fragment
+                dFragment.show(getFragmentManager(), "Date Picker");
+
             }
         });
 
@@ -189,6 +227,8 @@ public class BookingFirstFormActivity extends AppCompatActivity {
             return false;
 
         } else {
+
+
             int day = Integer.valueOf(day_of_birth);
             int month = Integer.valueOf(month_of_birth);
             int year = Integer.valueOf(year_of_birth);
@@ -223,9 +263,6 @@ public class BookingFirstFormActivity extends AppCompatActivity {
         firstName_editText.setError(null);
         mail_editText.setError(null);
 
-
-
-
         return true;
     }
 
@@ -234,5 +271,56 @@ public class BookingFirstFormActivity extends AppCompatActivity {
         onBackPressed();
         return true;
     }
+
+    public static class DatePickerFragment extends DialogFragment implements DatePickerDialog.OnDateSetListener{
+
+        @Override
+        public Dialog onCreateDialog(Bundle savedInstanceState){
+
+            final Calendar calendar = Calendar.getInstance();
+            int year = calendar.get(Calendar.YEAR);
+            int month = calendar.get(Calendar.MONTH);
+            int day = calendar.get(Calendar.DAY_OF_MONTH);
+
+
+
+            // DatePickerDialog THEME_DEVICE_DEFAULT_LIGHT
+            DatePickerDialog dpd = new DatePickerDialog(getActivity(),
+                    AlertDialog.THEME_DEVICE_DEFAULT_LIGHT,this,year,month,day);
+
+            // DatePickerDialog THEME_DEVICE_DEFAULT_DARK
+            DatePickerDialog dpd2 = new DatePickerDialog(getActivity(),
+                    AlertDialog.THEME_DEVICE_DEFAULT_DARK,this,year,month,day);
+
+            // DatePickerDialog THEME_HOLO_LIGHT
+            DatePickerDialog dpd3 = new DatePickerDialog(getActivity(),
+                    AlertDialog.THEME_HOLO_LIGHT,this,year,month,day);
+
+            // DatePickerDialog THEME_HOLO_DARK
+            DatePickerDialog dpd4 = new DatePickerDialog(getActivity(),
+                    AlertDialog.THEME_HOLO_DARK,this,year,month,day);
+
+            // DatePickerDialog THEME_TRADITIONAL
+            DatePickerDialog dpd5 = new DatePickerDialog(getActivity(),
+                    AlertDialog.THEME_TRADITIONAL,this,year,month,day);
+
+            // Return the DatePickerDialog
+            return  dpd3;
+        }
+
+        public void onDateSet(DatePicker view, int year, int month, int day){
+            // Do something with the chosen date
+
+            TextView day_edit_text = getActivity().findViewById(R.id.dayEditText);
+            TextView month_edit_text = getActivity().findViewById(R.id.monthEditText);
+            TextView year_edit_text = getActivity().findViewById(R.id.yearEditText);
+
+            day_edit_text.setText(String.valueOf(day));
+            month_edit_text.setText(String.valueOf(month+1));
+            year_edit_text.setText(String.valueOf(year));
+        }
+
+    }
+
 
 }

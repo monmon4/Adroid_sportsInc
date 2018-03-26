@@ -150,7 +150,10 @@
                         android:gravity="start|center_vertical"
                         android:layout_gravity="center"
                         android:visibility="gone"
+                        android:layout_margin="16dp"
+                        android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
                         android:text="@string/no_classes_available" />
+
 
                     <ExpandableListView
                         android:id="@+id/course_details_expandableListView"

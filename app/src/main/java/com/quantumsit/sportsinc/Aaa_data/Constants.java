@@ -42,6 +42,7 @@ public interface Constants {
     String traineeClassScores = server + "classes_scores";
     String traineeSwitchGroup = server + "switch_group";
     String register_trainee = server + "bookClass";
+    String course_of_trainee = server + "checkTraineeBooking";
 
     String profile = "profile_img";
     String profile_host = upload_host + profile + "/";
