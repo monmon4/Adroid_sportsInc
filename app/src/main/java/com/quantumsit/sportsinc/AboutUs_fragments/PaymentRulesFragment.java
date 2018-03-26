@@ -125,7 +125,7 @@ public class PaymentRulesFragment extends Fragment {
                 int type = result.getInt("Type");
                 String title = result.getString("Title");
                 String content = result.getString("Content");
-                items.add(new item_about(type, title.replace("<br><br>", "\n"), content.replace("<br><br>", "\n")));
+                items.add(new item_about(type, title.replace("<br><br>", "\n"), content.replace("<br><br>", "\n").replace("<br>", " ")));
 
             }
         } catch (JSONException e) {
