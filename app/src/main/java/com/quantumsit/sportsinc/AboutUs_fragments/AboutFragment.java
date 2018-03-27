@@ -17,7 +17,6 @@ import com.quantumsit.sportsinc.Adapters.ListView_Adapter_about_us;
 import com.quantumsit.sportsinc.Backend.HttpCall;
 import com.quantumsit.sportsinc.Backend.HttpRequest;
 import com.quantumsit.sportsinc.Entities.item_about;
-import com.quantumsit.sportsinc.COACHES.ListView_Adapter_trainees_attendance_coach;
 import com.quantumsit.sportsinc.CustomView.myCustomListViewListener;
 import com.quantumsit.sportsinc.R;
 import com.quantumsit.sportsinc.util.ConnectionUtilities;

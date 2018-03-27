@@ -129,6 +129,7 @@ public class CourseDetailsActivity extends AppCompatActivity {
             @Override
             public void run() {
                 if(myCourse != null){
+                    //fillView(myCourse);
                     //progressDialog.show();
                     fillView(myCourse);
                 }
@@ -209,7 +210,7 @@ public class CourseDetailsActivity extends AppCompatActivity {
         }
 
         String OnCondition = "groups.coach_id = users.id";
-        String select = "groups.id, groups.name, users.name, groups.start_date," +
+        String select = "groups.id, groups.name AS group_name, users.name AS user_name, groups.start_date," +
                 "groups.days, groups.daystime";
 
         HttpCall httpCall = functions.joinDB("groups", "users", where_info, OnCondition, select);
@@ -226,8 +227,8 @@ public class CourseDetailsActivity extends AppCompatActivity {
 
                             JSONObject result = response.getJSONObject(i);
                             int class_id = result.getInt("groups_id");
-                            String class_name = result.getString("name");
-                            String coach_name = result.getString("name");
+                            String class_name = result.getString("group_name");
+                            String coach_name = result.getString("user_name");
                             String start_date = result.getString("group_sdate");
                             String[] days = get_days(result.getString("days"));
                             String[] daystime = result.getString("daystime").split("@");

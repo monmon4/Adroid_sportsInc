@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.quantumsit.sportsinc.COACHES.ActivityFinishedCourseSingle_coach"
+    tools:context="com.quantumsit.sportsinc.COACHES.Activities.ActivityFinishedCourseSingle_coach"
     android:orientation="vertical">
 
     <com.quantumsit.sportsinc.CustomView.CustomLoadingView

@@ -96,7 +96,7 @@ public class LoginActivity extends AppCompatActivity {
 
     boolean all_good;
     private LinearLayout login_ll;
-
+/*
     private static final int RC_SIGN_IN = 9001;
     private GoogleSignInClient mGoogleSignInClient;
     CallbackManager callbackManager;
@@ -104,7 +104,7 @@ public class LoginActivity extends AppCompatActivity {
 
     LoginButton fbLoginButton;
     SignInButton googleSignInButton;
-
+*/
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -145,7 +145,7 @@ public class LoginActivity extends AppCompatActivity {
 
 
         // Configure Google Sign In
-        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+      /*  GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestEmail()
                 .build();
         mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
@@ -213,19 +213,20 @@ public class LoginActivity extends AppCompatActivity {
             public void onError(FacebookException error) {
                 show_toast(getString(R.string.loginFail));
             }
-        });
+        });*/
     }
 
-    private void googleAccountLogin() {
-        Toast.makeText(getApplicationContext(), R.string.GLogIn,Toast.LENGTH_LONG).show();
-        Intent signInIntent = mGoogleSignInClient.getSignInIntent();
-        startActivityForResult(signInIntent, RC_SIGN_IN);
-    }
 
     @Override
     public boolean onSupportNavigateUp() {
         onBackPressed();
         return true;
+    }
+/*
+    private void googleAccountLogin() {
+        Toast.makeText(getApplicationContext(), R.string.GLogIn,Toast.LENGTH_LONG).show();
+        Intent signInIntent = mGoogleSignInClient.getSignInIntent();
+        startActivityForResult(signInIntent, RC_SIGN_IN);
     }
 
     @Override
@@ -282,7 +283,6 @@ public class LoginActivity extends AppCompatActivity {
         JSONObject where_info = new JSONObject();
 
         try {
-            where_info.put("email",mail);
             SharedPreferences tokenPref = getSharedPreferences(Config.SHARED_PREF, MODE_PRIVATE);
             String user_token = tokenPref.getString("regId", "");
             JSONObject values = new JSONObject();
@@ -291,6 +291,7 @@ public class LoginActivity extends AppCompatActivity {
             values.put(getString(R.string.select_users_active),1);
             values.put(getString(R.string.select_users_mail),mail);
             values.put(getString(R.string.select_users_token),user_token);
+
             where_info.put(getString(R.string.where_users_mail),mail);
 
             HttpCall httpCall = new HttpCall();
@@ -308,20 +309,12 @@ public class LoginActivity extends AppCompatActivity {
                     super.onResponse(response);
 
                     if (response == null) {
-                        show_toast("Email does not exist");
+                        //show_toast("Email does not exist");
                         show_toast(getString(R.string.loginError));
 
                     } else {
                         try {
                             JSONObject result = response.getJSONObject(0);
-                            received_phone = result.getString("phone");
-                            received_id = result.getInt("id");
-                            received_name = result.getString("name");
-                            received_imgUrl = result.getString("ImageUrl");
-                            received_gender = result.getInt("gender");
-                            received_type = result.getInt("type");
-                            received_mail = result.getString("email");
-                            received_date_of_birth = result.getString("date_of_birth");
                             received_id = result.getInt(getString(R.string.select_users_id));
                             received_name = result.getString(getString(R.string.select_users_name));
                             received_imgUrl = result.getString(getString(R.string.select_users_image));
@@ -351,6 +344,8 @@ public class LoginActivity extends AppCompatActivity {
     private void facebookSignOut() {
         LoginManager.getInstance().logOut();
     }
+
+*/
 
     private void checkMail() {
 
@@ -395,7 +390,6 @@ public class LoginActivity extends AppCompatActivity {
         }
 
     }
-
 
     private void verfication(){
         progressDialog.dismiss();
@@ -549,11 +543,11 @@ public class LoginActivity extends AppCompatActivity {
 
     @SuppressLint("StaticFieldLeak")
     public void registerClicked(View view) {
-        //Intent intent = new Intent(LoginActivity.this, RegisterActivity.class);
-        //startActivity(intent);
-
-        Intent intent = new Intent(LoginActivity.this, BookingFirstFormActivity.class);
+        Intent intent = new Intent(LoginActivity.this, RegisterActivity.class);
         startActivity(intent);
+
+        //Intent intent = new Intent(LoginActivity.this, BookingFirstFormActivity.class);
+        //startActivity(intent);
     }
 
     private boolean checkConnection() {
@@ -591,7 +585,6 @@ public class LoginActivity extends AppCompatActivity {
             all_good = true;
             JSONObject where_info = new JSONObject();
             try {
-                where_info.put("email",mail);
                 where_info.put(getString(R.string.where_users_mail),mail);
 
                 HttpCall httpCall = new HttpCall();
@@ -614,6 +607,12 @@ public class LoginActivity extends AppCompatActivity {
 
                                 JSONObject result = response.getJSONObject(0);
                                 received_pass = result.getString(getString(R.string.select_users_pass));
+                                int availableUser = result.getInt("deactive");
+
+                                if (availableUser == 1){
+                                    show_toast("this account is an deactivated account...");
+                                    return;
+                                }
 
                                 if (received_pass.equals(pass)) {
                                     all_good = true;

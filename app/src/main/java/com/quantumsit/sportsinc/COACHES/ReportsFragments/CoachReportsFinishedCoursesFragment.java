@@ -12,7 +12,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
@@ -20,10 +19,11 @@ import com.quantumsit.sportsinc.Aaa_data.Constants;
 import com.quantumsit.sportsinc.Aaa_data.GlobalVars;
 import com.quantumsit.sportsinc.Backend.HttpCall;
 import com.quantumsit.sportsinc.Backend.HttpRequest;
-import com.quantumsit.sportsinc.COACHES.ActivityFinishedCourseSingle_coach;
+import com.quantumsit.sportsinc.COACHES.Activities.ActivityFinishedCourseSingle_coach;
+import com.quantumsit.sportsinc.COACHES.Adapter.ListViewFinishedCoursesReports_Adapter;
+import com.quantumsit.sportsinc.COACHES.Entities.item_reports_finished_courses;
 import com.quantumsit.sportsinc.CustomView.myCustomListView;
 import com.quantumsit.sportsinc.CustomView.myCustomListViewListener;
-import com.quantumsit.sportsinc.CustomView.myCustomRecyclerView;
 import com.quantumsit.sportsinc.R;
 import com.quantumsit.sportsinc.util.ConnectionUtilities;
 

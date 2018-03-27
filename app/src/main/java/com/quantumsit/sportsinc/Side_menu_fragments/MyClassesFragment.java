@@ -12,7 +12,7 @@ import android.view.ViewGroup;
 
 import com.quantumsit.sportsinc.Aaa_data.GlobalVars;
 import com.quantumsit.sportsinc.Adapters.SectionsPagerAdapter;
-import com.quantumsit.sportsinc.COACHES.CoachClassesFragment;
+import com.quantumsit.sportsinc.COACHES.CurrentClassFragments.CoachClassesFragment;
 import com.quantumsit.sportsinc.MyClasses_fragments.CalendarFragment;
 import com.quantumsit.sportsinc.MyClasses_fragments.ScoresFragment;
 import com.quantumsit.sportsinc.R;
@@ -60,10 +60,11 @@ public class MyClassesFragment extends Fragment {
     public void setupViewPager(ViewPager viewPager) {
 
         myclasses_sectionsPagerAdapter = new SectionsPagerAdapter(getChildFragmentManager());
-        if(trainee){
-            myclasses_sectionsPagerAdapter.addFragment(new ScoresFragment(),getString(R.string.scores));
-        }else if (coach){
+        if (coach){
             myclasses_sectionsPagerAdapter.addFragment(new CoachClassesFragment(),getString(R.string.my_groups));
+        }
+        else {
+            myclasses_sectionsPagerAdapter.addFragment(new ScoresFragment(),getString(R.string.scores));
         }
         myclasses_sectionsPagerAdapter.addFragment(new CalendarFragment(),getString(R.string.calendar));
 

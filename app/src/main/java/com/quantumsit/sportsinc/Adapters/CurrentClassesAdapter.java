@@ -5,7 +5,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,16 +16,12 @@ import android.widget.Toast;
 
 import com.quantumsit.sportsinc.Aaa_data.Constants;
 import com.quantumsit.sportsinc.Aaa_data.DB_Sqlite_Handler;
-import com.quantumsit.sportsinc.Aaa_data.Rule_info;
 import com.quantumsit.sportsinc.Aaa_data.Trainees_info;
 import com.quantumsit.sportsinc.Backend.HttpCall;
 import com.quantumsit.sportsinc.Backend.HttpRequest;
-import com.quantumsit.sportsinc.COACHES.ActivityCurrentClass_coach;
-import com.quantumsit.sportsinc.Entities.CourseEntity;
-import com.quantumsit.sportsinc.Entities.CurrentClassesEntity;
+import com.quantumsit.sportsinc.COACHES.Activities.ActivityCurrentClass_coach;
 import com.quantumsit.sportsinc.Entities.classesEntity;
 import com.quantumsit.sportsinc.R;
-import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
 import org.json.JSONException;

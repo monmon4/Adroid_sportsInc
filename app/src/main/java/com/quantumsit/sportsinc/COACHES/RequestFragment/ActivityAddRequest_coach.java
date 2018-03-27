@@ -15,9 +15,9 @@ import com.quantumsit.sportsinc.Aaa_data.Constants;
 import com.quantumsit.sportsinc.Aaa_data.GlobalVars;
 import com.quantumsit.sportsinc.Backend.HttpCall;
 import com.quantumsit.sportsinc.Backend.HttpRequest;
-import com.quantumsit.sportsinc.COACHES.item_classSpinner_coach;
-import com.quantumsit.sportsinc.COACHES.item_courseSpinner_coach;
-import com.quantumsit.sportsinc.COACHES.item_request_coach;
+import com.quantumsit.sportsinc.COACHES.Entities.item_classSpinner_coach;
+import com.quantumsit.sportsinc.COACHES.Entities.item_courseSpinner_coach;
+import com.quantumsit.sportsinc.COACHES.Entities.item_request_coach;
 import com.quantumsit.sportsinc.R;
 import com.weiwangcn.betterspinner.library.material.MaterialBetterSpinner;
 

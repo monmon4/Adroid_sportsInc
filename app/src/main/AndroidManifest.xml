@@ -61,10 +61,10 @@
         <activity android:name=".Activities.Reports_coursesActivity" />
         <activity android:name=".Activities.Request_addActivity" />
         <activity android:name=".COACHES.RequestFragment.ActivityAddRequest_coach" />
-        <activity android:name=".COACHES.ActivityCurrentClass_coach" />
-        <activity android:name=".COACHES.ActivityCourseSingleClass_coach" />
+        <activity android:name=".COACHES.Activities.ActivityCurrentClass_coach" />
+        <activity android:name=".COACHES.Activities.ActivityCourseSingleClass_coach" />
         <activity android:name=".Activities.ClassesDetailsActivity" />
-        <activity android:name=".COACHES.ActivityFinishedCourseSingle_coach" />
+        <activity android:name=".COACHES.Activities.ActivityFinishedCourseSingle_coach" />
         <activity
             android:name=".Activities.ProfileActivity"
             android:windowSoftInputMode="stateAlwaysHidden" />

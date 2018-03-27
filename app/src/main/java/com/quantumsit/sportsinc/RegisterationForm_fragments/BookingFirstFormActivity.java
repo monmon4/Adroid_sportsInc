@@ -74,7 +74,7 @@ public class BookingFirstFormActivity extends AppCompatActivity {
         year_editText = findViewById(R.id.yearEditText);
         day_editText.setClickable(true);
         month_editText.setClickable(true);
-        day_editText.setClickable(true);
+        year_editText.setClickable(true);
 
         //datePicker_button = findViewById(R.id.datePickerButton_first);
         //datePicker_birthdate = findViewById(R.id.datePicker_first);

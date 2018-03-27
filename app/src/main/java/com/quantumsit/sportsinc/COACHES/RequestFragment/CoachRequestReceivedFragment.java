@@ -11,7 +11,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
@@ -20,8 +19,8 @@ import com.quantumsit.sportsinc.Aaa_data.GlobalVars;
 import com.quantumsit.sportsinc.Activities.RequestDetailsActivity;
 import com.quantumsit.sportsinc.Backend.HttpCall;
 import com.quantumsit.sportsinc.Backend.HttpRequest;
-import com.quantumsit.sportsinc.COACHES.ListView_Adapter_request_coach;
-import com.quantumsit.sportsinc.COACHES.item_request_coach;
+import com.quantumsit.sportsinc.COACHES.Adapter.ListView_Adapter_request_coach;
+import com.quantumsit.sportsinc.COACHES.Entities.item_request_coach;
 import com.quantumsit.sportsinc.CustomView.myCustomListView;
 import com.quantumsit.sportsinc.CustomView.myCustomListViewListener;
 import com.quantumsit.sportsinc.R;
@@ -31,7 +30,6 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 
