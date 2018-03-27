@@ -60,7 +60,7 @@ public class AboutUsFragment extends Fragment {
     public void onViewStateRestored(@Nullable Bundle savedInstanceState) {
         super.onViewStateRestored(savedInstanceState);
         if (getActivity() != null)
-            ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle(R.string.about_us);
+            ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle(R.string.terms_amp_conditions);
     }
 
 }

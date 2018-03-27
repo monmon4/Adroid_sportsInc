@@ -301,6 +301,10 @@ public class Request_addActivity extends AppCompatActivity {
             if (!selectedTitle.equals("Other"))
                 return;
         }
+        if (reason_editText.getText().toString().equals("")) {
+            Toast.makeText(Request_addActivity.this, "Please specify your reason", Toast.LENGTH_SHORT).show();
+            return;
+        }
         final AlertDialog.Builder builder = new AlertDialog.Builder(Request_addActivity.this,
                 R.style.MyAlertDialogStyle);
         builder.setTitle(Request_addActivity.this.getResources().getString(R.string.app_name));
