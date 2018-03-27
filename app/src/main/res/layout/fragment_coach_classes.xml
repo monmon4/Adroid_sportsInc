@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.quantumsit.sportsinc.COACHES.CoachClassesFragment">
+    tools:context="com.quantumsit.sportsinc.COACHES.CurrentClassFragments.CoachClassesFragment">
 
 
     <android.support.design.widget.FloatingActionButton

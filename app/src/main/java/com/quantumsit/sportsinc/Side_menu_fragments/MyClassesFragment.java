@@ -12,7 +12,7 @@ import android.view.ViewGroup;
 
 import com.quantumsit.sportsinc.Aaa_data.GlobalVars;
 import com.quantumsit.sportsinc.Adapters.SectionsPagerAdapter;
-import com.quantumsit.sportsinc.COACHES.CoachClassesFragment;
+import com.quantumsit.sportsinc.COACHES.CurrentClassFragments.CoachClassesFragment;
 import com.quantumsit.sportsinc.MyClasses_fragments.CalendarFragment;
 import com.quantumsit.sportsinc.MyClasses_fragments.ScoresFragment;
 import com.quantumsit.sportsinc.R;

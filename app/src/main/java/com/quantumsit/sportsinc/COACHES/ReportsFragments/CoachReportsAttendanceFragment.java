@@ -1,7 +1,6 @@
 package com.quantumsit.sportsinc.COACHES.ReportsFragments;
 
 
-import android.content.DialogInterface;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
@@ -21,7 +20,8 @@ import com.quantumsit.sportsinc.Aaa_data.GlobalVars;
 import com.quantumsit.sportsinc.Aaa_looks.MyCustomLayoutManager;
 import com.quantumsit.sportsinc.Backend.HttpCall;
 import com.quantumsit.sportsinc.Backend.HttpRequest;
-import com.quantumsit.sportsinc.CustomView.MonthYearPicker;
+import com.quantumsit.sportsinc.COACHES.Adapter.RecyclerView_Adapter_reportattendance;
+import com.quantumsit.sportsinc.COACHES.Entities.item_report_attendance;
 import com.quantumsit.sportsinc.CustomView.myCustomRecyclerView;
 import com.quantumsit.sportsinc.CustomView.myCustomRecyclerViewListener;
 import com.quantumsit.sportsinc.Entities.CourseEntity;
@@ -55,7 +55,7 @@ public class CoachReportsAttendanceFragment extends Fragment {
     ArrayList<item_report_attendance> list_items;
     ArrayList<item_report_attendance> all_items;
 
-    MaterialBetterSpinner month_spinner;
+    //MaterialBetterSpinner month_spinner;
     MaterialBetterSpinner levels_spinner;
 
     ArrayList<CourseEntity> courseEntities;
@@ -71,7 +71,6 @@ public class CoachReportsAttendanceFragment extends Fragment {
 
     EditText datePicker;
 
-    private MonthYearPicker myp;
 
     @Nullable
     @Override
@@ -173,17 +172,6 @@ public class CoachReportsAttendanceFragment extends Fragment {
         dateFormat = new SimpleDateFormat("MMM ,yyyy");
         datePicker.setText(dateFormat.format(calendar.getTime()));
 
-        myp = new MonthYearPicker(getActivity());
-        myp.build(new DialogInterface.OnClickListener() {
-
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                levels_spinner.setText("");
-                selectedLevelID = -1;
-                datePicker.setText(myp.getSelectedMonthName() + " , " + myp.getSelectedYear());
-            }
-        }, null);
-
         final YearMonthPickerDialog yearMonthPickerDialog = new YearMonthPickerDialog(getContext(), new YearMonthPickerDialog.OnDateSetListener() {
             @Override
             public void onYearMonthSet(int year, int month) {
@@ -198,6 +186,7 @@ public class CoachReportsAttendanceFragment extends Fragment {
                 dateFormat = new SimpleDateFormat("yyyy-MM");
                 selectedMonth = dateFormat.format(calendar.getTime());
                 list_items.clear();
+                datePicker.requestFocus();
                 recyclerView_adapter_reportattendance.notifyDataSetChanged();
                 customRecyclerView.loading();
                 initilizeAttendList(false);
@@ -273,10 +262,6 @@ public class CoachReportsAttendanceFragment extends Fragment {
         }
     }
 
-    private void datePickerMethod() {
-       myp.show();
-    }
-
     private void fillBySavedState(Bundle savedInstanceState) {
         ArrayList<item_report_attendance> list1 = (ArrayList<item_report_attendance>) savedInstanceState.getSerializable("all_items");
         all_items.addAll(list1);
@@ -320,7 +305,7 @@ public class CoachReportsAttendanceFragment extends Fragment {
         list_items.clear();
         Calendar calendar = Calendar.getInstance();
         for (item_report_attendance item:all_items){
-            calendar.setTime(item.class_date);
+            calendar.setTime(item.getClass_date());
             int AttendMonth = calendar.get(Calendar.MONTH);
             if (AttendMonth == month || month == 12){
                 list_items.add(item);
