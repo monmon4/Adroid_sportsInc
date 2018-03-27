@@ -271,12 +271,16 @@ public class MyDialog extends DialogFragment {
                     super.onResponse(response);
 
                     if (response == null) {
-                        show_toast("Email does not exist");
                         show_toast(getString(R.string.loginError));
 
                     } else {
                         try {
                             JSONObject result = response.getJSONObject(0);
+                            int availableUser = result.getInt("deactive");
+                            if (availableUser == 1){
+                                show_toast("this account is an deactivated account...");
+                                return;
+                            }
                             received_mail = result.getString("email");
                             received_pass = result.getString("pass");
                             received_id = result.getInt(getString(R.string.select_users_id));
