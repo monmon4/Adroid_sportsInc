@@ -13,18 +13,50 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical">
-            <com.weiwangcn.betterspinner.library.material.MaterialBetterSpinner
-                android:id="@+id/monthSpinner_reportsattendance"
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
-                android:layout_marginLeft="5dp"
-                android:layout_marginStart="5dp"
-                android:layout_marginEnd="5dp"
-                android:layout_marginRight="5dp"
-                android:padding="10dp"
-                android:layout_gravity="start"
-                android:hint="@string/month" />
+                android:layout_height="wrap_content">
+                <com.weiwangcn.betterspinner.library.material.MaterialBetterSpinner
+                    android:id="@+id/levelSpinner_reportsattendance"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginStart="5dp"
+                    android:layout_marginEnd="5dp"
+                    android:layout_marginRight="5dp"
+                    android:padding="10dp"
+                    android:layout_gravity="start"
+                    android:hint="@string/level" />
+                <com.weiwangcn.betterspinner.library.material.MaterialBetterSpinner
+                    android:id="@+id/monthSpinner_reportsattendance"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:visibility="gone"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginStart="5dp"
+                    android:layout_marginEnd="5dp"
+                    android:layout_marginRight="5dp"
+                    android:padding="10dp"
+                    android:layout_gravity="start"
+                    android:hint="@string/date" />
+                <EditText
+                    android:id="@+id/dateSpinner_reportsattendance"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/date"
+                    android:paddingTop="15dp"
+                    android:paddingEnd="3dp"
+                    android:paddingStart="3dp"
+                    android:layout_marginTop="@dimen/padding_3"
+                    android:paddingBottom="@dimen/dimens_15"
+                    android:drawableRight="@drawable/ic_down"
+                    android:editable="false"/>
+            </LinearLayout>
             <com.quantumsit.sportsinc.CustomView.myCustomRecyclerView
                 android:id="@+id/customRecyclerView"
                 android:layout_width="match_parent"

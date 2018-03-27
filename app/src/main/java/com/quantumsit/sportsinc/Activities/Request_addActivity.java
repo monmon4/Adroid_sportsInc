@@ -284,6 +284,23 @@ public class Request_addActivity extends AppCompatActivity {
 
 
     public void send_clicked() {
+        String selectedTitle = request_for_spinner.getText().toString();
+        if (selectedTitle.equals("")) {
+            show_toast("Please choose whether the request is for what");
+            return;
+        }
+        if (date_spinner.getText().toString().equals("")){
+            switch (selectedTitle){
+                case "Absence":
+                    show_toast("Please select session data");
+                    break;
+                case "Switch class":
+                    show_toast("Please select which class");
+                    break;
+            }
+            if (!selectedTitle.equals("Other"))
+                return;
+        }
         final AlertDialog.Builder builder = new AlertDialog.Builder(Request_addActivity.this,
                 R.style.MyAlertDialogStyle);
         builder.setTitle(Request_addActivity.this.getResources().getString(R.string.app_name));

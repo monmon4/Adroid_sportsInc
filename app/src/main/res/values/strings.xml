@@ -475,6 +475,11 @@
     <string name="execused">Execused</string>
     <string name="didn_t_come">Didn\'t come</string>
     <string name="select">Select</string>
+    <string name="level">Level</string>
 
+
+    <string name="alert_dialog_title">Please Select</string>
+    <string name="positive_button_text">Select</string>
+    <string name="negative_button_text">Cancel</string>
 
 </resources>
