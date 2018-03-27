@@ -1,5 +1,6 @@
 package com.quantumsit.sportsinc.Activities;
 
+import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
@@ -128,7 +129,6 @@ public class CourseDetailsActivity extends AppCompatActivity {
             @Override
             public void run() {
                 if(myCourse != null){
-                    //fillView(myCourse);
                     //progressDialog.show();
                     fillView(myCourse);
                 }
@@ -137,6 +137,7 @@ public class CourseDetailsActivity extends AppCompatActivity {
         }, loadingTime);
         
         check_course(myCourse);
+        //fill_list_view(myCourse);
 
     }
 
@@ -247,10 +248,10 @@ public class CourseDetailsActivity extends AppCompatActivity {
                     }
 
                 } else {
-                    //progressDialog.dismiss();
+                    progressDialog.dismiss();
                     noClsses.setVisibility(View.VISIBLE);
                     expandableListView.setVisibility(View.GONE);
-                    progressDialog.dismiss();
+                    //progressDialog.dismiss();
                     //checkMail();
                     //verfication();
                 }
@@ -290,6 +291,7 @@ public class CourseDetailsActivity extends AppCompatActivity {
         finish();
     }
 
+    @SuppressLint("StaticFieldLeak")
     public void check_course(final CourseEntity myCourse) {
 
         HttpCall httpCall = new HttpCall();
@@ -307,10 +309,16 @@ public class CourseDetailsActivity extends AppCompatActivity {
                 if (response!= null) {
                     try {
                         JSONObject result = response.getJSONObject(0);
+                        String msg = "";
                         if (result.getBoolean("enabled"))
                             fill_list_view(myCourse);
-                        else
-                            disable_classes();
+                        else{
+                            msg = result.getString("bookedReason");
+                            if (msg.equals(""))
+                                msg = result.getString("levelReason");
+                            disable_classes(msg);
+                        }
+
 
                     } catch (JSONException e) {
                         e.printStackTrace();
@@ -323,10 +331,11 @@ public class CourseDetailsActivity extends AppCompatActivity {
         }.execute(httpCall);
     }
 
-    private  void disable_classes(){
+    private  void disable_classes(String msg){
 
         noClsses.setVisibility(View.VISIBLE);
         expandableListView.setVisibility(View.GONE);
+        noClsses.setText(msg);
 
     }
 }

@@ -7,11 +7,23 @@
     android:orientation="vertical"
     tools:context="com.quantumsit.sportsinc.Activities.PaymentActivity">
 
+    <TextView
+        android:id="@+id/nobookingTextView_checkout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:drawableTop="@drawable/ic_faded_my_classes"
+        android:text="@string/no_booked_classes" />
+
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
+
         <LinearLayout
+            android:id="@+id/allLayout_checkout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical" >
@@ -101,10 +113,10 @@
                 app:cardCornerRadius="5dp"
                 app:cardElevation="@dimen/cardview_default_elevation">
 
-
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:layout_margin="50dp"
                     android:orientation="vertical">
 
                     <Button
@@ -112,11 +124,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:background="@drawable/cornered_background_red"
-                        android:layout_marginStart="50dp"
-                        android:layout_marginEnd="50dp"
                         android:layout_marginBottom="5dp"
-                        android:layout_marginTop="50dp"
-                        android:onClick="payLaterClicked"
                         android:textColor="@color/colorWhite"
                         android:text="@string/pay_later" />
 
@@ -124,11 +132,7 @@
                         android:id="@+id/confirmButton_checkout"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="50dp"
-                        android:layout_marginEnd="50dp"
-                        android:layout_marginBottom="55dp"
                         android:layout_marginTop="5dp"
-                        android:onClick="confirmClicked"
                         android:textColor="@color/colorWhite"
                         android:background="@drawable/cornered_background_green"
                         android:text="@string/pay_now" />

@@ -160,7 +160,7 @@ public class ListViewExpandable_Adapter_CoursesDetails extends BaseExpandableLis
                 if (trainee_names.size()!= 0) {
 
                     open_popup(groupPosition);
-                } else if ( type == 0 ) {
+                } else if ( type == 0 || type == 6 ) {
                     ArrayList <BookingCourseEntity> bookingCourseEntity = globalVars.getBookingCourseEntities();
                     if (bookingCourseEntity.size() == 0) {
                         globalVars.bookingCourseEntities.add(new BookingCourseEntity(globalVars.getName(),
@@ -172,10 +172,7 @@ public class ListViewExpandable_Adapter_CoursesDetails extends BaseExpandableLis
                     }
                     context.startActivity(new Intent(context, PaymentActivity.class));
 
-                } else if (type == 6) {
-                    // 3awza aft7lo window eno already booked fi class tany fa hal 3awez y cancel l booking
-
-                } else if (type == 5) {
+                }  else if (type == 5) {
                     globalVars.setClass_id(header_list.get(groupPosition).getClass_id());
                     globalVars.setCourse_id(courseEntity.getCourse_id());
                     context.startActivity(new Intent(context, BookingFirstFormActivity.class));

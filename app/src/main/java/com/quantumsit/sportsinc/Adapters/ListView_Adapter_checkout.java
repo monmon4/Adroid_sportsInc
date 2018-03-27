@@ -1,7 +1,9 @@
 package com.quantumsit.sportsinc.Adapters;
 
 import android.app.Activity;
+import android.app.Fragment;
 import android.content.Context;
+import android.support.v4.app.FragmentActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,15 +11,24 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.quantumsit.sportsinc.Aaa_data.Constants;
 import com.quantumsit.sportsinc.Aaa_data.GlobalVars;
+import com.quantumsit.sportsinc.Backend.HttpCall;
+import com.quantumsit.sportsinc.Backend.HttpRequest;
+import com.quantumsit.sportsinc.Entities.BookingCourseEntityFragment;
 import com.quantumsit.sportsinc.Entities.item_about;
 import com.quantumsit.sportsinc.Entities.item_checkout;
 import com.quantumsit.sportsinc.R;
 import com.squareup.picasso.Picasso;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
  * Created by Mona on 27-Dec-17.
@@ -55,10 +66,49 @@ public class ListView_Adapter_checkout extends ArrayAdapter<item_checkout> {
         close_imageButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                globalVars.bookingCourseEntities.remove(position);
-                items.remove(position);
-                ListView_Adapter_checkout.this.notifyDataSetChanged();
-                ((Activity) context).recreate();
+                if (globalVars.getBookingCourseEntities() != null) {
+                    if(globalVars.getBookingCourseEntities().size() != 0){
+                        globalVars.bookingCourseEntities.remove(position);
+                        items.remove(position);
+                        ListView_Adapter_checkout.this.notifyDataSetChanged();
+                        ((Activity) context).recreate();
+                    } else {
+                        final String[] ids = items.get(position).getIds().split("@"); {
+                            for (int i=0; i<ids.length; i++) {
+                                HttpCall httpCall = new HttpCall();
+                                httpCall.setMethodtype(HttpCall.POST);
+                                httpCall.setUrl(Constants.deleteBooking);
+                                HashMap<String,String> params = new HashMap<>();
+                                params.put("trainee_id",ids[i]);
+                                httpCall.setParams(params);
+
+                                //final String finalDate_of_birth = date_of_birth;
+                                new HttpRequest(){
+                                    @Override
+                                    public void onResponse(JSONArray response) {
+                                        super.onResponse(response);
+
+                                        if(response != null){
+                                           // try {
+                                                //JSONObject result = response.getJSONObject(0);
+                                                items.remove(position);
+                                                ListView_Adapter_checkout.this.notifyDataSetChanged();
+                                                ((FragmentActivity) context).recreate();
+
+
+                                          /*  } catch (JSONException e) {
+                                                e.printStackTrace();
+                                            }*/
+                                        } else {
+                                            Toast.makeText(context, "Unable to delete booking", Toast.LENGTH_SHORT).show();
+                                        }
+
+                                    }
+                                }.execute(httpCall);
+                            }
+                        }
+                    }
+                }
             }
         });
 

@@ -64,7 +64,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textColor="@color/colorTextDark"
-                    android:text="@string/days_" />
+                    android:text="@string/day_" />
 
                 <TextView
                     android:id="@+id/daysTextView_item2coursedetails"

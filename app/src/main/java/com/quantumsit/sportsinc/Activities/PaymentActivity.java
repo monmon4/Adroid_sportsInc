@@ -93,6 +93,20 @@ public class PaymentActivity extends AppCompatActivity {
         listView_adapter.notifyDataSetChanged();
         listView.setAdapter(listView_adapter);
 
+        confirm_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                confirmClicked();
+            }
+        });
+
+        pay_later_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                payLaterClicked();
+            }
+        });
+
     }
 
     @Override
@@ -108,13 +122,13 @@ public class PaymentActivity extends AppCompatActivity {
     }
 
 
-    public void payLaterClicked(View view) {
+    public void payLaterClicked() {
         insert(0);
         startActivity(new Intent(PaymentActivity.this, HomeActivity.class));
         finish();
     }
 
-    public void confirmClicked(View view) {
+    public void confirmClicked() {
         insert(1);
         startActivity(new Intent(PaymentActivity.this, HomeActivity.class));
         finish();

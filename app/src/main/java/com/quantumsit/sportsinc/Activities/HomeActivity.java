@@ -134,8 +134,13 @@ public class HomeActivity extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
 
         Menu navigationMenu = navigationView.getMenu();
-        if (parent)
+        if (parent){
             navigationMenu.findItem(R.id.nav_certificates).setVisible(true);
+            navigationMenu.findItem(R.id.nav_booking).setVisible(true);
+        }
+
+        if(globalVars.getType() == 0 || globalVars.getType() == 6)
+            navigationMenu.findItem(R.id.nav_booking).setVisible(true);
 
         RelativeLayout header = (RelativeLayout) navigationView.getHeaderView(0);
         profileImage = header.findViewById(R.id.profile_image);
@@ -428,6 +433,9 @@ public class HomeActivity extends AppCompatActivity
         }  else if (id == R.id.nav_about_us) {
             actionBar.setTitle(R.string.terms_amp_conditions);
             fragmentClass = AboutUsFragment.class;
+        } else if (id == R.id.nav_booking) {
+            actionBar.setTitle(R.string.booking);
+            fragmentClass = PaymentFragment.class;
         }
 
         try {
