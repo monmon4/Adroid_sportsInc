@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.ExpandableListView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -54,6 +55,9 @@ public class CourseDetailsActivity extends AppCompatActivity {
     CustomLoadingView loadingView;
     int loadingTime = 1200;
     ProgressDialog progressDialog;
+    ScrollView scrollView;
+
+    int itemMeasure = 0;
 
     String[] weekDays = {"Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"};
     @Override
@@ -70,8 +74,7 @@ public class CourseDetailsActivity extends AppCompatActivity {
         functions = new Functions(CourseDetailsActivity.this);
         globalVars = (GlobalVars) getApplication();
 
-
-
+        scrollView = findViewById(R.id.scrollView);
         loadingView = findViewById(R.id.LoadingView);
         levelImage = findViewById(R.id.Course_icon);
         SessionsNum = findViewById(R.id.course_details_no_classes);
@@ -141,7 +144,7 @@ public class CourseDetailsActivity extends AppCompatActivity {
         for (int i = 0; i < listAdapter.getGroupCount(); i++) {
             View groupItem = listAdapter.getGroupView(i, false, null, listView);
             groupItem.measure(desiredWidth, View.MeasureSpec.UNSPECIFIED);
-
+            itemMeasure = groupItem.getMeasuredHeight();
             totalHeight += groupItem.getMeasuredHeight();
 
             if (((listView.isGroupExpanded(i)) && (i != group))
@@ -160,6 +163,25 @@ public class CourseDetailsActivity extends AppCompatActivity {
                 + (listView.getDividerHeight() * (listAdapter.getGroupCount() - 1));
         if (height < 10)
             height = 200;
+
+        params.height = height;
+        listView.setLayoutParams(params);
+        listView.requestLayout();
+    }
+
+    private void setListViewHeight(int itemMeasure ,ExpandableListView listView) {
+        ListViewExpandable_Adapter_CoursesDetails listAdapter = (ListViewExpandable_Adapter_CoursesDetails) listView.getExpandableListAdapter();
+        int totalHeight = 0;
+
+        for (int i = 0; i < listAdapter.getGroupCount(); i++)
+            totalHeight += itemMeasure;
+
+        ViewGroup.LayoutParams params = listView.getLayoutParams();
+        int height = totalHeight
+                + (listView.getDividerHeight() * (listAdapter.getGroupCount() - 1));
+        if (height < 10)
+            height = 200;
+
         params.height = height;
         listView.setLayoutParams(params);
         listView.requestLayout();
@@ -167,6 +189,7 @@ public class CourseDetailsActivity extends AppCompatActivity {
     }
 
     private void fillView(CourseEntity courseEntity) {
+        scrollView.scrollTo(0,0);
         // CourseName.setText(courseEntity.getCourseName());
         getSupportActionBar().setTitle(courseEntity.getCourseName());
         String ImageUrl = courseEntity.getImageUrl();
@@ -229,6 +252,7 @@ public class CourseDetailsActivity extends AppCompatActivity {
                         expandableListView.setVisibility(View.VISIBLE);
                         adapter_coursesDetails.notifyDataSetChanged();
                         expandableListView.setAdapter(adapter_coursesDetails);
+                        setListViewHeight(expandableListView, -1);
                        // progressDialog.dismiss();
 
                     } catch (JSONException e) {
@@ -334,23 +358,26 @@ public class CourseDetailsActivity extends AppCompatActivity {
         super.onSaveInstanceState(outState);
         outState.putSerializable("header_list",header_list);
         outState.putSerializable("child_list",child_list);
+        outState.putInt("itemMeasure",itemMeasure);
     }
 
     private void  fillViewBySavedInstanceState(Bundle savedInstanceState , CourseEntity myCourse){
         ArrayList<item1_courses_details> new_header_list = (ArrayList<item1_courses_details>) savedInstanceState.getSerializable("header_list");
         HashMap<Integer, item2_courses_details> new_child_list = (HashMap<Integer, item2_courses_details>) savedInstanceState.getSerializable("child_list");
+        itemMeasure = savedInstanceState.getInt("itemMeasure");
         header_list.addAll(new_header_list);
         child_list.putAll(new_child_list);
+        adapter_coursesDetails.notifyDataSetChanged();
+        expandableListView.setAdapter(adapter_coursesDetails);
         if (header_list.size() > 0) {
             noClsses.setVisibility(View.GONE);
             expandableListView.setVisibility(View.VISIBLE);
+            setListViewHeight(itemMeasure,expandableListView);
         }
         else {
             noClsses.setVisibility(View.VISIBLE);
             expandableListView.setVisibility(View.GONE);
         }
-        adapter_coursesDetails.notifyDataSetChanged();
-        expandableListView.setAdapter(adapter_coursesDetails);
         fillView(myCourse);
     }
 }
