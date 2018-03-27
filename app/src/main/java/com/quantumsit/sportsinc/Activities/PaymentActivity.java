@@ -130,6 +130,7 @@ public class PaymentActivity extends AppCompatActivity {
 
     public void confirmClicked() {
         insert(1);
+        globalVars.setType(0);
         startActivity(new Intent(PaymentActivity.this, HomeActivity.class));
         finish();
     }
@@ -161,6 +162,9 @@ public class PaymentActivity extends AppCompatActivity {
         params.put("course_id",String.valueOf(selected_course_id));
         params.put("payment_type",String.valueOf(payment_type));
 
+        if (trainee_id.equals(String.valueOf(globalVars.getId())) && payment_type == 1){
+            globalVars.setType(0);
+        }
 
         httpCall.setParams(params);
         new HttpRequest(){

@@ -2,10 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://D:\!!Github\Adroid_sportsInc3\Adroid_sportsInc.iml" filepath="D:\!!Github\Adroid_sportsInc3\Adroid_sportsInc.iml" />
-      <module fileurl="file://$PROJECT_DIR$/Adroid_sportsInc3.iml" filepath="$PROJECT_DIR$/Adroid_sportsInc3.iml" />
-      <module fileurl="file://D:\AndroidProjects\Adroid_sportsInc\Adroid_sportsInc3.iml" filepath="D:\AndroidProjects\Adroid_sportsInc\Adroid_sportsInc3.iml" />
-      <module fileurl="file://E:\!GitHub\Adroid_sportsInc\Adroid_sportsInc3.iml" filepath="E:\!GitHub\Adroid_sportsInc\Adroid_sportsInc3.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Adroid_sportsInc.iml" filepath="$PROJECT_DIR$/Adroid_sportsInc.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
     </modules>
   </component>

@@ -12,6 +12,7 @@ import android.widget.ExpandableListView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.quantumsit.sportsinc.Aaa_data.Constants;
 import com.quantumsit.sportsinc.Aaa_data.GlobalVars;
@@ -124,20 +125,9 @@ public class CourseDetailsActivity extends AppCompatActivity {
         adapter_coursesDetails.setLl(ll);
 
         if (savedInstanceState!=null)
-            loadingTime = 0;
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                if(myCourse != null){
-                    //fillView(myCourse);
-                    //progressDialog.show();
-                    fillView(myCourse);
-                }
-                else
-                    loadingView.fails(); }
-        }, loadingTime);
-        
-        check_course(myCourse);
+            fillViewBySavedInstanceState(savedInstanceState,myCourse);
+        else
+            check_course(myCourse);
         //fill_list_view(myCourse);
 
     }
@@ -199,7 +189,7 @@ public class CourseDetailsActivity extends AppCompatActivity {
         loadingView.success();
     }
 
-    public void fill_list_view(CourseEntity myCourse) {
+    public void fill_list_view(final CourseEntity myCourse) {
         header_list.clear();
         child_list.clear();
         JSONObject where_info = new JSONObject();
@@ -210,7 +200,7 @@ public class CourseDetailsActivity extends AppCompatActivity {
         }
 
         String OnCondition = "groups.coach_id = users.id";
-        String select = "groups.id, groups.name AS group_name, users.name AS user_name, groups.start_date," +
+        String select = "groups.id AS groups_id, groups.name AS group_name, users.name AS user_name, groups.group_sdate," +
                 "groups.days, groups.daystime";
 
         HttpCall httpCall = functions.joinDB("groups", "users", where_info, OnCondition, select);
@@ -249,15 +239,13 @@ public class CourseDetailsActivity extends AppCompatActivity {
                     }
 
                 } else {
-                    progressDialog.dismiss();
                     noClsses.setVisibility(View.VISIBLE);
                     expandableListView.setVisibility(View.GONE);
                     //progressDialog.dismiss();
                     //checkMail();
                     //verfication();
                 }
-                loadingView.success();
-
+                fillView(myCourse);
             }
         }.execute(httpCall);
 
@@ -318,6 +306,7 @@ public class CourseDetailsActivity extends AppCompatActivity {
                             if (msg.equals(""))
                                 msg = result.getString("levelReason");
                             disable_classes(msg);
+                            fillView(myCourse);
                         }
 
 
@@ -338,5 +327,30 @@ public class CourseDetailsActivity extends AppCompatActivity {
         expandableListView.setVisibility(View.GONE);
         noClsses.setText(msg);
 
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putSerializable("header_list",header_list);
+        outState.putSerializable("child_list",child_list);
+    }
+
+    private void  fillViewBySavedInstanceState(Bundle savedInstanceState , CourseEntity myCourse){
+        ArrayList<item1_courses_details> new_header_list = (ArrayList<item1_courses_details>) savedInstanceState.getSerializable("header_list");
+        HashMap<Integer, item2_courses_details> new_child_list = (HashMap<Integer, item2_courses_details>) savedInstanceState.getSerializable("child_list");
+        header_list.addAll(new_header_list);
+        child_list.putAll(new_child_list);
+        if (header_list.size() > 0) {
+            noClsses.setVisibility(View.GONE);
+            expandableListView.setVisibility(View.VISIBLE);
+        }
+        else {
+            noClsses.setVisibility(View.VISIBLE);
+            expandableListView.setVisibility(View.GONE);
+        }
+        adapter_coursesDetails.notifyDataSetChanged();
+        expandableListView.setAdapter(adapter_coursesDetails);
+        fillView(myCourse);
     }
 }

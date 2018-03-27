@@ -147,8 +147,8 @@ public class RegisterDialogFragment extends DialogFragment {
                                 }
                                 received_name = object.getString("name");
                                 received_mail = object.getString("email");
-                                String gender = object.getString("gender");
-                                String birthday = object.getString("birthday");
+                               // String gender = object.getString("gender");
+                                //String birthday = object.getString("birthday");
                                 socialMediaLogIn();
                             } catch (JSONException e) {
                                 show_toast("this facebook account doesn't have e-mail");
