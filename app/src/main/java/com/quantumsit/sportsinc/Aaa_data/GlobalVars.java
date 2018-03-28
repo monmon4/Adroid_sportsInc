@@ -29,6 +29,8 @@ public class GlobalVars extends Application {
 
     int course_id, class_id;
 
+    boolean parent = false;
+
     public ArrayList<BookingCourseEntity> bookingCourseEntities = new ArrayList<>();
 
     public ArrayList<BookingCourseEntity> getBookingCourseEntities() {
@@ -238,6 +240,14 @@ public class GlobalVars extends Application {
 
     public void setAge(int age) {
         this.age = age;
+    }
+
+    public boolean isParent() {
+        return parent;
+    }
+
+    public void setParent(boolean parent) {
+        this.parent = parent;
     }
 
     public DB_Sqlite_Handler getMyDB() {

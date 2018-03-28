@@ -25,6 +25,7 @@ import com.quantumsit.sportsinc.CustomView.CustomLoadingView;
 import com.quantumsit.sportsinc.Entities.CourseEntity;
 import com.quantumsit.sportsinc.Entities.item1_courses_details;
 import com.quantumsit.sportsinc.Entities.item2_courses_details;
+import com.quantumsit.sportsinc.Entities.item_name_id;
 import com.quantumsit.sportsinc.R;
 import com.squareup.picasso.Picasso;
 
@@ -56,8 +57,10 @@ public class CourseDetailsActivity extends AppCompatActivity {
     int loadingTime = 1200;
     ProgressDialog progressDialog;
     ScrollView scrollView;
+    LinearLayout ll;
 
     int itemMeasure = 0;
+    private ArrayList<item_name_id> trainee_names;
 
     String[] weekDays = {"Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"};
     @Override
@@ -85,6 +88,7 @@ public class CourseDetailsActivity extends AppCompatActivity {
 
         header_list = new ArrayList<>();
         child_list = new HashMap<>();
+        trainee_names = new ArrayList<>();
 
         //expandableListView.setAdapter(adapter_coursesDetails);
 
@@ -121,16 +125,12 @@ public class CourseDetailsActivity extends AppCompatActivity {
 
 
        // progressDialog.show();
-        adapter_coursesDetails = new ListViewExpandable_Adapter_CoursesDetails(CourseDetailsActivity.this, header_list, child_list, myCourse);
-
-
-        LinearLayout ll = findViewById(R.id.ll_coursesdetails);
-        adapter_coursesDetails.setLl(ll);
+       ll = findViewById(R.id.ll_coursesdetails);
 
         if (savedInstanceState!=null)
             fillViewBySavedInstanceState(savedInstanceState,myCourse);
         else
-            check_course(myCourse);
+            checkParent(myCourse);
         //fill_list_view(myCourse);
 
     }
@@ -279,7 +279,7 @@ public class CourseDetailsActivity extends AppCompatActivity {
     private String[] get_days(String dayss) {
         String[] dayss_split;
 
-        if(dayss != null) {
+        if(dayss != null && !dayss.equals("")) {
             dayss_split = dayss.split("@");
             for (int i=0; i<dayss_split.length; i++) {
                 dayss_split[i] = weekDays[Integer.valueOf(dayss_split[i])];
@@ -322,7 +322,7 @@ public class CourseDetailsActivity extends AppCompatActivity {
                 if (response!= null) {
                     try {
                         JSONObject result = response.getJSONObject(0);
-                        String msg = "";
+                        String msg;
                         if (result.getBoolean("enabled"))
                             fill_list_view(myCourse);
                         else{
@@ -379,5 +379,51 @@ public class CourseDetailsActivity extends AppCompatActivity {
             expandableListView.setVisibility(View.GONE);
         }
         fillView(myCourse);
+    }
+
+    @SuppressLint("StaticFieldLeak")
+    private void checkParent(final CourseEntity myCourse){
+
+        try {
+            JSONObject where_info = new JSONObject();
+            where_info.put("parent_id", globalVars.getId());
+            HttpCall httpCall = functions.searchDB("users", where_info);
+            new HttpRequest(){
+                @Override
+                public void onResponse(JSONArray response) {
+                    super.onResponse(response);
+                    if(response != null){
+                        try {
+                            trainee_names.add(new item_name_id(globalVars.getId(), "Me"));
+                            for (int i=0; i<response.length(); i++){
+                                JSONObject result = response.getJSONObject(i);
+                                int id = result.getInt("id");
+                                String name = result.getString("name");
+                                trainee_names.add(new item_name_id(id, name));
+                            }
+                            globalVars.setParent(true);
+                            adapter_coursesDetails = new ListViewExpandable_Adapter_CoursesDetails(CourseDetailsActivity.this, header_list, child_list, myCourse, trainee_names);
+                            adapter_coursesDetails.setLl(ll);
+                            fill_list_view(myCourse);
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+
+                        }
+
+                    } else {
+                        globalVars.setParent(false);
+                        adapter_coursesDetails = new ListViewExpandable_Adapter_CoursesDetails(CourseDetailsActivity.this, header_list, child_list, myCourse, trainee_names);
+                        adapter_coursesDetails.setLl(ll);
+                        check_course(myCourse);
+                        trainee_names.clear();
+                    }
+
+                }
+            }.execute(httpCall);
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
     }
 }

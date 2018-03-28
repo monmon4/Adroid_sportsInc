@@ -78,7 +78,7 @@ public class Request_addActivity extends AppCompatActivity {
         fillDateList();
         fillClassList();
 
-        /*request_for_spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        request_for_spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
                 progressDialog.show();
@@ -100,7 +100,7 @@ public class Request_addActivity extends AppCompatActivity {
 
         });
 
-        progressDialog.show();*/
+        progressDialog.show();
 
 
         date_spinner.setOnClickListener(new View.OnClickListener() {
@@ -236,10 +236,6 @@ public class Request_addActivity extends AppCompatActivity {
 
     @SuppressLint("StaticFieldLeak")
     private void fillClassList() {
-
-       // try {
-
-
             HttpCall httpCall = new HttpCall();
             httpCall.setMethodtype(HttpCall.POST);
             httpCall.setUrl(Constants.traineeSwitchGroup);
@@ -269,16 +265,11 @@ public class Request_addActivity extends AppCompatActivity {
 
                     } catch (JSONException e) {
                         e.printStackTrace();
-                    } /*catch (ParseException e) {
-                        e.printStackTrace();
-                    }*/
+                    }
                 }
 
             }.execute(httpCall);
 
-        //} catch (JSONException e) {
-            //e.printStackTrace();
-       // }
     }
 
 
@@ -376,7 +367,7 @@ public class Request_addActivity extends AppCompatActivity {
     }
 
     @SuppressLint("StaticFieldLeak")
-    public void insert_to_db(int to_id) {
+    public void insert_to_db(int to_id ) {
 
         Date date;
         DateFormat outdateFormat = new SimpleDateFormat("yyyy-MM-dd");

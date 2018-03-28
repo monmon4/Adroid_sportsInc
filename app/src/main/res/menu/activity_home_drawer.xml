@@ -39,7 +39,7 @@
             android:id="@+id/nav_booking"
             android:visible="true"
             android:icon="@drawable/ic_booking"
-            android:title="@string/booking" />
+            android:title="@string/my_cart" />
 
     </group>
 

@@ -35,7 +35,6 @@ public class Coach_CurrentClassAttendanceFragment extends Fragment {
 
     FloatingActionButton done_button;
     ProgressDialog progressDialog;
-    ImageView checked_image_view;
 
     CheckBoxListView_Adapter checkBoxListView_adapter;
     RelativeLayout attendance_rl;

@@ -9,13 +9,11 @@
         <item>Absence</item>
         <item>Vacation</item>
         <item>Class suspend</item>
-        <item>Other</item>
     </string-array>
 
     <string-array name="trainee_request_for_array">
         <item>Absence</item>
         <item>Switch class</item>
-        <item>Other</item>
     </string-array>
 
 
@@ -484,5 +482,6 @@
     <string name="positive_button_text">Select</string>
     <string name="negative_button_text">Cancel</string>
     <string name="no_sessions_today">No Sessions Today</string>
+    <string name="my_cart">My cart</string>
 
 </resources>

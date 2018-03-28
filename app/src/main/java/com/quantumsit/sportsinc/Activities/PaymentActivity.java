@@ -9,6 +9,7 @@ import android.support.v7.widget.CardView;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -32,7 +33,8 @@ import java.util.HashMap;
 
 public class PaymentActivity extends AppCompatActivity {
 
-    TextView  total_textview;
+    TextView  total_textview, no_booking_textView;
+    LinearLayout all_layout;
 
     NonScrollListView listView;
     ListView_Adapter_checkout listView_adapter;
@@ -64,6 +66,9 @@ public class PaymentActivity extends AppCompatActivity {
         list_items = new ArrayList<>();
         listView_adapter = new ListView_Adapter_checkout(PaymentActivity.this, list_items);
 
+        no_booking_textView = findViewById(R.id.nobookingTextView_checkout);
+        all_layout = findViewById(R.id.allLayout_checkout);
+
         final ArrayList<BookingCourseEntity> bookedCourses = globalVars.getBookingCourseEntities();
 
 
@@ -82,15 +87,27 @@ public class PaymentActivity extends AppCompatActivity {
             }
         }
 
-        if(list_items.size() > 1) {
-            int total_price = 0;
-            for (int i=0; i<list_items.size(); i++) {
-                total_price += Integer.valueOf(list_items.get(i).getPrice());
+        if(list_items != null) {
+            if(list_items.size() == 0) {
+                no_booking_textView.setVisibility(View.VISIBLE);
+                all_layout.setVisibility(View.GONE);
+
+            } else if(list_items.size() > 1) {
+                no_booking_textView.setVisibility(View.GONE);
+                all_layout.setVisibility(View.VISIBLE);
+                int total_price = 0;
+                for (int i=0; i<list_items.size(); i++) {
+                    total_price += Integer.valueOf(list_items.get(i).getPrice());
+                }
+                total_textview.setText(String.valueOf(total_price));
+            } else {
+                no_booking_textView.setVisibility(View.GONE);
+                all_layout.setVisibility(View.VISIBLE);
+                totalPrice_cardview.setVisibility(View.GONE);
             }
-            total_textview.setText(String.valueOf(total_price));
-        } else {
-            totalPrice_cardview.setVisibility(View.GONE);
         }
+
+
 
         listView_adapter.notifyDataSetChanged();
         listView.setAdapter(listView_adapter);
