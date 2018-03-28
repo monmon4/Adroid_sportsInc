@@ -20,9 +20,6 @@ public class BookingSecondFormActivity extends AppCompatActivity {
     StringBuilder illness = new StringBuilder();
     Booking_info booking_info;
 
-    GlobalVars globalVars;
-    boolean parent;
-
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_booking_second_form);
@@ -30,8 +27,6 @@ public class BookingSecondFormActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         getSupportActionBar().setTitle("Registration (2)");
-
-        parent = globalVars.isParent();
 
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
 
