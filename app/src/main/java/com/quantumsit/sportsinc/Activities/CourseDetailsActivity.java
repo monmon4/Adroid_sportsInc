@@ -128,14 +128,13 @@ public class CourseDetailsActivity extends AppCompatActivity {
             @Override
             public void run() {
                 if(myCourse != null){
-                    //fillView(myCourse);
-                    //progressDialog.show();
+
                     fillView(myCourse);
                 }
                 else
                     loadingView.fails(); }
         }, loadingTime);
-        
+
         check_course(myCourse);
 
     }
