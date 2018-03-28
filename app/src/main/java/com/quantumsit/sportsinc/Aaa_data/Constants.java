@@ -14,6 +14,7 @@ public interface Constants {
 
     String socialLogin = server + "social_login";
 
+    String selectHomeData = server + "selectHomeData";
     String checkUser = server + "checkPhoneMail";
     String selectData = server + "selectdata";
     String updateData = server + "updatedata";
