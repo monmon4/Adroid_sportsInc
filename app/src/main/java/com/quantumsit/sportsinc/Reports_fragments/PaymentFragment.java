@@ -104,6 +104,8 @@ public class PaymentFragment extends Fragment {
             public void onLoadMore() {
                 if (list_item.size() >= limitValue)
                     listLoadMore();
+                else
+                    listener.setLoading(false);
             }};
 
         recyclerView.addOnScrollListener(listener);

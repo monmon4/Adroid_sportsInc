@@ -78,18 +78,16 @@ public class Request_addActivity extends AppCompatActivity {
         fillDateList();
         fillClassList();
 
-        /*request_for_spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        request_for_spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
                 progressDialog.show();
                 if (position == 0) {
-                    ArrayAdapter<String> new_dates_spinner_adapter = new ArrayAdapter<>(Request_addActivity.this, android.R.layout.simple_dropdown_item_1line, date_list);
-                    date_spinner.setAdapter(new_dates_spinner_adapter);
-                    progressDialog.dismiss();
+                    date_spinner.setHint("Date");
+                    if (date_list.size() == 0)
+                        show_toast("No Session to absent");
                 } else {
-                    ArrayAdapter<String> new_dates_spinner_adapter = new ArrayAdapter<>(Request_addActivity.this, android.R.layout.simple_dropdown_item_1line, group_list);
-                    date_spinner.setAdapter(new_dates_spinner_adapter);
-                    progressDialog.dismiss();
+                    date_spinner.setHint("Class");
                 }
             }
 
@@ -99,8 +97,6 @@ public class Request_addActivity extends AppCompatActivity {
             }
 
         });
-
-        progressDialog.show();*/
 
 
         date_spinner.setOnClickListener(new View.OnClickListener() {
@@ -207,7 +203,7 @@ public class Request_addActivity extends AppCompatActivity {
 
                         } else {
                             progressDialog.dismiss();
-                            Toast.makeText(Request_addActivity.this, "An error occurred ", Toast.LENGTH_SHORT).show();
+                           // Toast.makeText(Request_addActivity.this, "An error occurred ", Toast.LENGTH_SHORT).show();
                         }
 
 
@@ -264,7 +260,7 @@ public class Request_addActivity extends AppCompatActivity {
                             }
 
                         } else {
-                            Toast.makeText(Request_addActivity.this, "An error occurred ", Toast.LENGTH_SHORT).show();
+                            //Toast.makeText(Request_addActivity.this, "An error occurred ", Toast.LENGTH_SHORT).show();
                         }
 
                     } catch (JSONException e) {

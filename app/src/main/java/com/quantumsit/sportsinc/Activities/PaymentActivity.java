@@ -11,6 +11,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.quantumsit.sportsinc.Aaa_data.Constants;
@@ -133,6 +134,7 @@ public class PaymentActivity extends AppCompatActivity {
     public void confirmClicked() {
         insert(1);
         globalVars.setType(0);
+        globalVars.setUser(globalVars.getMyAccount());
         startActivity(new Intent(PaymentActivity.this, HomeActivity.class));
         finish();
     }
@@ -143,6 +145,7 @@ public class PaymentActivity extends AppCompatActivity {
 
         for (int i=0; i<bookedCourses.size();i++) {
             String[] trainee_ids = bookedCourses.get(i).getTrainee_id().split("@");
+            Toast.makeText(getApplicationContext(),"Trainees: "+trainee_ids.length,Toast.LENGTH_LONG).show();
             for (int j=0; j<trainee_ids.length;j++)
                 insert_to_db(trainee_ids[j],
                         bookedCourses.get(i).getClass_id(),
