@@ -12,6 +12,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.quantumsit.sportsinc.Aaa_data.Constants;
@@ -136,6 +137,7 @@ public class PaymentActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
+        payLaterClicked();
         super.onBackPressed();
         finish();
     }
