@@ -1,10 +1,12 @@
 package com.quantumsit.sportsinc.Entities;
 
+import java.io.Serializable;
+
 /**
  * Created by Mona on 27-Dec-17.
  */
 
-public class item1_courses_details {
+public class item1_courses_details implements Serializable {
 
     String class_name, start_date;
     int class_id;

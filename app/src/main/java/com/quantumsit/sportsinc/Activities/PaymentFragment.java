@@ -189,6 +189,7 @@ public class PaymentFragment extends Fragment {
                 if (response!= null) {
                     try {
                         int id = response.getInt(0);
+                        globalVars.setType(0);
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }

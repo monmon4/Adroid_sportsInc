@@ -33,7 +33,6 @@ import java.util.List;
  */
 public class Coach_CurrentClassAttendanceFragment extends Fragment {
 
-    ViewPager viewPager;
     FloatingActionButton done_button;
     ProgressDialog progressDialog;
     ImageView checked_image_view;
@@ -56,7 +55,6 @@ public class Coach_CurrentClassAttendanceFragment extends Fragment {
         global = (GlobalVars) getActivity().getApplication();
 
         progressDialog = new ProgressDialog(getContext());
-        //viewPager = getActivity().findViewById(R.id.coach_current_class_viewpager);
         listView = root.findViewById(R.id.rulesCheckListView_coachcurrentclassattendancefragment);
         list_items = new ArrayList<>();
 
