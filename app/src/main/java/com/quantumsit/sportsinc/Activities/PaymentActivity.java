@@ -1,6 +1,7 @@
 package com.quantumsit.sportsinc.Activities;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.provider.Settings;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -11,6 +12,7 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.google.gson.Gson;
 import com.quantumsit.sportsinc.Aaa_data.Constants;
 import com.quantumsit.sportsinc.Aaa_data.GlobalVars;
 import com.quantumsit.sportsinc.Adapters.ListView_Adapter_checkout;
@@ -162,8 +164,12 @@ public class PaymentActivity extends AppCompatActivity {
         params.put("course_id",String.valueOf(selected_course_id));
         params.put("payment_type",String.valueOf(payment_type));
 
-        if (trainee_id.equals(String.valueOf(globalVars.getId())) && payment_type == 1){
-            globalVars.setType(0);
+        if (trainee_id.equals(String.valueOf(globalVars.getId()))){
+            int Type = 6;
+            if(payment_type == 1)
+                Type = 0;
+            globalVars.setType(Type);
+            saveUpdateToPref();
         }
 
         httpCall.setParams(params);
@@ -184,4 +190,11 @@ public class PaymentActivity extends AppCompatActivity {
     }
 
 
+    private void saveUpdateToPref() {
+        SharedPreferences.Editor preferences = getSharedPreferences("UserFile", MODE_PRIVATE).edit();
+        Gson gson = new Gson();
+        String json = gson.toJson(globalVars.getMyAccount());
+        preferences.putString("CurrentUser", json);
+        preferences.apply();
+    }
 }
