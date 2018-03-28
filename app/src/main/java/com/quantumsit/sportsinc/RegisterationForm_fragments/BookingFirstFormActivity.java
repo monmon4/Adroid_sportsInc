@@ -19,6 +19,7 @@ import com.google.i18n.phonenumbers.Phonenumber;
 import com.hbb20.CountryCodePicker;
 import com.quantumsit.sportsinc.Aaa_data.GlobalVars;
 import com.quantumsit.sportsinc.Aaa_data.Trainees_info;
+import com.quantumsit.sportsinc.Activities.HomeActivity;
 import com.quantumsit.sportsinc.Activities.startPageActivity;
 import com.quantumsit.sportsinc.Entities.Booking_info;
 import com.quantumsit.sportsinc.R;
@@ -146,7 +147,7 @@ public class BookingFirstFormActivity extends AppCompatActivity {
     }
 
     public void back_first(View view) {
-        startActivity(new Intent(BookingFirstFormActivity.this, startPageActivity.class));
+        startActivity(new Intent(BookingFirstFormActivity.this, HomeActivity.class));
         finish();
         //startActivity(new Intent(BookingFirstFormActivity.this, BookingSecondFormActivity.class));
     }

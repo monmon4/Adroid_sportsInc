@@ -90,7 +90,11 @@ public class PaymentFragment extends Fragment {
 
 
     public void confirmClicked() {
-        insert(1);
+        for (int i=0; i<list_items.size();i++) {
+            String[] trainee_ids = list_items.get(i).getIds().split("@");
+            for (int j=0; j<trainee_ids.length;j++)
+                insert_to_db(trainee_ids[j],1);
+        }
         startActivity(new Intent(getActivity(), HomeActivity.class));
     }
 
@@ -142,35 +146,17 @@ public class PaymentFragment extends Fragment {
             }.execute(httpCall);
     }
 
-    private  void insert(int payment_type) {
-
-        final ArrayList<BookingCourseEntity> bookedCourses = globalVars.getBookingCourseEntities();
-
-        for (int i=0; i<bookedCourses.size();i++) {
-            String[] trainee_ids = bookedCourses.get(i).getTrainee_id().split("@");
-            for (int j=0; j<trainee_ids.length;j++)
-                insert_to_db(trainee_ids[j],
-                        bookedCourses.get(i).getClass_id(),
-                        bookedCourses.get(i).getCourseEntity().getCourse_id(),
-                        payment_type);
-        }
-
-    }
-
-    private void insert_to_db(String trainee_id, int selected_class_id, int selected_course_id, int payment_type) {
-
+    private void insert_to_db(String trainee_id, int payment_type) {
 
         JSONObject where = new JSONObject();
         JSONObject value = new JSONObject();
 
         try {
             where.put("trainee_id", trainee_id);
-            value.put("payment_type", payment_type);
+            value.put("status", payment_type);
         } catch (JSONException e) {
             e.printStackTrace();
         }
-
-
 
         HttpCall httpCall = new HttpCall();
         httpCall.setMethodtype(HttpCall.POST);

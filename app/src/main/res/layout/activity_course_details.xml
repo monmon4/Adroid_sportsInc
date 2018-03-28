@@ -154,7 +154,7 @@
                         android:layout_gravity="center"
                         android:visibility="gone"
                         android:layout_margin="16dp"
-                        android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
+                        android:textAppearance="@style/Base.TextAppearance.AppCompat.Small"
                         android:text="@string/no_classes_available" />
 
 

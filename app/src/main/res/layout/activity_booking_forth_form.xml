@@ -52,7 +52,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:singleLine="true"
-                        android:hint="@string/first_name" />
+                        android:hint="@string/full_name" />
 
 
                 </android.support.design.widget.TextInputLayout>
@@ -108,7 +108,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:singleLine="true"
-                        android:hint="@string/first_name" />
+                        android:hint="@string/full_name" />
 
 
                 </android.support.design.widget.TextInputLayout>

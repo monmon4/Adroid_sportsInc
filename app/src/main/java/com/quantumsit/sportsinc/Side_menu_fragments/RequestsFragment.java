@@ -121,7 +121,7 @@ public class RequestsFragment extends Fragment {
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putParcelable("ScrollPosition", listView.onSaveInstanceState());
-        outState.putSerializable("listItems", (Serializable) list_items);
+        outState.putSerializable("listItems",  list_items);
     }
 
 

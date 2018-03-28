@@ -232,10 +232,6 @@ public class Request_addActivity extends AppCompatActivity {
 
     @SuppressLint("StaticFieldLeak")
     private void fillClassList() {
-
-       // try {
-
-
             HttpCall httpCall = new HttpCall();
             httpCall.setMethodtype(HttpCall.POST);
             httpCall.setUrl(Constants.traineeSwitchGroup);
@@ -265,16 +261,11 @@ public class Request_addActivity extends AppCompatActivity {
 
                     } catch (JSONException e) {
                         e.printStackTrace();
-                    } /*catch (ParseException e) {
-                        e.printStackTrace();
-                    }*/
+                    }
                 }
 
             }.execute(httpCall);
 
-        //} catch (JSONException e) {
-            //e.printStackTrace();
-       // }
     }
 
 

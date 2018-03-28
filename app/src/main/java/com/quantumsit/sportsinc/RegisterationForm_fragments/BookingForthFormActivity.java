@@ -133,6 +133,70 @@ public class BookingForthFormActivity extends AppCompatActivity {
 
     }
 
+    public void done_forth(View view) {
+
+        //boolean all_good = true;
+        int selected_radioButton_id = radioGroup.getCheckedRadioButtonId();
+        hear_about_us = "";
+
+        E_firstName = E_firstName_editText.getText().toString();
+        E_firstPhone = E_firstPhone_editText.getText().toString();
+
+        E_secondName = E_secondName_editText.getText().toString();
+        E_secondPhone = E_secondPhone_editText.getText().toString();
+
+        if(TextUtils.isEmpty(E_firstName)&&TextUtils.isEmpty(E_firstName)) {
+            //E_firstName_editText
+        }
+
+        if (!TextUtils.isEmpty(E_firstPhone)) {
+            if(!isValidPhone1(ccp1.getFullNumber(), ccp1.getSelectedCountryNameCode())) {
+                E_firstPhone_editText.setError("Invalid phone");
+                //all_good = false;
+                return;
+            }
+        }
+
+        if (!TextUtils.isEmpty(E_secondPhone)) {
+            if(!isValidPhone2(ccp2.getFullNumber(), ccp2.getSelectedCountryNameCode())) {
+                E_secondPhone_editText.setError("Invalid phone");
+                //all_good = false;
+                return;
+            }
+        }
+
+        if (selected_radioButton_id != -1) {
+            RadioButton selected = findViewById(selected_radioButton_id);
+            if (selected == other_radioButton){
+                if(TextUtils.isEmpty(other_editText.getText().toString())) {
+                    other_editText.setError("Please enter how you heard about us");
+                    // all_good = false;
+                    return;
+                } else
+                    hear_about_us = other_editText.getText().toString();
+
+            } else {
+                hear_about_us = selected.getText().toString();
+            }
+
+        } else {
+            Toast.makeText(BookingForthFormActivity.this,"Please select how you heard about us", Toast.LENGTH_SHORT).show();
+            //all_good = false;
+            return;
+        }
+
+        if (!first_checkBox.isChecked() || !second_checkBox.isChecked()) {
+            Toast.makeText(BookingForthFormActivity.this,"You have to accept our policy first", Toast.LENGTH_SHORT).show();
+            // all_good = false;
+            return;
+        }
+
+        booking_info.setForth(E_firstName, E_firstPhone, E_secondName, E_secondPhone, hear_about_us);
+        check_mail();
+
+    }
+
+
     private void check_parent() {
 
         if (!booking_info.getF_mail().equals("")) {
@@ -252,68 +316,6 @@ public class BookingForthFormActivity extends AppCompatActivity {
         }.execute(httpCall);
     }
 
-
-    public void done_forth(View view) {
-
-        //boolean all_good = true;
-        int selected_radioButton_id = radioGroup.getCheckedRadioButtonId();
-        hear_about_us = "";
-
-        E_firstName = E_firstName_editText.getText().toString();
-        E_firstPhone = E_firstPhone_editText.getText().toString();
-
-        E_secondName = E_secondName_editText.getText().toString();
-        E_secondPhone = E_secondPhone_editText.getText().toString();
-
-        if (!TextUtils.isEmpty(E_firstPhone)) {
-            if(!isValidPhone1(ccp1.getFullNumber(), ccp1.getSelectedCountryNameCode())) {
-                E_firstPhone_editText.setError("Invalid phone");
-                //all_good = false;
-                return;
-            }
-        }
-
-        if (!TextUtils.isEmpty(E_secondPhone)) {
-            if(!isValidPhone2(ccp2.getFullNumber(), ccp2.getSelectedCountryNameCode())) {
-                E_secondPhone_editText.setError("Invalid phone");
-                //all_good = false;
-                return;
-            }
-        }
-
-        if (selected_radioButton_id != -1) {
-            RadioButton selected = findViewById(selected_radioButton_id);
-            if (selected == other_radioButton){
-                if(TextUtils.isEmpty(other_editText.getText().toString())) {
-                    other_editText.setError("Please enter how you heard about us");
-                   // all_good = false;
-                    return;
-                } else
-                    hear_about_us = other_editText.getText().toString();
-
-            } else {
-                hear_about_us = selected.getText().toString();
-            }
-
-        } else {
-            Toast.makeText(BookingForthFormActivity.this,"Please select how you heard about us", Toast.LENGTH_SHORT).show();
-            //all_good = false;
-            return;
-        }
-
-        if (!first_checkBox.isChecked() || !second_checkBox.isChecked()) {
-            Toast.makeText(BookingForthFormActivity.this,"You have to accept our policy first", Toast.LENGTH_SHORT).show();
-           // all_good = false;
-            return;
-        }
-
-        booking_info.setForth(E_firstName, E_firstPhone, E_secondName, E_secondPhone, hear_about_us);
-
-        check_mail();
-
-
-    }
-
     public boolean isValidPhone1(String phone_num, String country)
     {
         boolean isValid = false;
@@ -424,6 +426,7 @@ public class BookingForthFormActivity extends AppCompatActivity {
                 if(response != null){
                     try {
                         int ID = response.getInt(0);
+                        globalVars.setType(6);
                         insert_to_DB_info(the_id);
                     } catch (JSONException e) {
                         e.printStackTrace();
@@ -484,6 +487,7 @@ public class BookingForthFormActivity extends AppCompatActivity {
                     if(response != null){
                         try {
                             int ID = response.getInt(0);
+                            globalVars.setType(6);
                             insert_to_DB_info(ID);
                         } catch (JSONException e) {
                             e.printStackTrace();
