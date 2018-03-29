@@ -13,16 +13,18 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
     </com.quantumsit.sportsinc.CustomView.CustomLoadingView>
+
     <ScrollView
+        android:id="@+id/scrollView"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:fillViewport="true"
         android:scrollbars="none">
 
     <LinearLayout
             android:id="@+id/ll_coursesdetails"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:orientation="vertical"
             android:padding="10dp">
 
@@ -147,11 +149,12 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:drawableStart="@drawable/ic_faded_my_classes_small"
+                        android:drawablePadding="@dimen/ten_dimens"
                         android:gravity="start|center_vertical"
                         android:layout_gravity="center"
                         android:visibility="gone"
                         android:layout_margin="16dp"
-                        android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
+                        android:textAppearance="@style/Base.TextAppearance.AppCompat.Small"
                         android:text="@string/no_classes_available" />
 
 
@@ -160,7 +163,7 @@
                         android:groupIndicator="@drawable/expandable_listview_arrow"
                         android:layout_margin="10dp"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content" />
+                        android:layout_height="match_parent" />
 
                 </LinearLayout>
                 <!--/ScrollView-->

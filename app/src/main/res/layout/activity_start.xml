@@ -107,7 +107,7 @@
             android:layout_marginStart="@dimen/ten_dimens"
             android:layout_marginEnd="@dimen/ten_dimens"
             android:layout_height="wrap_content"
-            android:onClick="joinAcademy"
+            android:onClick="signUp"
             android:textColor="@color/colorWhite"
             android:backgroundTint="@color/colorPrimary"
             android:text = "@string/create_new_account"/>

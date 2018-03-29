@@ -7,6 +7,7 @@ package com.quantumsit.sportsinc.Entities;
 public class item_checkout {
 
     String image_url, class_name, number_of_trainees, trainees_names, price;
+    String ids;
 
     public item_checkout(String image_url, String class_name, String number_of_trainees, String trainees_names, String price) {
         this.image_url = image_url;
@@ -34,5 +35,13 @@ public class item_checkout {
 
     public String getPrice() {
         return price;
+    }
+
+    public String getIds() {
+        return ids;
+    }
+
+    public void setIds(String ids) {
+        this.ids = ids;
     }
 }

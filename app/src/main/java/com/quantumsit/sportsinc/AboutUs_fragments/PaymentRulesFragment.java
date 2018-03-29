@@ -100,6 +100,7 @@ public class PaymentRulesFragment extends Fragment {
             HashMap<String,String> params = new HashMap<>();
             params.put("table","rules");
             params.put("where",where_info.toString());
+            params.put("ordered","true");
 
             httpCall.setParams(params);
 

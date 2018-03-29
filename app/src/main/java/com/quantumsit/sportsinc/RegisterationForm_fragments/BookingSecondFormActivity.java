@@ -8,6 +8,7 @@ import android.view.WindowManager;
 import android.widget.CheckBox;
 import android.widget.EditText;
 
+import com.quantumsit.sportsinc.Aaa_data.GlobalVars;
 import com.quantumsit.sportsinc.Entities.Booking_info;
 import com.quantumsit.sportsinc.R;
 
@@ -19,6 +20,9 @@ public class BookingSecondFormActivity extends AppCompatActivity {
     StringBuilder illness = new StringBuilder();
     Booking_info booking_info;
 
+    GlobalVars globalVars;
+    boolean parent;
+
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_booking_second_form);
@@ -26,6 +30,8 @@ public class BookingSecondFormActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         getSupportActionBar().setTitle("Registration (2)");
+
+        parent = globalVars.isParent();
 
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
 
@@ -80,6 +86,8 @@ public class BookingSecondFormActivity extends AppCompatActivity {
         Intent intent = new Intent(BookingSecondFormActivity.this, BookingThirdFormActivity.class);
         intent.putExtra("booking_info", booking_info);
         startActivity(intent);
+
+
     }
 
     @Override

@@ -1,6 +1,7 @@
 package com.quantumsit.sportsinc.Activities;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.provider.Settings;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -8,9 +9,12 @@ import android.support.v7.widget.CardView;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.google.gson.Gson;
 import com.quantumsit.sportsinc.Aaa_data.Constants;
 import com.quantumsit.sportsinc.Aaa_data.GlobalVars;
 import com.quantumsit.sportsinc.Adapters.ListView_Adapter_checkout;
@@ -30,7 +34,8 @@ import java.util.HashMap;
 
 public class PaymentActivity extends AppCompatActivity {
 
-    TextView  total_textview;
+    TextView  total_textview, no_booking_textView;
+    LinearLayout all_layout;
 
     NonScrollListView listView;
     ListView_Adapter_checkout listView_adapter;
@@ -62,6 +67,9 @@ public class PaymentActivity extends AppCompatActivity {
         list_items = new ArrayList<>();
         listView_adapter = new ListView_Adapter_checkout(PaymentActivity.this, list_items);
 
+        no_booking_textView = findViewById(R.id.nobookingTextView_checkout);
+        all_layout = findViewById(R.id.allLayout_checkout);
+
         final ArrayList<BookingCourseEntity> bookedCourses = globalVars.getBookingCourseEntities();
 
 
@@ -80,18 +88,44 @@ public class PaymentActivity extends AppCompatActivity {
             }
         }
 
-        if(list_items.size() > 1) {
-            int total_price = 0;
-            for (int i=0; i<list_items.size(); i++) {
-                total_price += Integer.valueOf(list_items.get(i).getPrice());
+        if(list_items != null) {
+            if(list_items.size() == 0) {
+                no_booking_textView.setVisibility(View.VISIBLE);
+                all_layout.setVisibility(View.GONE);
+
+            } else if(list_items.size() > 1) {
+                no_booking_textView.setVisibility(View.GONE);
+                all_layout.setVisibility(View.VISIBLE);
+                int total_price = 0;
+                for (int i=0; i<list_items.size(); i++) {
+                    total_price += Integer.valueOf(list_items.get(i).getPrice());
+                }
+                total_textview.setText(String.valueOf(total_price));
+            } else {
+                no_booking_textView.setVisibility(View.GONE);
+                all_layout.setVisibility(View.VISIBLE);
+                totalPrice_cardview.setVisibility(View.GONE);
             }
-            total_textview.setText(String.valueOf(total_price));
-        } else {
-            totalPrice_cardview.setVisibility(View.GONE);
         }
+
+
 
         listView_adapter.notifyDataSetChanged();
         listView.setAdapter(listView_adapter);
+
+        confirm_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                confirmClicked();
+            }
+        });
+
+        pay_later_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                payLaterClicked();
+            }
+        });
 
     }
 
@@ -103,19 +137,22 @@ public class PaymentActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
+        payLaterClicked();
         super.onBackPressed();
         finish();
     }
 
 
-    public void payLaterClicked(View view) {
+    public void payLaterClicked() {
         insert(0);
         startActivity(new Intent(PaymentActivity.this, HomeActivity.class));
         finish();
     }
 
-    public void confirmClicked(View view) {
+    public void confirmClicked() {
         insert(1);
+        globalVars.setType(0);
+        globalVars.setUser(globalVars.getMyAccount());
         startActivity(new Intent(PaymentActivity.this, HomeActivity.class));
         finish();
     }
@@ -126,6 +163,7 @@ public class PaymentActivity extends AppCompatActivity {
 
         for (int i=0; i<bookedCourses.size();i++) {
             String[] trainee_ids = bookedCourses.get(i).getTrainee_id().split("@");
+            Toast.makeText(getApplicationContext(),"Trainees: "+trainee_ids.length,Toast.LENGTH_LONG).show();
             for (int j=0; j<trainee_ids.length;j++)
                 insert_to_db(trainee_ids[j],
                         bookedCourses.get(i).getClass_id(),
@@ -147,6 +185,13 @@ public class PaymentActivity extends AppCompatActivity {
         params.put("course_id",String.valueOf(selected_course_id));
         params.put("payment_type",String.valueOf(payment_type));
 
+        if (trainee_id.equals(String.valueOf(globalVars.getId()))){
+            int Type = 6;
+            if(payment_type == 1)
+                Type = 0;
+            globalVars.setType(Type);
+            saveUpdateToPref();
+        }
 
         httpCall.setParams(params);
         new HttpRequest(){
@@ -166,4 +211,11 @@ public class PaymentActivity extends AppCompatActivity {
     }
 
 
+    private void saveUpdateToPref() {
+        SharedPreferences.Editor preferences = getSharedPreferences("UserFile", MODE_PRIVATE).edit();
+        Gson gson = new Gson();
+        String json = gson.toJson(globalVars.getMyAccount());
+        preferences.putString("CurrentUser", json);
+        preferences.apply();
+    }
 }

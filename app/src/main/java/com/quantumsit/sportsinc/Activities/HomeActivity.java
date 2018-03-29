@@ -96,7 +96,7 @@ public class HomeActivity extends AppCompatActivity
                 parent = true;
                 updateDB_type_to_trainee();
             }
-        }else if (type == 0) {
+        }else if (type == 0 || type == 6) {
             parent = true;
         }else if (type == 1) {
             coach = true;
@@ -134,8 +134,13 @@ public class HomeActivity extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
 
         Menu navigationMenu = navigationView.getMenu();
-        if (parent)
+        if (parent){
             navigationMenu.findItem(R.id.nav_certificates).setVisible(true);
+            navigationMenu.findItem(R.id.nav_booking).setVisible(true);
+        }
+
+        if(globalVars.getType() == 0 || globalVars.getType() == 6)
+            navigationMenu.findItem(R.id.nav_booking).setVisible(true);
 
         RelativeLayout header = (RelativeLayout) navigationView.getHeaderView(0);
         profileImage = header.findViewById(R.id.profile_image);
@@ -200,9 +205,7 @@ public class HomeActivity extends AppCompatActivity
             }
         });
 
-        if (parent){
-            getParentChildren();
-        }
+       getParentChildren();
 
         actionBar = getSupportActionBar();
 
@@ -347,7 +350,7 @@ public class HomeActivity extends AppCompatActivity
             drawer.closeDrawer(GravityCompat.START);
         } else {
             if (doubleBackToExitPressedOnce) {
-                super.onBackPressed();
+                finishAffinity();
                 return;
             }
 
@@ -402,10 +405,10 @@ public class HomeActivity extends AppCompatActivity
 
         }else if (id == R.id.nav_reports) {
             actionBar.setTitle(R.string.reports);
-            if (parent){
-                fragmentClass = ReportsFragment.class;
-            } else{
+            if (coach){
                 fragmentClass = CoachReportsFragment.class;
+            } else{
+                fragmentClass = ReportsFragment.class;
             }
 
         } else if (id == R.id.nav_certificates) {
@@ -428,6 +431,9 @@ public class HomeActivity extends AppCompatActivity
         }  else if (id == R.id.nav_about_us) {
             actionBar.setTitle(R.string.terms_amp_conditions);
             fragmentClass = AboutUsFragment.class;
+        } else if (id == R.id.nav_booking) {
+            actionBar.setTitle(R.string.booking);
+            fragmentClass = PaymentFragment.class;
         }
 
         try {

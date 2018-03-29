@@ -48,7 +48,7 @@ public class HomeFragment extends Fragment {
         if (globalVars.getType() == 1)
             mSectionsPagerAdapter.addFragment(new Coach_StartClassFragment(),"Sessions");
         else
-            mSectionsPagerAdapter.addFragment(new CoursesFragment(),"Courses");
+            mSectionsPagerAdapter.addFragment(new CoursesFragment(),"Levels");
 
         mViewPager.setAdapter(mSectionsPagerAdapter);
     }

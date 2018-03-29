@@ -60,7 +60,7 @@ public class Coach_StartClassFragment extends Fragment {
             }
         });
         customListView = root.findViewById(R.id.customListView);
-        customListView.setmEmptyView(R.drawable.ic_assignment,R.string.no_sessions);
+        customListView.setmEmptyView(R.drawable.ic_assignment,R.string.no_sessions_today);
 
         customListView.setOnRetryClick(new myCustomListView.OnRetryClick() {
             @Override

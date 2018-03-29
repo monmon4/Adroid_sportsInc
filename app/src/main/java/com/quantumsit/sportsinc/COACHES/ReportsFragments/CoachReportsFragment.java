@@ -40,7 +40,7 @@ public class CoachReportsFragment extends Fragment {
         sectionsPagerAdapter = new SectionsPagerAdapter(getChildFragmentManager());
 
         sectionsPagerAdapter.addFragment(new CoachReportsAttendanceFragment(),"Attendance");
-        sectionsPagerAdapter.addFragment(new CoachReportsFinishedCoursesFragment(),"Finished Courses");
+        sectionsPagerAdapter.addFragment(new CoachReportsFinishedCoursesFragment(),"Finished Classes");
 
         viewPager.setAdapter(sectionsPagerAdapter);
 

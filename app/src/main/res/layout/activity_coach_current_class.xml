@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.quantumsit.sportsinc.COACHES.ActivityCurrentClass_coach">
+    tools:context="com.quantumsit.sportsinc.COACHES.Activities.ActivityCurrentClass_coach">
 
     <include
         layout="@layout/app_bar_coach_current_class"

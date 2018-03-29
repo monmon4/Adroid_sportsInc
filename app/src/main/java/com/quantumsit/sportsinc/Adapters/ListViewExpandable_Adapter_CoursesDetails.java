@@ -4,46 +4,34 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Typeface;
 import android.os.Build;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.BaseExpandableListAdapter;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.PopupWindow;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.quantumsit.sportsinc.Aaa_data.Constants;
 import com.quantumsit.sportsinc.Aaa_data.GlobalVars;
-import com.quantumsit.sportsinc.Activities.CourseDetailsActivity;
 import com.quantumsit.sportsinc.Activities.PaymentActivity;
 import com.quantumsit.sportsinc.Backend.Functions;
 import com.quantumsit.sportsinc.Backend.HttpCall;
 import com.quantumsit.sportsinc.Backend.HttpRequest;
-import com.quantumsit.sportsinc.COACHES.item_finished_classes;
 import com.quantumsit.sportsinc.Entities.BookingCourseEntity;
 import com.quantumsit.sportsinc.Entities.CourseEntity;
 import com.quantumsit.sportsinc.Entities.item1_courses_details;
 import com.quantumsit.sportsinc.Entities.item2_courses_details;
-import com.quantumsit.sportsinc.Entities.item2_notfinished_course_group;
-import com.quantumsit.sportsinc.Entities.item_checkbox;
 import com.quantumsit.sportsinc.Entities.item_name_id;
 import com.quantumsit.sportsinc.R;
 import com.quantumsit.sportsinc.RegisterationForm_fragments.BookingFirstFormActivity;
-import com.quantumsit.sportsinc.RegisterationForm_fragments.BookingForm_FirstFragment;
-import com.quantumsit.sportsinc.RegisterationForm_fragments.BookingForthFormActivity;
-import com.weiwangcn.betterspinner.library.material.MaterialBetterSpinner;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -74,16 +62,18 @@ public class ListViewExpandable_Adapter_CoursesDetails extends BaseExpandableLis
     private LinearLayout ll;
 
     public ListViewExpandable_Adapter_CoursesDetails(Context context, List<item1_courses_details> listDataHeader,
-                                                     HashMap<Integer, item2_courses_details> listChildData, CourseEntity courseEntity) {
+                                                     HashMap<Integer, item2_courses_details> listChildData, CourseEntity courseEntity, ArrayList<item_name_id> trainee_names) {
         this.context = context;
         this.header_list = listDataHeader;
         this.child_hashmap = listChildData;
         this.courseEntity = courseEntity;
         this.globalVars = (GlobalVars) context.getApplicationContext();
         this.functions = new Functions(context);
-        trainee_names = new ArrayList<>();
-        checkParent();
+        this.trainee_names = trainee_names;
+        check_enable();
     }
+
+
 
     public void setLl(LinearLayout ll) {
         this.ll = ll;
@@ -157,10 +147,9 @@ public class ListViewExpandable_Adapter_CoursesDetails extends BaseExpandableLis
             @Override
             public void onClick(View view) {
                 int type = globalVars.getType();
-                if (trainee_names.size()!= 0) {
-
+                if (trainee_names.size()!= 0 || globalVars.isParent()) {
                     open_popup(groupPosition);
-                } else if ( type == 0 ) {
+                } else if ( type == 0 || type == 6 ) {
                     ArrayList <BookingCourseEntity> bookingCourseEntity = globalVars.getBookingCourseEntities();
                     if (bookingCourseEntity.size() == 0) {
                         globalVars.bookingCourseEntities.add(new BookingCourseEntity(globalVars.getName(),
@@ -172,10 +161,7 @@ public class ListViewExpandable_Adapter_CoursesDetails extends BaseExpandableLis
                     }
                     context.startActivity(new Intent(context, PaymentActivity.class));
 
-                } else if (type == 6) {
-                    // 3awza aft7lo window eno already booked fi class tany fa hal 3awez y cancel l booking
-
-                } else if (type == 5) {
+                }  else if (type == 5) {
                     globalVars.setClass_id(header_list.get(groupPosition).getClass_id());
                     globalVars.setCourse_id(courseEntity.getCourse_id());
                     context.startActivity(new Intent(context, BookingFirstFormActivity.class));
@@ -209,51 +195,11 @@ public class ListViewExpandable_Adapter_CoursesDetails extends BaseExpandableLis
         return true;
     }
 
-
-    @SuppressLint("StaticFieldLeak")
-    private void checkParent(){
-
-        try {
-            JSONObject where_info = new JSONObject();
-            where_info.put("parent_id", globalVars.getId());
-            HttpCall httpCall = functions.searchDB("users", where_info);
-            new HttpRequest(){
-                @Override
-                public void onResponse(JSONArray response) {
-                    super.onResponse(response);
-                    if(response != null){
-                        try {
-                            for (int i=0; i<response.length(); i++){
-                                JSONObject result = response.getJSONObject(i);
-                                int id = result.getInt("id");
-                                String name = result.getString("name");
-                                trainee_names.add(new item_name_id(id, name));
-                            }
-
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-
-                        }
-
-                    } else {
-                        trainee_names.clear();
-                    }
-
-                }
-            }.execute(httpCall);
-
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-    }
-
     private void open_popup (final int groupPosition){
 
 
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(LAYOUT_INFLATER_SERVICE);
         View customView = inflater.inflate(R.layout.window_booking,null);
-
-
 
         popup_window = new PopupWindow(
                 customView,
@@ -291,16 +237,29 @@ public class ListViewExpandable_Adapter_CoursesDetails extends BaseExpandableLis
         checkout_button.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view){
-                insert_booking_to_global_var(groupPosition);
-                Intent intent = new Intent(context, PaymentActivity.class);
-                context.startActivity(intent);
-                popup_window.dismiss();
+                boolean all_good = false;
+                for(int i=0; i<trainee_names.size();i++){
+                    if(trainee_names.get(i).isSelected()) {
+                        insert_booking_to_global_var(groupPosition);
+                        Intent intent = new Intent(context, PaymentActivity.class);
+                        context.startActivity(intent);
+                        popup_window.dismiss();
+                        all_good = true;
+                        i = trainee_names.size();
+                    }
+                }
+
+                if (!all_good)
+                    Toast.makeText(context, "No trainee is chosen", Toast.LENGTH_SHORT).show();
+
+
             }
         } );
 
         addTrainee_textView.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view){
+                globalVars.setParent(true);
                 Intent intent = new Intent(context, BookingFirstFormActivity.class);
                 context.startActivity(intent);
                 popup_window.dismiss();
@@ -310,6 +269,7 @@ public class ListViewExpandable_Adapter_CoursesDetails extends BaseExpandableLis
         addBooking_button.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view){
+
 
                 insert_booking_to_global_var(groupPosition);
                 //Intent intent = new Intent(context, CourseDetailsActivity.class);
@@ -352,6 +312,52 @@ public class ListViewExpandable_Adapter_CoursesDetails extends BaseExpandableLis
                     trainees_ids_string.toString(),courseEntity,
                     header_list.get(groupPosition).getClass_name(),
                     header_list.get(groupPosition).getClass_id()));
+        }
+    }
+
+    private void check_enable() {
+        if(trainee_names!= null){
+            if(trainee_names.size()!=0){
+                for(int i=0; i<trainee_names.size(); i++){
+                    check_course(trainee_names.get(i).getId(), courseEntity.getCourse_id());
+                }
+            }
+        }
+
+    }
+
+    public void check_course(final int user_id, int level_id) {
+
+        HttpCall httpCall = new HttpCall();
+        httpCall.setMethodtype(HttpCall.POST);
+        httpCall.setUrl(Constants.course_of_trainee);
+        HashMap<String,String> params = new HashMap<>();
+        params.put("user_id",String.valueOf(user_id));
+        params.put("level_id",String.valueOf(level_id));
+        httpCall.setParams(params);
+        new HttpRequest(){
+            @Override
+            public void onResponse(JSONArray response) {
+                super.onResponse(response);
+                if (response!= null) {
+                    try {
+                        JSONObject result = response.getJSONObject(0);
+                        if (!result.getBoolean("enabled"))
+                            remove_trainee(user_id);
+
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+
+            }
+        }.execute(httpCall);
+    }
+
+    private void remove_trainee(int user_id) {
+        for (int i=0; i<trainee_names.size(); i++){
+            if(trainee_names.get(i).getId() == user_id)
+                trainee_names.remove(i);
         }
     }
 }

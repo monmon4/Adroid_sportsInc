@@ -2,11 +2,13 @@ package com.quantumsit.sportsinc.Entities;
 
 import android.support.v4.util.ArrayMap;
 
+import java.io.Serializable;
+
 /**
  * Created by Mona on 27-Dec-17.
  */
 
-public class item2_courses_details {
+public class item2_courses_details implements Serializable{
 
     String coach_name;
     String[] day, time;

@@ -9,13 +9,11 @@
         <item>Absence</item>
         <item>Vacation</item>
         <item>Class suspend</item>
-        <item>Other</item>
     </string-array>
 
     <string-array name="trainee_request_for_array">
         <item>Absence</item>
         <item>Switch class</item>
-        <item>Other</item>
     </string-array>
 
 
@@ -452,8 +450,8 @@
     <string name="duration_of_session">Duration of session:</string>
     <string name="book">Book</string>
     <string name="coach_">Coach:</string>
-    <string name="days_">Days:</string>
-    <string name="time_">Times:</string>
+    <string name="day_">Day:</string>
+    <string name="time_">Time:</string>
     <string name="trainees">Trainees</string>
     <string name="add_new_trainee">Add new trainee</string>
     <string name="check_out">Check out</string>
@@ -475,6 +473,15 @@
     <string name="execused">Execused</string>
     <string name="didn_t_come">Didn\'t come</string>
     <string name="select">Select</string>
+    <string name="level">Level</string>
+    <string name="booking">Booking</string>
+    <string name="no_booked_classes">No booked classes</string>
 
+
+    <string name="alert_dialog_title">Please Select</string>
+    <string name="positive_button_text">Select</string>
+    <string name="negative_button_text">Cancel</string>
+    <string name="no_sessions_today">No Sessions Today</string>
+    <string name="my_cart">My cart</string>
 
 </resources>

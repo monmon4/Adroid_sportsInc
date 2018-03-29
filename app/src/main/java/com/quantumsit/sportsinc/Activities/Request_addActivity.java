@@ -78,18 +78,16 @@ public class Request_addActivity extends AppCompatActivity {
         fillDateList();
         fillClassList();
 
-        /*request_for_spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        request_for_spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
                 progressDialog.show();
                 if (position == 0) {
-                    ArrayAdapter<String> new_dates_spinner_adapter = new ArrayAdapter<>(Request_addActivity.this, android.R.layout.simple_dropdown_item_1line, date_list);
-                    date_spinner.setAdapter(new_dates_spinner_adapter);
-                    progressDialog.dismiss();
+                    date_spinner.setHint("Date");
+                    if (date_list.size() == 0)
+                        show_toast("No Session to absent");
                 } else {
-                    ArrayAdapter<String> new_dates_spinner_adapter = new ArrayAdapter<>(Request_addActivity.this, android.R.layout.simple_dropdown_item_1line, group_list);
-                    date_spinner.setAdapter(new_dates_spinner_adapter);
-                    progressDialog.dismiss();
+                    date_spinner.setHint("Class");
                 }
             }
 
@@ -99,8 +97,6 @@ public class Request_addActivity extends AppCompatActivity {
             }
 
         });
-
-        progressDialog.show();*/
 
 
         date_spinner.setOnClickListener(new View.OnClickListener() {
@@ -207,7 +203,7 @@ public class Request_addActivity extends AppCompatActivity {
 
                         } else {
                             progressDialog.dismiss();
-                            Toast.makeText(Request_addActivity.this, "An error occurred ", Toast.LENGTH_SHORT).show();
+                           // Toast.makeText(Request_addActivity.this, "An error occurred ", Toast.LENGTH_SHORT).show();
                         }
 
 
@@ -236,10 +232,6 @@ public class Request_addActivity extends AppCompatActivity {
 
     @SuppressLint("StaticFieldLeak")
     private void fillClassList() {
-
-       // try {
-
-
             HttpCall httpCall = new HttpCall();
             httpCall.setMethodtype(HttpCall.POST);
             httpCall.setUrl(Constants.traineeSwitchGroup);
@@ -264,61 +256,66 @@ public class Request_addActivity extends AppCompatActivity {
                             }
 
                         } else {
-                            Toast.makeText(Request_addActivity.this, "An error occurred ", Toast.LENGTH_SHORT).show();
+                            //Toast.makeText(Request_addActivity.this, "An error occurred ", Toast.LENGTH_SHORT).show();
                         }
 
                     } catch (JSONException e) {
                         e.printStackTrace();
-                    } /*catch (ParseException e) {
-                        e.printStackTrace();
-                    }*/
+                    }
                 }
 
             }.execute(httpCall);
 
-        //} catch (JSONException e) {
-            //e.printStackTrace();
-       // }
     }
 
 
 
     public void send_clicked() {
-
-        if(request_for_spinner.getText().toString().equals("")) {
-            Toast.makeText(Request_addActivity.this, "Please select your request for", Toast.LENGTH_SHORT).show();
-
-        } else if (date_spinner.getText().toString().equals("")) {
-            Toast.makeText(Request_addActivity.this, "Please select date", Toast.LENGTH_SHORT).show();
-
-        } else if (reason_editText.getText().toString().equals("")) {
-            Toast.makeText(Request_addActivity.this, "Please specify your reason", Toast.LENGTH_SHORT).show();
-        } else {
-            final AlertDialog.Builder builder = new AlertDialog.Builder(Request_addActivity.this,
-                    R.style.MyAlertDialogStyle);
-            builder.setTitle(Request_addActivity.this.getResources().getString(R.string.app_name));
-            builder.setCancelable(false);
-            builder.setMessage("     Are you sure?");
-            builder.setPositiveButton("Yes",
-                    new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialogInterface, int i) {
-                            if (request_for_spinner.getText().toString().equals("Absence"))
-                                send_to_DB();
-                            else
-                                insert_to_db();
-                            dialogInterface.dismiss();
-                        }
-                    });
-            builder.setNegativeButton("No",
-                    new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialogInterface, int i) {
-                            dialogInterface.dismiss();
-                        }
-                    });
-            builder.show();
+        String selectedTitle = request_for_spinner.getText().toString();
+        if (selectedTitle.equals("")) {
+            show_toast("Please choose whether the request is for what");
+            return;
         }
+        if (date_spinner.getText().toString().equals("")){
+            switch (selectedTitle){
+                case "Absence":
+                    show_toast("Please select session data");
+                    break;
+                case "Switch class":
+                    show_toast("Please select which class");
+                    break;
+            }
+            if (!selectedTitle.equals("Other"))
+                return;
+        }
+        if (reason_editText.getText().toString().equals("")) {
+            Toast.makeText(Request_addActivity.this, "Please specify your reason", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        final AlertDialog.Builder builder = new AlertDialog.Builder(Request_addActivity.this,
+                R.style.MyAlertDialogStyle);
+        builder.setTitle(Request_addActivity.this.getResources().getString(R.string.app_name));
+        builder.setCancelable(false);
+        builder.setMessage("     Are you sure?");
+        builder.setPositiveButton("Yes",
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        if (request_for_spinner.getText().toString().equals("Absence"))
+                            send_to_DB();
+                        else
+                            insert_to_db();
+                        dialogInterface.dismiss();
+                    }
+                });
+        builder.setNegativeButton("No",
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        dialogInterface.dismiss();
+                    }
+                });
+        builder.show();
     }
 
 

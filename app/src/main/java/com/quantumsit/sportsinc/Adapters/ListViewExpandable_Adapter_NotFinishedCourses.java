@@ -9,7 +9,7 @@ import android.widget.BaseExpandableListAdapter;
 import android.widget.TextView;
 
 import com.quantumsit.sportsinc.Entities.item2_notfinished_course_group;
-import com.quantumsit.sportsinc.COACHES.item_finished_classes;
+import com.quantumsit.sportsinc.COACHES.Entities.item_finished_classes;
 import com.quantumsit.sportsinc.R;
 
 import java.util.HashMap;

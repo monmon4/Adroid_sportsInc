@@ -35,6 +35,8 @@ public interface Constants {
     String sendSMS = server + "sendSMS";
     String sendMail = server + "sendMail";
     String notification = server + "selectNotification";
+    String selectBooking = server + "selectBookings";
+    String deleteBooking = server + "deleteBooking";
 
 
     //Trainee

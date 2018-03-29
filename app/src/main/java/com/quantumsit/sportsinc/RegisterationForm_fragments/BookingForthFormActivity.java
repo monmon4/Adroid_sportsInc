@@ -16,6 +16,7 @@ import com.google.i18n.phonenumbers.PhoneNumberUtil;
 import com.google.i18n.phonenumbers.Phonenumber;
 import com.hbb20.CountryCodePicker;
 import com.quantumsit.sportsinc.Aaa_data.Constants;
+import com.quantumsit.sportsinc.Aaa_data.GlobalVars;
 import com.quantumsit.sportsinc.Activities.HomeActivity;
 import com.quantumsit.sportsinc.Backend.Functions;
 import com.quantumsit.sportsinc.Backend.HttpCall;
@@ -52,6 +53,7 @@ public class BookingForthFormActivity extends AppCompatActivity {
     int parent_id = -1;
 
     Booking_info booking_info;
+    GlobalVars globalVars;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,6 +64,7 @@ public class BookingForthFormActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         getSupportActionBar().setTitle("Registration (4)");
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
+        globalVars = (GlobalVars) getApplication();
 
         functions = new Functions(BookingForthFormActivity.this);
 
@@ -129,6 +132,70 @@ public class BookingForthFormActivity extends AppCompatActivity {
         finish();
 
     }
+
+    public void done_forth(View view) {
+
+        //boolean all_good = true;
+        int selected_radioButton_id = radioGroup.getCheckedRadioButtonId();
+        hear_about_us = "";
+
+        E_firstName = E_firstName_editText.getText().toString();
+        E_firstPhone = E_firstPhone_editText.getText().toString();
+
+        E_secondName = E_secondName_editText.getText().toString();
+        E_secondPhone = E_secondPhone_editText.getText().toString();
+
+        if(TextUtils.isEmpty(E_firstName)&&TextUtils.isEmpty(E_firstName)) {
+            //E_firstName_editText
+        }
+
+        if (!TextUtils.isEmpty(E_firstPhone)) {
+            if(!isValidPhone1(ccp1.getFullNumber(), ccp1.getSelectedCountryNameCode())) {
+                E_firstPhone_editText.setError("Invalid phone");
+                //all_good = false;
+                return;
+            }
+        }
+
+        if (!TextUtils.isEmpty(E_secondPhone)) {
+            if(!isValidPhone2(ccp2.getFullNumber(), ccp2.getSelectedCountryNameCode())) {
+                E_secondPhone_editText.setError("Invalid phone");
+                //all_good = false;
+                return;
+            }
+        }
+
+        if (selected_radioButton_id != -1) {
+            RadioButton selected = findViewById(selected_radioButton_id);
+            if (selected == other_radioButton){
+                if(TextUtils.isEmpty(other_editText.getText().toString())) {
+                    other_editText.setError("Please enter how you heard about us");
+                    // all_good = false;
+                    return;
+                } else
+                    hear_about_us = other_editText.getText().toString();
+
+            } else {
+                hear_about_us = selected.getText().toString();
+            }
+
+        } else {
+            Toast.makeText(BookingForthFormActivity.this,"Please select how you heard about us", Toast.LENGTH_SHORT).show();
+            //all_good = false;
+            return;
+        }
+
+        if (!first_checkBox.isChecked() || !second_checkBox.isChecked()) {
+            Toast.makeText(BookingForthFormActivity.this,"You have to accept our policy first", Toast.LENGTH_SHORT).show();
+            // all_good = false;
+            return;
+        }
+
+        booking_info.setForth(E_firstName, E_firstPhone, E_secondName, E_secondPhone, hear_about_us);
+        check_mail();
+
+    }
+
 
     private void check_parent() {
 
@@ -212,7 +279,7 @@ public class BookingForthFormActivity extends AppCompatActivity {
         return randomStringBuilder.toString();
     }
 
-    private void insert_parent_to_DB(String name, final String mail, String phone, String address, String pass) {
+    private void insert_parent_to_DB(String name, final String mail, String phone, String address, final String pass) {
 
 
         JSONObject where_info = new JSONObject();
@@ -243,72 +310,10 @@ public class BookingForthFormActivity extends AppCompatActivity {
                     }
                 } else {
                 ////// a password yetbe3et l mail el parent dah w atl3lo msg en fii mail etb3atlo
-                    Toast.makeText(BookingForthFormActivity.this, "A random password has been sent to:\n" + mail, Toast.LENGTH_LONG).show();
+                    Toast.makeText(BookingForthFormActivity.this, "A random password " + pass + "has been sent to:\n" + mail, Toast.LENGTH_LONG).show();
                 }
             }
         }.execute(httpCall);
-    }
-
-
-    public void done_forth(View view) {
-
-        //boolean all_good = true;
-        int selected_radioButton_id = radioGroup.getCheckedRadioButtonId();
-        hear_about_us = "";
-
-        E_firstName = E_firstName_editText.getText().toString();
-        E_firstPhone = E_firstPhone_editText.getText().toString();
-
-        E_secondName = E_secondName_editText.getText().toString();
-        E_secondPhone = E_secondPhone_editText.getText().toString();
-
-        if (!TextUtils.isEmpty(E_firstPhone)) {
-            if(!isValidPhone1(ccp1.getFullNumber(), ccp1.getSelectedCountryNameCode())) {
-                E_firstPhone_editText.setError("Invalid phone");
-                //all_good = false;
-                return;
-            }
-        }
-
-        if (!TextUtils.isEmpty(E_secondPhone)) {
-            if(!isValidPhone2(ccp2.getFullNumber(), ccp2.getSelectedCountryNameCode())) {
-                E_secondPhone_editText.setError("Invalid phone");
-                //all_good = false;
-                return;
-            }
-        }
-
-        if (selected_radioButton_id != -1) {
-            RadioButton selected = findViewById(selected_radioButton_id);
-            if (selected == other_radioButton){
-                if(TextUtils.isEmpty(other_editText.getText().toString())) {
-                    other_editText.setError("Please enter how you heard about us");
-                   // all_good = false;
-                    return;
-                } else
-                    hear_about_us = other_editText.getText().toString();
-
-            } else {
-                hear_about_us = selected.getText().toString();
-            }
-
-        } else {
-            Toast.makeText(BookingForthFormActivity.this,"Please select how you heard about us", Toast.LENGTH_SHORT).show();
-            //all_good = false;
-            return;
-        }
-
-        if (!first_checkBox.isChecked() || !second_checkBox.isChecked()) {
-            Toast.makeText(BookingForthFormActivity.this,"You have to accept our policy first", Toast.LENGTH_SHORT).show();
-           // all_good = false;
-            return;
-        }
-
-        booking_info.setForth(E_firstName, E_firstPhone, E_secondName, E_secondPhone, hear_about_us);
-
-        insert_to_DB();
-
-
     }
 
     public boolean isValidPhone1(String phone_num, String country)
@@ -343,6 +348,96 @@ public class BookingForthFormActivity extends AppCompatActivity {
         }
 
         return isValid;
+    }
+
+    private  void check_mail(){
+
+        JSONObject where_info = new JSONObject();
+
+        try {
+            where_info.put("email",booking_info.getM_mail());
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        HttpCall httpCall = functions.searchDB("users", where_info);
+
+        new HttpRequest(){
+            @Override
+            public void onResponse(JSONArray response) {
+                super.onResponse(response);
+                if(response != null){
+                    try {
+                        JSONObject result = response.getJSONObject(0);
+                        int the_id = result.getInt("id");
+                        globalVars.setType(6);
+                        update_db(the_id);
+
+
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                } else {
+                    insert_to_DB();
+                }
+            }
+        }.execute(httpCall);
+
+    }
+
+    private void update_db(final int the_id) {
+
+        String date_of_birth = booking_info.getYear_of_birth() + "-" +
+                booking_info.getMonth_of_birth()+ "-" +
+                booking_info.getDay_of_birth();
+        Date date;
+        DateFormat outdateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH);
+        DateFormat DateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH);
+
+        try {
+            date = DateFormat.parse(date_of_birth);
+            date_of_birth = outdateFormat.format(date);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        JSONObject where = new JSONObject();
+        JSONObject values = new JSONObject();
+
+        try {
+            where.put("id", the_id);
+            values.put("phone",booking_info.getPhone());
+            values.put("email",booking_info.getMail());
+            values.put("gender",booking_info.getGender());
+            values.put("type",6);
+            values.put("date_of_birth",date_of_birth);
+            values.put("address",booking_info.getAddress());
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        HttpCall httpCall = functions.updateDB("users", where, values);
+
+        //final String finalDate_of_birth = date_of_birth;
+        new HttpRequest(){
+            @Override
+            public void onResponse(JSONArray response) {
+                super.onResponse(response);
+
+                if(response != null){
+                    try {
+                        int ID = response.getInt(0);
+                        globalVars.setType(6);
+                        insert_to_DB_info(the_id);
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                } else {
+                    //show_toast("An error occurred");
+                }
+
+            }
+        }.execute(httpCall);
+
     }
 
     private void insert_to_DB() {
@@ -392,6 +487,7 @@ public class BookingForthFormActivity extends AppCompatActivity {
                     if(response != null){
                         try {
                             int ID = response.getInt(0);
+                            globalVars.setType(6);
                             insert_to_DB_info(ID);
                         } catch (JSONException e) {
                             e.printStackTrace();

@@ -68,8 +68,8 @@ public class ScoresFragment extends Fragment {
         *
         * */
         mSwipeRefreshLayout = root.findViewById(R.id.swipeRefresh);
-        mSwipeRefreshLayout.setProgressBackgroundColorSchemeColor(Color.parseColor("#df1b1c"));
-        mSwipeRefreshLayout.setColorSchemeColors(Color.parseColor("#FFFFFF"));
+        mSwipeRefreshLayout.setProgressBackgroundColorSchemeColor(getActivity().getResources().getColor(R.color.colorPrimary));
+        mSwipeRefreshLayout.setColorSchemeColors(getActivity().getResources().getColor(R.color.colorWhite));
         mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
@@ -218,12 +218,10 @@ public class ScoresFragment extends Fragment {
         mSwipeRefreshLayout.setRefreshing(false);
         try {
             if (response != null) {
-               /* JSONObject first_result = response.getJSONObject(0);
-                int Num_classes = first_result.getInt("Num_classes");
-                int num_attended_classes = 0;*/
+                int num_attended_classes = 0;
                 for (int i=0; i<response.length(); i++){
                     JSONObject result = response.getJSONObject(i);
-                    /*String course_name = result.getString("course_name");
+                    String course_name = result.getString("course_name");
                     String group_name = result.getString("group_name");
                     String class_date = result.getString("class_date");
                     int class_number = result.getInt("class_number");
@@ -234,8 +232,9 @@ public class ScoresFragment extends Fragment {
 
                     int score = num_attended_classes;
                     String coach_name = result.getString("coach_name");
-                    String coach_notes = result.getString("coach_note");*/
-                    list_item.add(new item_single_scores(result));
+                    String coach_notes = result.getString("coach_note");
+                    list_item.add(new item_single_scores(course_name, group_name,
+                            class_date, coach_name, coach_notes, attend, score, class_number));
                 }
 
             }

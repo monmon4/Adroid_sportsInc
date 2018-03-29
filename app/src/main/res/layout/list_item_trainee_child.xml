@@ -10,7 +10,7 @@
 
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/child_image"
-        android:layout_width="wrap_content"
+        android:layout_width="75dp"
         android:layout_height="35dp"
         android:scaleType="centerCrop"
         android:src="@mipmap/ic_profile_round" />

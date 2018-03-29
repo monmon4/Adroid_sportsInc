@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:facebook="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="@dimen/ten_dimens"
+    android:orientation="vertical">
+
+    <com.google.android.gms.common.SignInButton
+        android:id="@+id/ga_login_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/padding_5"
+        android:layout_marginEnd="@dimen/padding_5"
+        android:layout_marginStart="@dimen/padding_5">
+
+    </com.google.android.gms.common.SignInButton>
+
+    <com.facebook.login.widget.LoginButton
+        android:id="@+id/fb_login_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        facebook:com_facebook_login_text ="Connect with Facebook"
+        facebook:com_facebook_logout_text ="Connect with Facebook"
+        android:paddingTop="12dp"
+        android:paddingBottom="12dp"
+        android:paddingStart="@dimen/ten_dimens"
+        android:layout_marginEnd="@dimen/ten_dimens"
+        android:layout_marginStart="@dimen/ten_dimens"
+        android:layout_marginTop="@dimen/padding_5"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:paddingStart="@dimen/padding_5"
+        android:paddingEnd="@dimen/padding_5"
+        android:orientation="horizontal">
+        <View
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="1dp"
+            android:background="@color/colorGray"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/padding_5"
+            android:text="OR"/>
+        <View
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="1dp"
+            android:background="@color/colorGray"/>
+    </LinearLayout>
+    <Button
+        android:id="@+id/SignUp"
+        android:layout_width="match_parent"
+        android:layout_marginStart="@dimen/padding_5"
+        android:layout_marginEnd="@dimen/padding_5"
+        android:layout_height="wrap_content"
+        android:textAllCaps="false"
+        android:textColor="@color/colorWhite"
+        android:drawableStart="@drawable/only_logo_white"
+        android:backgroundTint="@color/colorPrimary"
+        android:text = "@string/signUp"/>
+
+</LinearLayout>
