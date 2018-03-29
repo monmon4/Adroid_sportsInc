@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.CheckBox;
@@ -305,12 +306,29 @@ public class BookingForthFormActivity extends AppCompatActivity {
                         JSONObject result = response.getJSONObject(0);
                         parent_id = result.getInt("id");
 
+                        HttpCall httpCall = new HttpCall();
+                        httpCall.setMethodtype(HttpCall.POST);
+                        httpCall.setUrl(Constants.sendMail);
+                        HashMap<String,String> params = new HashMap<>();
+                        Log.d("Verification","Mail: "+mail+" , code: "+pass);
+                        params.put("email",mail);
+                        params.put("code",String.valueOf(pass));
+                        httpCall.setParams(params);
+
+                        new HttpRequest(){
+                            @Override
+                            public void onResponse(JSONArray response) {
+                                super.onResponse(response);
+                                Toast.makeText(BookingForthFormActivity.this, "A random password has been sent to:\n" + mail, Toast.LENGTH_LONG).show();
+
+                            }
+                        }.execute(httpCall);
+
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
                 } else {
                 ////// a password yetbe3et l mail el parent dah w atl3lo msg en fii mail etb3atlo
-                    Toast.makeText(BookingForthFormActivity.this, "A random password " + pass + "has been sent to:\n" + mail, Toast.LENGTH_LONG).show();
                 }
             }
         }.execute(httpCall);
@@ -406,6 +424,8 @@ public class BookingForthFormActivity extends AppCompatActivity {
         try {
             where.put("id", the_id);
             values.put("phone",booking_info.getPhone());
+            if(parent_id != -1)
+                values.put("parent_id",parent_id);
             values.put("email",booking_info.getMail());
             values.put("gender",booking_info.getGender());
             values.put("type",6);
