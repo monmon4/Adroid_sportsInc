@@ -220,43 +220,12 @@ public class MainFragment extends Fragment {
 
     private void getContent(){
         if (checkConnection())
-            refreshContent();
+            initializeHome();
 
         else {
             progressBar.setVisibility(View.GONE);
             retry.setVisibility(View.VISIBLE);
         }
-    }
-
-    private synchronized void countFinished(){
-        Counter ++;
-        Log.d(TAG," Count "+Counter);
-        if (Counter >= 3){
-            viewData();
-        }
-    }
-
-    private void refreshContent(){
-        initializeAbout();
-        initializeNews();
-        initilizeEvents();
-    }
-
-    private void initializeAbout() {
-        HttpCall httpCall = new HttpCall();
-        httpCall.setMethodtype(HttpCall.POST);
-        httpCall.setUrl(Constants.selectData);
-        HashMap<String,String> params = new HashMap<>();
-        params.put("table","info_academy");
-
-        httpCall.setParams(params);
-        new HttpRequest(){
-            @Override
-            public void onResponse(JSONArray response) {
-                super.onResponse(response);
-                fillView(response);
-            }
-        }.execute(httpCall);
     }
 
     private void fillView(JSONArray response) {
@@ -278,53 +247,29 @@ public class MainFragment extends Fragment {
                 e.printStackTrace();
             }
         }
-        countFinished();
-    }
-
-    private void initializeNews() {
-        try {
-            HttpCall httpCall = new HttpCall();
-            httpCall.setMethodtype(HttpCall.POST);
-            httpCall.setUrl(Constants.selectData);
-            JSONObject limit = new JSONObject();
-            limit.put("start", 0);
-            limit.put("limit", limitValue);
-            HashMap<String, String> params = new HashMap<>();
-            params.put("table", "news");
-            params.put("limit",limit.toString());
-
-            httpCall.setParams(params);
-            new HttpRequest() {
-                @Override
-                public void onResponse(JSONArray response) {
-                    super.onResponse(response);
-                    if (response != null) {
-                        try {
-                            newsEntity = new NewsEntity( response.getJSONObject(0));
-                            fillNewsView();
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                }
-            }.execute(httpCall);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
     }
 
     private void fillNewsView() {
+        if (newsEntity == null){
+            newsItem.setVisibility(View.GONE);
+            newsMore.setVisibility(View.GONE);
+            return;
+        }
         newsDesc.setText(newsEntity.getContent());
         String ImgUrl = newsEntity.getImg();
         if (!ImgUrl.equals("")) {
             if (getContext() != null)
                 Picasso.with(getContext()).load(Constants.others_host + ImgUrl).into(newsImage);
         }
-        countFinished();
     }
 
 
     private void fillEventView() {
+        if (eventEntity == null){
+            eventItem.setVisibility(View.GONE);
+            eventMore.setVisibility(View.GONE);
+            return;
+        }
         eventDesc.setText(eventEntity.getDescription());
         String ImgUrl = eventEntity.getImgUrl();
         if (!ImgUrl.equals("")) {
@@ -334,19 +279,17 @@ public class MainFragment extends Fragment {
         SimpleDateFormat formatter = new SimpleDateFormat("dd MMMM", Locale.ENGLISH);
         String event_date = formatter.format(eventEntity.getDate());
         eventDay.setText(event_date);
-        countFinished();
     }
 
-    private void initilizeEvents() {
+    private void initializeHome(){
         try {
             HttpCall httpCall = new HttpCall();
             httpCall.setMethodtype(HttpCall.POST);
-            httpCall.setUrl(Constants.selectData);
+            httpCall.setUrl(Constants.selectHomeData);
             JSONObject limit = new JSONObject();
             limit.put("start", 0);
             limit.put("limit", limitValue);
             HashMap<String, String> params = new HashMap<>();
-            params.put("table", "events");
             params.put("limit", limit.toString());
 
             httpCall.setParams(params);
@@ -356,8 +299,21 @@ public class MainFragment extends Fragment {
                     super.onResponse(response);
                     if (response != null) {
                         try {
-                            eventEntity = new EventEntity( response.getJSONObject(0));
-                            fillEventView();
+                            JSONObject academyResult = response.getJSONObject(0).getJSONArray("academy").getJSONObject(0);
+                            JSONObject eventResult = null;
+
+                            try {
+                                eventResult = response.getJSONObject(1).getJSONArray("event").getJSONObject(0);
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                            JSONObject newsResult =null;
+                            try {
+                                newsResult = response.getJSONObject(2).getJSONArray("news").getJSONObject(0);
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                            fillHomeView(academyResult, eventResult , newsResult);
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
@@ -369,6 +325,33 @@ public class MainFragment extends Fragment {
         }
     }
 
+    private void fillAboutView(JSONObject object) {
+        try {
+            logo ="";// object.getString("logo");
+            brief = object.getString("about");
+
+            if (!logo.equals("")) {
+                Picasso.with(getContext()).load(logo).into(Logo);
+            }
+
+            AboutAcademy.setText(brief);
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void fillHomeView(JSONObject academyResult, JSONObject eventResult, JSONObject newsResult) {
+        mSwipeRefreshLayout.setRefreshing(false);
+        fillAboutView(academyResult);
+        if (eventResult != null)
+            eventEntity = new EventEntity(eventResult);
+        fillEventView();
+        if (newsResult != null)
+            newsEntity = new NewsEntity(newsResult);
+        fillNewsView();
+        loading.setVisibility(View.GONE);
+    }
 
     private boolean checkConnection() {
         // first, check connectivity
@@ -378,7 +361,5 @@ public class MainFragment extends Fragment {
         }
         return false;
     }
-    private  void viewData(){
-        loading.setVisibility(View.GONE);
-    }
+
 }

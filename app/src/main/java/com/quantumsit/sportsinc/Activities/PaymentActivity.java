@@ -23,6 +23,7 @@ import com.quantumsit.sportsinc.Backend.HttpRequest;
 import com.quantumsit.sportsinc.CustomView.NonScrollListView;
 import com.quantumsit.sportsinc.Entities.BookingCourseEntity;
 import com.quantumsit.sportsinc.Entities.CourseEntity;
+import com.quantumsit.sportsinc.Entities.UserEntity;
 import com.quantumsit.sportsinc.Entities.item_checkout;
 import com.quantumsit.sportsinc.R;
 
@@ -149,8 +150,6 @@ public class PaymentActivity extends AppCompatActivity {
 
     public void confirmClicked() {
         insert(1);
-        globalVars.setType(0);
-        globalVars.setUser(globalVars.getMyAccount());
         startActivity(new Intent(PaymentActivity.this, HomeActivity.class));
         finish();
     }
@@ -161,7 +160,6 @@ public class PaymentActivity extends AppCompatActivity {
 
         for (int i=0; i<bookedCourses.size();i++) {
             String[] trainee_ids = bookedCourses.get(i).getTrainee_id().split("@");
-            Toast.makeText(getApplicationContext(),"Trainees: "+trainee_ids.length,Toast.LENGTH_LONG).show();
             for (int j=0; j<trainee_ids.length;j++)
                 insert_to_db(trainee_ids[j],
                         bookedCourses.get(i).getClass_id(),
@@ -189,6 +187,9 @@ public class PaymentActivity extends AppCompatActivity {
                 Type = 0;
             globalVars.setType(Type);
             saveUpdateToPref();
+            UserEntity myAccount = globalVars.getMyAccount();
+            Toast.makeText(getApplicationContext(),"id: "+myAccount.getId()+" ,"+myAccount.getName(),Toast.LENGTH_LONG).show();
+            globalVars.setUser(myAccount);
         }
 
         httpCall.setParams(params);
