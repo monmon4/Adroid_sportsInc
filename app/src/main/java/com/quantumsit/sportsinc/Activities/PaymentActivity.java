@@ -108,8 +108,6 @@ public class PaymentActivity extends AppCompatActivity {
             }
         }
 
-
-
         listView_adapter.notifyDataSetChanged();
         listView.setAdapter(listView_adapter);
 

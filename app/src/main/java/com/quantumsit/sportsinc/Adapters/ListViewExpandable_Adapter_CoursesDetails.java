@@ -317,11 +317,9 @@ public class ListViewExpandable_Adapter_CoursesDetails extends BaseExpandableLis
 
     private void check_enable() {
         if(trainee_names!= null){
-            if(trainee_names.size()!=0){
-                for(int i=0; i<trainee_names.size(); i++){
-                    check_course(trainee_names.get(i).getId(), courseEntity.getCourse_id());
-                }
-            }
+            if(trainee_names.size()!=0)
+                check_course(globalVars.getId(), courseEntity.getCourse_id());
+
         }
 
     }
@@ -341,10 +339,11 @@ public class ListViewExpandable_Adapter_CoursesDetails extends BaseExpandableLis
                 super.onResponse(response);
                 if (response!= null) {
                     try {
-                        JSONObject result = response.getJSONObject(0);
-                        if (!result.getBoolean("enabled"))
-                            remove_trainee(user_id);
-
+                        for(int i=0; i<response.length();i++) {
+                            JSONObject result = response.getJSONObject(i);
+                            if (!result.getBoolean("enabled"))
+                                remove_trainee(user_id);
+                        }
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
