@@ -1,6 +1,7 @@
 package com.quantumsit.sportsinc.Side_menu_fragments;
 
 import android.annotation.SuppressLint;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
@@ -56,6 +57,8 @@ public class CertificatesFragment extends Fragment {
         currentStart = 0;
 
         mSwipeRefreshLayout = root.findViewById(R.id.swipeRefresh);
+        mSwipeRefreshLayout.setProgressBackgroundColorSchemeColor(Color.parseColor("#df1b1c"));
+        mSwipeRefreshLayout.setColorSchemeColors(Color.parseColor("#FFFFFF"));
         mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {

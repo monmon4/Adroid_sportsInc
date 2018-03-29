@@ -83,13 +83,11 @@ public class Request_addActivity extends AppCompatActivity {
             public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
                 progressDialog.show();
                 if (position == 0) {
-                    ArrayAdapter<String> new_dates_spinner_adapter = new ArrayAdapter<>(Request_addActivity.this, android.R.layout.simple_dropdown_item_1line, date_list);
-                    date_spinner.setAdapter(new_dates_spinner_adapter);
-                    progressDialog.dismiss();
+                    date_spinner.setHint("Date");
+                    if (date_list.size() == 0)
+                        show_toast("No Session to absent");
                 } else {
-                    ArrayAdapter<String> new_dates_spinner_adapter = new ArrayAdapter<>(Request_addActivity.this, android.R.layout.simple_dropdown_item_1line, group_list);
-                    date_spinner.setAdapter(new_dates_spinner_adapter);
-                    progressDialog.dismiss();
+                    date_spinner.setHint("Class");
                 }
             }
 
@@ -99,8 +97,6 @@ public class Request_addActivity extends AppCompatActivity {
             }
 
         });
-
-        progressDialog.show();
 
 
         date_spinner.setOnClickListener(new View.OnClickListener() {
@@ -207,7 +203,7 @@ public class Request_addActivity extends AppCompatActivity {
 
                         } else {
                             progressDialog.dismiss();
-                            Toast.makeText(Request_addActivity.this, "An error occurred ", Toast.LENGTH_SHORT).show();
+                           // Toast.makeText(Request_addActivity.this, "An error occurred ", Toast.LENGTH_SHORT).show();
                         }
 
 
@@ -260,7 +256,7 @@ public class Request_addActivity extends AppCompatActivity {
                             }
 
                         } else {
-                            Toast.makeText(Request_addActivity.this, "An error occurred ", Toast.LENGTH_SHORT).show();
+                            //Toast.makeText(Request_addActivity.this, "An error occurred ", Toast.LENGTH_SHORT).show();
                         }
 
                     } catch (JSONException e) {
@@ -367,7 +363,7 @@ public class Request_addActivity extends AppCompatActivity {
     }
 
     @SuppressLint("StaticFieldLeak")
-    public void insert_to_db(int to_id ) {
+    public void insert_to_db(int to_id) {
 
         Date date;
         DateFormat outdateFormat = new SimpleDateFormat("yyyy-MM-dd");

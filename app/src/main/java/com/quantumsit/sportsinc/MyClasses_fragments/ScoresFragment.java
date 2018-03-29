@@ -68,8 +68,8 @@ public class ScoresFragment extends Fragment {
         *
         * */
         mSwipeRefreshLayout = root.findViewById(R.id.swipeRefresh);
-        mSwipeRefreshLayout.setProgressBackgroundColorSchemeColor(Color.parseColor("#df1b1c"));
-        mSwipeRefreshLayout.setColorSchemeColors(Color.parseColor("#FFFFFF"));
+        mSwipeRefreshLayout.setProgressBackgroundColorSchemeColor(getActivity().getResources().getColor(R.color.colorPrimary));
+        mSwipeRefreshLayout.setColorSchemeColors(getActivity().getResources().getColor(R.color.colorWhite));
         mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {

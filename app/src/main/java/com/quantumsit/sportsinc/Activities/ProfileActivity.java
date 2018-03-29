@@ -418,6 +418,7 @@ public class ProfileActivity extends AppCompatActivity {
                 insertToDb();
         }
         else {
+            progressDialog.dismiss();
             editableProfile(false);
             fillProfileData();
         }

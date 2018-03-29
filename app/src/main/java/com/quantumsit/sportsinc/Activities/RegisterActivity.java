@@ -319,7 +319,7 @@ public class RegisterActivity extends AppCompatActivity {
         httpCall.setMethodtype(HttpCall.POST);
         httpCall.setUrl(Constants.sendMail);
         HashMap<String,String> params = new HashMap<>();
-        Log.d("Verification","Mail: "+mail);
+        Log.d("Verification","Mail: "+mail+" , code: "+verfication_num);
         params.put("email",mail);
         params.put("code",String.valueOf(verfication_num));
         httpCall.setParams(params);

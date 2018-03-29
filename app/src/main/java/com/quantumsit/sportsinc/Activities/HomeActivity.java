@@ -96,7 +96,7 @@ public class HomeActivity extends AppCompatActivity
                 parent = true;
                 updateDB_type_to_trainee();
             }
-        }else if (type == 0) {
+        }else if (type == 0 || type == 6) {
             parent = true;
         }else if (type == 1) {
             coach = true;
@@ -205,9 +205,7 @@ public class HomeActivity extends AppCompatActivity
             }
         });
 
-        if (parent){
-            getParentChildren();
-        }
+       getParentChildren();
 
         actionBar = getSupportActionBar();
 
@@ -352,7 +350,7 @@ public class HomeActivity extends AppCompatActivity
             drawer.closeDrawer(GravityCompat.START);
         } else {
             if (doubleBackToExitPressedOnce) {
-                System.exit(0);
+                finishAffinity();
                 return;
             }
 
@@ -407,10 +405,10 @@ public class HomeActivity extends AppCompatActivity
 
         }else if (id == R.id.nav_reports) {
             actionBar.setTitle(R.string.reports);
-            if (parent){
-                fragmentClass = ReportsFragment.class;
-            } else{
+            if (coach){
                 fragmentClass = CoachReportsFragment.class;
+            } else{
+                fragmentClass = ReportsFragment.class;
             }
 
         } else if (id == R.id.nav_certificates) {

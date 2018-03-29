@@ -13,4 +13,5 @@
     <dimen name="twinty_dimens">20dp</dimen>
     <dimen name="padding_3">3dp</dimen>
     <dimen name="dimens_15">15dp</dimen>
+    <dimen name="dimens_16">16dp</dimen>
 </resources>
