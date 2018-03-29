@@ -301,12 +301,17 @@ public class MainFragment extends Fragment {
                         try {
                             JSONObject academyResult = response.getJSONObject(0).getJSONArray("academy").getJSONObject(0);
                             JSONObject eventResult = null;
-                            if (response.getJSONObject(1).getJSONArray("event") != null){
+
+                            try {
                                 eventResult = response.getJSONObject(1).getJSONArray("event").getJSONObject(0);
+                            } catch (JSONException e) {
+                                e.printStackTrace();
                             }
                             JSONObject newsResult =null;
-                            if (response.getJSONObject(2).getJSONArray("news") != null){
+                            try {
                                 newsResult = response.getJSONObject(2).getJSONArray("news").getJSONObject(0);
+                            } catch (JSONException e) {
+                                e.printStackTrace();
                             }
                             fillHomeView(academyResult, eventResult , newsResult);
                         } catch (JSONException e) {
@@ -337,6 +342,7 @@ public class MainFragment extends Fragment {
     }
 
     private void fillHomeView(JSONObject academyResult, JSONObject eventResult, JSONObject newsResult) {
+        mSwipeRefreshLayout.setRefreshing(false);
         fillAboutView(academyResult);
         if (eventResult != null)
             eventEntity = new EventEntity(eventResult);
