@@ -88,7 +88,7 @@ public class HomeActivity extends AppCompatActivity
         int type = globalVars.getType();
         if(type == 5 || type==6) {
             non_register = true;
-           // parent = true;
+            //parent = true;
 
             /*if (!checkRegistered()) {
                 non_register = true;

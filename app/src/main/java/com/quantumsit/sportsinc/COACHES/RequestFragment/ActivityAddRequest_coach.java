@@ -179,23 +179,28 @@ public class ActivityAddRequest_coach extends AppCompatActivity {
         String current_date_string = date_format.format(current_date);
         String[] current_date_split = current_date_string.split("/");
 
-        for (item_classSpinner_coach item : classSpinner_coachList){
-            if(item.getClass_status() == 3) {
-                String class_date = item.getClass_date();
-                String[] date_split = class_date.split("/");
+        if(classSpinner_coachList!= null) {
+            for (item_classSpinner_coach item : classSpinner_coachList){
+                if(item.getClass_status() == 3) {
+                    String class_date = item.getClass_date();
+                    String[] date_split = class_date.split("/");
 
-                if(date_split[1].equals(current_date_split[1])) {
-                    if(Integer.valueOf(date_split[0]) - Integer.valueOf(current_date_split[0]) > 2) {
+                    if(date_split[1].equals(current_date_split[1])) {
+                        if(Integer.valueOf(date_split[0]) - Integer.valueOf(current_date_split[0]) > 2) {
+                            classList.add(item.getClass_name() + " , " + item.getClass_date());
+                            classEntities.add(item);
+                        }
+                    } else {
                         classList.add(item.getClass_name() + " , " + item.getClass_date());
                         classEntities.add(item);
                     }
-                } else {
-                    classList.add(item.getClass_name() + " , " + item.getClass_date());
-                    classEntities.add(item);
                 }
-            }
 
+            }
+        } else {
+            classList.add("");
         }
+
         if(classList.size() == 0){
 
             //class_number_spinner.setHint(R.string.no_sessions);
@@ -218,16 +223,10 @@ public class ActivityAddRequest_coach extends AppCompatActivity {
             HashMap<String, String> params = new HashMap<>();
 
             JSONObject where_info = new JSONObject();
-            //switch (globalVars.getType()){
-               // case 1:
+
             where_info.put("groups.coach_id", globalVars.getId());
             params.put("where",where_info.toString());
-                 //   break;
-               /* case 2:
-                    where_info.put("groups.admin_id", globalVars.getId());
-                    params.put("where",where_info.toString());
-                    break;
-            }*/
+
 
             httpCall.setParams(params);
 

@@ -80,8 +80,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:gravity="end|center"
-                        android:textColor="#f6846a"
-                        android:text="4500" />
+                        android:textColor="#f6846a" />
 
                 </LinearLayout>
 
@@ -127,13 +126,14 @@
                         android:background="@drawable/cornered_background_red"
                         android:layout_marginBottom="5dp"
                         android:textColor="@color/colorWhite"
-                        android:text="@string/pay_later" />
+                        android:text="@string/confirm" />
 
                     <Button
                         android:id="@+id/confirmButton_checkout"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="5dp"
+                        android:visibility="gone"
                         android:textColor="@color/colorWhite"
                         android:background="@drawable/cornered_background_green"
                         android:text="@string/pay_now" />

@@ -246,17 +246,25 @@ public class CourseDetailsActivity extends AppCompatActivity {
                             String[] days = get_days(result.getString("days"));
 
                             if( days.length!=0 ) {
-                                String[] daystime = result.getString("daystime").split("@");
-                                header_list.add(new item1_courses_details(class_name, start_date,class_id));
-                                child_list.put(class_id, new item2_courses_details(coach_name, days, daystime));
-
+                                if(!days[0].equals(" ")){
+                                    String[] daystime = result.getString("daystime").split("@");
+                                    header_list.add(new item1_courses_details(class_name, start_date,class_id));
+                                    child_list.put(class_id, new item2_courses_details(coach_name, days, daystime));
+                                }
                             }
                     }
+
+                    if(header_list.size()>0) {
                         noClsses.setVisibility(View.GONE);
                         expandableListView.setVisibility(View.VISIBLE);
                         adapter_coursesDetails.notifyDataSetChanged();
                         expandableListView.setAdapter(adapter_coursesDetails);
                         setListViewHeight(expandableListView, -1);
+                    } else {
+                        noClsses.setVisibility(View.VISIBLE);
+                        expandableListView.setVisibility(View.GONE);
+                    }
+
                        // progressDialog.dismiss();
 
                     } catch (JSONException e) {
