@@ -294,9 +294,12 @@ public class RegisterActivity extends AppCompatActivity {
         verify_edit_text.setEnabled(true);
 
         verfication_popup_window.showAtLocation(register_rl, Gravity.CENTER,0,0);
-        verfication_popup_window.setFocusable(true);
         verify_edit_text.setFocusable(true);
+        verfication_popup_window.setFocusable(true);
         verfication_popup_window.setOutsideTouchable(false);
+        verfication_popup_window.setBackgroundDrawable(getResources().getDrawable(
+                android.R.color.transparent));
+        verfication_popup_window.setTouchable(true);
         verfication_popup_window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
         verfication_popup_window.update();
 

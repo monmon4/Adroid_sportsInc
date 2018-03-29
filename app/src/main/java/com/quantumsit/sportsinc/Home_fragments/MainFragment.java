@@ -250,6 +250,11 @@ public class MainFragment extends Fragment {
     }
 
     private void fillNewsView() {
+        if (newsEntity == null){
+            newsItem.setVisibility(View.GONE);
+            newsMore.setVisibility(View.GONE);
+            return;
+        }
         newsDesc.setText(newsEntity.getContent());
         String ImgUrl = newsEntity.getImg();
         if (!ImgUrl.equals("")) {
@@ -260,6 +265,11 @@ public class MainFragment extends Fragment {
 
 
     private void fillEventView() {
+        if (eventEntity == null){
+            eventItem.setVisibility(View.GONE);
+            eventMore.setVisibility(View.GONE);
+            return;
+        }
         eventDesc.setText(eventEntity.getDescription());
         String ImgUrl = eventEntity.getImgUrl();
         if (!ImgUrl.equals("")) {
@@ -290,8 +300,14 @@ public class MainFragment extends Fragment {
                     if (response != null) {
                         try {
                             JSONObject academyResult = response.getJSONObject(0).getJSONArray("academy").getJSONObject(0);
-                            JSONObject eventResult   = response.getJSONObject(1).getJSONArray("event").getJSONObject(0);
-                            JSONObject newsResult    = response.getJSONObject(2).getJSONArray("news").getJSONObject(0);
+                            JSONObject eventResult = null;
+                            if (response.getJSONObject(1).getJSONArray("event") != null){
+                                eventResult = response.getJSONObject(1).getJSONArray("event").getJSONObject(0);
+                            }
+                            JSONObject newsResult =null;
+                            if (response.getJSONObject(2).getJSONArray("news") != null){
+                                newsResult = response.getJSONObject(2).getJSONArray("news").getJSONObject(0);
+                            }
                             fillHomeView(academyResult, eventResult , newsResult);
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -322,9 +338,11 @@ public class MainFragment extends Fragment {
 
     private void fillHomeView(JSONObject academyResult, JSONObject eventResult, JSONObject newsResult) {
         fillAboutView(academyResult);
-        eventEntity = new EventEntity(eventResult);
+        if (eventResult != null)
+            eventEntity = new EventEntity(eventResult);
         fillEventView();
-        newsEntity = new NewsEntity(newsResult);
+        if (newsResult != null)
+            newsEntity = new NewsEntity(newsResult);
         fillNewsView();
         loading.setVisibility(View.GONE);
     }

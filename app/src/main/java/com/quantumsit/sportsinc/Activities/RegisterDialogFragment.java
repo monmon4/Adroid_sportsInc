@@ -86,7 +86,7 @@ public class RegisterDialogFragment extends DialogFragment {
         View root = inflater.inflate(R.layout.new_account_layout,container,false);
 
         globalVars = (GlobalVars) getActivity().getApplication();
-        progressDialog = new ProgressDialog(getActivity().getApplicationContext());
+        progressDialog = new ProgressDialog(getApplicationContext());
 
         // Configure Google Sign In
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
@@ -242,8 +242,9 @@ public class RegisterDialogFragment extends DialogFragment {
     }
 
     private void socialMediaLogIn() {
-        progressDialog.setMessage(getString(R.string.login));
-        progressDialog.show();
+       // progressDialog.setMessage(getString(R.string.login));
+       // progressDialog.show();
+        Toast.makeText(getApplicationContext(),"Logging In...",Toast.LENGTH_LONG).show();
         JSONObject where_info = new JSONObject();
 
         try {

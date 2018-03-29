@@ -88,15 +88,7 @@ public class HomeActivity extends AppCompatActivity
         int type = globalVars.getType();
         if(type == 5) {
             non_register = true;
-
-            if (!checkRegistered()) {
-                non_register = true;
-            } else {
-                globalVars.setType(0);
-                parent = true;
-                updateDB_type_to_trainee();
-            }
-        }else if (type == 0 || type == 6) {
+        }else if (type == 0) {
             parent = true;
         }else if (type == 1) {
             coach = true;
