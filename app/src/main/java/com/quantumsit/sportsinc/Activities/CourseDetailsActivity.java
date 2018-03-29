@@ -394,7 +394,9 @@ public class CourseDetailsActivity extends AppCompatActivity {
                     super.onResponse(response);
                     if(response != null){
                         try {
-                            trainee_names.add(new item_name_id(globalVars.getId(), "Me"));
+                            if(globalVars.getType() != 5) {
+                                trainee_names.add(new item_name_id(globalVars.getId(), "Me"));
+                            }
                             for (int i=0; i<response.length(); i++){
                                 JSONObject result = response.getJSONObject(i);
                                 int id = result.getInt("id");

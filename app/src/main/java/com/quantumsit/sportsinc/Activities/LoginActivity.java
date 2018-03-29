@@ -16,7 +16,10 @@ import android.support.annotation.NonNull;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.InputType;
 import android.text.TextUtils;
+import android.text.method.PasswordTransformationMethod;
+import android.text.method.TransformationMethod;
 import android.util.Base64;
 import android.util.Log;
 import android.view.Gravity;
@@ -26,6 +29,7 @@ import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
@@ -81,6 +85,8 @@ import java.util.regex.Pattern;
 public class LoginActivity extends AppCompatActivity {
 
     GlobalVars globalVars;
+    ImageButton showpass_button;
+    boolean showpass = false;
 
     TextView forgetPassword;
     PopupWindow verfication_popup_window;
@@ -120,6 +126,7 @@ public class LoginActivity extends AppCompatActivity {
 
         globalVars = (GlobalVars) getApplication();
 
+        showpass_button = findViewById(R.id.shopassImageButton_login);
         login_ll = findViewById(R.id.ll_login);
         progressDialog = new ProgressDialog(LoginActivity.this);
         progressDialog.setMessage(getResources().getString(R.string.login_configure));
@@ -140,6 +147,23 @@ public class LoginActivity extends AppCompatActivity {
                     show_toast(getString(R.string.requiredField));
                 else
                     checkMail();
+            }
+        });
+
+        showpass_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(showpass) {
+                    showpass_button.setBackgroundResource(R.drawable.ic_see_password_faded);
+                    showpass = false;
+                    pass_edittext.setTransformationMethod(PasswordTransformationMethod.getInstance());
+
+                } else {
+                    showpass_button.setBackgroundResource(R.drawable.ic_see_password);
+                    showpass = true;
+                    pass_edittext.setTransformationMethod(null);
+                    pass_edittext.setInputType(InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD);
+                }
             }
         });
 

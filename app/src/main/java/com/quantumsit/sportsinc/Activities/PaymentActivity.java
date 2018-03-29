@@ -199,11 +199,7 @@ public class PaymentActivity extends AppCompatActivity {
             public void onResponse(JSONArray response) {
                 super.onResponse(response);
                 if (response!= null) {
-                    try {
-                        int id = response.getInt(0);
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
+                    Toast.makeText(PaymentActivity.this, "Successfult added to cart", Toast.LENGTH_SHORT).show();
                 }
 
             }

@@ -13,6 +13,7 @@ import android.widget.TextView;
 import com.google.i18n.phonenumbers.PhoneNumberUtil;
 import com.google.i18n.phonenumbers.Phonenumber;
 import com.hbb20.CountryCodePicker;
+import com.quantumsit.sportsinc.Aaa_data.GlobalVars;
 import com.quantumsit.sportsinc.Entities.Booking_info;
 import com.quantumsit.sportsinc.R;
 
@@ -31,6 +32,8 @@ public class BookingThirdFormActivity extends AppCompatActivity {
 
     Booking_info booking_info;
 
+    GlobalVars globalVars;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -40,6 +43,8 @@ public class BookingThirdFormActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         getSupportActionBar().setTitle("Registration (3)");
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
+
+        globalVars = (GlobalVars) getApplication();
 
         TextView first_person = findViewById(R.id.textView3);
         TextView second_person = findViewById(R.id.textView4);
@@ -64,7 +69,18 @@ public class BookingThirdFormActivity extends AppCompatActivity {
         second_ccp = findViewById(R.id.ccp2_third);
         second_ccp.registerCarrierNumberEditText(firstPhone_editText);
 
-
+        if (globalVars.getBooking_info() != null){
+           firstName_editText.setText(globalVars.getBooking_info().getF_name());
+            firstNationality_editText.setText(globalVars.getBooking_info().getF_nationality());
+            firstAddress_editText.setText(globalVars.getBooking_info().getF_address());
+            firstEmail_editText.setText(globalVars.getBooking_info().getF_mail());
+            firstPhone_editText.setText(globalVars.getBooking_info().getF_phone());
+            secondName_editText.setText(globalVars.getBooking_info().getM_name());
+            secondNationality_editText.setText(globalVars.getBooking_info().getM_nationality());
+            secondAddress_editText.setText(globalVars.getBooking_info().getM_address());
+            secondEmail_editText.setText(globalVars.getBooking_info().getM_mail());
+            secondPhone_editText.setText(globalVars.getBooking_info().getM_phone());
+        }
 
     }
 

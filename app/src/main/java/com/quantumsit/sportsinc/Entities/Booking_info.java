@@ -47,6 +47,7 @@ public class Booking_info implements Serializable {
         this.gender = gender;
     }
 
+
     public void setThird(String f_name,String f_nationality,String f_address,String f_mail,String f_phone,
             String m_name,String m_nationality,String m_address,String m_mail,String m_phone){
 

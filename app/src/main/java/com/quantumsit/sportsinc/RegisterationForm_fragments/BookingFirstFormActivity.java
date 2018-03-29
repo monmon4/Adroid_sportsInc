@@ -77,9 +77,6 @@ public class BookingFirstFormActivity extends AppCompatActivity {
         month_editText.setClickable(true);
         year_editText.setClickable(true);
 
-        //datePicker_button = findViewById(R.id.datePickerButton_first);
-        //datePicker_birthdate = findViewById(R.id.datePicker_first);
-
         ccp = findViewById(R.id.ccp_first);
         phone_editText = findViewById(R.id.phone_first);
         ccp.registerCarrierNumberEditText(phone_editText);
@@ -88,9 +85,12 @@ public class BookingFirstFormActivity extends AppCompatActivity {
         address_editText = findViewById(R.id.address_first);
         mail_editText = findViewById(R.id.mail_first);
 
-        firstName_editText.setText(globalVars.getName());
-        mail_editText.setText(globalVars.getMail());
-        phone_editText .setText(globalVars.getPhone());
+        if(globalVars.getBooking_info()== null){
+            firstName_editText.setText(globalVars.getName());
+            mail_editText.setText(globalVars.getMail());
+            phone_editText .setText(globalVars.getPhone());
+        }
+
 
         maleGender_textView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -282,7 +282,6 @@ public class BookingFirstFormActivity extends AppCompatActivity {
             int year = calendar.get(Calendar.YEAR);
             int month = calendar.get(Calendar.MONTH);
             int day = calendar.get(Calendar.DAY_OF_MONTH);
-
 
 
             // DatePickerDialog THEME_DEVICE_DEFAULT_LIGHT

@@ -116,7 +116,20 @@ public class BookingForthFormActivity extends AppCompatActivity {
             }
         });
 
-        check_parent();
+        if (globalVars.getBooking_info() != null){
+            E_firstName_editText.setText(globalVars.getBooking_info().getE1_name());
+            E_firstPhone_editText.setText(globalVars.getBooking_info().getE1_phone());
+            E_secondName_editText.setText(globalVars.getBooking_info().getE2_name());
+            E_secondPhone_editText.setText(globalVars.getBooking_info().getE2_phone());
+            first_checkBox.setChecked(true);
+            second_checkBox.setChecked(true);
+        }
+        if(booking_info.getMail().equals(globalVars.getMail())) {
+            check_parent();
+        } else {
+           parent_id = globalVars.getId();
+        }
+
     }
 
     private void OtherEditTextEnabling() {
@@ -145,8 +158,9 @@ public class BookingForthFormActivity extends AppCompatActivity {
         E_secondName = E_secondName_editText.getText().toString();
         E_secondPhone = E_secondPhone_editText.getText().toString();
 
-        if(TextUtils.isEmpty(E_firstName)&&TextUtils.isEmpty(E_firstName)) {
-            //E_firstName_editText
+        if(TextUtils.isEmpty(E_firstName)&&TextUtils.isEmpty(E_secondName)) {
+            E_firstName_editText.setError("Required");
+            return;
         }
 
         if (!TextUtils.isEmpty(E_firstPhone)) {
@@ -232,6 +246,7 @@ public class BookingForthFormActivity extends AppCompatActivity {
                     }
                 }
             }.execute(httpCall);
+
         }else if (!booking_info.getM_mail().equals("")) {
             JSONObject where_info = new JSONObject();
 
@@ -304,13 +319,14 @@ public class BookingForthFormActivity extends AppCompatActivity {
                     try {
                         JSONObject result = response.getJSONObject(0);
                         parent_id = result.getInt("id");
+                        ////// a password yetbe3et l mail el parent dah w atl3lo msg en fii mail etb3atlo
+                        Toast.makeText(BookingForthFormActivity.this, "A random password " + pass + "has been sent to:\n" + mail, Toast.LENGTH_LONG).show();
+
 
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
                 } else {
-                ////// a password yetbe3et l mail el parent dah w atl3lo msg en fii mail etb3atlo
-                    Toast.makeText(BookingForthFormActivity.this, "A random password " + pass + "has been sent to:\n" + mail, Toast.LENGTH_LONG).show();
                 }
             }
         }.execute(httpCall);
@@ -355,7 +371,7 @@ public class BookingForthFormActivity extends AppCompatActivity {
         JSONObject where_info = new JSONObject();
 
         try {
-            where_info.put("email",booking_info.getM_mail());
+            where_info.put("email",booking_info.getMail());
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -370,9 +386,8 @@ public class BookingForthFormActivity extends AppCompatActivity {
                     try {
                         JSONObject result = response.getJSONObject(0);
                         int the_id = result.getInt("id");
-                        globalVars.setType(6);
                         update_db(the_id);
-
+                        insert_to_DB_info(the_id);
 
                     } catch (JSONException e) {
                         e.printStackTrace();
@@ -424,13 +439,7 @@ public class BookingForthFormActivity extends AppCompatActivity {
                 super.onResponse(response);
 
                 if(response != null){
-                    try {
-                        int ID = response.getInt(0);
-                        globalVars.setType(6);
-                        insert_to_DB_info(the_id);
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
+
                 } else {
                     //show_toast("An error occurred");
                 }
@@ -487,7 +496,8 @@ public class BookingForthFormActivity extends AppCompatActivity {
                     if(response != null){
                         try {
                             int ID = response.getInt(0);
-                            globalVars.setType(6);
+                            if(parent_id!=-1)
+                                globalVars.setType(6);
                             insert_to_DB_info(ID);
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -557,14 +567,16 @@ public class BookingForthFormActivity extends AppCompatActivity {
                     super.onResponse(response);
 
                     if(response != null){
-                        try {
-                            int ID = response.getInt(0);
+
+
+                            if(globalVars.getMail().trim().equals(booking_info.getMail().trim()))
+                                globalVars.setType(6);
+                            else if(parent_id !=-1)
+                                globalVars.setBooking_info(booking_info);
+
                             Toast.makeText(BookingForthFormActivity.this, "Success", Toast.LENGTH_SHORT).show();
                             startActivity(new Intent(BookingForthFormActivity.this, HomeActivity.class));
                             finish();
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
                     } else {
                         //show_toast("An error occurred");
                     }

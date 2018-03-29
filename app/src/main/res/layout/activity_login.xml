@@ -41,17 +41,35 @@
                 android:ems="10"
                 android:inputType="textEmailAddress" />
 
-            <EditText
-                android:id="@+id/passEditText_login"
+            <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="@string/password"
-                android:padding="10dp"
-                android:background="@color/colorWhite"
-                android:textColor="@color/colorBlack"
-                android:ems="10"
                 android:layout_marginTop="10dp"
-                android:inputType="textPassword" />
+                android:layout_weight="1"
+                android:orientation="horizontal">
+
+                <EditText
+                    android:id="@+id/passEditText_login"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/colorWhite"
+                    android:ems="10"
+                    android:hint="@string/password"
+                    android:inputType="textPassword"
+                    android:padding="10dp"
+                    android:textColor="@color/colorBlack" />
+
+                <ImageButton
+                    android:layout_marginEnd ="10dp"
+                    android:padding="10dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_alignParentEnd="true"
+                    android:id="@+id/shopassImageButton_login"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:background="@drawable/ic_see_password_faded" />
+            </RelativeLayout>
 
 
             <LinearLayout
