@@ -95,6 +95,7 @@ public class PaymentFragment extends Fragment {
             for (int j=0; j<trainee_ids.length;j++)
                 insert_to_db(trainee_ids[j],1);
         }
+        globalVars.setType(0);
         startActivity(new Intent(getActivity(), HomeActivity.class));
     }
 

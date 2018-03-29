@@ -394,12 +394,12 @@ public class ProfileActivity extends AppCompatActivity {
         boolean mailChange = false;
 
         if (!NewPhone.equals(globalVars.getPhone())) {
-            if (!isValidPhone(NewPhone)){
+            /*if (!isValidPhone(NewPhone)){
                 progressDialog.dismiss();
                 Phone.setError("Invalid Phone Number...");
                 return;
-            }
-            return;
+            }*/
+            noChange = true;
         }
 
         if (!NewMail.equals(globalVars.getMail())) {
@@ -409,8 +409,9 @@ public class ProfileActivity extends AppCompatActivity {
                 return;
             }
             mailChange = true;
+            noChange = true;
         }
-        if (!NewName.equals(globalVars.getName())) {
+        if (!NewName.equals(globalVars.getName()) || noChange) {
             noChange = true;
             if (mailChange)
                 checkMail(NewMail);
