@@ -88,7 +88,7 @@ public class HomeActivity extends AppCompatActivity
         int type = globalVars.getType();
         if(type == 5 || type==6) {
             non_register = true;
-            //parent = true;
+            parent = true;
 
             /*if (!checkRegistered()) {
                 non_register = true;
@@ -136,12 +136,12 @@ public class HomeActivity extends AppCompatActivity
 
         Menu navigationMenu = navigationView.getMenu();
 
-        if (parent){
+        if (parent && type !=5 && type !=6){
             navigationMenu.findItem(R.id.nav_certificates).setVisible(true);
             navigationMenu.findItem(R.id.nav_booking).setVisible(true);
         }
 
-        if(globalVars.getType() == 0 || globalVars.getType() == 6)
+        if(globalVars.getType() == 0 || globalVars.getType() == 6 || globalVars.getType() == 5 )
             navigationMenu.findItem(R.id.nav_booking).setVisible(true);
 
         RelativeLayout header = (RelativeLayout) navigationView.getHeaderView(0);
