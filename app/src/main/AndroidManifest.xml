@@ -76,7 +76,6 @@
         <activity android:name=".Activities.NewsActivity" />
         <activity android:name=".Activities.EventsActivity" />
         <activity android:name=".Activities.RequestDetailsActivity" />
-        <activity android:name=".RegisterationForm_fragments.BookingFormActivity" />
         <activity android:name=".RegisterationForm_fragments.BookingFirstFormActivity" />
         <activity android:name=".RegisterationForm_fragments.BookingSecondFormActivity" />
         <activity android:name=".RegisterationForm_fragments.BookingThirdFormActivity" />

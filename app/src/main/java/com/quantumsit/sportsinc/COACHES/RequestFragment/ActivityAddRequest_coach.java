@@ -113,7 +113,11 @@ public class ActivityAddRequest_coach extends AppCompatActivity {
                 ClassDate = "";
                 classPosition = -1;
                 class_number_spinner.setText("");
-                classesFilter(classesMap.get(courseEntities.get(position).getCourse_id()));
+                if(courseEntities!= null) {
+                    if(courseEntities.size()!=0){
+                        classesFilter(classesMap.get(courseEntities.get(position).getCourse_id()));
+                    }
+                }
             }
         });
 

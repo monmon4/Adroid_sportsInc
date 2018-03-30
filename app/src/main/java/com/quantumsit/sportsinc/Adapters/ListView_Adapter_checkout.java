@@ -83,22 +83,19 @@ public class ListView_Adapter_checkout extends ArrayAdapter<item_checkout> {
                                 httpCall.setParams(params);
 
                                 //final String finalDate_of_birth = date_of_birth;
+                                final int finalI = i;
                                 new HttpRequest(){
                                     @Override
                                     public void onResponse(JSONArray response) {
                                         super.onResponse(response);
 
                                         if(response != null){
-                                           // try {
-                                                //JSONObject result = response.getJSONObject(0);
+                                            if(finalI == ids.length-1) {
                                                 items.remove(position);
                                                 ListView_Adapter_checkout.this.notifyDataSetChanged();
                                                 ((FragmentActivity) context).recreate();
+                                            }
 
-
-                                          /*  } catch (JSONException e) {
-                                                e.printStackTrace();
-                                            }*/
                                         } else {
                                             Toast.makeText(context, "Unable to delete booking", Toast.LENGTH_SHORT).show();
                                         }
@@ -106,6 +103,8 @@ public class ListView_Adapter_checkout extends ArrayAdapter<item_checkout> {
                                     }
                                 }.execute(httpCall);
                             }
+
+
                         }
                     }
                 }

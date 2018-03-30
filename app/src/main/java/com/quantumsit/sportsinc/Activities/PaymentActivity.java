@@ -188,7 +188,7 @@ public class PaymentActivity extends AppCompatActivity {
             globalVars.setType(Type);
             saveUpdateToPref();
             UserEntity myAccount = globalVars.getMyAccount();
-            Toast.makeText(getApplicationContext(),"id: "+myAccount.getId()+" ,"+myAccount.getName(),Toast.LENGTH_LONG).show();
+           // Toast.makeText(getApplicationContext(),"id: "+myAccount.getId()+" ,"+myAccount.getName(),Toast.LENGTH_LONG).show();
             globalVars.setUser(myAccount);
         }
 
@@ -198,6 +198,7 @@ public class PaymentActivity extends AppCompatActivity {
             public void onResponse(JSONArray response) {
                 super.onResponse(response);
                 if (response!= null) {
+                    globalVars.clearBookingCourseEntities();
                     Toast.makeText(PaymentActivity.this, "Successfult added to cart", Toast.LENGTH_SHORT).show();
                 }
 

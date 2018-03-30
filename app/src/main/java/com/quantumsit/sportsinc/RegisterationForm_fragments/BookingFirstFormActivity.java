@@ -198,18 +198,18 @@ public class BookingFirstFormActivity extends AppCompatActivity {
 
     private boolean validateForm() {
 
-        first_name = firstName_editText.getText().toString();
-        last_name = lastName_editText.getText().toString();
+        first_name = firstName_editText.getText().toString().trim();
+        last_name = lastName_editText.getText().toString().trim();
 
-        phone = phone_editText.getText().toString();
+        phone = phone_editText.getText().toString().trim();
 
-        day_of_birth = day_editText.getText().toString();
-        month_of_birth = month_editText.getText().toString();
-        year_of_birth = year_editText.getText().toString();
+        day_of_birth = day_editText.getText().toString().trim();
+        month_of_birth = month_editText.getText().toString().trim();
+        year_of_birth = year_editText.getText().toString().trim();
 
-        nationality = nationality_editText.getText().toString();
-        address = address_editText.getText().toString();
-        mail = mail_editText.getText().toString();
+        nationality = nationality_editText.getText().toString().trim();
+        address = address_editText.getText().toString().trim();
+        mail = mail_editText.getText().toString().trim();
 
         if (TextUtils.isEmpty(first_name)) {
             firstName_editText.setFocusable(true);

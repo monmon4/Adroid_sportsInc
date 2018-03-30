@@ -1,22 +1,35 @@
 package com.quantumsit.sportsinc.RegisterationForm_fragments;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.graphics.Paint;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.i18n.phonenumbers.PhoneNumberUtil;
 import com.google.i18n.phonenumbers.Phonenumber;
 import com.hbb20.CountryCodePicker;
+import com.quantumsit.sportsinc.Aaa_data.Constants;
 import com.quantumsit.sportsinc.Aaa_data.GlobalVars;
+import com.quantumsit.sportsinc.Backend.Functions;
+import com.quantumsit.sportsinc.Backend.HttpCall;
+import com.quantumsit.sportsinc.Backend.HttpRequest;
 import com.quantumsit.sportsinc.Entities.Booking_info;
 import com.quantumsit.sportsinc.R;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.HashMap;
+import java.util.Random;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -33,6 +46,7 @@ public class BookingThirdFormActivity extends AppCompatActivity {
     Booking_info booking_info;
 
     GlobalVars globalVars;
+    Functions functions;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,6 +59,7 @@ public class BookingThirdFormActivity extends AppCompatActivity {
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
 
         globalVars = (GlobalVars) getApplication();
+        functions = new Functions(BookingThirdFormActivity.this);
 
         TextView first_person = findViewById(R.id.textView3);
         TextView second_person = findViewById(R.id.textView4);
@@ -113,11 +128,11 @@ public class BookingThirdFormActivity extends AppCompatActivity {
             }
         }
 
-        secondName = secondName_editText.getText().toString();
-        secondNationality = secondNationality_editText.getText().toString();
-        secondAddress = secondAddress_editText.getText().toString();
-        secondEmail = secondEmail_editText.getText().toString();
-        secondPhone = secondPhone_editText.getText().toString();
+        secondName = secondName_editText.getText().toString().trim();
+        secondNationality = secondNationality_editText.getText().toString().trim();
+        secondAddress = secondAddress_editText.getText().toString().trim();
+        secondEmail = secondEmail_editText.getText().toString().trim();
+        secondPhone = secondPhone_editText.getText().toString().trim();
 
         if(!TextUtils.isEmpty(secondEmail)) {
             if(!isValidMail(secondEmail)) {
@@ -132,11 +147,17 @@ public class BookingThirdFormActivity extends AppCompatActivity {
         }
 
         if (all_good) {
-            Intent intent = new Intent(BookingThirdFormActivity.this, BookingForthFormActivity.class);
+
             booking_info.setThird(firstName, firstNationality, firstAddress, firstEmail, firstPhone,
                     secondName, secondNationality, secondAddress, secondEmail, secondPhone);
-            intent.putExtra("booking_info", booking_info);
-            startActivity(intent);
+
+            if(booking_info.getMail().equals(globalVars.getMail())) {
+                check_parent();
+            } else {
+                int parent_id = globalVars.getId();
+                open_forth_form(parent_id);
+
+            }
 
         }
     }
@@ -194,5 +215,153 @@ public class BookingThirdFormActivity extends AppCompatActivity {
     public boolean onSupportNavigateUp() {
         onBackPressed();
         return true;
+    }
+
+    private void check_parent() {
+
+        if (!booking_info.getF_mail().equals("")) {
+            JSONObject where_info = new JSONObject();
+
+            try {
+                where_info.put("email",booking_info.getF_mail());
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+            HttpCall httpCall = functions.searchDB("users", where_info);
+
+            new HttpRequest(){
+                @Override
+                public void onResponse(JSONArray response) {
+                    super.onResponse(response);
+                    if(response != null){
+                        try {
+                            JSONObject result = response.getJSONObject(0);
+                            int parent_id = result.getInt("id");
+                            open_forth_form(parent_id);
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    } else {
+                        String random_pass = generateRandomPass();
+                        insert_parent_to_DB(booking_info.getF_name(),
+                                booking_info.getF_mail(), booking_info.getF_phone(),
+                                booking_info.getF_address(), random_pass);
+                        //verfication();
+                    }
+                }
+            }.execute(httpCall);
+
+        }else if (!booking_info.getM_mail().equals("")) {
+            JSONObject where_info = new JSONObject();
+
+            try {
+                where_info.put("email",booking_info.getM_mail());
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+            HttpCall httpCall = functions.searchDB("users", where_info);
+
+            new HttpRequest(){
+                @Override
+                public void onResponse(JSONArray response) {
+                    super.onResponse(response);
+                    if(response != null){
+                        try {
+                            JSONObject result = response.getJSONObject(0);
+                            int parent_id = result.getInt("id");
+                            open_forth_form(parent_id);
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    } else {
+                        String random_pass = generateRandomPass();
+                        insert_parent_to_DB(booking_info.getM_name(),
+                                booking_info.getMail(), booking_info.getM_phone(),
+                                booking_info.getM_address(), random_pass);
+                        //verfication();
+                    }
+                }
+            }.execute(httpCall);
+        }
+    }
+
+    private String generateRandomPass() {
+        Random generator = new Random();
+        StringBuilder randomStringBuilder = new StringBuilder();
+        int randomLength = generator.nextInt(10);
+        char tempChar;
+        for (int i = 0; i < randomLength; i++){
+            tempChar = (char) (generator.nextInt(96) + 32);
+            randomStringBuilder.append(tempChar);
+        }
+        return randomStringBuilder.toString();
+    }
+
+    @SuppressLint("StaticFieldLeak")
+    private void insert_parent_to_DB(String name, final String mail, String phone, String address, final String pass) {
+
+
+        JSONObject where_info = new JSONObject();
+
+        try {
+            where_info.put("name",name);
+            where_info.put("type",5);
+            where_info.put("email",mail);
+            where_info.put("phone",phone);
+            where_info.put("address",address);
+            where_info.put("pass",pass);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        HttpCall httpCall = functions.insertToDB("users", where_info);
+
+        new HttpRequest(){
+            @Override
+            public void onResponse(JSONArray response) {
+                super.onResponse(response);
+                if(response != null){
+                    try {
+                        final int parent_id = response.getInt(0);
+
+                        HttpCall httpCall = new HttpCall();
+                        httpCall.setMethodtype(HttpCall.POST);
+                        httpCall.setUrl(Constants.sendMail);
+                        HashMap<String,String> params = new HashMap<>();
+                        Log.d("Verification","Mail: "+mail+" , code: "+pass);
+                        params.put("email",mail);
+                        params.put("code",pass);
+                        httpCall.setParams(params);
+
+                        new HttpRequest(){
+                            @Override
+                            public void onResponse(JSONArray response) {
+                                super.onResponse(response);
+                                Toast.makeText(BookingThirdFormActivity.this, "A random password has been sent to:\n" + mail, Toast.LENGTH_LONG).show();
+                                open_forth_form(parent_id);
+
+                            }
+                        }.execute(httpCall);
+
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                } else {
+                    ////// a password yetbe3et l mail el parent dah w atl3lo msg en fii mail etb3atlo
+                }
+            }
+        }.execute(httpCall);
+    }
+
+
+    private void open_forth_form(int parent_id){
+        Intent intent = new Intent(BookingThirdFormActivity.this, BookingForthFormActivity.class);
+        intent.putExtra("booking_info", booking_info);
+        intent.putExtra("parent_id", parent_id);
+        startActivity(intent);
     }
 }
