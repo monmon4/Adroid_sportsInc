@@ -3,6 +3,7 @@ package com.quantumsit.sportsinc.Activities;
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.ActionBar;
+import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -26,6 +27,7 @@ import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -273,35 +275,15 @@ public class RegisterActivity extends AppCompatActivity {
         Random random_num = new Random();
         final int verfication_num = random_num.nextInt(9999 - 1000) + 1000;
         Log.d("Verification","Code: "+verfication_num);
-        //verification_msg = "" + verfication_num;
 
-
-        LayoutInflater inflater = (LayoutInflater) register_Context.getSystemService(LAYOUT_INFLATER_SERVICE);
-        View customView = inflater.inflate(R.layout.window_verficationcode_layout,null);
-
-        verfication_popup_window = new PopupWindow(
-                customView,
-                LayoutParams.WRAP_CONTENT,
-                LayoutParams.WRAP_CONTENT
-        );
-
-        if(Build.VERSION.SDK_INT>=21){
-            verfication_popup_window.setElevation(5.0f);
-        }
+        Dialog customView = new Dialog(RegisterActivity.this);
+        customView.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        customView.setContentView(R.layout.window_verficationcode_layout);
+        customView.setCanceledOnTouchOutside(false);
 
         final EditText verify_edit_text =  customView.findViewById(R.id.verficationEditText_verify);
         Button done_button =  customView.findViewById(R.id.doneButton_verify);
         verify_edit_text.setEnabled(true);
-
-        verfication_popup_window.showAtLocation(register_rl, Gravity.CENTER,0,0);
-        verify_edit_text.setFocusable(true);
-        verfication_popup_window.setFocusable(true);
-        verfication_popup_window.setOutsideTouchable(false);
-        verfication_popup_window.setBackgroundDrawable(getResources().getDrawable(
-                android.R.color.transparent));
-        verfication_popup_window.setTouchable(true);
-        verfication_popup_window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
-        verfication_popup_window.update();
 
         done_button.setOnClickListener(new View.OnClickListener(){
             @Override
@@ -332,7 +314,6 @@ public class RegisterActivity extends AppCompatActivity {
             public void onResponse(JSONArray response) {
                 super.onResponse(response);
                 Log.d("verificationResponse",String.valueOf(response));
-
                /* if(response != null){
                     show_toast("Code has been sent");
 
@@ -340,9 +321,10 @@ public class RegisterActivity extends AppCompatActivity {
                     show_toast("An error has occurred");
                     verfication_popup_window.dismiss();
                 }*/
-
             }
         }.execute(httpCall);
+
+        customView.show();
     }
 
     private void upload_save_to_DB() {
