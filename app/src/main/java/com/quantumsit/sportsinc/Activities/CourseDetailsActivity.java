@@ -244,19 +244,27 @@ public class CourseDetailsActivity extends AppCompatActivity {
                             String coach_name = result.getString("user_name");
                             String start_date = result.getString("group_sdate");
                             String[] days = get_days(result.getString("days"));
-                            
-                            if( days.length!=0 ) {
-                                String[] daystime = result.getString("daystime").split("@");
-                                header_list.add(new item1_courses_details(class_name, start_date,class_id));
-                                child_list.put(class_id, new item2_courses_details(coach_name, days, daystime));
 
+                            if( days.length!=0 ) {
+                                if(!days[0].equals(" ")){
+                                    String[] daystime = result.getString("daystime").split("@");
+                                    header_list.add(new item1_courses_details(class_name, start_date,class_id));
+                                    child_list.put(class_id, new item2_courses_details(coach_name, days, daystime));
+                                }
                             }
                     }
+
+                    if(header_list.size()>0) {
                         noClsses.setVisibility(View.GONE);
                         expandableListView.setVisibility(View.VISIBLE);
                         adapter_coursesDetails.notifyDataSetChanged();
                         expandableListView.setAdapter(adapter_coursesDetails);
                         setListViewHeight(expandableListView, -1);
+                    } else {
+                        noClsses.setVisibility(View.VISIBLE);
+                        expandableListView.setVisibility(View.GONE);
+                    }
+
                        // progressDialog.dismiss();
 
                     } catch (JSONException e) {
@@ -323,23 +331,27 @@ public class CourseDetailsActivity extends AppCompatActivity {
             @Override
             public void onResponse(JSONArray response) {
                 super.onResponse(response);
-                if (response!= null) {
-                    try {
-                        JSONObject result = response.getJSONObject(0);
-                        String msg;
-                        if (result.getBoolean("enabled"))
-                            fill_list_view(myCourse);
-                        else{
-                            msg = result.getString("bookedReason");
-                            if (msg.equals(""))
-                                msg = result.getString("levelReason");
-                            disable_classes(msg);
-                            fillView(myCourse);
+
+                if (response!= null){
+                    if(response.length()>0) {
+                        try {
+                            JSONObject result = response.getJSONObject(0);
+                            String msg;
+                            if (result.getBoolean("enabled"))
+                                fill_list_view(myCourse);
+                            else {
+                                msg = result.getString("bookedReason");
+                                if (msg.equals(""))
+                                    msg = result.getString("levelReason");
+                                disable_classes(msg);
+                                fillView(myCourse);
+                            }
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
                         }
-
-
-                    } catch (JSONException e) {
-                        e.printStackTrace();
+                    } else {
+                        fill_list_view(myCourse);
                     }
                 }else {
                     fill_list_view(myCourse);
@@ -398,7 +410,9 @@ public class CourseDetailsActivity extends AppCompatActivity {
                     super.onResponse(response);
                     if(response != null){
                         try {
-                            trainee_names.add(new item_name_id(globalVars.getId(), "Me"));
+                            if(globalVars.getType() != 5) {
+                                trainee_names.add(new item_name_id(globalVars.getId(), "Me"));
+                            }
                             for (int i=0; i<response.length(); i++){
                                 JSONObject result = response.getJSONObject(i);
                                 int id = result.getInt("id");

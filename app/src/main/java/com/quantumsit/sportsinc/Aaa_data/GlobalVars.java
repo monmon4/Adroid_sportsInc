@@ -5,6 +5,7 @@ import android.content.Context;
 
 import com.quantumsit.sportsinc.BuildConfig;
 import com.quantumsit.sportsinc.Entities.BookingCourseEntity;
+import com.quantumsit.sportsinc.Entities.Booking_info;
 import com.quantumsit.sportsinc.Entities.UserEntity;
 
 import net.gotev.uploadservice.UploadService;
@@ -30,6 +31,16 @@ public class GlobalVars extends Application {
     int course_id, class_id;
 
     boolean parent = false;
+
+    Booking_info booking_info;
+
+    public Booking_info getBooking_info() {
+        return booking_info;
+    }
+
+    public void setBooking_info(Booking_info booking_info) {
+        this.booking_info = booking_info;
+    }
 
     public ArrayList<BookingCourseEntity> bookingCourseEntities = new ArrayList<>();
 
@@ -261,4 +272,8 @@ public class GlobalVars extends Application {
     public void setDate_of_birth(String date_of_birth) {
         this.date_of_birth = date_of_birth;
     }
+
+
+
+
 }

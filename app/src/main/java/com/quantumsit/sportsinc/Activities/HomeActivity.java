@@ -86,9 +86,18 @@ public class HomeActivity extends AppCompatActivity
 
         globalVars = (GlobalVars) getApplication();
         int type = globalVars.getType();
-        if(type == 5) {
+        if(type == 5 || type==6) {
             non_register = true;
-        }else if (type == 0) {
+            parent = true;
+
+            /*if (!checkRegistered()) {
+                non_register = true;
+            } else {
+                globalVars.setType(0);
+                parent = true;
+                updateDB_type_to_trainee();
+            }*/
+        }else if (type == 0 ) {
             parent = true;
         }else if (type == 1) {
             coach = true;
@@ -126,12 +135,13 @@ public class HomeActivity extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
 
         Menu navigationMenu = navigationView.getMenu();
-        if (parent){
+
+        if (parent && type !=5 && type !=6){
             navigationMenu.findItem(R.id.nav_certificates).setVisible(true);
             navigationMenu.findItem(R.id.nav_booking).setVisible(true);
         }
 
-        if(globalVars.getType() == 0 || globalVars.getType() == 6)
+        if(globalVars.getType() == 0 || globalVars.getType() == 6 || globalVars.getType() == 5 )
             navigationMenu.findItem(R.id.nav_booking).setVisible(true);
 
         RelativeLayout header = (RelativeLayout) navigationView.getHeaderView(0);

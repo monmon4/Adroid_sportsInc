@@ -109,8 +109,6 @@ public class PaymentActivity extends AppCompatActivity {
             }
         }
 
-
-
         listView_adapter.notifyDataSetChanged();
         listView.setAdapter(listView_adapter);
 
@@ -190,7 +188,7 @@ public class PaymentActivity extends AppCompatActivity {
             globalVars.setType(Type);
             saveUpdateToPref();
             UserEntity myAccount = globalVars.getMyAccount();
-            Toast.makeText(getApplicationContext(),"id: "+myAccount.getId()+" ,"+myAccount.getName(),Toast.LENGTH_LONG).show();
+           // Toast.makeText(getApplicationContext(),"id: "+myAccount.getId()+" ,"+myAccount.getName(),Toast.LENGTH_LONG).show();
             globalVars.setUser(myAccount);
         }
 
@@ -200,11 +198,8 @@ public class PaymentActivity extends AppCompatActivity {
             public void onResponse(JSONArray response) {
                 super.onResponse(response);
                 if (response!= null) {
-                    try {
-                        int id = response.getInt(0);
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
+                    globalVars.clearBookingCourseEntities();
+                    Toast.makeText(PaymentActivity.this, "Successfult added to cart", Toast.LENGTH_SHORT).show();
                 }
 
             }

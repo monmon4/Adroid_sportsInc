@@ -229,6 +229,7 @@ public class ListViewExpandable_Adapter_CoursesDetails extends BaseExpandableLis
                     }
                 }
             }
+
         }
 
         listView_adapter = new ListView_Adapter_single_checkbox(context, trainee_names);
@@ -270,13 +271,20 @@ public class ListViewExpandable_Adapter_CoursesDetails extends BaseExpandableLis
             @Override
             public void onClick(View view){
 
+                boolean all_good = false;
+                for(int i=0; i<trainee_names.size();i++){
+                    if(trainee_names.get(i).isSelected()) {
+                        insert_booking_to_global_var(groupPosition);
+                        ((Activity) context).onBackPressed();
+                        popup_window.dismiss();
+                        all_good = true;
+                        i = trainee_names.size();
+                    }
+                }
 
-                insert_booking_to_global_var(groupPosition);
-                //Intent intent = new Intent(context, CourseDetailsActivity.class);
-                //intent.putExtra("MyCourse",courseEntity);
-                //context.startActivity(intent);
-                ((Activity) context).onBackPressed();
-                popup_window.dismiss();
+                if (!all_good)
+                    Toast.makeText(context, "No trainee is chosen", Toast.LENGTH_SHORT).show();
+
             }
         } );
 
@@ -317,11 +325,9 @@ public class ListViewExpandable_Adapter_CoursesDetails extends BaseExpandableLis
 
     private void check_enable() {
         if(trainee_names!= null){
-            if(trainee_names.size()!=0){
-                for(int i=0; i<trainee_names.size(); i++){
-                    check_course(trainee_names.get(i).getId(), courseEntity.getCourse_id());
-                }
-            }
+            if(trainee_names.size()!=0)
+                check_course(globalVars.getId(), courseEntity.getCourse_id());
+
         }
 
     }
@@ -341,9 +347,13 @@ public class ListViewExpandable_Adapter_CoursesDetails extends BaseExpandableLis
                 super.onResponse(response);
                 if (response!= null) {
                     try {
-                        JSONObject result = response.getJSONObject(0);
-                        if (!result.getBoolean("enabled"))
-                            remove_trainee(user_id);
+                        for(int i=0; i<response.length();i++) {
+                            JSONObject result = response.getJSONObject(i);
+                            if (!result.getBoolean("enabled")) {
+                                int trainee_id = result.getInt("trainee_id");
+                                remove_trainee(trainee_id);
+                            }
+                        }
 
                     } catch (JSONException e) {
                         e.printStackTrace();

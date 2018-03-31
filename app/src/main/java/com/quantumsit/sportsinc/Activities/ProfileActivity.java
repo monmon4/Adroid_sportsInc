@@ -399,7 +399,7 @@ public class ProfileActivity extends AppCompatActivity {
                 Phone.setError("Invalid Phone Number...");
                 return;
             }
-            return;
+            noChange = true;
         }
 
         if (!NewMail.equals(globalVars.getMail())) {
@@ -409,8 +409,9 @@ public class ProfileActivity extends AppCompatActivity {
                 return;
             }
             mailChange = true;
+            noChange = true;
         }
-        if (!NewName.equals(globalVars.getName())) {
+        if (!NewName.equals(globalVars.getName()) || noChange) {
             noChange = true;
             if (mailChange)
                 checkMail(NewMail);
@@ -654,6 +655,7 @@ public class ProfileActivity extends AppCompatActivity {
     @SuppressLint("StaticFieldLeak")
     private void verfication(String mail){
 
+        progressDialog.dismiss();
         String verification_msg;
         Random random_num = new Random();
         final int verfication_num = random_num.nextInt(9999 - 1000) + 1000;
@@ -678,7 +680,7 @@ public class ProfileActivity extends AppCompatActivity {
         Button done_button =  customView.findViewById(R.id.doneButton_verify);
         verify_edit_text.setEnabled(true);
 
-        verfication_popup_window.showAtLocation(profile_ll, Gravity.CENTER,0,0);
+        verfication_popup_window.showAtLocation(profile_rl, Gravity.CENTER,0,0);
         verfication_popup_window.setFocusable(true);
         verify_edit_text.setFocusable(true);
         verfication_popup_window.setOutsideTouchable(false);

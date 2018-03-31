@@ -77,9 +77,6 @@ public class BookingFirstFormActivity extends AppCompatActivity {
         month_editText.setClickable(true);
         year_editText.setClickable(true);
 
-        //datePicker_button = findViewById(R.id.datePickerButton_first);
-        //datePicker_birthdate = findViewById(R.id.datePicker_first);
-
         ccp = findViewById(R.id.ccp_first);
         phone_editText = findViewById(R.id.phone_first);
         ccp.registerCarrierNumberEditText(phone_editText);
@@ -88,9 +85,12 @@ public class BookingFirstFormActivity extends AppCompatActivity {
         address_editText = findViewById(R.id.address_first);
         mail_editText = findViewById(R.id.mail_first);
 
-        firstName_editText.setText(globalVars.getName());
-        mail_editText.setText(globalVars.getMail());
-        phone_editText .setText(globalVars.getPhone());
+        if(globalVars.getBooking_info()== null){
+            firstName_editText.setText(globalVars.getName());
+            mail_editText.setText(globalVars.getMail());
+            phone_editText .setText(globalVars.getPhone());
+        }
+
 
         maleGender_textView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -198,18 +198,18 @@ public class BookingFirstFormActivity extends AppCompatActivity {
 
     private boolean validateForm() {
 
-        first_name = firstName_editText.getText().toString();
-        last_name = lastName_editText.getText().toString();
+        first_name = firstName_editText.getText().toString().trim();
+        last_name = lastName_editText.getText().toString().trim();
 
-        phone = phone_editText.getText().toString();
+        phone = phone_editText.getText().toString().trim();
 
-        day_of_birth = day_editText.getText().toString();
-        month_of_birth = month_editText.getText().toString();
-        year_of_birth = year_editText.getText().toString();
+        day_of_birth = day_editText.getText().toString().trim();
+        month_of_birth = month_editText.getText().toString().trim();
+        year_of_birth = year_editText.getText().toString().trim();
 
-        nationality = nationality_editText.getText().toString();
-        address = address_editText.getText().toString();
-        mail = mail_editText.getText().toString();
+        nationality = nationality_editText.getText().toString().trim();
+        address = address_editText.getText().toString().trim();
+        mail = mail_editText.getText().toString().trim();
 
         if (TextUtils.isEmpty(first_name)) {
             firstName_editText.setFocusable(true);
@@ -282,7 +282,6 @@ public class BookingFirstFormActivity extends AppCompatActivity {
             int year = calendar.get(Calendar.YEAR);
             int month = calendar.get(Calendar.MONTH);
             int day = calendar.get(Calendar.DAY_OF_MONTH);
-
 
 
             // DatePickerDialog THEME_DEVICE_DEFAULT_LIGHT

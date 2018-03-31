@@ -173,6 +173,7 @@ public class RegisterDialogFragment extends DialogFragment {
             public void onError(FacebookException error) {
                 Log.d("ERRORSocial","ERROR Login");
                 show_toast(getString(R.string.loginFail));
+                Log.e("FacebookError", String.valueOf(error.toString()));
             }
         });
 

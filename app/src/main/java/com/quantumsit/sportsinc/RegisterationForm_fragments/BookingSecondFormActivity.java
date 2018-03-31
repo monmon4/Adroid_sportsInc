@@ -20,6 +20,7 @@ public class BookingSecondFormActivity extends AppCompatActivity {
     StringBuilder illness = new StringBuilder();
     Booking_info booking_info;
 
+
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_booking_second_form);
@@ -76,7 +77,7 @@ public class BookingSecondFormActivity extends AppCompatActivity {
 
         illness.append(otherIllness_editText.getText());
 
-        booking_info.setSecond(illness.toString());
+        booking_info.setSecond(illness.toString().trim());
 
         Intent intent = new Intent(BookingSecondFormActivity.this, BookingThirdFormActivity.class);
         intent.putExtra("booking_info", booking_info);

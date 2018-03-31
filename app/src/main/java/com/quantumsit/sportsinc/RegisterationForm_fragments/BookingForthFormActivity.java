@@ -117,7 +117,17 @@ public class BookingForthFormActivity extends AppCompatActivity {
             }
         });
 
-        check_parent();
+        if (globalVars.getBooking_info() != null){
+            E_firstName_editText.setText(globalVars.getBooking_info().getE1_name());
+            E_firstPhone_editText.setText(globalVars.getBooking_info().getE1_phone());
+            E_secondName_editText.setText(globalVars.getBooking_info().getE2_name());
+            E_secondPhone_editText.setText(globalVars.getBooking_info().getE2_phone());
+            first_checkBox.setChecked(true);
+            second_checkBox.setChecked(true);
+        }
+
+        parent_id = getIntent().getIntExtra("parent_id", -1);
+
     }
 
     private void OtherEditTextEnabling() {
@@ -140,14 +150,15 @@ public class BookingForthFormActivity extends AppCompatActivity {
         int selected_radioButton_id = radioGroup.getCheckedRadioButtonId();
         hear_about_us = "";
 
-        E_firstName = E_firstName_editText.getText().toString();
-        E_firstPhone = E_firstPhone_editText.getText().toString();
+        E_firstName = E_firstName_editText.getText().toString().trim();
+        E_firstPhone = E_firstPhone_editText.getText().toString().trim();
 
-        E_secondName = E_secondName_editText.getText().toString();
-        E_secondPhone = E_secondPhone_editText.getText().toString();
+        E_secondName = E_secondName_editText.getText().toString().trim();
+        E_secondPhone = E_secondPhone_editText.getText().toString().trim();
 
-        if(TextUtils.isEmpty(E_firstName)&&TextUtils.isEmpty(E_firstName)) {
-            //E_firstName_editText
+        if(TextUtils.isEmpty(E_firstName)&&TextUtils.isEmpty(E_secondName)) {
+            E_firstName_editText.setError("Required");
+            return;
         }
 
         if (!TextUtils.isEmpty(E_firstPhone)) {
@@ -198,142 +209,6 @@ public class BookingForthFormActivity extends AppCompatActivity {
     }
 
 
-    private void check_parent() {
-
-        if (!booking_info.getF_mail().equals("")) {
-            JSONObject where_info = new JSONObject();
-
-            try {
-                where_info.put("email",booking_info.getF_mail());
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-
-            HttpCall httpCall = functions.searchDB("users", where_info);
-
-            new HttpRequest(){
-                @Override
-                public void onResponse(JSONArray response) {
-                    super.onResponse(response);
-                    if(response != null){
-                        try {
-                            JSONObject result = response.getJSONObject(0);
-                            parent_id = result.getInt("id");
-
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-                    } else {
-
-                        String random_pass = generateRandomPass();
-                        insert_parent_to_DB(booking_info.getF_name(),
-                                booking_info.getF_mail(), booking_info.getF_phone(),
-                                booking_info.getF_address(), random_pass);
-                        //verfication();
-                    }
-                }
-            }.execute(httpCall);
-        }else if (!booking_info.getM_mail().equals("")) {
-            JSONObject where_info = new JSONObject();
-
-            try {
-                where_info.put("email",booking_info.getM_mail());
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-
-            HttpCall httpCall = functions.searchDB("users", where_info);
-
-            new HttpRequest(){
-                @Override
-                public void onResponse(JSONArray response) {
-                    super.onResponse(response);
-                    if(response != null){
-                        try {
-                            JSONObject result = response.getJSONObject(0);
-                            parent_id = result.getInt("id");
-
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-                    } else {
-                        String random_pass = generateRandomPass();
-                        insert_parent_to_DB(booking_info.getM_name(),
-                                booking_info.getMail(), booking_info.getM_phone(),
-                                booking_info.getM_address(), random_pass);
-                        //verfication();
-                    }
-                }
-            }.execute(httpCall);
-        }
-    }
-
-    private String generateRandomPass() {
-        Random generator = new Random();
-        StringBuilder randomStringBuilder = new StringBuilder();
-        int randomLength = generator.nextInt(10);
-        char tempChar;
-        for (int i = 0; i < randomLength; i++){
-            tempChar = (char) (generator.nextInt(96) + 32);
-            randomStringBuilder.append(tempChar);
-        }
-        return randomStringBuilder.toString();
-    }
-
-    private void insert_parent_to_DB(String name, final String mail, String phone, String address, final String pass) {
-
-
-        JSONObject where_info = new JSONObject();
-
-        try {
-            where_info.put("name",name);
-            where_info.put("email",mail);
-            where_info.put("phone",phone);
-            where_info.put("address",address);
-            where_info.put("pass",pass);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-
-        HttpCall httpCall = functions.insertToDB("users", where_info);
-
-        new HttpRequest(){
-            @Override
-            public void onResponse(JSONArray response) {
-                super.onResponse(response);
-                if(response != null){
-                    try {
-                        JSONObject result = response.getJSONObject(0);
-                        parent_id = result.getInt("id");
-
-                        HttpCall httpCall = new HttpCall();
-                        httpCall.setMethodtype(HttpCall.POST);
-                        httpCall.setUrl(Constants.sendMail);
-                        HashMap<String,String> params = new HashMap<>();
-                        Log.d("Verification","Mail: "+mail+" , code: "+pass);
-                        params.put("email",mail);
-                        params.put("code",String.valueOf(pass));
-                        httpCall.setParams(params);
-
-                        new HttpRequest(){
-                            @Override
-                            public void onResponse(JSONArray response) {
-                                super.onResponse(response);
-                                Toast.makeText(BookingForthFormActivity.this, "A random password has been sent to:\n" + mail, Toast.LENGTH_LONG).show();
-
-                            }
-                        }.execute(httpCall);
-
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
-                } else {
-                ////// a password yetbe3et l mail el parent dah w atl3lo msg en fii mail etb3atlo
-                }
-            }
-        }.execute(httpCall);
-    }
-
     public boolean isValidPhone1(String phone_num, String country)
     {
         boolean isValid = false;
@@ -373,7 +248,7 @@ public class BookingForthFormActivity extends AppCompatActivity {
         JSONObject where_info = new JSONObject();
 
         try {
-            where_info.put("email",booking_info.getM_mail());
+            where_info.put("email",booking_info.getMail());
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -388,9 +263,8 @@ public class BookingForthFormActivity extends AppCompatActivity {
                     try {
                         JSONObject result = response.getJSONObject(0);
                         int the_id = result.getInt("id");
-                        globalVars.setType(6);
                         update_db(the_id);
-
+                        insert_to_DB_info(the_id);
 
                     } catch (JSONException e) {
                         e.printStackTrace();
@@ -444,13 +318,7 @@ public class BookingForthFormActivity extends AppCompatActivity {
                 super.onResponse(response);
 
                 if(response != null){
-                    try {
-                        int ID = response.getInt(0);
-                        globalVars.setType(6);
-                        insert_to_DB_info(the_id);
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
+
                 } else {
                     //show_toast("An error occurred");
                 }
@@ -507,7 +375,8 @@ public class BookingForthFormActivity extends AppCompatActivity {
                     if(response != null){
                         try {
                             int ID = response.getInt(0);
-                            globalVars.setType(6);
+                            if(parent_id!=-1)
+                                globalVars.setType(6);
                             insert_to_DB_info(ID);
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -577,14 +446,16 @@ public class BookingForthFormActivity extends AppCompatActivity {
                     super.onResponse(response);
 
                     if(response != null){
-                        try {
-                            int ID = response.getInt(0);
+
+
+                            if(globalVars.getMail().trim().equals(booking_info.getMail().trim()))
+                                globalVars.setType(6);
+                            else if(parent_id !=-1)
+                                globalVars.setBooking_info(booking_info);
+
                             Toast.makeText(BookingForthFormActivity.this, "Success", Toast.LENGTH_SHORT).show();
                             startActivity(new Intent(BookingForthFormActivity.this, HomeActivity.class));
                             finish();
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
                     } else {
                         //show_toast("An error occurred");
                     }

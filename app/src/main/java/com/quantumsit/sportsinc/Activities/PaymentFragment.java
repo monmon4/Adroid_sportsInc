@@ -44,6 +44,8 @@ public class PaymentFragment extends Fragment {
 
     ArrayList<item_checkout> list_items;
 
+    CardView cardView;
+
     CardView totalPrice_cardview;
     GlobalVars globalVars;
 
@@ -63,9 +65,10 @@ public class PaymentFragment extends Fragment {
         total_textview = root.findViewById(R.id.totalTextView_checkout);
         listView = root.findViewById(R.id.listView_checkout);
         totalPrice_cardview = root.findViewById(R.id.checkoutCardView);
+        cardView = root.findViewById(R.id.paymentMethodCardView);
         confirm_button = root.findViewById(R.id.confirmButton_checkout);
         pay_later_button = root.findViewById(R.id.payLaterButton_checkout);
-        pay_later_button.setVisibility(View.GONE);
+        cardView.setVisibility(View.GONE);
 
         confirm_button.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -95,6 +98,7 @@ public class PaymentFragment extends Fragment {
             for (int j=0; j<trainee_ids.length;j++)
                 insert_to_db(trainee_ids[j],1);
         }
+        globalVars.setType(0);
         startActivity(new Intent(getActivity(), HomeActivity.class));
     }
 

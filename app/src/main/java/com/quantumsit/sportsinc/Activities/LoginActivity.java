@@ -5,52 +5,25 @@ import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.pm.PackageInfo;
-import android.content.pm.PackageManager;
-import android.content.pm.Signature;
-import android.graphics.Paint;
-import android.graphics.PorterDuff;
-import android.net.Uri;
-import android.os.Build;
-import android.support.annotation.NonNull;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.InputType;
 import android.text.TextUtils;
-import android.util.Base64;
+import android.text.method.PasswordTransformationMethod;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageView;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.facebook.CallbackManager;
-import com.facebook.FacebookCallback;
-import com.facebook.FacebookException;
-import com.facebook.FacebookSdk;
-import com.facebook.GraphRequest;
-import com.facebook.GraphResponse;
-import com.facebook.login.LoginManager;
-import com.facebook.login.LoginResult;
-import com.facebook.login.widget.LoginButton;
-import com.google.android.gms.auth.api.signin.GoogleSignIn;
-import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
-import com.google.android.gms.auth.api.signin.GoogleSignInClient;
-import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
-import com.google.android.gms.common.ConnectionResult;
-import com.google.android.gms.common.SignInButton;
-import com.google.android.gms.common.api.ApiException;
-import com.google.android.gms.common.api.GoogleApiClient;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
 import com.google.gson.Gson;
 import com.quantumsit.sportsinc.Aaa_data.Config;
 import com.quantumsit.sportsinc.Aaa_data.Constants;
@@ -59,21 +32,13 @@ import com.quantumsit.sportsinc.Backend.HttpCall;
 import com.quantumsit.sportsinc.Backend.HttpRequest;
 import com.quantumsit.sportsinc.Entities.UserEntity;
 import com.quantumsit.sportsinc.R;
-import com.quantumsit.sportsinc.RegisterationForm_fragments.BookingFirstFormActivity;
-import com.quantumsit.sportsinc.RegisterationForm_fragments.BookingFormActivity;
 import com.quantumsit.sportsinc.util.ConnectionUtilities;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
-import java.util.Arrays;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Random;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -81,6 +46,8 @@ import java.util.regex.Pattern;
 public class LoginActivity extends AppCompatActivity {
 
     GlobalVars globalVars;
+    ImageButton showpass_button;
+    boolean showpass = false;
 
     TextView forgetPassword;
     PopupWindow verfication_popup_window;
@@ -120,6 +87,7 @@ public class LoginActivity extends AppCompatActivity {
 
         globalVars = (GlobalVars) getApplication();
 
+        showpass_button = findViewById(R.id.shopassImageButton_login);
         login_ll = findViewById(R.id.ll_login);
         progressDialog = new ProgressDialog(LoginActivity.this);
         progressDialog.setMessage(getResources().getString(R.string.login_configure));
@@ -140,6 +108,23 @@ public class LoginActivity extends AppCompatActivity {
                     show_toast(getString(R.string.requiredField));
                 else
                     checkMail();
+            }
+        });
+
+        showpass_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(showpass) {
+                    showpass_button.setBackgroundResource(R.drawable.ic_see_password_faded);
+                    showpass = false;
+                    pass_edittext.setTransformationMethod(PasswordTransformationMethod.getInstance());
+
+                } else {
+                    showpass_button.setBackgroundResource(R.drawable.ic_see_password);
+                    showpass = true;
+                    pass_edittext.setTransformationMethod(null);
+                    pass_edittext.setInputType(InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD);
+                }
             }
         });
 
