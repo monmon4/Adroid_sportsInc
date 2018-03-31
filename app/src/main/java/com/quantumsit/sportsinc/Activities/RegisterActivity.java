@@ -109,6 +109,7 @@ public class RegisterActivity extends AppCompatActivity {
     private int Counter = 0;
 
     PopupWindow verfication_popup_window;
+    Dialog customView;
     private Context register_Context;
     private RelativeLayout register_rl;
     ProgressDialog progressDialog;
@@ -276,7 +277,7 @@ public class RegisterActivity extends AppCompatActivity {
         final int verfication_num = random_num.nextInt(9999 - 1000) + 1000;
         Log.d("Verification","Code: "+verfication_num);
 
-        Dialog customView = new Dialog(RegisterActivity.this);
+        customView = new Dialog(RegisterActivity.this);
         customView.requestWindowFeature(Window.FEATURE_NO_TITLE);
         customView.setContentView(R.layout.window_verficationcode_layout);
         customView.setCanceledOnTouchOutside(false);
@@ -331,7 +332,7 @@ public class RegisterActivity extends AppCompatActivity {
         progressDialog.setMessage(getResources().getString(R.string.log_in));
         progressDialog.show();
 
-        verfication_popup_window.dismiss();
+        customView.dismiss();
 
         if (photoChanged)
             uploadImageToServer();

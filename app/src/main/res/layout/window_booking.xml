@@ -21,7 +21,7 @@
     <ListView
         android:id="@+id/traineeListView_window"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="10dp"
         android:paddingEnd= "14dp"
         android:paddingStart= "8dp">
     </ListView>
@@ -59,8 +59,10 @@
 
         <ImageButton
             android:id="@+id/addButton_window"
-            android:layout_width="50dp"
-            android:layout_height="30dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:padding="10dp"
             android:layout_marginEnd="8dp"
             android:background="@drawable/cornered_background_gray_dark"
             android:src="@drawable/ic_booking_add" />
@@ -68,7 +70,7 @@
         <Button
             android:id="@+id/checkoutButton_window"
             android:layout_width="wrap_content"
-            android:layout_height="30dp"
+            android:layout_height="wrap_content"
             android:background="@drawable/cornered_background_red"
             android:text="@string/check_out"
             android:textAllCaps="false"
