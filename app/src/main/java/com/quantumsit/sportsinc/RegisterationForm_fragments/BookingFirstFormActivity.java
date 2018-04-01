@@ -85,11 +85,11 @@ public class BookingFirstFormActivity extends AppCompatActivity {
         address_editText = findViewById(R.id.address_first);
         mail_editText = findViewById(R.id.mail_first);
 
-        if(globalVars.getBooking_info()== null){
+        /*if(globalVars.getBooking_info()== null){
             firstName_editText.setText(globalVars.getName());
             mail_editText.setText(globalVars.getMail());
             phone_editText .setText(globalVars.getPhone());
-        }
+        }*/
 
 
         maleGender_textView.setOnClickListener(new View.OnClickListener() {

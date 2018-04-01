@@ -304,6 +304,10 @@ public class BookingThirdFormActivity extends AppCompatActivity {
 
     private String generateRandomPass() {
         Random generator = new Random();
+
+        Random random_num = new Random();
+        final int verfication_num = random_num.nextInt(9999999 - 1000) + 1000;
+
         StringBuilder randomStringBuilder = new StringBuilder();
         int randomLength = generator.nextInt(10);
         char tempChar;
@@ -311,7 +315,9 @@ public class BookingThirdFormActivity extends AppCompatActivity {
             tempChar = (char) (generator.nextInt(96) + 32);
             randomStringBuilder.append(tempChar);
         }
-        return randomStringBuilder.toString();
+
+        return String.valueOf(verfication_num);
+        //return randomStringBuilder.toString();
     }
 
     @SuppressLint("StaticFieldLeak")

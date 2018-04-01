@@ -377,7 +377,7 @@ public class BookingForthFormActivity extends AppCompatActivity {
                             int ID = response.getInt(0);
                             if(parent_id!=-1)
                                 globalVars.setType(6);
-                            insert_to_DB_info(ID);
+                            check_trainee_info(ID);
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
@@ -391,6 +391,45 @@ public class BookingForthFormActivity extends AppCompatActivity {
         } catch (JSONException e) {
             e.printStackTrace();
         }
+
+    }
+
+    private void check_trainee_info(final int id){
+
+        JSONObject where = new JSONObject();
+
+        try {
+            where.put("user_id", id);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        HttpCall httpCall = new HttpCall();
+        httpCall.setMethodtype(HttpCall.POST);
+        httpCall.setUrl(Constants.selectData);
+        HashMap<String,String> params = new HashMap<>();
+        params.put("table","info_trainee");
+        params.put("where",where.toString());
+
+        httpCall.setParams(params);
+
+        //final String finalDate_of_birth = date_of_birth;
+        new HttpRequest(){
+            @Override
+            public void onResponse(JSONArray response) {
+                super.onResponse(response);
+
+                if(response != null){
+                    Toast.makeText(BookingForthFormActivity.this, "Success", Toast.LENGTH_SHORT).show();
+                    startActivity(new Intent(BookingForthFormActivity.this, HomeActivity.class));
+                    finish();
+
+                } else {
+                    insert_to_DB_info(id);
+                }
+
+            }
+        }.execute(httpCall);
 
     }
 
