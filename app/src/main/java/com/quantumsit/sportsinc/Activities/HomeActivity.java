@@ -133,7 +133,7 @@ public class HomeActivity extends AppCompatActivity
         navigationView =  findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-        Menu navigationMenu = navigationView.getMenu();
+        final Menu navigationMenu = navigationView.getMenu();
 
         if(non_register) {
             setSideMenu(globalVars.getType(), navigationMenu);
@@ -194,6 +194,7 @@ public class HomeActivity extends AppCompatActivity
                 UserEntity Account = globalVars.getUser();
                 globalVars.setUser(children.get(position));
                 updateChildList(position, Account);
+                setSideMenu(globalVars.getType(), navigationMenu);
                 toggleMenu();
             }
         });
