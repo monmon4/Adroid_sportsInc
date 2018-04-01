@@ -100,14 +100,13 @@ public class HomeActivity extends AppCompatActivity
         }else if (type == 0 ) {
             parent = true;
         }else if (type == 1) {
+            parent = true;
             coach = true;
         }
 
-        if (non_register){
-            setContentView(R.layout.activity_home_nonregister);
-        } else {
-            setContentView(R.layout.activity_home);
-        }
+
+        setContentView(R.layout.activity_home);
+
 
 
         Toolbar toolbar = findViewById(R.id.toolbar);
@@ -136,13 +135,12 @@ public class HomeActivity extends AppCompatActivity
 
         Menu navigationMenu = navigationView.getMenu();
 
-        if (parent && type !=5 && type !=6){
-            navigationMenu.findItem(R.id.nav_certificates).setVisible(true);
-            navigationMenu.findItem(R.id.nav_booking).setVisible(true);
+        if(non_register) {
+            setSideMenu(globalVars.getType(), navigationMenu);
         }
-
-        if(globalVars.getType() == 0 || globalVars.getType() == 6 || globalVars.getType() == 5 )
-            navigationMenu.findItem(R.id.nav_booking).setVisible(true);
+        if (coach){
+            setSideMenu(globalVars.getType(), navigationMenu);
+        }
 
         RelativeLayout header = (RelativeLayout) navigationView.getHeaderView(0);
         profileImage = header.findViewById(R.id.profile_image);
@@ -416,14 +414,16 @@ public class HomeActivity extends AppCompatActivity
         } else if (id == R.id.nav_certificates) {
             actionBar.setTitle(R.string.certificates);
             fragmentClass = CertificatesFragment.class;
-        } else if (id == R.id.nav_website) {
+        } /*else if (id == R.id.nav_website) {
             //link to the academy's page so opens a web page
             Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://thesportsinc.com/"));
             startActivity(browserIntent);
-        } else if(id == R.id.nav_logout){
+        }*/ else if(id == R.id.nav_logout){
             // LogOut From the System
             progressDialog = new ProgressDialog(HomeActivity.this);
             progressDialog.setMessage("Logging Out...");
+            progressDialog.setCancelable(false);
+            progressDialog.setCanceledOnTouchOutside(false);
             progressDialog.show();
             unActiveUser(globalVars.getId());
             return true;
@@ -574,5 +574,19 @@ public class HomeActivity extends AppCompatActivity
         Intent intent = new Intent(getApplicationContext(),ProfileActivity.class);
         drawer.closeDrawer(GravityCompat.START);
         startActivityForResult(intent ,PROFILE_CODE);
+    }
+
+    private void setSideMenu(int type, Menu navigationMenu){
+
+        if(type == 5|| type == 6) {
+            navigationMenu.findItem(R.id.nav_certificates).setVisible(false);
+            navigationMenu.findItem(R.id.nav_reports).setVisible(false);
+            navigationMenu.findItem(R.id.nav_requests).setVisible(false);
+            navigationMenu.findItem(R.id.nav_notifications).setVisible(false);
+            navigationMenu.findItem(R.id.nav_myClasses).setVisible(false);
+        } else if(type == 1) {
+            navigationMenu.findItem(R.id.nav_booking).setVisible(false);
+            navigationMenu.findItem(R.id.nav_certificates).setVisible(false);
+        }
     }
 }

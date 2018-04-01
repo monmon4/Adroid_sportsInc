@@ -91,6 +91,8 @@ public class LoginActivity extends AppCompatActivity {
         login_ll = findViewById(R.id.ll_login);
         progressDialog = new ProgressDialog(LoginActivity.this);
         progressDialog.setMessage(getResources().getString(R.string.login_configure));
+        progressDialog.setCancelable(false);
+        progressDialog.setCanceledOnTouchOutside(false);
 
         mail_edittext = findViewById(R.id.mailEditText_login);
         pass_edittext = findViewById(R.id.passEditText_login);

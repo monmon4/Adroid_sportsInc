@@ -56,7 +56,7 @@ public class BookingFirstFormActivity extends AppCompatActivity {
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
-        getSupportActionBar().setTitle("Registration (1)");
+        getSupportActionBar().setTitle("Step1");
         globalVars = (GlobalVars) getApplication();
         booking_info = new Booking_info();
 

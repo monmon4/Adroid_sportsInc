@@ -25,7 +25,6 @@
             android:id="@+id/dateSpinner_requestadd"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/date"
             android:textColorHint="@color/colorAccent"
             app:met_floatingLabel="normal" />
 

@@ -2,6 +2,7 @@ package com.quantumsit.sportsinc.Activities;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
+import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -24,6 +25,7 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
@@ -98,6 +100,7 @@ public class ProfileActivity extends AppCompatActivity {
     private int Counter = 0;
 
     PopupWindow verfication_popup_window;
+    Dialog verfication_dialog;
     private Context profile_Context;
     private LinearLayout profile_ll;
     private RelativeLayout profile_rl;
@@ -645,7 +648,7 @@ public class ProfileActivity extends AppCompatActivity {
                     show_toast("Email already exists");
 
                 } else {
-                    verfication(mail);
+                    verification(mail);
                 }
 
             }
@@ -653,39 +656,21 @@ public class ProfileActivity extends AppCompatActivity {
     }
 
     @SuppressLint("StaticFieldLeak")
-    private void verfication(String mail){
-
+    private void verification(String mail){
         progressDialog.dismiss();
         String verification_msg;
         Random random_num = new Random();
         final int verfication_num = random_num.nextInt(9999 - 1000) + 1000;
         Log.d("Verification","Code: "+verfication_num);
-       // verification_msg = "Your verfication code: " + verfication_num;
 
+        verfication_dialog = new Dialog(ProfileActivity.this);
+        verfication_dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        verfication_dialog.setContentView(R.layout.window_verficationcode_layout);
+        verfication_dialog.setCanceledOnTouchOutside(false);
 
-        LayoutInflater inflater = (LayoutInflater) profile_Context.getSystemService(LAYOUT_INFLATER_SERVICE);
-        View customView = inflater.inflate(R.layout.window_verficationcode_layout,null);
-
-        verfication_popup_window = new PopupWindow(
-                customView,
-                ViewGroup.LayoutParams.WRAP_CONTENT,
-                ViewGroup.LayoutParams.WRAP_CONTENT
-        );
-
-        if(Build.VERSION.SDK_INT>=21){
-            verfication_popup_window.setElevation(5.0f);
-        }
-
-        final EditText verify_edit_text =  customView.findViewById(R.id.verficationEditText_verify);
-        Button done_button =  customView.findViewById(R.id.doneButton_verify);
+        final EditText verify_edit_text =  verfication_dialog.findViewById(R.id.verficationEditText_verify);
+        Button done_button =  verfication_dialog.findViewById(R.id.doneButton_verify);
         verify_edit_text.setEnabled(true);
-
-        verfication_popup_window.showAtLocation(profile_rl, Gravity.CENTER,0,0);
-        verfication_popup_window.setFocusable(true);
-        verify_edit_text.setFocusable(true);
-        verfication_popup_window.setOutsideTouchable(false);
-        verfication_popup_window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
-        verfication_popup_window.update();
 
         done_button.setOnClickListener(new View.OnClickListener(){
             @Override
@@ -693,7 +678,7 @@ public class ProfileActivity extends AppCompatActivity {
                 String verifcation = verify_edit_text.getText().toString().trim();
 
                 if (verifcation.equals(String.valueOf(verfication_num))){
-                    verfication_popup_window.dismiss();
+                    verfication_dialog.dismiss();
                     insertToDb();
                 } else {
                     show_toast("Wrong code");
@@ -707,6 +692,7 @@ public class ProfileActivity extends AppCompatActivity {
         httpCall.setMethodtype(HttpCall.POST);
         httpCall.setUrl(Constants.sendMail);
         HashMap<String,String> params = new HashMap<>();
+        Log.d("Verification","Mail: "+mail+" , code: "+verfication_num);
         params.put("email",mail);
         params.put("code",String.valueOf(verfication_num));
         httpCall.setParams(params);
@@ -715,19 +701,19 @@ public class ProfileActivity extends AppCompatActivity {
             @Override
             public void onResponse(JSONArray response) {
                 super.onResponse(response);
-
-              /*  if(response != null){
-                    show_toast("Success");
+                Log.d("verificationResponse",String.valueOf(response));
+               /* if(response != null){
+                    show_toast("Code has been sent");
 
                 } else {
+                    show_toast("An error has occurred");
                     verfication_popup_window.dismiss();
-                    show_toast("An error occurred");
                 }*/
-
             }
         }.execute(httpCall);
-    }
 
+        verfication_dialog.show();
+    }
     private void show_toast(String msg) {
         progressDialog.dismiss();
         Toast.makeText(ProfileActivity.this, msg, Toast.LENGTH_SHORT).show();

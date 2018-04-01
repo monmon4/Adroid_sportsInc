@@ -61,6 +61,9 @@ public class PaymentFragment extends Fragment {
 
         globalVars = (GlobalVars) getActivity().getApplication();
         progressDialog = new ProgressDialog(getActivity());
+        progressDialog.setMessage("Please wait ....");
+        progressDialog.setCancelable(false);
+        progressDialog.setCanceledOnTouchOutside(false);
 
         total_textview = root.findViewById(R.id.totalTextView_checkout);
         listView = root.findViewById(R.id.listView_checkout);

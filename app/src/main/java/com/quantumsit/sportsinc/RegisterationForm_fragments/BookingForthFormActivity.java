@@ -63,7 +63,7 @@ public class BookingForthFormActivity extends AppCompatActivity {
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
-        getSupportActionBar().setTitle("Registration (4)");
+        getSupportActionBar().setTitle("Step4");
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
         globalVars = (GlobalVars) getApplication();
 

@@ -46,6 +46,13 @@
             {
               "client_id": "49921727544-jc896qjumesgeuhe22qtv83obe1dcp9l.apps.googleusercontent.com",
               "client_type": 3
+            },
+            {
+              "client_id": "49921727544-oi97cak3hiia9sei6mb32ll7tggoolqo.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.hima.sendsportnotify"
+              }
             }
           ]
         },
@@ -81,13 +88,8 @@
           "status": 1
         },
         "appinvite_service": {
-          "status": 2,
-          "other_platform_oauth_client": [
-            {
-              "client_id": "49921727544-jc896qjumesgeuhe22qtv83obe1dcp9l.apps.googleusercontent.com",
-              "client_type": 3
-            }
-          ]
+          "status": 1,
+          "other_platform_oauth_client": []
         },
         "ads_service": {
           "status": 2

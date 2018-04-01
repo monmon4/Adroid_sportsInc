@@ -108,7 +108,7 @@ public class RegisterActivity extends AppCompatActivity {
     private int THUMBNAIL_SIZE = 150;
     private int Counter = 0;
 
-    PopupWindow verfication_popup_window;
+    //PopupWindow verfication_popup_window;
     Dialog customView;
     private Context register_Context;
     private RelativeLayout register_rl;
@@ -132,6 +132,7 @@ public class RegisterActivity extends AppCompatActivity {
         globalVars = (GlobalVars) getApplication();
         progressDialog = new ProgressDialog(RegisterActivity.this);
         progressDialog.setMessage(getResources().getString(R.string.configure));
+        progressDialog.setCancelable(false);
         progressDialog.setCanceledOnTouchOutside(false);
 
         register_Context = getApplicationContext();
@@ -232,6 +233,8 @@ public class RegisterActivity extends AppCompatActivity {
         }
 
         progressDialog.show();
+        progressDialog.setCancelable(false);
+        progressDialog.setCanceledOnTouchOutside(false);
 
 
         if (!validateForm()) {

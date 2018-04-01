@@ -1,5 +1,6 @@
 package com.quantumsit.sportsinc.COACHES.RequestFragment;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -62,6 +63,8 @@ public class ActivityAddRequest_coach extends AppCompatActivity {
     private int classPosition;
     private int requestType;
 
+    ProgressDialog progressDialog;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,7 +74,10 @@ public class ActivityAddRequest_coach extends AppCompatActivity {
         getSupportActionBar().setTitle("Compose");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
-
+        progressDialog = new ProgressDialog(ActivityAddRequest_coach.this);
+        progressDialog.setMessage("Please wait ....");
+        progressDialog.setCancelable(false);
+        progressDialog.setCanceledOnTouchOutside(false);
         globalVars = (GlobalVars) getApplication();
 
         request_for_spinner = findViewById(R.id.requestforSpinner_addreuestcoach);
@@ -107,6 +113,15 @@ public class ActivityAddRequest_coach extends AppCompatActivity {
             }
         });
 
+        course_name_spinner.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(request_for_spinner.getText().toString().equals("")){
+                    show_toast("Please choose what is the request for");
+                }
+            }
+        });
+
         course_name_spinner.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
@@ -117,6 +132,15 @@ public class ActivityAddRequest_coach extends AppCompatActivity {
                     if(courseEntities.size()!=0){
                         classesFilter(classesMap.get(courseEntities.get(position).getCourse_id()));
                     }
+                }
+            }
+        });
+
+        class_number_spinner.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(course_name_spinner.getText().toString().equals("")){
+                    show_toast("Please choose in what course");
                 }
             }
         });

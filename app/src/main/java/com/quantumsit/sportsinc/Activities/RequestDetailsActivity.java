@@ -64,6 +64,9 @@ public class RequestDetailsActivity extends AppCompatActivity {
             }
         });
         progressDialog = new ProgressDialog(RequestDetailsActivity.this);
+        progressDialog.setCancelable(false);
+        progressDialog.setCanceledOnTouchOutside(false);
+
         subject = findViewById(R.id.requestReviewSubject);
         content = findViewById(R.id.requestReviewContent);
         person = findViewById(R.id.requestReviewPerson);
