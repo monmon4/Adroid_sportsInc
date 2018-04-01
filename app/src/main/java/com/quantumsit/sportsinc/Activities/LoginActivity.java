@@ -617,6 +617,11 @@ public class LoginActivity extends AppCompatActivity {
                                 }
 
                             } else {
+                                if (connectionTimeOut){
+                                    progressDialog.dismiss();
+                                    show_toast("poor connection...");
+                                    return;
+                                }
                                 progressDialog.dismiss();
                                 show_toast(getString(R.string.mailNoFound));
                             }
