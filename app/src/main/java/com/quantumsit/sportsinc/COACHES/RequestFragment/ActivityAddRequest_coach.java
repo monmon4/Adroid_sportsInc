@@ -109,6 +109,7 @@ public class ActivityAddRequest_coach extends AppCompatActivity {
         request_for_spinner.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
+
                 requestType = position;
             }
         });
@@ -159,6 +160,7 @@ public class ActivityAddRequest_coach extends AppCompatActivity {
         });
 
         if (savedInstanceState == null){
+            progressDialog.show();
             initilizeCoursesSpinner();
             initilizeClassesSpinner();
         }
@@ -342,10 +344,13 @@ public class ActivityAddRequest_coach extends AppCompatActivity {
                     }
                     classesMap.get(entity.getCourse_id()).add(entity);
                 }
+                progressDialog.dismiss();
 
             } catch (JSONException e) {
                 e.printStackTrace();
             }
+        } else {
+            progressDialog.dismiss();
         }
 
     }

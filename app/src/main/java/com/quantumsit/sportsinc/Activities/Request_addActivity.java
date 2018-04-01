@@ -84,9 +84,15 @@ public class Request_addActivity extends AppCompatActivity {
                 progressDialog.show();
 
                 if (position == 0) {
+                    if(!date_spinner.getText().toString().equals("")){
+                        date_spinner.setText("");
+                    }
                     date_spinner.setHint("Date");
                     fillDateList();
                 } else {
+                    if(!date_spinner.getText().toString().equals("")){
+                        date_spinner.setText("");
+                    }
                     date_spinner.setHint("Class");
                     fillClassList();
                 }
