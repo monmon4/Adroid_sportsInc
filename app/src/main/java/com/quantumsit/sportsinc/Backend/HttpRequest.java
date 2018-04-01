@@ -31,6 +31,8 @@ public class HttpRequest extends AsyncTask<HttpCall, String, JSONArray> {
 
     private static final String UTF_8 = "UTF-8";
 
+    public boolean connectionTimeOut = false;
+
     @Override
     protected JSONArray doInBackground(HttpCall... params) {
         HttpURLConnection urlConnection = null;
@@ -75,6 +77,7 @@ public class HttpRequest extends AsyncTask<HttpCall, String, JSONArray> {
         } catch (MalformedURLException e) {
             e.printStackTrace();
         } catch (IOException e) {
+            connectionTimeOut = true;
             e.printStackTrace();
         } catch (JSONException e) {
             e.printStackTrace();
