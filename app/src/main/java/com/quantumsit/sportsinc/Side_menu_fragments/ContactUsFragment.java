@@ -57,12 +57,12 @@ public class ContactUsFragment extends Fragment implements OnMapReadyCallback {
     ListView_Adapter_contact_us listView_adapter;
     ArrayList<item_contact_us> list_items;
 
-    //Academy_info academy_info;
+    Academy_info academy_info;
     //GlobalVars globalVars;
 
     MapView mapView;
     TextView maps_textView;
-    ProgressDialog progressDialog;
+    //ProgressDialog progressDialog;
 
     @Nullable
     @Override
@@ -77,10 +77,6 @@ public class ContactUsFragment extends Fragment implements OnMapReadyCallback {
         // Gets the MapView from the XML layout and creates it
         mapView = root.findViewById(R.id.map);
         maps_textView = root.findViewById(R.id.maps_textView);
-        progressDialog = new ProgressDialog(getActivity());
-        progressDialog.setMessage("Please wait....");
-        progressDialog.setCanceledOnTouchOutside(false);
-        progressDialog.setCancelable(false);
 
         customListView = root.findViewById(R.id.openingHoursListView_maps);
         customListView.setOnRetryClick(new myCustomListView.OnRetryClick() {
@@ -96,14 +92,11 @@ public class ContactUsFragment extends Fragment implements OnMapReadyCallback {
         mapView.getMapAsync(this);
 
 
-        //academy_info = new Academy_info();
-        progressDialog.show();
+        academy_info = new Academy_info();
         get_info();
 
-
-            setLatandLng();
-            mapView.onStart();
-
+        //setLatandLng();
+        //mapView.onStart();
 
         listView_adapter = new ListView_Adapter_contact_us(getActivity(), list_items);
         openingHours_listView.setAdapter(listView_adapter);
@@ -239,7 +232,6 @@ public class ContactUsFragment extends Fragment implements OnMapReadyCallback {
                 try {
 
                     if (response != null) {
-
                         JSONObject result = response.getJSONObject(0);
                         academy_info.setName(result.getString("name"));
                         academy_info.setAddress(result.getString("address"));
@@ -250,11 +242,12 @@ public class ContactUsFragment extends Fragment implements OnMapReadyCallback {
 
                         //globalVars.getMyDB().addAcademyInfo(academy_info);
                         setLatandLng();
-                        mapView.onStart();
-
+                        mapView.onResume();
 
 
                     } else {
+                        setLatandLng();
+                        mapView.onStart();
                         show_toast("Error will get Academy Information.");
                     }
                     //progressDialog.dismiss();
@@ -333,6 +326,7 @@ public class ContactUsFragment extends Fragment implements OnMapReadyCallback {
         Intent chooser = Intent.createChooser(intent,"Launch Map...");
         startActivity(chooser);
     }
+
 
     @Override
     public void onResume() {

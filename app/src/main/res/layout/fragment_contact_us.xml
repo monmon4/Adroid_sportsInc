@@ -14,9 +14,19 @@
             android:layout_alignParentTop="true"
             android:orientation="vertical">
 
+            <ImageView
+                android:id="@+id/imageView4"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:scaleType="centerCrop"
+                android:layout_marginBottom="@dimen/twinty_dimens"
+                android:src="@drawable/pool1" />
+
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="200dp"
+                android:visibility="gone"
                 android:layout_marginBottom="@dimen/twinty_dimens">
 
                 <com.google.android.gms.maps.MapView
@@ -57,7 +67,8 @@
             <com.quantumsit.sportsinc.CustomView.myCustomListView
                 android:id="@+id/openingHoursListView_maps"
                 android:layout_width="match_parent"
-                android:layout_height="fill_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
                 android:listSelector="@android:color/transparent"
                 android:layout_margin="@dimen/ten_dimens">
             </com.quantumsit.sportsinc.CustomView.myCustomListView>
