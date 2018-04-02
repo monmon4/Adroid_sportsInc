@@ -44,15 +44,15 @@
           "status": 2,
           "other_platform_oauth_client": [
             {
-              "client_id": "49921727544-jc896qjumesgeuhe22qtv83obe1dcp9l.apps.googleusercontent.com",
-              "client_type": 3
-            },
-            {
               "client_id": "49921727544-oi97cak3hiia9sei6mb32ll7tggoolqo.apps.googleusercontent.com",
               "client_type": 2,
               "ios_info": {
                 "bundle_id": "com.hima.sendsportnotify"
               }
+            },
+            {
+              "client_id": "49921727544-jc896qjumesgeuhe22qtv83obe1dcp9l.apps.googleusercontent.com",
+              "client_type": 3
             }
           ]
         },
@@ -69,6 +69,14 @@
         }
       },
       "oauth_client": [
+        {
+          "client_id": "49921727544-kvd5e3frrpj5j5ooieds85m62l75g6il.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.quantumsit.sportsinc",
+            "certificate_hash": "644009943f42329ea5d9daa052cccd3daca3cd72"
+          }
+        },
         {
           "client_id": "49921727544-jc896qjumesgeuhe22qtv83obe1dcp9l.apps.googleusercontent.com",
           "client_type": 3
@@ -88,8 +96,20 @@
           "status": 1
         },
         "appinvite_service": {
-          "status": 1,
-          "other_platform_oauth_client": []
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "49921727544-oi97cak3hiia9sei6mb32ll7tggoolqo.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.hima.sendsportnotify"
+              }
+            },
+            {
+              "client_id": "49921727544-jc896qjumesgeuhe22qtv83obe1dcp9l.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
         },
         "ads_service": {
           "status": 2
