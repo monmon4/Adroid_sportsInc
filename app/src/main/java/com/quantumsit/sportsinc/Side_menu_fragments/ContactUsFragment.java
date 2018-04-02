@@ -89,19 +89,9 @@ public class ContactUsFragment extends Fragment implements OnMapReadyCallback {
         mapView.onCreate(savedInstanceState);
         mapView.getMapAsync(this);
 
-
-
-        //globalVars = (GlobalVars) getActivity().getApplication();
         academy_info = new Academy_info();
 
-        //if (globalVars.getMyDB().Academy_empty())
-            get_info();
-
-        //else
-            //academy_info = globalVars.getMyDB().getAcademyInfo();
-            setLatandLng();
-            mapView.onStart();
-
+        get_info();
 
         listView_adapter = new ListView_Adapter_contact_us(getActivity(), list_items);
         openingHours_listView.setAdapter(listView_adapter);
@@ -249,7 +239,6 @@ public class ContactUsFragment extends Fragment implements OnMapReadyCallback {
                         //globalVars.getMyDB().addAcademyInfo(academy_info);
                         setLatandLng();
                         mapView.onStart();
-
 
 
                     } else {
