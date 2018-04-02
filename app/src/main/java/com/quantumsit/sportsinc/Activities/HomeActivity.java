@@ -194,8 +194,8 @@ public class HomeActivity extends AppCompatActivity
                 UserEntity Account = globalVars.getUser();
                 globalVars.setUser(children.get(position));
                 updateChildList(position, Account);
-                setSideMenu(globalVars.getType(), navigationMenu);
                 toggleMenu();
+                setSideMenu(globalVars.getType(), navigationMenu);
             }
         });
 
@@ -203,6 +203,7 @@ public class HomeActivity extends AppCompatActivity
             @Override
             public void onClick(View view) {
                 toggleMenu();
+                setSideMenu(globalVars.getType(), navigationMenu);
             }
         });
 
@@ -266,8 +267,6 @@ public class HomeActivity extends AppCompatActivity
         for (int i = 0; i < menu.size(); ++i) {
             menu.getItem(i).setVisible(b);
         }
-        if (!parent)
-            menu.findItem(R.id.nav_certificates).setVisible(false);
     }
 
     @SuppressLint("StaticFieldLeak")
