@@ -2,6 +2,7 @@ package com.quantumsit.sportsinc.Side_menu_fragments;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
+import android.app.ProgressDialog;
 import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
@@ -56,11 +57,12 @@ public class ContactUsFragment extends Fragment implements OnMapReadyCallback {
     ListView_Adapter_contact_us listView_adapter;
     ArrayList<item_contact_us> list_items;
 
-    Academy_info academy_info;
+    //Academy_info academy_info;
     //GlobalVars globalVars;
 
     MapView mapView;
     TextView maps_textView;
+    ProgressDialog progressDialog;
 
     @Nullable
     @Override
@@ -75,6 +77,10 @@ public class ContactUsFragment extends Fragment implements OnMapReadyCallback {
         // Gets the MapView from the XML layout and creates it
         mapView = root.findViewById(R.id.map);
         maps_textView = root.findViewById(R.id.maps_textView);
+        progressDialog = new ProgressDialog(getActivity());
+        progressDialog.setMessage("Please wait....");
+        progressDialog.setCanceledOnTouchOutside(false);
+        progressDialog.setCancelable(false);
 
         customListView = root.findViewById(R.id.openingHoursListView_maps);
         customListView.setOnRetryClick(new myCustomListView.OnRetryClick() {
@@ -90,15 +96,11 @@ public class ContactUsFragment extends Fragment implements OnMapReadyCallback {
         mapView.getMapAsync(this);
 
 
+        //academy_info = new Academy_info();
+        progressDialog.show();
+        get_info();
 
-        //globalVars = (GlobalVars) getActivity().getApplication();
-        academy_info = new Academy_info();
 
-        //if (globalVars.getMyDB().Academy_empty())
-            get_info();
-
-        //else
-            //academy_info = globalVars.getMyDB().getAcademyInfo();
             setLatandLng();
             mapView.onStart();
 
