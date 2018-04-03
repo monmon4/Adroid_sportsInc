@@ -49,7 +49,7 @@ import java.util.Locale;
 public class ContactUsFragment extends Fragment implements OnMapReadyCallback {
 
     private GoogleMap mMap;
-    private Double lat=0.0, lng=0.0;
+    private Double lat, lng;
     private String Title;
 
     myCustomListView customListView;
@@ -242,7 +242,7 @@ public class ContactUsFragment extends Fragment implements OnMapReadyCallback {
 
                         //globalVars.getMyDB().addAcademyInfo(academy_info);
                         setLatandLng();
-                        mapView.onResume();
+                        mapView.onStart();
 
 
                     } else {
