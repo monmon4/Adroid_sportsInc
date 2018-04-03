@@ -2,7 +2,6 @@ package com.quantumsit.sportsinc.Side_menu_fragments;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
-import android.app.ProgressDialog;
 import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
@@ -49,7 +48,7 @@ import java.util.Locale;
 public class ContactUsFragment extends Fragment implements OnMapReadyCallback {
 
     private GoogleMap mMap;
-    private Double lat, lng;
+    private Double lat=0.0, lng=0.0;
     private String Title;
 
     myCustomListView customListView;
@@ -62,7 +61,6 @@ public class ContactUsFragment extends Fragment implements OnMapReadyCallback {
 
     MapView mapView;
     TextView maps_textView;
-    //ProgressDialog progressDialog;
 
     @Nullable
     @Override
@@ -91,12 +89,9 @@ public class ContactUsFragment extends Fragment implements OnMapReadyCallback {
         mapView.onCreate(savedInstanceState);
         mapView.getMapAsync(this);
 
-
         academy_info = new Academy_info();
-        get_info();
 
-        //setLatandLng();
-        //mapView.onStart();
+        get_info();
 
         listView_adapter = new ListView_Adapter_contact_us(getActivity(), list_items);
         openingHours_listView.setAdapter(listView_adapter);
@@ -232,6 +227,7 @@ public class ContactUsFragment extends Fragment implements OnMapReadyCallback {
                 try {
 
                     if (response != null) {
+
                         JSONObject result = response.getJSONObject(0);
                         academy_info.setName(result.getString("name"));
                         academy_info.setAddress(result.getString("address"));
@@ -246,8 +242,6 @@ public class ContactUsFragment extends Fragment implements OnMapReadyCallback {
 
 
                     } else {
-                        setLatandLng();
-                        mapView.onStart();
                         show_toast("Error will get Academy Information.");
                     }
                     //progressDialog.dismiss();
@@ -326,7 +320,6 @@ public class ContactUsFragment extends Fragment implements OnMapReadyCallback {
         Intent chooser = Intent.createChooser(intent,"Launch Map...");
         startActivity(chooser);
     }
-
 
     @Override
     public void onResume() {
