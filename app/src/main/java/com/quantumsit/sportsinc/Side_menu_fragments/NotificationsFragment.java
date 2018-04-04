@@ -52,6 +52,7 @@ public class NotificationsFragment extends Fragment {
     int limitValue,currentStart;
     SwipeRefreshLayout mSwipeRefreshLayout;
     private List<NotificationEntity> notificationList;
+    private boolean connectionStatus;
 
     @Nullable
     @Override
@@ -181,6 +182,7 @@ public class NotificationsFragment extends Fragment {
                 @Override
                 public void onResponse(JSONArray response) {
                     super.onResponse(response);
+                    connectionStatus = connectionTimeOut;
                     fillAdapter(response , loadMore);
                 }
             }.execute(httpCall);
@@ -204,6 +206,10 @@ public class NotificationsFragment extends Fragment {
             } catch (JSONException e) {
                 e.printStackTrace();
             }
+        }
+        if (connectionStatus){
+            customListView.timeOut();
+            return;
         }
         customListView.notifyChange(notificationList.size());
         adapter.notifyDataSetChanged();

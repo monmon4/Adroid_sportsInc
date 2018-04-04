@@ -53,6 +53,7 @@ public class PaymentFragment extends Fragment {
     ArrayList<item_reports_payment> list_item;
 
     GlobalVars globalVars;
+    private boolean connectionStatus;
 
 
     @Nullable
@@ -189,6 +190,7 @@ public class PaymentFragment extends Fragment {
                 @Override
                 public void onResponse(JSONArray response) {
                     super.onResponse(response);
+                    connectionStatus = connectionTimeOut;
                     fill_recycler_view(response , loadMore);
 
                 }
@@ -234,6 +236,11 @@ public class PaymentFragment extends Fragment {
         } catch (ParseException e) {
             e.printStackTrace();
         }
+        if (connectionStatus){
+            customRecyclerView.timeOut();
+            return;
+        }
+
         customRecyclerView.notifyChange(list_item.size());
         customRecyclerView.finishLoading();
         if (globalVars.myAccount != null)

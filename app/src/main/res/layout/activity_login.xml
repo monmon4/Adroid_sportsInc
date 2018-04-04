@@ -74,7 +74,6 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/ten_dimens"
                 android:orientation="horizontal">
 
                 <TextView
@@ -96,6 +95,8 @@
                     android:layout_height="wrap_content"
                     android:gravity="end"
                     android:textAllCaps="true"
+                    android:paddingTop="@dimen/ten_dimens"
+                    android:paddingBottom="@dimen/ten_dimens"
                     android:clickable="true"
                     android:focusable="true"
                     android:textAppearance="@style/TextAppearance.AppCompat.Small"

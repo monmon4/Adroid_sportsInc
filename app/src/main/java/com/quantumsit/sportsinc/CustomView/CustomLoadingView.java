@@ -21,6 +21,9 @@ public class CustomLoadingView extends RelativeLayout {
     private OnRetryClick mOnRetryClick;
     private TextView mRetryView_Button;
 
+    private View mTimeOutView;
+    private TextView mTimOut_Button;
+
     public CustomLoadingView(Context context) {
         this(context, null);
     }
@@ -53,18 +56,42 @@ public class CustomLoadingView extends RelativeLayout {
                 }, 1500);
             }
         });
+
+        mTimeOutView = mView.findViewById(R.id.layout_timeOut);
+        mTimOut_Button = mView.findViewById(R.id.layout_timeOut_button);
+        mTimOut_Button.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                loading();
+                new android.os.Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        mOnRetryClick.onRetry();
+                    }
+                }, 1500);
+            }
+        });
         mProgressBar = mView.findViewById(R.id.progress_bar);
     }
 
     public void loading() {
         this.setVisibility(View.VISIBLE);
         mRetryView.setVisibility(View.GONE);
+        mTimeOutView.setVisibility(View.GONE);
         mProgressBar.setVisibility(View.VISIBLE);
         dismissRetry();
     }
 
     public void fails() {
         mRetryView.setVisibility(View.VISIBLE);
+        mTimeOutView.setVisibility(View.GONE);
+        mProgressBar.setVisibility(View.GONE);
+    }
+
+
+    public void timeOut(){
+        mTimeOutView.setVisibility(View.VISIBLE);
+        mRetryView.setVisibility(View.GONE);
         mProgressBar.setVisibility(View.GONE);
     }
 

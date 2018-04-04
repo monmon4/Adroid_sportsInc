@@ -36,10 +36,12 @@ public class AboutFragment extends Fragment {
 
     SwipeRefreshLayout mSwipeRefreshLayout;
     LinearLayout retry;
+    LinearLayout timeOut;
     ProgressBar progressBar;
     RelativeLayout loading;
 
     ArrayList<item_about> items;
+    private boolean connectionStatus;
 
     @Nullable
     @Override
@@ -56,6 +58,7 @@ public class AboutFragment extends Fragment {
         loading = root.findViewById(R.id.LoadingData);
         progressBar = root.findViewById(R.id.progress_bar);
         retry = root.findViewById(R.id.layout_retry);
+        timeOut = root.findViewById(R.id.layout_timeOut);
 
         listView = root.findViewById(R.id.listview_about_us);
         listView.setSelector(android.R.color.transparent);
@@ -79,6 +82,7 @@ public class AboutFragment extends Fragment {
     private void get_list_items(){
         if (!checkConnection()){
             progressBar.setVisibility(View.GONE);
+            timeOut.setVisibility(View.GONE);
             retry.setVisibility(View.VISIBLE);
             return;
         }
@@ -99,6 +103,7 @@ public class AboutFragment extends Fragment {
                 @Override
                 public void onResponse(JSONArray response) {
                     super.onResponse(response);
+                    connectionStatus = connectionTimeOut;
                     fill_list_items(response );
                 }
             }.execute(httpCall);
@@ -111,9 +116,10 @@ public class AboutFragment extends Fragment {
     private void fill_list_items (JSONArray response) {
         items.clear();
         mSwipeRefreshLayout.setRefreshing(false);
-        try {
-            for (int i=0; i<response.length(); i++) {
-                JSONObject result = null;
+        if (response != null) {
+            try {
+                for (int i = 0; i < response.length(); i++) {
+                    JSONObject result = null;
 
                     result = response.getJSONObject(i);
                     int type = result.getInt("Type");
@@ -121,11 +127,16 @@ public class AboutFragment extends Fragment {
                     String content = result.getString("Content");
                     items.add(new item_about(type, title, content));
 
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
             }
-        } catch (JSONException e) {
-            e.printStackTrace();
         }
-
+        if (connectionStatus){
+            progressBar.setVisibility(View.GONE);
+            timeOut.setVisibility(View.VISIBLE);
+            return;
+        }
         listView_adapter.notifyDataSetChanged();
         loading.setVisibility(View.GONE);
     }

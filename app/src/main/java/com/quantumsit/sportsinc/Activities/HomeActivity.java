@@ -498,9 +498,9 @@ public class HomeActivity extends AppCompatActivity
             SharedPreferences.Editor preferences = getSharedPreferences("UserFile", MODE_PRIVATE).edit();
             preferences.clear();
             preferences.apply();
+            finishAffinity();
             startActivity(new Intent(HomeActivity.this, startPageActivity.class));
             progressDialog.dismiss();
-            finish();
         } catch (JSONException e) {
             e.printStackTrace();
         }

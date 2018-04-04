@@ -275,6 +275,11 @@ public class RegisterDialogFragment extends DialogFragment {
                     super.onResponse(response);
 
                     if (response == null) {
+                        if (connectionTimeOut){
+                            progressDialog.dismiss();
+                            show_toast(getString(R.string.TimeOutMsg));
+                            return;
+                        }
                         show_toast(getString(R.string.loginError));
 
                     } else {

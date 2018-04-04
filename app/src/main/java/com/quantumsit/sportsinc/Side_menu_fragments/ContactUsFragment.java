@@ -271,7 +271,8 @@ public class ContactUsFragment extends Fragment implements OnMapReadyCallback {
     }
 
     private void show_toast(String s) {
-        Toast.makeText(getActivity(),s,Toast.LENGTH_LONG).show();
+        if (getActivity() != null)
+            Toast.makeText(getActivity(),s,Toast.LENGTH_LONG).show();
     }
 
     public void call_academy() {

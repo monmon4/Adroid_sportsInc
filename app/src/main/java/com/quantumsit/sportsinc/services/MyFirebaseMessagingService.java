@@ -101,6 +101,9 @@ public class MyFirebaseMessagingService  extends FirebaseMessagingService {
                     break;
                 case 4:
                     userTypeUpdate();
+                    resultIntent = getBaseContext().getPackageManager()
+                            .getLaunchIntentForPackage( getBaseContext().getPackageName() );
+                    resultIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                     break;
             }
             // resultIntent.putExtra("Notification",Config.NOTIFICATION_ID);
