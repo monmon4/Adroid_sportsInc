@@ -302,6 +302,7 @@ public class MainFragment extends Fragment {
                         }
                     }
                     else if (connectionTimeOut){
+                        mSwipeRefreshLayout.setRefreshing(false);
                         timeOut.setVisibility(View.VISIBLE);
                         progressBar.setVisibility(View.GONE);
                         return;
