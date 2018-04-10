@@ -5,7 +5,14 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.quantumsit.sportsinc.Activities.PaymentActivity">
+    tools:context="com.quantumsit.sportsinc.Activities.ThePaymentActivity">
+
+    <Button
+        android:id="@+id/button2"
+        android:visibility="gone"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Button" />
 
     <TextView
         android:id="@+id/nobookingTextView_checkout"
@@ -90,6 +97,7 @@
 
             <TextView
                 android:id="@+id/textView15"
+                android:visibility="gone"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="18dp"

@@ -18,6 +18,7 @@
 
     <color name="colorLogoBlue">#001b51</color>
     <color name="colorLogoBlueTransparent">#bf002774</color>
+    <color name="colorBlue">#6798fa</color>
     <color name="colorLogoRed">#df1b1c</color>
 
     <color name="colorConfirmGreen">#84b262</color>

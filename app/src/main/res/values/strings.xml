@@ -490,5 +490,6 @@
     <string name="homeTab">Home</string>
     <string name="sessionsTab">Sessions</string>
     <string name="levelTab">Classes</string>
+    <string name="pay_with_paypal">Pay with PayPal</string>
 
 </resources>
