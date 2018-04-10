@@ -8,11 +8,6 @@
     android:fitsSystemWindows="true"
     android:orientation="vertical"
     tools:context=".Activities.ClassesDetailsActivity">
-    <com.quantumsit.sportsinc.CustomView.CustomLoadingView
-        android:id="@+id/LoadingView"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-    </com.quantumsit.sportsinc.CustomView.CustomLoadingView>
 
     <ScrollView
         android:id="@+id/scrollView"
@@ -135,7 +130,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/classes_"
+                        android:text="@string/coursesLabel"
                         android:paddingEnd="2dp"
                         android:paddingStart="16dp"
                         android:textColor="@color/colorCoursesText"
