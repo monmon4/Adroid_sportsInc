@@ -13,7 +13,6 @@
         android:text="@string/pay_with_paypal"
         android:textColor="@color/colorWhite"
         android:background="@color/colorBlue"
-        android:textAllCaps="false"
-        android:onClick="beginPayment" />
+        android:textAllCaps="false" />
 
 </LinearLayout>

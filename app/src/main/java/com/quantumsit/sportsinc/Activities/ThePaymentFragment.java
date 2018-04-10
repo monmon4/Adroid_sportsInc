@@ -14,17 +14,13 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.android.vending.billing.IInAppBillingService;
-import com.google.android.gms.maps.OnMapReadyCallback;
 import com.quantumsit.sportsinc.Aaa_data.Constants;
 import com.quantumsit.sportsinc.Aaa_data.GlobalVars;
 import com.quantumsit.sportsinc.Adapters.ListView_Adapter_checkout;
 import com.quantumsit.sportsinc.Backend.HttpCall;
 import com.quantumsit.sportsinc.Backend.HttpRequest;
 import com.quantumsit.sportsinc.CustomView.NonScrollListView;
-import com.quantumsit.sportsinc.Entities.BookingCourseEntity;
 import com.quantumsit.sportsinc.Entities.BookingCourseEntityFragment;
-import com.quantumsit.sportsinc.Entities.CourseEntity;
 import com.quantumsit.sportsinc.Entities.item_checkout;
 import com.quantumsit.sportsinc.R;
 
