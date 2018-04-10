@@ -494,5 +494,7 @@
     <string name="courseReportTab">Courses</string>
     <string name="paymentReportTab">Payment</string>
     <string name="no_current_finished">No current classes</string>
+    <string name="coursesLabel">Courses:</string>
+    <string name="this_course_is_full">this course is full</string>
 
 </resources>
