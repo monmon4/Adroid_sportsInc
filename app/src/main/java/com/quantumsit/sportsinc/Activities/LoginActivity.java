@@ -192,7 +192,7 @@ public class LoginActivity extends AppCompatActivity {
         progressDialog.dismiss();
         Random random_num = new Random();
         final int verfication_num = random_num.nextInt(9999 - 1000) + 1000;
-        Log.d("Verfication","Code: "+verfication_num);
+       // Log.d("Verfication","Code: "+verfication_num);
         //verification_msg = "" + verfication_num;
 
         customView = new Dialog(LoginActivity.this);
@@ -232,14 +232,13 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onResponse(JSONArray response) {
                 super.onResponse(response);
-
-               /* if(response != null){
+                if(response != null){
                     show_toast("Code has been sent");
 
                 } else {
                     show_toast("An error has occurred");
-                    verfication_popup_window.dismiss();
-                }*/
+                    customView.dismiss();
+                }
 
             }
         }.execute(httpCall);
