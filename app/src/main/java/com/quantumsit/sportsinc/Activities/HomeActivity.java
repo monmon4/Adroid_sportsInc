@@ -138,6 +138,9 @@ public class HomeActivity extends AppCompatActivity
         }
         if (coach){
             setSideMenu(globalVars.getType(), navigationMenu);
+            MenuItem item = navigationMenu.findItem(R.id.nav_myClasses);
+            if (item != null)
+                item.setTitle(R.string.my_groups);
         }
 
         RelativeLayout header = (RelativeLayout) navigationView.getHeaderView(0);
@@ -267,80 +270,6 @@ public class HomeActivity extends AppCompatActivity
         }
     }
 
-    @SuppressLint("StaticFieldLeak")
-    private void updateDB_type_to_trainee() {
-
-        JSONObject where_info = new JSONObject();
-        JSONObject values_info = new JSONObject();
-        try {
-            where_info.put(getString(R.string.where_id),globalVars.getId());
-            values_info.put(getString(R.string.where_type), globalVars.getType());
-
-            HttpCall httpCall = new HttpCall();
-            httpCall.setMethodtype(HttpCall.POST);
-            httpCall.setUrl(Constants.selectData);
-            HashMap<String,String> params = new HashMap<>();
-            params.put(getString(R.string.parameter_table),getString(R.string.Table_Users));
-            params.put(getString(R.string.parameter_where),where_info.toString());
-            params.put(getString(R.string.parameter_values),values_info.toString());
-
-            httpCall.setParams(params);
-
-            new HttpRequest(){
-                @Override
-                public void onResponse(JSONArray response) {
-                    super.onResponse(response);
-
-                }
-            }.execute(httpCall);
-
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-    }
-
-    @SuppressLint("StaticFieldLeak")
-    private boolean checkRegistered() {
-
-        final boolean[] check = {false};
-
-        JSONObject where_info = new JSONObject();
-        try {
-            where_info.put(getString(R.string.where_user_id),globalVars.getId());
-
-            HttpCall httpCall = new HttpCall();
-            httpCall.setMethodtype(HttpCall.POST);
-            httpCall.setUrl(Constants.selectData);
-            HashMap<String,String> params = new HashMap<>();
-            params.put(getString(R.string.parameter_table),"info_trainee");
-            params.put("where",where_info.toString());
-
-            httpCall.setParams(params);
-
-            new HttpRequest(){
-                @Override
-                public void onResponse(JSONArray response) {
-                    super.onResponse(response);
-
-                        if (response != null){
-                            check[0] = true;
-                        } else {
-                            check[0] = false;
-                        }
-
-
-                }
-            }.execute(httpCall);
-
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-
-
-        return check[0];
-    }
-
-    
     @Override
     public void onBackPressed() {
         DrawerLayout drawer =  findViewById(R.id.drawer_layout);
@@ -538,7 +467,6 @@ public class HomeActivity extends AppCompatActivity
 
     private void fillChildList(JSONArray response) {
         children.clear();
-        Log.d("ChildList",String.valueOf(response));
         if (response != null){
             try {
                 for (int i = 0; i < response.length(); i++) {

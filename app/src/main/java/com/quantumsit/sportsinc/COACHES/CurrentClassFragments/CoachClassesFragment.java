@@ -88,7 +88,7 @@ public class CoachClassesFragment extends Fragment {
             }
         });
         customExpandableListView = root.findViewById(R.id.customExpandableListView);
-        customExpandableListView.setmEmptyView(R.drawable.ic_assignment,R.string.no_finished);
+        customExpandableListView.setmEmptyView(R.drawable.ic_assignment,R.string.no_current_finished);
 
         customExpandableListView.setOnRetryClick(new myCustomExpandableListView.OnRetryClick() {
             @Override
