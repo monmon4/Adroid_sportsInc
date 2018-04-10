@@ -14,6 +14,7 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.android.vending.billing.IInAppBillingService;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.quantumsit.sportsinc.Aaa_data.Constants;
 import com.quantumsit.sportsinc.Aaa_data.GlobalVars;
@@ -34,7 +35,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-public class PaymentFragment extends Fragment {
+public class ThePaymentFragment extends Fragment {
 
     TextView  total_textview, no_booking_textView;
     LinearLayout all_layout;
@@ -72,6 +73,14 @@ public class PaymentFragment extends Fragment {
         confirm_button = root.findViewById(R.id.confirmButton_checkout);
         pay_later_button = root.findViewById(R.id.payLaterButton_checkout);
         cardView.setVisibility(View.GONE);
+
+        Button button = root.findViewById(R.id.button2);
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openPayment();
+            }
+        });
 
         confirm_button.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -251,5 +260,8 @@ public class PaymentFragment extends Fragment {
     }
 
 
+    public void openPayment() {
+        startActivity(new Intent(getActivity(), ForPaymentActivity.class));
+    }
 
 }

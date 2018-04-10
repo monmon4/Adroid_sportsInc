@@ -1,10 +1,10 @@
 package com.quantumsit.sportsinc.RegisterationForm_fragments;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.CheckBox;
@@ -13,6 +13,7 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Toast;
 
+import com.google.gson.Gson;
 import com.google.i18n.phonenumbers.PhoneNumberUtil;
 import com.google.i18n.phonenumbers.Phonenumber;
 import com.hbb20.CountryCodePicker;
@@ -23,6 +24,7 @@ import com.quantumsit.sportsinc.Backend.Functions;
 import com.quantumsit.sportsinc.Backend.HttpCall;
 import com.quantumsit.sportsinc.Backend.HttpRequest;
 import com.quantumsit.sportsinc.Entities.Booking_info;
+import com.quantumsit.sportsinc.Entities.UserEntity;
 import com.quantumsit.sportsinc.R;
 
 import org.json.JSONArray;
@@ -32,11 +34,9 @@ import org.json.JSONObject;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Locale;
-import java.util.Random;
 
 public class BookingForthFormActivity extends AppCompatActivity {
 
@@ -264,7 +264,8 @@ public class BookingForthFormActivity extends AppCompatActivity {
                         JSONObject result = response.getJSONObject(0);
                         int the_id = result.getInt("id");
                         update_db(the_id);
-                        insert_to_DB_info(the_id);
+                        insert_booking(the_id);
+                        check_trainee_info(the_id);
 
                     } catch (JSONException e) {
                         e.printStackTrace();
@@ -377,7 +378,8 @@ public class BookingForthFormActivity extends AppCompatActivity {
                             int ID = response.getInt(0);
                             if(parent_id!=-1)
                                 globalVars.setType(6);
-                            check_trainee_info(ID);
+                            insert_booking(ID);
+                            check_trainee_info( ID);
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
@@ -392,6 +394,50 @@ public class BookingForthFormActivity extends AppCompatActivity {
             e.printStackTrace();
         }
 
+    }
+
+    private void insert_booking(int id) {
+        if(globalVars.getClass_id()!= -1 && globalVars.getCourse_id() != -1) {
+            HttpCall httpCall = new HttpCall();
+            httpCall.setMethodtype(HttpCall.POST);
+            httpCall.setUrl(Constants.register_trainee);
+            HashMap<String,String> params = new HashMap<>();
+            params.put("user_id", String.valueOf(id));
+            params.put("group_id", String.valueOf(globalVars.getClass_id()));
+            params.put("course_id", String.valueOf(globalVars.getCourse_id()));
+            params.put("payment_type","0");
+
+            if (String.valueOf(id).equals(String.valueOf(globalVars.getId()))){
+                int Type = 6;
+                //if(payment_type == 1)
+                    //Type = 0;
+                globalVars.setType(Type);
+                saveUpdateToPref();
+                UserEntity myAccount = globalVars.getMyAccount();
+                // Toast.makeText(getApplicationContext(),"id: "+myAccount.getId()+" ,"+myAccount.getName(),Toast.LENGTH_LONG).show();
+                globalVars.setUser(myAccount);
+            }
+
+            httpCall.setParams(params);
+            new HttpRequest(){
+                @Override
+                public void onResponse(JSONArray response) {
+                    super.onResponse(response);
+                    if (response!= null) {
+                       // Toast.makeText(Boo.this, "Successfult added to cart", Toast.LENGTH_SHORT).show();
+                    }
+
+                }
+            }.execute(httpCall);
+        }
+    }
+
+    private void saveUpdateToPref() {
+        SharedPreferences.Editor preferences = getSharedPreferences("UserFile", MODE_PRIVATE).edit();
+        Gson gson = new Gson();
+        String json = gson.toJson(globalVars.getMyAccount());
+        preferences.putString("CurrentUser", json);
+        preferences.apply();
     }
 
     private void check_trainee_info(final int id){

@@ -28,7 +28,7 @@ public class GlobalVars extends Application {
 
     public UserEntity myAccount;
 
-    int course_id, class_id;
+    int course_id = -1, class_id=-1;
 
     boolean parent = false;
 

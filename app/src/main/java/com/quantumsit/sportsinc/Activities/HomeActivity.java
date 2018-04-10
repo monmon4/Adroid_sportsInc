@@ -4,7 +4,6 @@ import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
@@ -34,7 +33,6 @@ import com.quantumsit.sportsinc.Adapters.TraineeChildAdapter;
 import com.quantumsit.sportsinc.Backend.HttpCall;
 import com.quantumsit.sportsinc.Backend.HttpRequest;
 import com.quantumsit.sportsinc.COACHES.ReportsFragments.CoachReportsFragment;
-import com.quantumsit.sportsinc.COACHES.RequestFragment.CoachRequestFragment;
 import com.quantumsit.sportsinc.COACHES.RequestFragment.CoachRequestSentFragment;
 import com.quantumsit.sportsinc.Entities.UserEntity;
 import com.quantumsit.sportsinc.Side_menu_fragments.ContactUsFragment;
@@ -435,7 +433,7 @@ public class HomeActivity extends AppCompatActivity
             fragmentClass = AboutUsFragment.class;
         } else if (id == R.id.nav_booking) {
             actionBar.setTitle(R.string.booking);
-            fragmentClass = PaymentFragment.class;
+            fragmentClass = ThePaymentFragment.class;
         }
 
         try {

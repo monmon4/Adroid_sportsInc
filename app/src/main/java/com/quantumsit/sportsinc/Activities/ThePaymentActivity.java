@@ -2,15 +2,12 @@ package com.quantumsit.sportsinc.Activities;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.provider.Settings;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.CardView;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -22,18 +19,16 @@ import com.quantumsit.sportsinc.Backend.HttpCall;
 import com.quantumsit.sportsinc.Backend.HttpRequest;
 import com.quantumsit.sportsinc.CustomView.NonScrollListView;
 import com.quantumsit.sportsinc.Entities.BookingCourseEntity;
-import com.quantumsit.sportsinc.Entities.CourseEntity;
 import com.quantumsit.sportsinc.Entities.UserEntity;
 import com.quantumsit.sportsinc.Entities.item_checkout;
 import com.quantumsit.sportsinc.R;
 
 import org.json.JSONArray;
-import org.json.JSONException;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 
-public class PaymentActivity extends AppCompatActivity {
+public class ThePaymentActivity extends AppCompatActivity {
 
     TextView  total_textview, no_booking_textView;
     LinearLayout all_layout;
@@ -66,7 +61,7 @@ public class PaymentActivity extends AppCompatActivity {
         pay_later_button = findViewById(R.id.payLaterButton_checkout);
 
         list_items = new ArrayList<>();
-        listView_adapter = new ListView_Adapter_checkout(PaymentActivity.this, list_items);
+        listView_adapter = new ListView_Adapter_checkout(ThePaymentActivity.this, list_items);
 
         no_booking_textView = findViewById(R.id.nobookingTextView_checkout);
         all_layout = findViewById(R.id.allLayout_checkout);
@@ -144,13 +139,13 @@ public class PaymentActivity extends AppCompatActivity {
 
     public void payLaterClicked() {
         insert(0);
-        startActivity(new Intent(PaymentActivity.this, HomeActivity.class));
+        startActivity(new Intent(ThePaymentActivity.this, HomeActivity.class));
         finish();
     }
 
     public void confirmClicked() {
         insert(1);
-        startActivity(new Intent(PaymentActivity.this, HomeActivity.class));
+        startActivity(new Intent(ThePaymentActivity.this, HomeActivity.class));
         finish();
     }
 
@@ -199,7 +194,7 @@ public class PaymentActivity extends AppCompatActivity {
                 super.onResponse(response);
                 if (response!= null) {
                     globalVars.clearBookingCourseEntities();
-                    Toast.makeText(PaymentActivity.this, "Successfult added to cart", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(ThePaymentActivity.this, "Successfult added to cart", Toast.LENGTH_SHORT).show();
                 }
 
             }
@@ -214,4 +209,5 @@ public class PaymentActivity extends AppCompatActivity {
         preferences.putString("CurrentUser", json);
         preferences.apply();
     }
+
 }
