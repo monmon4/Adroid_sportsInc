@@ -188,7 +188,7 @@
     <string name="view_scores">View Scores</string>
     <string name="full_name">Full Name</string>
     <string name="postpond">Postpone</string>
-    <string name="no_Courses">No Courses Available</string>
+    <string name="no_Courses">No Classes Available</string>
     <string name="no_Events">No New Events</string>
     <string name="no_rules">No Rules</string>
     <string name="no_news">No News</string>
@@ -280,7 +280,7 @@
     <string name="description">Description</string>
     <string name="session_">Session:</string>
     <string name="level_">Class:</string>
-    <string name="class_">Class:</string>
+    <string name="class_">Course:</string>
     <string name="bad">Bad</string>
     <string name="average">Average</string>
     <string name="good">Good</string>
@@ -440,7 +440,7 @@
     <string name="class_end">end</string>
     <string name="my_groups">My Courses</string>
     <string name="descriptionLable">Description:</string>
-    <string name="courses">Courses</string>
+    <string name="courses">Classes</string>
     <string name="booked">Booked</string>
     <string name="account">My Account</string>
     <string name="pool_">Pool:</string>
@@ -458,7 +458,7 @@
     <string name="signUp">Sign Up</string>
     <string name="RemindNote">Reminder Note</string>
     <string name="terms_amp_conditions"><![CDATA[Terms&Conditions]]></string>
-    <string name="your_classes">Your Classes</string>
+    <string name="your_classes">Your Courses</string>
     <string name="number_of_trainees_">Number of Trainees:</string>
     <string name="trainees_names">Trainees names:</string>
     <string name="total">Total</string>
@@ -475,7 +475,7 @@
     <string name="select">Select</string>
     <string name="level">Class</string>
     <string name="booking">Booking</string>
-    <string name="no_booked_classes">No booked classes</string>
+    <string name="no_booked_classes">No booked courses</string>
 
 
     <string name="alert_dialog_title">Please Select</string>
@@ -486,11 +486,12 @@
     <string name="TimeOutLabel">Poor Internet Connection...</string>
     <string name="retry_btn">tab to Retry</string>
     <string name="TimeOutMsg">Poor Connection Try again Later..</string>
-    <string name="classDetails">Class details</string>
+    <string name="classDetails">Course details</string>
     <string name="homeTab">Home</string>
     <string name="sessionsTab">Sessions</string>
     <string name="levelTab">Classes</string>
     <string name="pay_with_paypal">Pay with PayPal</string>
     <string name="this_course_is_full">This course is full</string>
+    <string name="classes_">Courses:</string>
 
 </resources>

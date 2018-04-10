@@ -318,12 +318,17 @@ public class CourseDetailsActivity extends AppCompatActivity {
                         for (int i=0; i<response.length(); i++){
 
                             JSONObject result = response.getJSONObject(i);
-                            int class_id = result.getInt("groups_id");
+                            int class_id = result.getInt("group_id");
                             String class_name = result.getString("group_name");
-                            String coach_name = result.getString("user_name");
+                            String coach_name = result.getString("coach_name");
                             String start_date = result.getString("group_sdate");
                             String[] days = get_days(result.getString("days"));
-                            boolean available = false;
+                            int available_spots = result.getInt("available_slots");
+                            int trainees_num = result.getInt("Trainees_num");
+                            boolean available = true;
+                            if(trainees_num >= available_spots) {
+                                available = false;
+                            }
 
                             if( days.length!=0 ) {
                                 if(!days[0].equals(" ")){

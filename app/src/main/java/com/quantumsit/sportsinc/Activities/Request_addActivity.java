@@ -93,7 +93,7 @@ public class Request_addActivity extends AppCompatActivity {
                     if(!date_spinner.getText().toString().equals("")){
                         date_spinner.setText("");
                     }
-                    date_spinner.setHint("Class");
+                    date_spinner.setHint("Course");
                     fillClassList();
                 }
             }
@@ -108,7 +108,7 @@ public class Request_addActivity extends AppCompatActivity {
 
                 String request_for = request_for_spinner.getText().toString();
                 if (request_for.equals("")) {
-                    show_toast("Please choose whether the request is for absence or switch class");
+                    show_toast("Please choose whether the request is for absence or switch course");
                 }
             }
         });
@@ -246,7 +246,7 @@ public class Request_addActivity extends AppCompatActivity {
                             setDate_spinnerAdapter(1);
 
                         } else {
-                            group_list.add("No Classes available");
+                            group_list.add("No Courses available");
                             setDate_spinnerAdapter(1);
                         }
 
@@ -264,7 +264,7 @@ public class Request_addActivity extends AppCompatActivity {
     public void send_clicked() {
         String selectedTitle = request_for_spinner.getText().toString();
         if (selectedTitle.equals("")) {
-            show_toast("Please choose whether the request is for what");
+            show_toast("Please choose what is the request for");
             return;
         }
         if (date_spinner.getText().toString().equals("")){
@@ -273,7 +273,7 @@ public class Request_addActivity extends AppCompatActivity {
                     show_toast("Please select session data");
                     break;
                 case "Switch class":
-                    show_toast("Please select which class");
+                    show_toast("Please select which course");
                     break;
             }
             if (!selectedTitle.equals("Other"))
