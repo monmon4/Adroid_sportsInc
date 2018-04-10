@@ -44,11 +44,11 @@ public class HomeFragment extends Fragment {
 
     public void setupViewPager(ViewPager mViewPager){
         mSectionsPagerAdapter = new SectionsPagerAdapter(getChildFragmentManager());
-        mSectionsPagerAdapter.addFragment(new MainFragment(),"Home");
+        mSectionsPagerAdapter.addFragment(new MainFragment(),getString(R.string.homeTab));
         if (globalVars.getType() == 1)
-            mSectionsPagerAdapter.addFragment(new Coach_StartClassFragment(),"Sessions");
+            mSectionsPagerAdapter.addFragment(new Coach_StartClassFragment(),getString(R.string.sessionsTab));
         else
-            mSectionsPagerAdapter.addFragment(new CoursesFragment(),"Levels");
+            mSectionsPagerAdapter.addFragment(new CoursesFragment(),getString(R.string.levelTab));
 
         mViewPager.setAdapter(mSectionsPagerAdapter);
     }

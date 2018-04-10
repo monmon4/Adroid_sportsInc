@@ -70,7 +70,7 @@ public class CourseDetailsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_course_details);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
-        getSupportActionBar().setTitle("Course details");
+        getSupportActionBar().setTitle(R.string.classDetails);
 
        // progressDialog = new ProgressDialog(CourseDetailsActivity.this);
 
