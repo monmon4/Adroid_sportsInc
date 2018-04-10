@@ -487,5 +487,6 @@
     <string name="retry_btn">tab to Retry</string>
     <string name="TimeOutMsg">Poor Connection Try again Later..</string>
     <string name="pay_with_paypal">Pay with PayPal</string>
+    <string name="this_course_is_full">This course is full</string>
 
 </resources>

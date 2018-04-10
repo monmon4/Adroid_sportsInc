@@ -142,6 +142,12 @@ public class ListViewExpandable_Adapter_CoursesDetails extends BaseExpandableLis
         TextView times_textview = convertView.findViewById(R.id.timesTextView_item2coursedetails);
         Button book_button =  convertView.findViewById(R.id.bookButton_item2coursedetails);
 
+        if(!child.isAvailable()) {
+            book_button.setText(R.string.this_course_is_full);
+            book_button.setBackgroundResource(R.drawable.cornered_background_gray);
+            book_button.setEnabled(false);
+            //book_button.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_no_booking, 0, 0, 0);
+        }
         book_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
