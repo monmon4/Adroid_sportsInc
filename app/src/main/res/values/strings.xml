@@ -208,7 +208,7 @@
     <string name="class_date_spinner">Session, date</string>
     <string name="no_certificates">No certificates</string>
     <string name="no_payment_reports">No payment reports</string>
-    <string name="no_courses_reports">No classes reports</string>
+    <string name="no_courses_reports">No courses reports</string>
     <string name="no_scores">No scores</string>
     <string name="absent">Absent</string>
     <string name="no_classes">No Sessions Today</string>
@@ -491,5 +491,8 @@
     <string name="sessionsTab">Sessions</string>
     <string name="levelTab">Classes</string>
     <string name="pay_with_paypal">Pay with PayPal</string>
+    <string name="courseReportTab">Courses</string>
+    <string name="paymentReportTab">Payment</string>
+    <string name="no_current_finished">No current classes</string>
 
 </resources>
