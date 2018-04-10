@@ -44,6 +44,7 @@ public class EventFragment extends Fragment {
 
     myCustomListViewListener listViewListener;
     int limitValue,currentStart;
+    private boolean connectionStatus;
 
     @Nullable
     @Override
@@ -168,6 +169,7 @@ public class EventFragment extends Fragment {
                 @Override
                 public void onResponse(JSONArray response) {
                     super.onResponse(response);
+                    connectionStatus = connectionTimeOut;
                     fillAdapter(response ,loadMore);
                 }
             }.execute(httpCall);
@@ -188,6 +190,10 @@ public class EventFragment extends Fragment {
             } catch (JSONException e) {
                 e.printStackTrace();
             }
+        }
+        if (connectionStatus){
+            customListView.timeOut();
+            return;
         }
         customListView.notifyChange(eventsList.size());
         adapter.notifyDataSetChanged();

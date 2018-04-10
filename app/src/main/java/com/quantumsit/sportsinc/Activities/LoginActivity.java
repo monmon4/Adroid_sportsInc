@@ -1,6 +1,7 @@
 package com.quantumsit.sportsinc.Activities;
 
 import android.annotation.SuppressLint;
+import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -15,6 +16,7 @@ import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
@@ -50,7 +52,6 @@ public class LoginActivity extends AppCompatActivity {
     boolean showpass = false;
 
     TextView forgetPassword;
-    PopupWindow verfication_popup_window;
 
     EditText mail_edittext, pass_edittext;
     String mail, pass;
@@ -63,6 +64,7 @@ public class LoginActivity extends AppCompatActivity {
 
     boolean all_good;
     private LinearLayout login_ll;
+    private Dialog customView;
 /*
     private static final int RC_SIGN_IN = 9001;
     private GoogleSignInClient mGoogleSignInClient;
@@ -97,8 +99,6 @@ public class LoginActivity extends AppCompatActivity {
         mail_edittext = findViewById(R.id.mailEditText_login);
         pass_edittext = findViewById(R.id.passEditText_login);
 
-        StringBuilder some = new StringBuilder();
-
         forgetPassword = findViewById(R.id.forgetpassTextView_login);
        // forgetPassword.setPaintFlags(forgetPassword.getPaintFlags() |   Paint.UNDERLINE_TEXT_FLAG);
 
@@ -129,78 +129,6 @@ public class LoginActivity extends AppCompatActivity {
                 }
             }
         });
-
-
-        // Configure Google Sign In
-      /*  GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                .requestEmail()
-                .build();
-        mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
-
-
-        googleSignInButton = findViewById(R.id.ga_login_button);
-        googleSignInButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                googleAccountLogin();
-            }
-        });
-        fbLoginButton = findViewById(R.id.fb_login_button);
-        FacebookSdk.sdkInitialize(getApplicationContext());
-        callbackManager = CallbackManager.Factory.create();
-        List< String > permissionNeeds = Arrays.asList("user_photos", "email",
-                "user_birthday", "public_profile");
-        fbLoginButton.setReadPermissions(permissionNeeds);
-        fbLoginButton.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
-            @Override
-            public void onSuccess(LoginResult loginResult) {
-               // show_toast(loginResult.getAccessToken().getToken() );
-                GraphRequest request = GraphRequest.newMeRequest(
-                        loginResult.getAccessToken(),
-                        new GraphRequest.GraphJSONObjectCallback() {@Override
-                        public void onCompleted(JSONObject object,
-                                                GraphResponse response) {
-
-                            Log.i("FaceBookLoginActivity",
-                                    response.toString());
-                            try {
-                                String id = object.getString("id");
-                                try {
-                                    URL profile_pic = new URL(
-                                            "http://graph.facebook.com/" + id + "/picture?type=large");
-                                    Log.i("profile_pic",
-                                            profile_pic + "");
-
-                                } catch (MalformedURLException e) {
-                                    e.printStackTrace();
-                                }
-                                received_name = object.getString("name");
-                                mail = object.getString("email");
-                                String gender = object.getString("gender");
-                                String birthday = object.getString("birthday");
-                                socialMediaLogIn();
-                            } catch (JSONException e) {
-                                e.printStackTrace();
-                            }
-                        }
-                        });
-                Bundle parameters = new Bundle();
-                parameters.putString("fields",
-                        "id,name,email,gender, birthday");
-                request.setParameters(parameters);
-                request.executeAsync();
-            }
-
-            @Override
-            public void onCancel() {
-                show_toast(getString(R.string.loginCanceled));
-            }
-
-            @Override
-            public void onError(FacebookException error) {
-                show_toast(getString(R.string.loginFail));
-            }
-        });*/
     }
 
 
@@ -209,130 +137,6 @@ public class LoginActivity extends AppCompatActivity {
         onBackPressed();
         return true;
     }
-/*
-    private void googleAccountLogin() {
-        Toast.makeText(getApplicationContext(), R.string.GLogIn,Toast.LENGTH_LONG).show();
-        Intent signInIntent = mGoogleSignInClient.getSignInIntent();
-        startActivityForResult(signInIntent, RC_SIGN_IN);
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        // Result returned from launching the Intent from GoogleSignInClient.getSignInIntent(...);
-        if (requestCode == RC_SIGN_IN) {
-            // The Task returned from this call is always completed, no need to attach
-            // a listener.
-            Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
-            handleSignInResult(task);
-        }
-        else
-            callbackManager.onActivityResult(requestCode,resultCode,data);
-    }
-
-    private void googleSignOut() {
-        mGoogleSignInClient.signOut()
-                .addOnCompleteListener(this, new OnCompleteListener<Void>() {
-                    @Override
-                    public void onComplete(@NonNull Task<Void> task) {
-                    }
-                });
-    }
-
-    private void handleSignInResult(Task<GoogleSignInAccount> completedTask) {
-        try {
-            GoogleSignInAccount acct = completedTask.getResult(ApiException.class);
-
-            // Signed in successfully, show authenticated UI.
-            if (acct != null) {
-                String personName = acct.getDisplayName();
-                //String personGivenName =acct.getGivenName();
-                String personFamilyName = acct.getFamilyName();
-
-                String personEmail = acct.getEmail();
-                //String personId = acct.getId();
-                //Uri personPhoto = acct.getPhotoUrl();
-                received_name = personName+" "+personFamilyName;
-                mail = personEmail;
-                socialMediaLogIn();
-            }
-        } catch (ApiException e) {
-            // The ApiException status code indicates the detailed failure reason.
-            // Please refer to the GoogleSignInStatusCodes class reference for more information.
-            Log.w("LogInActivity", "signInResult:failed code=" + e.getStatusCode());
-            show_toast("Google LogIn Failed");
-        }
-    }
-
-    private void socialMediaLogIn() {
-        progressDialog.setMessage(getString(R.string.login));
-        progressDialog.show();
-        JSONObject where_info = new JSONObject();
-
-        try {
-            SharedPreferences tokenPref = getSharedPreferences(Config.SHARED_PREF, MODE_PRIVATE);
-            String user_token = tokenPref.getString("regId", "");
-            JSONObject values = new JSONObject();
-            values.put(getString(R.string.select_users_name),received_name);
-            values.put(getString(R.string.select_users_type),5);
-            values.put(getString(R.string.select_users_active),1);
-            values.put(getString(R.string.select_users_mail),mail);
-            values.put(getString(R.string.select_users_token),user_token);
-
-            where_info.put(getString(R.string.where_users_mail),mail);
-
-            HttpCall httpCall = new HttpCall();
-            httpCall.setMethodtype(HttpCall.POST);
-            httpCall.setUrl(Constants.socialLogin);
-            HashMap<String,String> params = new HashMap<>();
-            params.put(getString(R.string.parameter_table),getString(R.string.Table_Users));
-            params.put(getString(R.string.parameter_values),values.toString());
-            params.put(getString(R.string.parameter_where),where_info.toString());
-            httpCall.setParams(params);
-
-            new HttpRequest(){
-                @Override
-                public void onResponse(JSONArray response) {
-                    super.onResponse(response);
-
-                    if (response == null) {
-                        //show_toast("Email does not exist");
-                        show_toast(getString(R.string.loginError));
-
-                    } else {
-                        try {
-                            JSONObject result = response.getJSONObject(0);
-                            received_id = result.getInt(getString(R.string.select_users_id));
-                            received_name = result.getString(getString(R.string.select_users_name));
-                            received_imgUrl = result.getString(getString(R.string.select_users_image));
-                            received_gender= result.getInt(getString(R.string.select_users_gendar));
-                            received_type = result.getInt(getString(R.string.select_users_type));
-                            received_phone = result.getString(getString(R.string.select_users_phone));
-                            received_date_of_birth = result.getString(getString(R.string.select_users_birthdate));
-                            SocialMediaLogOut();
-                            go_to_home();
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-
-                    }
-                }
-            }.execute(httpCall);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-    }
-
-    private void SocialMediaLogOut() {
-        googleSignOut();
-        facebookSignOut();
-    }
-
-    private void facebookSignOut() {
-        LoginManager.getInstance().logOut();
-    }
-
-*/
 
     private void checkMail() {
 
@@ -346,12 +150,18 @@ public class LoginActivity extends AppCompatActivity {
             HashMap<String,String> params = new HashMap<>();
             params.put(getString(R.string.parameter_table),getString(R.string.Table_Users));
             params.put(getString(R.string.parameter_where),where_info.toString());
+            httpCall.setParams(params);
             new HttpRequest(){
                 @Override
                 public void onResponse(JSONArray response) {
                     super.onResponse(response);
 
                     if (response == null) {
+                        if (connectionTimeOut){
+                            progressDialog.dismiss();
+                            show_toast(getString(R.string.TimeOutMsg));
+                            return;
+                        }
                         show_toast(getString(R.string.mailNoFound));
 
                     } else {
@@ -382,23 +192,17 @@ public class LoginActivity extends AppCompatActivity {
         progressDialog.dismiss();
         Random random_num = new Random();
         final int verfication_num = random_num.nextInt(9999 - 1000) + 1000;
-        Log.d("Verfication","Code: "+verfication_num);
+       // Log.d("Verfication","Code: "+verfication_num);
         //verification_msg = "" + verfication_num;
 
-
-        LayoutInflater inflater = (LayoutInflater) this.getSystemService(LAYOUT_INFLATER_SERVICE);
-        View customView = inflater.inflate(R.layout.window_verficationcode_layout,null);
+        customView = new Dialog(LoginActivity.this);
+        customView.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        customView.setContentView(R.layout.window_verficationcode_layout);
+        customView.setCanceledOnTouchOutside(false);
 
         final EditText verify_edit_text =  customView.findViewById(R.id.verficationEditText_verify);
         Button done_button =  customView.findViewById(R.id.doneButton_verify);
         verify_edit_text.setEnabled(true);
-
-        verfication_popup_window.showAtLocation(login_ll, Gravity.CENTER,0,0);
-        verfication_popup_window.setFocusable(true);
-        verify_edit_text.setFocusable(true);
-        verfication_popup_window.setOutsideTouchable(false);
-        verfication_popup_window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
-        verfication_popup_window.update();
 
         done_button.setOnClickListener(new View.OnClickListener(){
             @Override
@@ -406,7 +210,7 @@ public class LoginActivity extends AppCompatActivity {
                 String verifcation = verify_edit_text.getText().toString().trim();
 
                 if (verifcation.equals(String.valueOf(verfication_num))){
-                    verfication_popup_window.dismiss();
+                    customView.dismiss();
                     newPasswordWindow();
                 } else {
                     show_toast(getString(R.string.VerifyWrong));
@@ -428,17 +232,18 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onResponse(JSONArray response) {
                 super.onResponse(response);
-
-               /* if(response != null){
+                if(response != null){
                     show_toast("Code has been sent");
 
                 } else {
                     show_toast("An error has occurred");
-                    verfication_popup_window.dismiss();
-                }*/
+                    customView.dismiss();
+                }
 
             }
         }.execute(httpCall);
+
+        customView.show();
     }
 
     private void newPasswordWindow() {
@@ -619,7 +424,7 @@ public class LoginActivity extends AppCompatActivity {
                             } else {
                                 if (connectionTimeOut){
                                     progressDialog.dismiss();
-                                    show_toast("poor connection...");
+                                    show_toast(getString(R.string.TimeOutMsg));
                                     return;
                                 }
                                 progressDialog.dismiss();

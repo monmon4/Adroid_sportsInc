@@ -46,6 +46,7 @@ public class ScoresFragment extends Fragment {
 
     GlobalVars globalVars;
     int user_id;
+    private boolean connectionStatus;
 
 
     @Nullable
@@ -198,6 +199,7 @@ public class ScoresFragment extends Fragment {
                 @Override
                 public void onResponse(JSONArray response) {
                     super.onResponse(response);
+                    connectionStatus = connectionTimeOut;
                     fill_recycler_view(response , loadMore);
 
                 }
@@ -241,6 +243,11 @@ public class ScoresFragment extends Fragment {
         } catch (JSONException e) {
             e.printStackTrace();
         }
+        if (connectionStatus){
+            customRecyclerView.timeOut();
+            return;
+        }
+
         recycler_view_adapter.person_id  = globalVars.getId();
         if (globalVars.myAccount != null)
             recycler_view_adapter.parent = true;

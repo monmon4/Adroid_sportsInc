@@ -36,10 +36,12 @@ public class PaymentRulesFragment extends Fragment {
 
     SwipeRefreshLayout mSwipeRefreshLayout;
     LinearLayout retry;
+    LinearLayout timeOut;
     ProgressBar progressBar;
     RelativeLayout loading;
 
     ArrayList<item_about> items;
+    private boolean connectionStatus;
 
     @Nullable
     @Override
@@ -60,6 +62,7 @@ public class PaymentRulesFragment extends Fragment {
         loading = root.findViewById(R.id.LoadingData);
         progressBar = root.findViewById(R.id.progress_bar);
         retry = root.findViewById(R.id.layout_retry);
+        timeOut = root.findViewById(R.id.layout_timeOut);
 
         get_list_items();
 
@@ -88,6 +91,7 @@ public class PaymentRulesFragment extends Fragment {
         if (!checkConnection()){
             progressBar.setVisibility(View.GONE);
             retry.setVisibility(View.VISIBLE);
+            timeOut.setVisibility(View.GONE);
             return;
         }
         JSONObject where_info = new JSONObject();
@@ -108,6 +112,7 @@ public class PaymentRulesFragment extends Fragment {
                 @Override
                 public void onResponse(JSONArray response) {
                     super.onResponse(response);
+                    connectionStatus = connectionTimeOut;
                     fill_list_items(response );
                 }
             }.execute(httpCall);
@@ -120,19 +125,25 @@ public class PaymentRulesFragment extends Fragment {
     private void fill_list_items (JSONArray response) {
         mSwipeRefreshLayout.setRefreshing(false);
         items.clear();
-        try {
-            for (int i=0; i<response.length(); i++) {
-                JSONObject result = response.getJSONObject(i);
-                int type = result.getInt("Type");
-                String title = result.getString("Title");
-                String content = result.getString("Content");
-                items.add(new item_about(type, title.replace("<br><br>", "\n").replace("&nbsp;", " "), content.replace("<br><br>", "\n").replace("<br>", " ").replace("&nbsp;", " ")));
+        if (response != null) {
+            try {
+                for (int i = 0; i < response.length(); i++) {
+                    JSONObject result = response.getJSONObject(i);
+                    int type = result.getInt("Type");
+                    String title = result.getString("Title");
+                    String content = result.getString("Content");
+                    items.add(new item_about(type, title.replace("<br><br>", "\n").replace("&nbsp;", " "), content.replace("<br><br>", "\n").replace("<br>", " ").replace("&nbsp;", " ")));
 
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
             }
-        } catch (JSONException e) {
-            e.printStackTrace();
         }
-
+        if (connectionStatus){
+            progressBar.setVisibility(View.GONE);
+            timeOut.setVisibility(View.VISIBLE);
+            return;
+        }
         listView_adapter.notifyDataSetChanged();
         loading.setVisibility(View.GONE);
     }

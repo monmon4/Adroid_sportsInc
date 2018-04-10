@@ -70,6 +70,7 @@ public class CoachReportsAttendanceFragment extends Fragment {
     private int currentVisiblePosition = 0;
 
     EditText datePicker;
+    private boolean connectionStatus;
 
 
     @Nullable
@@ -376,6 +377,7 @@ public class CoachReportsAttendanceFragment extends Fragment {
                 @Override
                 public void onResponse(JSONArray response) {
                     super.onResponse(response);
+                    connectionStatus = connectionTimeOut;
                     fillAdapter(response,loadMore);
                 }
             }.execute(httpCall);
@@ -400,6 +402,10 @@ public class CoachReportsAttendanceFragment extends Fragment {
             } catch (JSONException e) {
                 e.printStackTrace();
             }
+        }
+        if (connectionStatus){
+            customRecyclerView.timeOut();
+            return;
         }
         //filterMonths(selectedPosition);
         filterByLevel(selectedLevelID);

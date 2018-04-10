@@ -46,6 +46,7 @@ public class Coach_StartClassFragment extends Fragment {
     ArrayList<classesEntity>classesList;
     CurrentClassesAdapter adapter;
     private GlobalVars globalVars;
+    private boolean connectionStatus;
 
     @Nullable
     @Override
@@ -111,6 +112,7 @@ public class Coach_StartClassFragment extends Fragment {
             @Override
             public void onResponse(JSONArray response) {
                 super.onResponse(response);
+                connectionStatus = connectionTimeOut;
                 fillAdapter(response);
             }
         }.execute(httpCall);
@@ -133,6 +135,10 @@ public class Coach_StartClassFragment extends Fragment {
             } catch (JSONException e) {
                 e.printStackTrace();
             }
+        }
+        if (connectionStatus){
+            customListView.timeOut();
+            return;
         }
         customListView.notifyChange(classesList.size());
         adapter.notifyDataSetChanged();

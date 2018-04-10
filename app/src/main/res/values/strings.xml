@@ -483,6 +483,9 @@
     <string name="negative_button_text">Cancel</string>
     <string name="no_sessions_today">No Sessions Today</string>
     <string name="my_cart">My cart</string>
+    <string name="TimeOutLabel">Poor Internet Connection...</string>
+    <string name="retry_btn">tab to Retry</string>
+    <string name="TimeOutMsg">Poor Connection Try again Later..</string>
     <string name="pay_with_paypal">Pay with PayPal</string>
 
 </resources>

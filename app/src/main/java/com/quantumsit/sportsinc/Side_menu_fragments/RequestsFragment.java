@@ -53,6 +53,7 @@ public class RequestsFragment extends Fragment {
     SwipeRefreshLayout mSwipeRefreshLayout;
     ArrayList<item_request> list_items;
     ListView_Adapter_request arrayAdapter;
+    private boolean connectionStatus;
 
 
     @Nullable
@@ -184,6 +185,7 @@ public class RequestsFragment extends Fragment {
                 @Override
                 public void onResponse(JSONArray response) {
                     super.onResponse(response);
+                    connectionStatus = connectionTimeOut;
                     fill_Adapter(response , loadMore);
 
 
@@ -228,7 +230,10 @@ public class RequestsFragment extends Fragment {
 
             }
         }
-
+        if (connectionStatus){
+            customListView.timeOut();
+            return;
+        }
         customListView.notifyChange(list_items.size());
         arrayAdapter.notifyDataSetChanged();
         listViewListener.setLoading(false);

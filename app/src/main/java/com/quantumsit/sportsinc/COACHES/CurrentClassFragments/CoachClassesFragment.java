@@ -60,6 +60,7 @@ public class CoachClassesFragment extends Fragment {
 
     myCustomExpandableListViewListener listener;
     int limitValue,currentStart;
+    private boolean connectionStatus;
 
     @Nullable
     @Override
@@ -248,6 +249,7 @@ public class CoachClassesFragment extends Fragment {
                 @Override
                 public void onResponse(JSONArray response) {
                     super.onResponse(response);
+                    connectionStatus = connectionTimeOut;
                     fillAdapter(response , loadMore) ;
                 }
             }.execute(httpCall);
@@ -281,6 +283,10 @@ public class CoachClassesFragment extends Fragment {
             } catch (JSONException e) {
                 e.printStackTrace();
             }
+        }
+        if (connectionStatus){
+            customExpandableListView.timeOut();
+            return;
         }
         //notify data change to view the data
         customExpandableListView.notifyChange(header_list.size());
