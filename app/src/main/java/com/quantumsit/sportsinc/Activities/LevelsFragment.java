@@ -1,4 +1,4 @@
-package com.quantumsit.sportsinc.Home_fragments;
+package com.quantumsit.sportsinc.Activities;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -17,7 +17,6 @@ import com.quantumsit.sportsinc.Aaa_data.Constants;
 import com.quantumsit.sportsinc.Adapters.CoursesAdapter;
 import com.quantumsit.sportsinc.Backend.HttpCall;
 import com.quantumsit.sportsinc.Backend.HttpRequest;
-import com.quantumsit.sportsinc.Activities.CourseDetailsActivity;
 import com.quantumsit.sportsinc.CustomView.myCustomListView;
 import com.quantumsit.sportsinc.CustomView.myCustomListViewListener;
 import com.quantumsit.sportsinc.Entities.CourseEntity;
@@ -33,7 +32,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-public class CoursesFragment extends Fragment {
+public class LevelsFragment extends Fragment {
     private CoursesAdapter adapter;
     private List<CourseEntity> courseList;
 
@@ -42,12 +41,16 @@ public class CoursesFragment extends Fragment {
     ListView listView;
     myCustomListViewListener listViewListener;
     int limitValue,currentStart;
+    private boolean connectionStatus;
+    int program_id;
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
-        View root = inflater.inflate(R.layout.fragment_courses,container,false);
+        View root = inflater.inflate(R.layout.fragment_levels,container,false);
         limitValue = getResources().getInteger(R.integer.selectLimit);
         currentStart = 0;
+        program_id = getActivity().getIntent().getIntExtra("program_id",0);
         mSwipeRefreshLayout = root.findViewById(R.id.swipeRefresh);
         mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
@@ -140,6 +143,9 @@ public class CoursesFragment extends Fragment {
             httpCall.setMethodtype(HttpCall.POST);
             httpCall.setUrl(Constants.selectData);
 
+            JSONObject where_info = new JSONObject();
+            where_info.put(getString(R.string.Key_programID),program_id);
+
             JSONObject limit_info = new JSONObject();
             limit_info.put("start", currentStart);
             limit_info.put("limit", limitValue);
@@ -147,12 +153,14 @@ public class CoursesFragment extends Fragment {
             params.put("table", "courses");
             params.put("ordered","true");
             params.put("limit", limit_info.toString());
+            params.put("where",where_info.toString());
 
             httpCall.setParams(params);
             new HttpRequest() {
                 @Override
                 public void onResponse(JSONArray response) {
                     super.onResponse(response);
+                    connectionStatus = connectionTimeOut;
                     fillAdapter(response, loadMore);
                 }
             }.execute(httpCall);
@@ -173,6 +181,10 @@ public class CoursesFragment extends Fragment {
             } catch (JSONException e) {
                 e.printStackTrace();
             }
+        }
+        if (connectionStatus){
+            customListView.timeOut();
+            return;
         }
         customListView.notifyChange(courseList.size());
         adapter.notifyDataSetChanged();

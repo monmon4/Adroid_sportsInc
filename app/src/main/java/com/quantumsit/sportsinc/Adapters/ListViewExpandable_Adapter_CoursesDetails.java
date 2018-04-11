@@ -1,6 +1,5 @@
 package com.quantumsit.sportsinc.Adapters;
 
-import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -21,7 +20,7 @@ import android.widget.Toast;
 
 import com.quantumsit.sportsinc.Aaa_data.Constants;
 import com.quantumsit.sportsinc.Aaa_data.GlobalVars;
-import com.quantumsit.sportsinc.Activities.PaymentActivity;
+import com.quantumsit.sportsinc.Activities.ThePaymentActivity;
 import com.quantumsit.sportsinc.Backend.Functions;
 import com.quantumsit.sportsinc.Backend.HttpCall;
 import com.quantumsit.sportsinc.Backend.HttpRequest;
@@ -143,6 +142,12 @@ public class ListViewExpandable_Adapter_CoursesDetails extends BaseExpandableLis
         TextView times_textview = convertView.findViewById(R.id.timesTextView_item2coursedetails);
         Button book_button =  convertView.findViewById(R.id.bookButton_item2coursedetails);
 
+        if(!child.isAvailable()) {
+            book_button.setText(R.string.this_course_is_full);
+            book_button.setBackgroundResource(R.drawable.cornered_background_gray);
+            book_button.setEnabled(false);
+            //book_button.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_no_booking, 0, 0, 0);
+        }
         book_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -159,7 +164,7 @@ public class ListViewExpandable_Adapter_CoursesDetails extends BaseExpandableLis
                     } else {
                         Toast.makeText(context, "You already booked in a level", Toast.LENGTH_SHORT).show();
                     }
-                    context.startActivity(new Intent(context, PaymentActivity.class));
+                    context.startActivity(new Intent(context, ThePaymentActivity.class));
 
                 }  else if (type == 5) {
                     globalVars.setClass_id(header_list.get(groupPosition).getClass_id());
@@ -242,7 +247,7 @@ public class ListViewExpandable_Adapter_CoursesDetails extends BaseExpandableLis
                 for(int i=0; i<trainee_names.size();i++){
                     if(trainee_names.get(i).isSelected()) {
                         insert_booking_to_global_var(groupPosition);
-                        Intent intent = new Intent(context, PaymentActivity.class);
+                        Intent intent = new Intent(context, ThePaymentActivity.class);
                         context.startActivity(intent);
                         popup_window.dismiss();
                         all_good = true;

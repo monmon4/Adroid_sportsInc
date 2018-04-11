@@ -11,11 +11,6 @@
             android:title="@string/home" />
 
         <item
-            android:id="@+id/nav_website"
-            android:icon="@drawable/ic_side_info"
-            android:visible="false"
-            android:title="@string/academy_s_website" />
-        <item
             android:id="@+id/nav_booking"
             android:visible="true"
             android:icon="@drawable/ic_booking"

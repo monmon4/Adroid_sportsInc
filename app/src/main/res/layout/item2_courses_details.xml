@@ -95,9 +95,10 @@
 
             <Button
                 android:id="@+id/bookButton_item2coursedetails"
-                android:layout_width="100dp"
-                android:layout_height="30dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:paddingStart="10dp"
+                android:paddingEnd="10dp"
                 android:layout_margin="5dp"
                 android:layout_gravity="end"
                 android:textAllCaps="false"

@@ -38,8 +38,8 @@ public class ReportsFragment extends Fragment {
 
     public void setupViewPager(ViewPager viewPager) {
         reports_sectionsPagerAdapter = new SectionsPagerAdapter(getChildFragmentManager());
-        reports_sectionsPagerAdapter.addFragment(new CorsesFragment(),"Levels");
-        reports_sectionsPagerAdapter.addFragment(new PaymentFragment(),"Payment");
+        reports_sectionsPagerAdapter.addFragment(new CorsesFragment(),getString(R.string.courseReportTab));
+        reports_sectionsPagerAdapter.addFragment(new PaymentFragment(),getString(R.string.paymentReportTab));
 
         reports_view_pager.setAdapter(reports_sectionsPagerAdapter);
     }

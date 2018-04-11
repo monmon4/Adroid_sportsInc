@@ -25,7 +25,6 @@
             android:id="@+id/dateSpinner_requestadd"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/date"
             android:textColorHint="@color/colorAccent"
             app:met_floatingLabel="normal" />
 
@@ -41,18 +40,5 @@
         android:layout_marginStart="16dp"
         android:hint="@string/write_your_reason"
         android:inputType="textMultiLine" />
-
-    <!--<Button
-        android:id="@+id/sendButton_requestadd"
-        android:layout_width="100dp"
-        android:layout_height="wrap_content"
-        android:background="@drawabutton_bluee_backgroundound"
-        android:textColor="@color/colorTextLight"
-        android:textAllCaps="false"
-        android:textSize="18sp"
-        android:layout_margin="16dp"
-        android:layout_gravity="end"
-        android:onClick="send_clicked"
-        android:text="@string/send" />-->
 
 </LinearLayout>

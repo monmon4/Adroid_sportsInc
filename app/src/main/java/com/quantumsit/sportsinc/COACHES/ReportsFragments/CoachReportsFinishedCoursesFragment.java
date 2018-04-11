@@ -51,6 +51,7 @@ public class CoachReportsFinishedCoursesFragment extends Fragment {
     ListViewFinishedCoursesReports_Adapter listView_adapter;
 
     ArrayList<item_reports_finished_courses> list_items;
+    private boolean connectionStatus;
 
 
     @Nullable
@@ -190,6 +191,7 @@ public class CoachReportsFinishedCoursesFragment extends Fragment {
                 public void onResponse(JSONArray response) {
                     super.onResponse(response);
                     Log.d(TAG,String.valueOf(response));
+                    connectionStatus = connectionTimeOut;
                     fillAdapter(response , loadMore);
                 }
             }.execute(httpCall);
@@ -211,6 +213,10 @@ public class CoachReportsFinishedCoursesFragment extends Fragment {
             } catch (JSONException e) {
                 e.printStackTrace();
             }
+        }
+        if (connectionStatus){
+            customListView.timeOut();
+            return;
         }
         customListView.notifyChange(list_items.size());
         listView_adapter.notifyDataSetChanged();

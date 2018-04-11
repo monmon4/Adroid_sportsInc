@@ -12,12 +12,14 @@ public class item2_courses_details implements Serializable{
 
     String coach_name;
     String[] day, time;
+    boolean available;
 
 
-    public item2_courses_details(String coach_name, String[] day, String[]time) {
+    public item2_courses_details(String coach_name, String[] day, String[]time, boolean available) {
         this.coach_name = coach_name;
         this.day = day;
         this.time = time;
+        this.available = available;
     }
 
     public String getCoach_name() {
@@ -30,5 +32,9 @@ public class item2_courses_details implements Serializable{
 
     public String[] getTime() {
         return time;
+    }
+
+    public boolean isAvailable() {
+        return available;
     }
 }

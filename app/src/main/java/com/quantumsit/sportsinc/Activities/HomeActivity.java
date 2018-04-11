@@ -4,7 +4,6 @@ import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
@@ -34,7 +33,6 @@ import com.quantumsit.sportsinc.Adapters.TraineeChildAdapter;
 import com.quantumsit.sportsinc.Backend.HttpCall;
 import com.quantumsit.sportsinc.Backend.HttpRequest;
 import com.quantumsit.sportsinc.COACHES.ReportsFragments.CoachReportsFragment;
-import com.quantumsit.sportsinc.COACHES.RequestFragment.CoachRequestFragment;
 import com.quantumsit.sportsinc.COACHES.RequestFragment.CoachRequestSentFragment;
 import com.quantumsit.sportsinc.Entities.UserEntity;
 import com.quantumsit.sportsinc.Side_menu_fragments.ContactUsFragment;
@@ -100,14 +98,13 @@ public class HomeActivity extends AppCompatActivity
         }else if (type == 0 ) {
             parent = true;
         }else if (type == 1) {
+            parent = true;
             coach = true;
         }
 
-        if (non_register){
-            setContentView(R.layout.activity_home_nonregister);
-        } else {
-            setContentView(R.layout.activity_home);
-        }
+
+        setContentView(R.layout.activity_home);
+
 
 
         Toolbar toolbar = findViewById(R.id.toolbar);
@@ -134,15 +131,17 @@ public class HomeActivity extends AppCompatActivity
         navigationView =  findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-        Menu navigationMenu = navigationView.getMenu();
+        final Menu navigationMenu = navigationView.getMenu();
 
-        if (parent && type !=5 && type !=6){
-            navigationMenu.findItem(R.id.nav_certificates).setVisible(true);
-            navigationMenu.findItem(R.id.nav_booking).setVisible(true);
+        if(non_register) {
+            setSideMenu(globalVars.getType(), navigationMenu);
         }
-
-        if(globalVars.getType() == 0 || globalVars.getType() == 6 || globalVars.getType() == 5 )
-            navigationMenu.findItem(R.id.nav_booking).setVisible(true);
+        if (coach){
+            setSideMenu(globalVars.getType(), navigationMenu);
+            MenuItem item = navigationMenu.findItem(R.id.nav_myClasses);
+            if (item != null)
+                item.setTitle(R.string.my_groups);
+        }
 
         RelativeLayout header = (RelativeLayout) navigationView.getHeaderView(0);
         profileImage = header.findViewById(R.id.profile_image);
@@ -197,6 +196,7 @@ public class HomeActivity extends AppCompatActivity
                 globalVars.setUser(children.get(position));
                 updateChildList(position, Account);
                 toggleMenu();
+                setSideMenu(globalVars.getType(), navigationMenu);
             }
         });
 
@@ -204,6 +204,7 @@ public class HomeActivity extends AppCompatActivity
             @Override
             public void onClick(View view) {
                 toggleMenu();
+                setSideMenu(globalVars.getType(), navigationMenu);
             }
         });
 
@@ -267,84 +268,8 @@ public class HomeActivity extends AppCompatActivity
         for (int i = 0; i < menu.size(); ++i) {
             menu.getItem(i).setVisible(b);
         }
-        if (!parent)
-            menu.findItem(R.id.nav_certificates).setVisible(false);
     }
 
-    @SuppressLint("StaticFieldLeak")
-    private void updateDB_type_to_trainee() {
-
-        JSONObject where_info = new JSONObject();
-        JSONObject values_info = new JSONObject();
-        try {
-            where_info.put(getString(R.string.where_id),globalVars.getId());
-            values_info.put(getString(R.string.where_type), globalVars.getType());
-
-            HttpCall httpCall = new HttpCall();
-            httpCall.setMethodtype(HttpCall.POST);
-            httpCall.setUrl(Constants.selectData);
-            HashMap<String,String> params = new HashMap<>();
-            params.put(getString(R.string.parameter_table),getString(R.string.Table_Users));
-            params.put(getString(R.string.parameter_where),where_info.toString());
-            params.put(getString(R.string.parameter_values),values_info.toString());
-
-            httpCall.setParams(params);
-
-            new HttpRequest(){
-                @Override
-                public void onResponse(JSONArray response) {
-                    super.onResponse(response);
-
-                }
-            }.execute(httpCall);
-
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-    }
-
-    @SuppressLint("StaticFieldLeak")
-    private boolean checkRegistered() {
-
-        final boolean[] check = {false};
-
-        JSONObject where_info = new JSONObject();
-        try {
-            where_info.put(getString(R.string.where_user_id),globalVars.getId());
-
-            HttpCall httpCall = new HttpCall();
-            httpCall.setMethodtype(HttpCall.POST);
-            httpCall.setUrl(Constants.selectData);
-            HashMap<String,String> params = new HashMap<>();
-            params.put(getString(R.string.parameter_table),"info_trainee");
-            params.put("where",where_info.toString());
-
-            httpCall.setParams(params);
-
-            new HttpRequest(){
-                @Override
-                public void onResponse(JSONArray response) {
-                    super.onResponse(response);
-
-                        if (response != null){
-                            check[0] = true;
-                        } else {
-                            check[0] = false;
-                        }
-
-
-                }
-            }.execute(httpCall);
-
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-
-
-        return check[0];
-    }
-
-    
     @Override
     public void onBackPressed() {
         DrawerLayout drawer =  findViewById(R.id.drawer_layout);
@@ -416,14 +341,16 @@ public class HomeActivity extends AppCompatActivity
         } else if (id == R.id.nav_certificates) {
             actionBar.setTitle(R.string.certificates);
             fragmentClass = CertificatesFragment.class;
-        } else if (id == R.id.nav_website) {
+        } /*else if (id == R.id.nav_website) {
             //link to the academy's page so opens a web page
             Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://thesportsinc.com/"));
             startActivity(browserIntent);
-        } else if(id == R.id.nav_logout){
+        }*/ else if(id == R.id.nav_logout){
             // LogOut From the System
             progressDialog = new ProgressDialog(HomeActivity.this);
             progressDialog.setMessage("Logging Out...");
+            progressDialog.setCancelable(false);
+            progressDialog.setCanceledOnTouchOutside(false);
             progressDialog.show();
             unActiveUser(globalVars.getId());
             return true;
@@ -435,7 +362,7 @@ public class HomeActivity extends AppCompatActivity
             fragmentClass = AboutUsFragment.class;
         } else if (id == R.id.nav_booking) {
             actionBar.setTitle(R.string.booking);
-            fragmentClass = PaymentFragment.class;
+            fragmentClass = ThePaymentFragment.class;
         }
 
         try {
@@ -498,9 +425,9 @@ public class HomeActivity extends AppCompatActivity
             SharedPreferences.Editor preferences = getSharedPreferences("UserFile", MODE_PRIVATE).edit();
             preferences.clear();
             preferences.apply();
+            finishAffinity();
             startActivity(new Intent(HomeActivity.this, startPageActivity.class));
             progressDialog.dismiss();
-            finish();
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -540,7 +467,6 @@ public class HomeActivity extends AppCompatActivity
 
     private void fillChildList(JSONArray response) {
         children.clear();
-        Log.d("ChildList",String.valueOf(response));
         if (response != null){
             try {
                 for (int i = 0; i < response.length(); i++) {
@@ -574,5 +500,19 @@ public class HomeActivity extends AppCompatActivity
         Intent intent = new Intent(getApplicationContext(),ProfileActivity.class);
         drawer.closeDrawer(GravityCompat.START);
         startActivityForResult(intent ,PROFILE_CODE);
+    }
+
+    private void setSideMenu(int type, Menu navigationMenu){
+
+        if(type == 5|| type == 6) {
+            navigationMenu.findItem(R.id.nav_certificates).setVisible(false);
+            navigationMenu.findItem(R.id.nav_reports).setVisible(false);
+            navigationMenu.findItem(R.id.nav_requests).setVisible(false);
+            navigationMenu.findItem(R.id.nav_notifications).setVisible(false);
+            navigationMenu.findItem(R.id.nav_myClasses).setVisible(false);
+        } else if(type == 1) {
+            navigationMenu.findItem(R.id.nav_booking).setVisible(false);
+            navigationMenu.findItem(R.id.nav_certificates).setVisible(false);
+        }
     }
 }

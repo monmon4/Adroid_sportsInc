@@ -21,7 +21,7 @@
     <ListView
         android:id="@+id/traineeListView_window"
         android:layout_width="match_parent"
-        android:layout_height="10dp"
+        android:layout_height="wrap_content"
         android:paddingEnd= "14dp"
         android:paddingStart= "8dp">
     </ListView>

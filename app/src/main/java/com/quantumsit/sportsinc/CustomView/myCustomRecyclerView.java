@@ -22,9 +22,11 @@ public class myCustomRecyclerView extends RelativeLayout {
     private ProgressBar mLoadMoreProgressBar;
     private View mEmptyView;
     private View mRetryView;
+    private View mTimeOutView;
     private ProgressBar mProgressBar;
     private myCustomRecyclerView.OnRetryClick mOnRetryClick;
     private TextView mRetryView_Button;
+    private TextView mTimOut_Button;
     private TextView mEmptyView_Text;
     private ImageView mEmptyView_Image;
 
@@ -64,6 +66,20 @@ public class myCustomRecyclerView extends RelativeLayout {
                 }, 1500);
             }
         });
+        mTimeOutView = mView.findViewById(R.id.layout_timeOut);
+        mTimOut_Button = mView.findViewById(R.id.layout_timeOut_button);
+        mTimOut_Button.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                loading();
+                new android.os.Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        mOnRetryClick.onRetry();
+                    }
+                }, 1500);
+            }
+        });
         mProgressBar = mView.findViewById(R.id.progress_bar);
         mLoadMoreProgressBar = mView.findViewById(R.id.loadMore_progress_bar);
     }
@@ -79,6 +95,7 @@ public class myCustomRecyclerView extends RelativeLayout {
 
     public void loading() {
         mRetryView.setVisibility(View.GONE);
+        mTimeOutView.setVisibility(GONE);
         mEmptyView.setVisibility(View.GONE);
         mProgressBar.setVisibility(View.VISIBLE);
     }
@@ -95,16 +112,27 @@ public class myCustomRecyclerView extends RelativeLayout {
     public void empty() {
         mEmptyView.setVisibility(View.VISIBLE);
         mRetryView.setVisibility(View.GONE);
+        mTimeOutView.setVisibility(GONE);
         mProgressBar.setVisibility(View.GONE);
     }
 
     public void retry() {
         mRetryView.setVisibility(View.VISIBLE);
+        mTimeOutView.setVisibility(GONE);
         mEmptyView.setVisibility(View.GONE);
         mProgressBar.setVisibility(View.GONE);
     }
 
     public void success() {
+        mRetryView.setVisibility(View.GONE);
+        mTimeOutView.setVisibility(GONE);
+        mEmptyView.setVisibility(View.GONE);
+        mProgressBar.setVisibility(View.GONE);
+    }
+
+
+    public void timeOut() {
+        mTimeOutView.setVisibility(VISIBLE);
         mRetryView.setVisibility(View.GONE);
         mEmptyView.setVisibility(View.GONE);
         mProgressBar.setVisibility(View.GONE);

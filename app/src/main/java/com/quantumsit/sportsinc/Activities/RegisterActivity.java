@@ -108,7 +108,7 @@ public class RegisterActivity extends AppCompatActivity {
     private int THUMBNAIL_SIZE = 150;
     private int Counter = 0;
 
-    PopupWindow verfication_popup_window;
+    //PopupWindow verfication_popup_window;
     Dialog customView;
     private Context register_Context;
     private RelativeLayout register_rl;
@@ -132,6 +132,7 @@ public class RegisterActivity extends AppCompatActivity {
         globalVars = (GlobalVars) getApplication();
         progressDialog = new ProgressDialog(RegisterActivity.this);
         progressDialog.setMessage(getResources().getString(R.string.configure));
+        progressDialog.setCancelable(false);
         progressDialog.setCanceledOnTouchOutside(false);
 
         register_Context = getApplicationContext();
@@ -232,6 +233,8 @@ public class RegisterActivity extends AppCompatActivity {
         }
 
         progressDialog.show();
+        progressDialog.setCancelable(false);
+        progressDialog.setCanceledOnTouchOutside(false);
 
 
         if (!validateForm()) {
@@ -305,7 +308,7 @@ public class RegisterActivity extends AppCompatActivity {
         httpCall.setMethodtype(HttpCall.POST);
         httpCall.setUrl(Constants.sendMail);
         HashMap<String,String> params = new HashMap<>();
-        Log.d("Verification","Mail: "+mail+" , code: "+verfication_num);
+        //Log.d("Verification","Mail: "+mail+" , code: "+verfication_num);
         params.put("email",mail);
         params.put("code",String.valueOf(verfication_num));
         httpCall.setParams(params);
@@ -315,13 +318,13 @@ public class RegisterActivity extends AppCompatActivity {
             public void onResponse(JSONArray response) {
                 super.onResponse(response);
                 Log.d("verificationResponse",String.valueOf(response));
-               /* if(response != null){
+                if(response != null){
                     show_toast("Code has been sent");
 
                 } else {
                     show_toast("An error has occurred");
-                    verfication_popup_window.dismiss();
-                }*/
+                    customView.dismiss();
+                }
             }
         }.execute(httpCall);
 

@@ -38,6 +38,7 @@ public interface Constants {
     String notification = server + "selectNotification";
     String selectBooking = server + "selectBookings";
     String deleteBooking = server + "deleteBooking";
+    String selectLevelClasses = server + "selectLevelClasses";
 
 
     //Trainee

@@ -96,7 +96,6 @@ public class RecyclerView_Adapter_certificate extends RecyclerView.Adapter<Recyc
                 imageView.setOnLongClickListener(new View.OnLongClickListener() {
                     @Override
                     public boolean onLongClick(View view) {
-                        Toast.makeText(context,"Long Press",Toast.LENGTH_LONG).show();
                         return false;
                     }
                 });

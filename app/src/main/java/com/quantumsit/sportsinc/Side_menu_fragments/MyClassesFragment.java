@@ -81,6 +81,6 @@ public class MyClassesFragment extends Fragment {
     public void onViewStateRestored(@Nullable Bundle savedInstanceState) {
         super.onViewStateRestored(savedInstanceState);
         if (getActivity() != null)
-            ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle(getString(R.string.my_classes));
+            ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle(getString(R.string.my_groups));
     }
 }

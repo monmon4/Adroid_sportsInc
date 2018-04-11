@@ -51,6 +51,7 @@ public class CoachRequestReceivedFragment extends Fragment {
 
     private int REQUEST_UPDATE = 7;
     private int request_position = -1;
+    private boolean connectionStatus;
 
     @Nullable
     @Override
@@ -192,6 +193,7 @@ public class CoachRequestReceivedFragment extends Fragment {
                 @Override
                 public void onResponse(JSONArray response) {
                     super.onResponse(response);
+                    connectionStatus =connectionTimeOut;
                     fillAdapter(response , loadMore);
                 }
             }.execute(httpCall);
@@ -214,6 +216,10 @@ public class CoachRequestReceivedFragment extends Fragment {
             } catch (JSONException e) {
                 e.printStackTrace();
             }
+        }
+        if (connectionStatus){
+            customListView.timeOut();
+            return;
         }
         customListView.notifyChange(list_items.size());
         arrayAdapter.notifyDataSetChanged();

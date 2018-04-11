@@ -74,7 +74,6 @@ public class Functions {
 
     public HttpCall searchDB(String table_name, JSONObject where_info) {
 
-        final JSONArray[] result = {new JSONArray()};
 
         HttpCall httpCall = new HttpCall();
         httpCall.setMethodtype(HttpCall.POST);

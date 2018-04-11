@@ -70,7 +70,7 @@ public class CourseDetailsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_course_details);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
-        getSupportActionBar().setTitle("Course details");
+        getSupportActionBar().setTitle(R.string.classDetails);
 
        // progressDialog = new ProgressDialog(CourseDetailsActivity.this);
 
@@ -212,7 +212,7 @@ public class CourseDetailsActivity extends AppCompatActivity {
         loadingView.success();
     }
 
-    public void fill_list_view(final CourseEntity myCourse) {
+    public void fill_list_view2(final CourseEntity myCourse) {
         header_list.clear();
         child_list.clear();
         JSONObject where_info = new JSONObject();
@@ -244,12 +244,13 @@ public class CourseDetailsActivity extends AppCompatActivity {
                             String coach_name = result.getString("user_name");
                             String start_date = result.getString("group_sdate");
                             String[] days = get_days(result.getString("days"));
+                            boolean available = false;
 
                             if( days.length!=0 ) {
                                 if(!days[0].equals(" ")){
                                     String[] daystime = result.getString("daystime").split("@");
                                     header_list.add(new item1_courses_details(class_name, start_date,class_id));
-                                    child_list.put(class_id, new item2_courses_details(coach_name, days, daystime));
+                                    child_list.put(class_id, new item2_courses_details(coach_name, days, daystime, available));
                                 }
                             }
                     }
@@ -287,6 +288,92 @@ public class CourseDetailsActivity extends AppCompatActivity {
 
 
     }
+
+    public void fill_list_view(final CourseEntity myCourse) {
+        header_list.clear();
+        child_list.clear();
+        JSONObject where_info = new JSONObject();
+        try {
+            where_info.put("course_id", myCourse.getCourse_id());
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        HttpCall httpCall = new HttpCall();
+        httpCall.setMethodtype(HttpCall.POST);
+        httpCall.setUrl(Constants.selectLevelClasses);
+        HashMap<String,String> params = new HashMap<>();
+        params.put("where",where_info.toString());
+        httpCall.setParams(params);
+
+
+        new HttpRequest(){
+            @Override
+            public void onResponse(JSONArray response) {
+                super.onResponse(response);
+
+                if(response != null){
+
+                    try {
+                        for (int i=0; i<response.length(); i++){
+
+                            JSONObject result = response.getJSONObject(i);
+                            int class_id = result.getInt("group_id");
+                            String class_name = result.getString("group_name");
+                            String coach_name = result.getString("coach_name");
+                            String start_date = result.getString("group_sdate");
+                            String[] days = get_days(result.getString("days"));
+                            int available_spots = result.getInt("available_slots");
+                            int trainees_num = result.getInt("Trainees_num");
+                            boolean available = true;
+                            if(trainees_num >= available_spots) {
+                                available = false;
+                            }
+
+                            if( days.length!=0 ) {
+                                if(!days[0].equals(" ")){
+                                    String[] daystime = result.getString("daystime").split("@");
+                                    header_list.add(new item1_courses_details(class_name, start_date,class_id));
+                                    child_list.put(class_id, new item2_courses_details(coach_name, days, daystime, available));
+                                }
+                            }
+                        }
+
+                        if(header_list.size()>0) {
+                            noClsses.setVisibility(View.GONE);
+                            expandableListView.setVisibility(View.VISIBLE);
+                            adapter_coursesDetails.notifyDataSetChanged();
+                            expandableListView.setAdapter(adapter_coursesDetails);
+                            setListViewHeight(expandableListView, -1);
+                        } else {
+                            noClsses.setVisibility(View.VISIBLE);
+                            expandableListView.setVisibility(View.GONE);
+                        }
+
+                        // progressDialog.dismiss();
+
+                    } catch (JSONException e) {
+                        // progressDialog.dismiss();
+                        expandableListView.setVisibility(View.GONE);
+                        e.printStackTrace();
+
+                    }
+
+                } else {
+                    noClsses.setVisibility(View.VISIBLE);
+                    expandableListView.setVisibility(View.GONE);
+                    //progressDialog.dismiss();
+                    //checkMail();
+                    //verfication();
+                }
+                fillView(myCourse);
+            }
+        }.execute(httpCall);
+
+
+    }
+
+
 
     private String[] get_days(String dayss) {
         String[] dayss_split;

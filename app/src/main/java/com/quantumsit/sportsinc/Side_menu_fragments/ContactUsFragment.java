@@ -48,7 +48,7 @@ import java.util.Locale;
 public class ContactUsFragment extends Fragment implements OnMapReadyCallback {
 
     private GoogleMap mMap;
-    private Double lat=0.0, lng=0.0;
+    private Double lat =0.0, lng=0.0;
     private String Title;
 
     myCustomListView customListView;
@@ -57,7 +57,7 @@ public class ContactUsFragment extends Fragment implements OnMapReadyCallback {
     ArrayList<item_contact_us> list_items;
 
     Academy_info academy_info;
-    //GlobalVars globalVars;
+    GlobalVars globalVars;
 
     MapView mapView;
     TextView maps_textView;
@@ -75,6 +75,7 @@ public class ContactUsFragment extends Fragment implements OnMapReadyCallback {
         // Gets the MapView from the XML layout and creates it
         mapView = root.findViewById(R.id.map);
         maps_textView = root.findViewById(R.id.maps_textView);
+        globalVars = (GlobalVars) getActivity().getApplication();
 
         customListView = root.findViewById(R.id.openingHoursListView_maps);
         customListView.setOnRetryClick(new myCustomListView.OnRetryClick() {
@@ -89,19 +90,11 @@ public class ContactUsFragment extends Fragment implements OnMapReadyCallback {
         mapView.onCreate(savedInstanceState);
         mapView.getMapAsync(this);
 
-
-
-        //globalVars = (GlobalVars) getActivity().getApplication();
         academy_info = new Academy_info();
 
-        //if (globalVars.getMyDB().Academy_empty())
-            get_info();
-
-        //else
-            //academy_info = globalVars.getMyDB().getAcademyInfo();
-            setLatandLng();
-            mapView.onStart();
-
+        get_info();
+        //setLatandLng();
+        //mapView.onStart();
 
         listView_adapter = new ListView_Adapter_contact_us(getActivity(), list_items);
         openingHours_listView.setAdapter(listView_adapter);
@@ -246,10 +239,9 @@ public class ContactUsFragment extends Fragment implements OnMapReadyCallback {
                         academy_info.setPhone(result.getString("phone"));
                         academy_info.setEmail(result.getString("email"));
 
-                        //globalVars.getMyDB().addAcademyInfo(academy_info);
+                        globalVars.getMyDB().addAcademyInfo(academy_info);
                         setLatandLng();
                         mapView.onStart();
-
 
 
                     } else {
@@ -282,7 +274,8 @@ public class ContactUsFragment extends Fragment implements OnMapReadyCallback {
     }
 
     private void show_toast(String s) {
-        Toast.makeText(getActivity(),s,Toast.LENGTH_LONG).show();
+        if (getActivity() != null)
+            Toast.makeText(getActivity(),s,Toast.LENGTH_LONG).show();
     }
 
     public void call_academy() {

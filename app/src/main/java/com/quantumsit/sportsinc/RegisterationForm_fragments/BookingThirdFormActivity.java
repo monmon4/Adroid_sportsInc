@@ -1,6 +1,7 @@
 package com.quantumsit.sportsinc.RegisterationForm_fragments;
 
 import android.annotation.SuppressLint;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Paint;
 import android.support.v7.app.AppCompatActivity;
@@ -47,6 +48,7 @@ public class BookingThirdFormActivity extends AppCompatActivity {
 
     GlobalVars globalVars;
     Functions functions;
+    ProgressDialog progressDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,8 +57,13 @@ public class BookingThirdFormActivity extends AppCompatActivity {
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
-        getSupportActionBar().setTitle("Registration (3)");
+        getSupportActionBar().setTitle("Step3");
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
+
+        progressDialog = new ProgressDialog(BookingThirdFormActivity.this);
+        progressDialog.setMessage("Please wait ....");
+        progressDialog.setCancelable(false);
+        progressDialog.setCanceledOnTouchOutside(false);
 
         globalVars = (GlobalVars) getApplication();
         functions = new Functions(BookingThirdFormActivity.this);
@@ -120,6 +127,9 @@ public class BookingThirdFormActivity extends AppCompatActivity {
             if(!isValidMail(firstEmail)) {
                 firstEmail_editText.setError("Invalid mail");
                 all_good = false;
+            } else if(firstEmail.equals(booking_info.getMail())) {
+                firstEmail_editText.setError("Parent mail same as trainee mail");
+                all_good = false;
             }
         } else if (!TextUtils.isEmpty(firstPhone)) {
             if(!isValidPhone1(first_ccp.getFullNumber(), first_ccp.getSelectedCountryNameCode())) {
@@ -146,8 +156,11 @@ public class BookingThirdFormActivity extends AppCompatActivity {
             }
         }
 
+
+
         if (all_good) {
 
+            progressDialog.show();
             booking_info.setThird(firstName, firstNationality, firstAddress, firstEmail, firstPhone,
                     secondName, secondNationality, secondAddress, secondEmail, secondPhone);
 
@@ -156,7 +169,6 @@ public class BookingThirdFormActivity extends AppCompatActivity {
             } else {
                 int parent_id = globalVars.getId();
                 open_forth_form(parent_id);
-
             }
 
         }
@@ -240,6 +252,7 @@ public class BookingThirdFormActivity extends AppCompatActivity {
                             int parent_id = result.getInt("id");
                             open_forth_form(parent_id);
 
+
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
@@ -291,6 +304,10 @@ public class BookingThirdFormActivity extends AppCompatActivity {
 
     private String generateRandomPass() {
         Random generator = new Random();
+
+        Random random_num = new Random();
+        final int verfication_num = random_num.nextInt(9999999 - 1000) + 1000;
+
         StringBuilder randomStringBuilder = new StringBuilder();
         int randomLength = generator.nextInt(10);
         char tempChar;
@@ -298,7 +315,9 @@ public class BookingThirdFormActivity extends AppCompatActivity {
             tempChar = (char) (generator.nextInt(96) + 32);
             randomStringBuilder.append(tempChar);
         }
-        return randomStringBuilder.toString();
+
+        return String.valueOf(verfication_num);
+        //return randomStringBuilder.toString();
     }
 
     @SuppressLint("StaticFieldLeak")
@@ -359,6 +378,7 @@ public class BookingThirdFormActivity extends AppCompatActivity {
 
 
     private void open_forth_form(int parent_id){
+        progressDialog.dismiss();
         Intent intent = new Intent(BookingThirdFormActivity.this, BookingForthFormActivity.class);
         intent.putExtra("booking_info", booking_info);
         intent.putExtra("parent_id", parent_id);

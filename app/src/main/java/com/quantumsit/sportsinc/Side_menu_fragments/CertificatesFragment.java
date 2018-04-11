@@ -46,6 +46,7 @@ public class CertificatesFragment extends Fragment {
     GlobalVars globalVars;
 
     private int currentVisiblePosition = 0;
+    private boolean connectionStatus;
 
     @Nullable
     @Override
@@ -188,6 +189,7 @@ public class CertificatesFragment extends Fragment {
                 @Override
                 public void onResponse(JSONArray response) {
                     super.onResponse(response);
+                    connectionStatus = connectionTimeOut;
                     fill_Adapter(response , loadMore);
 
                 }
@@ -212,6 +214,10 @@ public class CertificatesFragment extends Fragment {
                     e.printStackTrace();
                 }
             }
+        }
+        if (connectionStatus){
+            customRecyclerView.timeOut();
+            return;
         }
         customRecyclerView.notifyChange(certificates_list.size());
         customRecyclerView.finishLoading();

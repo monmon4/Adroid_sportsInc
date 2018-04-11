@@ -131,15 +131,15 @@
     <string name="content">Content</string>
     <string name="send">Send</string>
     <string name="logout">Logout</string>
-    <string name="course_name">Level Name</string>
+    <string name="course_name">Class Name</string>
     <string name="date">Date</string>
     <string name="class_number">Session number</string>
     <string name="score">Score</string>
-    <string name="group_number">Class number</string>
+    <string name="group_number">Course number</string>
     <string name="coach_s_name">Coach\'s name</string>
     <string name="coach_s_notes">Coach\'s notes</string>
     <string name="creation_date">Creation date</string>
-    <string name="course_name_class_number">Level name, Session number</string>
+    <string name="course_name_class_number">Class name, Session number</string>
     <string name="class_date">session date</string>
     <string name="write_your_reason">Write your reason</string>
     <string name="_500">$500</string>
@@ -188,7 +188,7 @@
     <string name="view_scores">View Scores</string>
     <string name="full_name">Full Name</string>
     <string name="postpond">Postpone</string>
-    <string name="no_Courses">No Courses Available</string>
+    <string name="no_Courses">No Classes Available</string>
     <string name="no_Events">No New Events</string>
     <string name="no_rules">No Rules</string>
     <string name="no_news">No News</string>
@@ -208,7 +208,7 @@
     <string name="class_date_spinner">Session, date</string>
     <string name="no_certificates">No certificates</string>
     <string name="no_payment_reports">No payment reports</string>
-    <string name="no_courses_reports">No classes reports</string>
+    <string name="no_courses_reports">No courses reports</string>
     <string name="no_scores">No scores</string>
     <string name="absent">Absent</string>
     <string name="no_classes">No Sessions Today</string>
@@ -264,9 +264,9 @@
     <string name="coach">Coach  </string>
     <string name="trainee">Trainee  </string>
     <string name="forgot_password">Forget password</string>
-    <string name="no_sessions_for_this_level">No sessions for this level</string>
+    <string name="no_sessions_for_this_level">No sessions for this class</string>
     <string name="select_request_for_what">Select Request for what</string>
-    <string name="select_request_for_which_level">Select Request for which level</string>
+    <string name="select_request_for_which_level">Select Request for which class</string>
     <string name="select_the_session_date">Select the session date</string>
     <string name="no_sessions">No sessions</string>
     <string name="current_sessions">Current sessions</string>
@@ -279,7 +279,7 @@
     <string name="description_">Description:</string>
     <string name="description">Description</string>
     <string name="session_">Session:</string>
-    <string name="level_">Level:</string>
+    <string name="level_">Class:</string>
     <string name="class_">Class:</string>
     <string name="bad">Bad</string>
     <string name="average">Average</string>
@@ -302,8 +302,8 @@
     <integer name="sad_face">0x1F641</integer>
 
 
-    <string name="facebook_app_id">154535822040150</string>
-    <string name="fb_login_protocol_scheme">fb154535822040150</string>
+    <string name="facebook_app_id">195079617933358</string>
+    <string name="fb_login_protocol_scheme">fb195079617933358</string>
 
     <!--  New String after Edit -->
 
@@ -438,7 +438,7 @@
     <string name="duration">duration:</string>
     <string name="classesNum">Number of sessions:</string>
     <string name="class_end">end</string>
-    <string name="my_groups">My Classes</string>
+    <string name="my_groups">My Courses</string>
     <string name="descriptionLable">Description:</string>
     <string name="courses">Courses</string>
     <string name="booked">Booked</string>
@@ -466,14 +466,14 @@
     <string name="backup_coach_">Backup coach:</string>
     <string name="confirm">Confirm</string>
     <string name="pay_later">Pay later</string>
-    <string name="no_classes_available">No classes available</string>
+    <string name="no_classes_available">No courses available</string>
     <string name="pay_now">Pay now</string>
     <string name="create_new_account">Create new account</string>
     <string name="late">Late</string>
     <string name="execused">Execused</string>
     <string name="didn_t_come">Didn\'t come</string>
     <string name="select">Select</string>
-    <string name="level">Level</string>
+    <string name="level">Class</string>
     <string name="booking">Booking</string>
     <string name="no_booked_classes">No booked classes</string>
 
@@ -483,5 +483,27 @@
     <string name="negative_button_text">Cancel</string>
     <string name="no_sessions_today">No Sessions Today</string>
     <string name="my_cart">My cart</string>
+    <string name="TimeOutLabel">Poor Internet Connection...</string>
+    <string name="retry_btn">tab to Retry</string>
+    <string name="TimeOutMsg">Poor Connection Try again Later..</string>
+    <string name="classDetails">Class details</string>
+    <string name="homeTab">Home</string>
+    <string name="sessionsTab">Sessions</string>
+    <string name="levelTab">Services</string>
+    <string name="pay_with_paypal">Pay with PayPal</string>
+    <string name="courseReportTab">Courses</string>
+    <string name="paymentReportTab">Payment</string>
+    <string name="no_current_finished">No current classes</string>
+    <string name="coursesLabel">Courses:</string>
+    <string name="this_course_is_full">this course is full</string>
+    <string name="title_activity_levels">LevelsActivity</string>
+    <string name="classesActivity">Classes</string>
+    <string name="DefaultName">Children Lessons</string>
+    <string name="table_program">classes_category</string>
+    <string name="parameter_order">ordered</string>
+    <string name="value_true">true</string>
+    <string name="Key_programID">classcat_id</string>
+    <string name="no_programs">No Programs available</string>
+    <string name="classes_">Courses:</string>
 
 </resources>

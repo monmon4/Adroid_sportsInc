@@ -66,6 +66,7 @@ public class MainFragment extends Fragment {
     ProgressBar progressBar;
     LinearLayout retry;
     RelativeLayout loading;
+    LinearLayout timeOut;
     NestedScrollView scrollView;
 
     LinearLayout newsItem , eventItem ;
@@ -107,6 +108,7 @@ public class MainFragment extends Fragment {
         loading = root.findViewById(R.id.LoadingData);
 
         retry = root.findViewById(R.id.layout_retry);
+        timeOut = root.findViewById(R.id.layout_timeOut);
 
         newsItem = root.findViewById(R.id.news_item);
         eventItem = root.findViewById(R.id.event_item);
@@ -223,29 +225,10 @@ public class MainFragment extends Fragment {
             initializeHome();
 
         else {
+            mSwipeRefreshLayout.setRefreshing(false);
             progressBar.setVisibility(View.GONE);
             retry.setVisibility(View.VISIBLE);
-        }
-    }
-
-    private void fillView(JSONArray response) {
-        mSwipeRefreshLayout.setRefreshing(false);
-        if (response != null) {
-            try {
-                JSONObject object = response.getJSONObject(0);
-
-                logo ="";// object.getString("logo");
-                brief = object.getString("about");
-
-                if (!logo.equals("")) {
-                    Picasso.with(getContext()).load(logo).into(Logo);
-                }
-
-                AboutAcademy.setText(brief);
-
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
+            timeOut.setVisibility(View.GONE);
         }
     }
 
@@ -317,6 +300,12 @@ public class MainFragment extends Fragment {
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
+                    }
+                    else if (connectionTimeOut){
+                        mSwipeRefreshLayout.setRefreshing(false);
+                        timeOut.setVisibility(View.VISIBLE);
+                        progressBar.setVisibility(View.GONE);
+                        return;
                     }
                 }
             }.execute(httpCall);

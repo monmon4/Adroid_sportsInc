@@ -45,6 +45,7 @@ public class CorsesFragment extends Fragment {
     public List<item_single_reports_courses> list_item;
 
     GlobalVars globalVars;
+    private boolean connectionStatus;
 
     @Nullable
     @Override
@@ -161,6 +162,7 @@ public class CorsesFragment extends Fragment {
                 @Override
                 public void onResponse(JSONArray response) {
                     super.onResponse(response);
+                    connectionStatus = connectionTimeOut;
                     fill_recycler_view(response , loadMore);
 
                 }
@@ -194,6 +196,10 @@ public class CorsesFragment extends Fragment {
             }
         } catch (JSONException e) {
             e.printStackTrace();
+        }
+        if (connectionStatus){
+            customRecyclerView.timeOut();
+            return;
         }
         customRecyclerView.notifyChange(list_item.size());
         customRecyclerView.finishLoading();

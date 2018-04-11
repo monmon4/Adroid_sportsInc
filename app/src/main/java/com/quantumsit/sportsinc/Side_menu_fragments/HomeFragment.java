@@ -12,8 +12,9 @@ import android.view.ViewGroup;
 import com.quantumsit.sportsinc.Aaa_data.GlobalVars;
 import com.quantumsit.sportsinc.Adapters.SectionsPagerAdapter;
 import com.quantumsit.sportsinc.COACHES.CurrentClassFragments.Coach_StartClassFragment;
-import com.quantumsit.sportsinc.Home_fragments.CoursesFragment;
+import com.quantumsit.sportsinc.Activities.LevelsFragment;
 import com.quantumsit.sportsinc.Home_fragments.MainFragment;
+import com.quantumsit.sportsinc.Home_fragments.ProgramsFragment;
 import com.quantumsit.sportsinc.R;
 
 
@@ -44,11 +45,11 @@ public class HomeFragment extends Fragment {
 
     public void setupViewPager(ViewPager mViewPager){
         mSectionsPagerAdapter = new SectionsPagerAdapter(getChildFragmentManager());
-        mSectionsPagerAdapter.addFragment(new MainFragment(),"Home");
+        mSectionsPagerAdapter.addFragment(new MainFragment(),getString(R.string.homeTab));
         if (globalVars.getType() == 1)
-            mSectionsPagerAdapter.addFragment(new Coach_StartClassFragment(),"Sessions");
+            mSectionsPagerAdapter.addFragment(new Coach_StartClassFragment(),getString(R.string.sessionsTab));
         else
-            mSectionsPagerAdapter.addFragment(new CoursesFragment(),"Levels");
+            mSectionsPagerAdapter.addFragment(new ProgramsFragment(),getString(R.string.levelTab));
 
         mViewPager.setAdapter(mSectionsPagerAdapter);
     }

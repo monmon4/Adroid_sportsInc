@@ -14,16 +14,13 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.google.android.gms.maps.OnMapReadyCallback;
 import com.quantumsit.sportsinc.Aaa_data.Constants;
 import com.quantumsit.sportsinc.Aaa_data.GlobalVars;
 import com.quantumsit.sportsinc.Adapters.ListView_Adapter_checkout;
 import com.quantumsit.sportsinc.Backend.HttpCall;
 import com.quantumsit.sportsinc.Backend.HttpRequest;
 import com.quantumsit.sportsinc.CustomView.NonScrollListView;
-import com.quantumsit.sportsinc.Entities.BookingCourseEntity;
 import com.quantumsit.sportsinc.Entities.BookingCourseEntityFragment;
-import com.quantumsit.sportsinc.Entities.CourseEntity;
 import com.quantumsit.sportsinc.Entities.item_checkout;
 import com.quantumsit.sportsinc.R;
 
@@ -34,7 +31,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-public class PaymentFragment extends Fragment {
+public class ThePaymentFragment extends Fragment {
 
     TextView  total_textview, no_booking_textView;
     LinearLayout all_layout;
@@ -61,6 +58,9 @@ public class PaymentFragment extends Fragment {
 
         globalVars = (GlobalVars) getActivity().getApplication();
         progressDialog = new ProgressDialog(getActivity());
+        progressDialog.setMessage("Please wait ....");
+        progressDialog.setCancelable(false);
+        progressDialog.setCanceledOnTouchOutside(false);
 
         total_textview = root.findViewById(R.id.totalTextView_checkout);
         listView = root.findViewById(R.id.listView_checkout);
@@ -69,6 +69,14 @@ public class PaymentFragment extends Fragment {
         confirm_button = root.findViewById(R.id.confirmButton_checkout);
         pay_later_button = root.findViewById(R.id.payLaterButton_checkout);
         cardView.setVisibility(View.GONE);
+
+        Button button = root.findViewById(R.id.button2);
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openPayment();
+            }
+        });
 
         confirm_button.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -248,5 +256,8 @@ public class PaymentFragment extends Fragment {
     }
 
 
+    public void openPayment() {
+        startActivity(new Intent(getActivity(), ForPaymentActivity.class));
+    }
 
 }
