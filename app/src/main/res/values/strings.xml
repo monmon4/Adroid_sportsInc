@@ -188,7 +188,7 @@
     <string name="view_scores">View Scores</string>
     <string name="full_name">Full Name</string>
     <string name="postpond">Postpone</string>
-    <string name="no_Courses">No Courses Available</string>
+    <string name="no_Courses">No Classes Available</string>
     <string name="no_Events">No New Events</string>
     <string name="no_rules">No Rules</string>
     <string name="no_news">No News</string>
@@ -489,12 +489,20 @@
     <string name="classDetails">Class details</string>
     <string name="homeTab">Home</string>
     <string name="sessionsTab">Sessions</string>
-    <string name="levelTab">Classes</string>
+    <string name="levelTab">Services</string>
     <string name="pay_with_paypal">Pay with PayPal</string>
     <string name="courseReportTab">Courses</string>
     <string name="paymentReportTab">Payment</string>
     <string name="no_current_finished">No current classes</string>
     <string name="coursesLabel">Courses:</string>
     <string name="this_course_is_full">this course is full</string>
+    <string name="title_activity_levels">LevelsActivity</string>
+    <string name="classesActivity">Classes</string>
+    <string name="DefaultName">Children Lessons</string>
+    <string name="table_program">classes_category</string>
+    <string name="parameter_order">ordered</string>
+    <string name="value_true">true</string>
+    <string name="Key_programID">classcat_id</string>
+    <string name="no_programs">No Programs available</string>
 
 </resources>
