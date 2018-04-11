@@ -53,8 +53,7 @@
 
     <color name="colorCoursesDetails">#d7d7d7</color>
     <color name="colorCoursesWindow">#6d6565</color>
-
-
+    <color name="colorShadow">#e25e5e5e</color>
 
 
 </resources>

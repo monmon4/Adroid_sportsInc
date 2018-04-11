@@ -98,7 +98,6 @@
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"
             android:value="@string/facebook_app_id" />
-
         <meta-data
             android:name="com.google.android.gms.wallet.api.enabled"
             android:value="true" />
@@ -124,7 +123,8 @@
         </service>
         <!-- ./Firebase Notifications -->
         <activity android:name=".Activities.ThePaymentActivity" />
-        <activity android:name=".Activities.ForPaymentActivity"></activity>
+        <activity android:name=".Activities.ForPaymentActivity" />
+        <activity android:name=".Activities.LevelsActivity"/>
     </application>
 
 </manifest>
