@@ -212,7 +212,7 @@ public class CourseDetailsActivity extends AppCompatActivity {
         loadingView.success();
     }
 
-    public void fill_list_view2(final CourseEntity myCourse) {
+    public void fill_list_view(final CourseEntity myCourse) {
         header_list.clear();
         child_list.clear();
         JSONObject where_info = new JSONObject();
@@ -244,7 +244,7 @@ public class CourseDetailsActivity extends AppCompatActivity {
                             String coach_name = result.getString("user_name");
                             String start_date = result.getString("group_sdate");
                             String[] days = get_days(result.getString("days"));
-                            boolean available = false;
+                            boolean available = true;
 
                             if( days.length!=0 ) {
                                 if(!days[0].equals(" ")){
@@ -289,7 +289,7 @@ public class CourseDetailsActivity extends AppCompatActivity {
 
     }
 
-    public void fill_list_view(final CourseEntity myCourse) {
+    public void fill_list_view2(final CourseEntity myCourse) {
         header_list.clear();
         child_list.clear();
         JSONObject where_info = new JSONObject();
