@@ -39,7 +39,7 @@
             android:layout_height="80dp"
             android:layout_marginEnd="@dimen/ten_dimens"
             android:background="@color/colorWhite"
-            android:src="@drawable/star"/>
+            android:src="@drawable/sportsinc_aquatics_logo"/>
 
             <LinearLayout
                 android:layout_width="0dp"
