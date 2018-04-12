@@ -128,12 +128,13 @@ public class ListView_Adapter_checkout extends ArrayAdapter<item_checkout> {
 
                     }
                 });
-
-                className_textview.setText(item.getClass_name());
-                noOfTrainees_textview.setText(item.getNumber_of_trainees());
-                trainessNames_textview.setText(item.getTrainees_names());
-                price_textview.setText(item.getPrice());
             }
+
+            className_textview.setText(item.getClass_name());
+            noOfTrainees_textview.setText(item.getNumber_of_trainees());
+            trainessNames_textview.setText(item.getTrainees_names());
+            price_textview.setText(item.getPrice());
+
         }
         // Return the completed view to render on screen
         return convertView;

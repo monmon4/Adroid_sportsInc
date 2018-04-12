@@ -16,7 +16,6 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
@@ -38,7 +37,6 @@ import org.json.JSONObject;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.TimeZone;
@@ -258,7 +256,8 @@ public class EventsDetailsActivity extends AppCompatActivity {
     }
 
     private void changeInterestedView() {
-        addToCalendar.setBackgroundColor(Color.parseColor("#001b51"));
+        addToCalendar.setEnabled(false);
+        addToCalendar.setBackgroundResource(R.drawable.cornered_background_darkblue);
         interestedLabel.setTextColor(Color.parseColor("#FFFFFF"));
         interestedView.setImageResource(R.drawable.ic_star);
     }
