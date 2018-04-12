@@ -458,7 +458,7 @@
     <string name="signUp">Sign Up</string>
     <string name="RemindNote">Reminder Note</string>
     <string name="terms_amp_conditions"><![CDATA[Terms&Conditions]]></string>
-    <string name="your_classes">Your Classes</string>
+    <string name="your_classes">Your Courses</string>
     <string name="number_of_trainees_">Number of Trainees:</string>
     <string name="trainees_names">Trainees names:</string>
     <string name="total">Total</string>
@@ -475,7 +475,7 @@
     <string name="select">Select</string>
     <string name="level">Class</string>
     <string name="booking">Booking</string>
-    <string name="no_booked_classes">No booked classes</string>
+    <string name="no_booked_classes">No booked courses</string>
 
 
     <string name="alert_dialog_title">Please Select</string>

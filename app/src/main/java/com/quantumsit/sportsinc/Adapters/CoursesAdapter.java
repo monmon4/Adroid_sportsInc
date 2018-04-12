@@ -86,6 +86,24 @@ public class CoursesAdapter extends ArrayAdapter<CourseEntity> {
                 }
             });
         }
+
+        if(name.contains("Baby")){
+            icon.setImageResource(R.drawable.pic3);
+        } else if(name.contains("Toddler")){
+            icon.setImageResource(R.drawable.pic1);
+        } else if (name.contains("Gymnastic")){
+            icon.setImageResource(R.drawable.aqua);
+        } else if (name.contains("Advanced")){
+            icon.setImageResource(R.drawable.advanced_training);
+        }else if (name.contains("Elite")){
+            icon.setImageResource(R.drawable.elite_team);
+        } else if (name.contains("Junior")){
+            icon.setImageResource(R.drawable.junior);
+        } else if (name.contains("Preparation")){
+            icon.setImageResource(R.drawable.preparation_team);
+        }else if (name.contains("Stroke")){
+            icon.setImageResource(R.drawable.stroke);
+        }
         CourseName.setText(name);
         SessionNum.setText(mycourse.getClasses_Num());
         SessionDur.setText(mycourse.getClassDur());
