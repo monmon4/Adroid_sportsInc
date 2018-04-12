@@ -118,6 +118,25 @@ public class CourseDetailsActivity extends AppCompatActivity {
                     Log.d("Image Loading ","ERROR In Loading");
                 }
             });
+        } else {
+            String name = myCourse.getCourseName();
+            if(name.contains("Baby")){
+                levelImage.setImageResource(R.drawable.pic3);
+            } else if(name.contains("Toddler")){
+                levelImage.setImageResource(R.drawable.pic1);
+            } else if (name.contains("Gymnastic")){
+                levelImage.setImageResource(R.drawable.aqua);
+            } else if (name.contains("Advanced")){
+                levelImage.setImageResource(R.drawable.advanced_training);
+            }else if (name.contains("Elite")){
+                levelImage.setImageResource(R.drawable.elite_team);
+            } else if (name.contains("Junior")){
+                levelImage.setImageResource(R.drawable.junior);
+            } else if (name.contains("Preparation")){
+                levelImage.setImageResource(R.drawable.preparation_team);
+            }else if (name.contains("Stroke")){
+                levelImage.setImageResource(R.drawable.stroke);
+            }
         }
         SessionsNum.setText(myCourse.getClasses_Num());
         durationOfSession.setText(myCourse.getClassDur());
@@ -212,7 +231,7 @@ public class CourseDetailsActivity extends AppCompatActivity {
         loadingView.success();
     }
 
-    public void fill_list_view(final CourseEntity myCourse) {
+    public void fill_list_view1(final CourseEntity myCourse) {
         header_list.clear();
         child_list.clear();
         JSONObject where_info = new JSONObject();
@@ -289,7 +308,7 @@ public class CourseDetailsActivity extends AppCompatActivity {
 
     }
 
-    public void fill_list_view2(final CourseEntity myCourse) {
+    public void fill_list_view(final CourseEntity myCourse) {
         header_list.clear();
         child_list.clear();
         JSONObject where_info = new JSONObject();
