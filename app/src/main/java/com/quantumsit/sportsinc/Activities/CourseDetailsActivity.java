@@ -470,6 +470,7 @@ public class CourseDetailsActivity extends AppCompatActivity {
         itemMeasure = savedInstanceState.getInt("itemMeasure");
         header_list.addAll(new_header_list);
         child_list.putAll(new_child_list);
+        adapter_coursesDetails = new ListViewExpandable_Adapter_CoursesDetails(CourseDetailsActivity.this, header_list, child_list, myCourse, trainee_names);
         adapter_coursesDetails.notifyDataSetChanged();
         expandableListView.setAdapter(adapter_coursesDetails);
         if (header_list.size() > 0) {
