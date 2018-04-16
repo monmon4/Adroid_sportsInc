@@ -508,7 +508,7 @@ public class HomeActivity extends AppCompatActivity
             navigationMenu.findItem(R.id.nav_certificates).setVisible(false);
             navigationMenu.findItem(R.id.nav_reports).setVisible(false);
             navigationMenu.findItem(R.id.nav_requests).setVisible(false);
-            navigationMenu.findItem(R.id.nav_notifications).setVisible(false);
+            //navigationMenu.findItem(R.id.nav_notifications).setVisible(false);
             navigationMenu.findItem(R.id.nav_myClasses).setVisible(false);
         } else if(type == 1) {
             navigationMenu.findItem(R.id.nav_booking).setVisible(false);
