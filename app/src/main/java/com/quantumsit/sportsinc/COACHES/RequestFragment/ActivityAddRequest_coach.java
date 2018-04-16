@@ -231,10 +231,11 @@ public class ActivityAddRequest_coach extends AppCompatActivity {
             classList.add("");
         }
 
-        if(classList.size() == 0){
+        if(classList.isEmpty()){
 
             //class_number_spinner.setHint(R.string.no_sessions);
-            classList.add(getString(R.string.no_sessions));
+            class_number_spinner.setHint(getString(R.string.no_sessions));
+            //classList.add(getString(R.string.no_sessions));
         }
 
         ArrayAdapter<String> classNameAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item,classList);

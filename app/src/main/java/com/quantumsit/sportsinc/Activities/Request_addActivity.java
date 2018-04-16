@@ -185,7 +185,7 @@ public class Request_addActivity extends AppCompatActivity {
                             setDate_spinnerAdapter(0);
 
                         } else {
-                            date_list.add("NO Sessions");
+                            //date_list.add("NO Sessions");
                             setDate_spinnerAdapter(0); }
 
 
@@ -207,9 +207,23 @@ public class Request_addActivity extends AppCompatActivity {
 
     private void setDate_spinnerAdapter(int type) {
         ArrayAdapter<String> dates_spinner_adapter;
+
         if(type == 0) {
+            if(date_list.isEmpty()) {
+                date_spinner.setHint("NO Sessions");
+                reason_editText.setEnabled(false);
+            } else {
+                reason_editText.setEnabled(true);
+            }
             dates_spinner_adapter = new ArrayAdapter<>(this, android.R.layout.simple_dropdown_item_1line, date_list);
+
         } else {
+            if(group_list.isEmpty()) {
+                date_spinner.setHint("No Courses available");
+                reason_editText.setEnabled(false);
+            } else {
+                reason_editText.setEnabled(true);
+            }
             dates_spinner_adapter = new ArrayAdapter<>(this, android.R.layout.simple_dropdown_item_1line, group_list);
 
         }
@@ -246,7 +260,7 @@ public class Request_addActivity extends AppCompatActivity {
                             setDate_spinnerAdapter(1);
 
                         } else {
-                            group_list.add("No Courses available");
+                            //group_list.add("No Courses available");
                             setDate_spinnerAdapter(1);
                         }
 
@@ -272,12 +286,20 @@ public class Request_addActivity extends AppCompatActivity {
                 case "Absence":
                     show_toast("Please select session data");
                     break;
-                case "Switch class":
+                case "Switch course":
                     show_toast("Please select which course");
                     break;
             }
             if (!selectedTitle.equals("Other"))
                 return;
+        } else if (date_spinner.getText().toString().equals("NO Sessions")) {
+            show_toast("Please select session data");
+            return;
+
+        }else if (date_spinner.getText().toString().equals("No Courses available")) {
+            show_toast("Please select which course");
+            return;
+
         }
         if (reason_editText.getText().toString().equals("")) {
             Toast.makeText(Request_addActivity.this, "Please specify your reason", Toast.LENGTH_SHORT).show();
