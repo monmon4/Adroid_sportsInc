@@ -123,6 +123,11 @@ public class BookingThirdFormActivity extends AppCompatActivity {
         firstEmail = firstEmail_editText.getText().toString();
         firstPhone = firstPhone_editText.getText().toString();
 
+        if (TextUtils.isEmpty(firstEmail) && booking_info.getMail().equals("")) {
+            firstEmail_editText.setError("Parent email and trainee mail cant both be empty");
+            all_good = false;
+        }
+
         if(!TextUtils.isEmpty(firstEmail)) {
             if(!isValidMail(firstEmail)) {
                 firstEmail_editText.setError("Invalid mail");
@@ -130,12 +135,15 @@ public class BookingThirdFormActivity extends AppCompatActivity {
             } else if(firstEmail.equals(booking_info.getMail())) {
                 firstEmail_editText.setError("Parent mail same as trainee mail");
                 all_good = false;
+            } else if (!TextUtils.isEmpty(firstPhone)) {
+                if(!isValidPhone1(first_ccp.getFullNumber(), first_ccp.getSelectedCountryNameCode())) {
+                    firstPhone_editText.setError("Invalid phone");
+                    all_good = false;
+                }
+            } else if (TextUtils.isEmpty(firstPhone)){
+                firstPhone_editText.setError("Required");
             }
-        } else if (!TextUtils.isEmpty(firstPhone)) {
-            if(!isValidPhone1(first_ccp.getFullNumber(), first_ccp.getSelectedCountryNameCode())) {
-                firstPhone_editText.setError("Invalid phone");
-                all_good = false;
-            }
+
         }
 
         secondName = secondName_editText.getText().toString().trim();
@@ -166,6 +174,9 @@ public class BookingThirdFormActivity extends AppCompatActivity {
 
             if(booking_info.getMail().equals(globalVars.getMail())) {
                 check_parent();
+            } else if(booking_info.getM_mail().equals("") && booking_info.getF_mail().equals("")){
+                open_forth_form(-1);
+
             } else {
                 int parent_id = globalVars.getId();
                 open_forth_form(parent_id);
@@ -299,6 +310,8 @@ public class BookingThirdFormActivity extends AppCompatActivity {
                     }
                 }
             }.execute(httpCall);
+        } else {
+            open_forth_form(-1);
         }
     }
 

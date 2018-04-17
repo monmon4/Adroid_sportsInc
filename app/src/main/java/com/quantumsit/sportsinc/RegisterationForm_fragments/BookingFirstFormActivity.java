@@ -218,11 +218,13 @@ public class BookingFirstFormActivity extends AppCompatActivity {
         } else if (gender == 2) {
             gender_textView.setError("Required.");
             return false;
-        }else if (!isValidPhone(ccp.getFullNumber(), ccp.getSelectedCountryNameCode())){
-            phone_editText.setFocusable(true);
-            phone_editText.setError("Invalid phone number");
-            return false;
-        }else if(TextUtils.isEmpty(day_of_birth) || TextUtils.isEmpty(month_of_birth) || TextUtils.isEmpty(year_of_birth)){
+        }else if (!TextUtils.isEmpty(phone)) {
+            if (!isValidPhone(ccp.getFullNumber(), ccp.getSelectedCountryNameCode())) {
+                phone_editText.setFocusable(true);
+                phone_editText.setError("Invalid phone number");
+                return false;
+            }
+        } else if(TextUtils.isEmpty(day_of_birth) || TextUtils.isEmpty(month_of_birth) || TextUtils.isEmpty(year_of_birth)){
             year_editText.setError("Required.");
             year_editText.setFocusable(true);
             return false;
@@ -249,12 +251,15 @@ public class BookingFirstFormActivity extends AppCompatActivity {
         }else if (TextUtils.isEmpty(address)) {
             address_editText.setError("Required.");
             return false;
-        }else if (TextUtils.isEmpty(mail)) {
-            mail_editText.setError("Required.");
-            return false;
-        } else if (!isValidMail(mail)){
-            mail_editText.setError("Invalid email");
-            return false;
+        }//else if (TextUtils.isEmpty(mail)) {
+            //mail_editText.setError("Required.");
+           // return false;
+       // }
+        else if(!TextUtils.isEmpty(mail)) {
+            if (!isValidMail(mail)){
+                mail_editText.setError("Invalid email");
+                return false;
+            }
         }
 
 
