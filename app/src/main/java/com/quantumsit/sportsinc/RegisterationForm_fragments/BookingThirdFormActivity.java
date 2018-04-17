@@ -174,6 +174,9 @@ public class BookingThirdFormActivity extends AppCompatActivity {
 
             if(booking_info.getMail().equals(globalVars.getMail())) {
                 check_parent();
+            } else if(booking_info.getM_mail().equals("") && booking_info.getF_mail().equals("")){
+                open_forth_form(-1);
+
             } else {
                 int parent_id = globalVars.getId();
                 open_forth_form(parent_id);
@@ -307,6 +310,8 @@ public class BookingThirdFormActivity extends AppCompatActivity {
                     }
                 }
             }.execute(httpCall);
+        } else {
+            open_forth_form(-1);
         }
     }
 
