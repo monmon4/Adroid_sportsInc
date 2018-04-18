@@ -178,7 +178,7 @@ public class ProfileActivitynum2 extends AppCompatActivity {
     private void requestStoragePermission() {
 
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
-            showFileChooser();
+            showCameraOrGallery();
             return;
         }
 
