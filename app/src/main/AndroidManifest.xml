@@ -125,6 +125,7 @@
         <activity android:name=".Activities.ThePaymentActivity" />
         <activity android:name=".Activities.ForPaymentActivity" />
         <activity android:name=".Activities.LevelsActivity"/>
+        <activity android:name=".Activities.ProfileActivitynum2"/>
     </application>
 
 </manifest>

@@ -497,6 +497,7 @@ public class BookingForthFormActivity extends AppCompatActivity {
         JSONObject info = new JSONObject();
         try {
             info.put("user_id", id);
+            info.put("nationality", booking_info.getNationality());
             info.put("date_register", dateFormat.format(date));
             info.put("father_name",booking_info.getF_name());
             info.put("father_phone",booking_info.getF_phone());

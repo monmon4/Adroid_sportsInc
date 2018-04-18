@@ -497,9 +497,10 @@ public class HomeActivity extends AppCompatActivity
     }
 
     private void openProfile (){
-        Intent intent = new Intent(getApplicationContext(),ProfileActivity.class);
+        Intent intent = new Intent(getApplicationContext(),ProfileActivitynum2.class);
         drawer.closeDrawer(GravityCompat.START);
         startActivityForResult(intent ,PROFILE_CODE);
+
     }
 
     private void setSideMenu(int type, Menu navigationMenu){
