@@ -57,4 +57,8 @@ public interface Constants {
 
     //SQLite DB
     String TABLE_AcademyInfo = "info_academy";
+
+    /**** for adding photos ****/
+    int REQUEST_CAMERA = 1;
+    int SELECT_FILE = 2;
 }
