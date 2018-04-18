@@ -6,15 +6,19 @@ import android.app.ActionBar;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Typeface;
+import android.media.Image;
 import android.net.Uri;
 import android.os.Build;
+import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
@@ -102,6 +106,7 @@ public class RegisterActivity extends AppCompatActivity {
 
     //Bitmap to get image from gallery
     private Bitmap bitmap;
+    String img_add;
 
     //Uri to store the image uri
     private Uri filePath;
@@ -417,10 +422,11 @@ public class RegisterActivity extends AppCompatActivity {
         finish();
     }
 
+    //Requesting permission
     private void requestStoragePermission() {
 
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
-            showFileChooser();
+            showCameraOrGallery();
             return;
         }
 
@@ -444,12 +450,40 @@ public class RegisterActivity extends AppCompatActivity {
             //If permission is granted
             if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 //Displaying a toast
-                showFileChooser();
+                showCameraOrGallery();
             } else {
                 //Displaying another toast if permission is not granted
                 Toast.makeText(this, "Can't access Storage...", Toast.LENGTH_LONG).show();
             }
         }
+    }
+
+    private void showCameraOrGallery(){
+        final CharSequence[] items = {"Take Photo using Camera", "Choose from Gallery"};
+        android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(RegisterActivity.this);
+        builder.setTitle("Add Photo!");
+        builder.setItems(items, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int item) {
+
+                if (items[item].equals("Take Photo using Camera")) {
+
+                    Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                    startActivityForResult(intent, Constants.REQUEST_CAMERA);
+
+                } else if (items[item].equals("Choose from Gallery")) {
+
+                    Intent intent = new Intent(
+                            Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                    startActivityForResult(intent,Constants.SELECT_FILE);
+
+                } else if (items[item].equals("Cancel")) {
+
+                    dialog.dismiss();
+                }
+            }
+        });
+        builder.show();
     }
 
     //method to show file chooser
@@ -460,27 +494,56 @@ public class RegisterActivity extends AppCompatActivity {
         startActivityForResult(Intent.createChooser(intent, "Select Picture"), PICK_IMAGE_REQUEST);
     }
 
+    protected void onActivityResult(int requestCode, int resultCode, Intent imageReturnedIntent) {
+        super.onActivityResult(requestCode, resultCode, imageReturnedIntent);
+        String path;
+        switch(requestCode) {
+            case 1: //request camera
+                if(resultCode == RESULT_OK){
+                    Uri selectedImage = imageReturnedIntent.getData();
+                    path = getRealPathFromURI(selectedImage);
+                    bitmap = Functions.rotateBitmapOrientation(path);
+                    set_pic(bitmap);
+                    photoChanged = true;
+                }
 
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-
-        if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK && data != null && data.getData() != null) {
-            filePath = data.getData();
-            try {
-                bitmap = Bitmap_functions.getThumbnail(filePath,this,THUMBNAIL_SIZE);
-                imageView.setImageBitmap(bitmap);
-                //cardView.setVisibility(View.GONE);
-                imageButton.setVisibility(View.GONE);
-                photoChanged = true;
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+                break;
+            case 2: //choose from gallery
+                if(resultCode == RESULT_OK){
+                    Uri selectedImage = imageReturnedIntent.getData();
+                    path = getRealPathFromURI(selectedImage);
+                    bitmap = Functions.rotateBitmapOrientation(path);
+                    set_pic(bitmap);
+                    photoChanged = true;
+                }
+                break;
         }
     }
 
+    private void set_pic(Bitmap bit_map){
 
+        img_add = Functions.encode_base64(bit_map);
+        Bitmap bitmap = Functions.decodeBase64(img_add);
+        imageView.setImageBitmap(bitmap);
+        photoChanged = true;
 
+    }
+
+    public String getRealPathFromURI(Uri contentUri)
+    {
+        try
+        {
+            String[] proj = {MediaStore.Images.Media.DATA};
+            Cursor cursor = managedQuery(contentUri, proj, null, null, null);
+            int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
+            cursor.moveToFirst();
+            return cursor.getString(column_index);
+        }
+        catch (Exception e)
+        {
+            return contentUri.getPath();
+        }
+    }
     private void uploadImageToServer() {
         filePath = Bitmap_functions.getImageUri(getApplicationContext() , bitmap);
         String ImagePath = Bitmap_functions.getPath(filePath, this);

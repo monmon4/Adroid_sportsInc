@@ -79,7 +79,7 @@ public class ProfileActivitynum2 extends AppCompatActivity {
     private boolean profileStatus = false;
     private boolean photoChanged = false;
 
-    String img_productadd;
+    String img_add;
 
     //Image request code
     private int PICK_IMAGE_REQUEST = 1;
@@ -97,8 +97,6 @@ public class ProfileActivitynum2 extends AppCompatActivity {
     Dialog verfication_dialog;
     Functions functions;
     private boolean noChange;
-
-    String path;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -248,7 +246,7 @@ public class ProfileActivitynum2 extends AppCompatActivity {
 
     protected void onActivityResult(int requestCode, int resultCode, Intent imageReturnedIntent) {
         super.onActivityResult(requestCode, resultCode, imageReturnedIntent);
-        //Bitmap bitmap;
+        String path;
         switch(requestCode) {
             case 1: //request camera
                 if(resultCode == RESULT_OK){
@@ -274,8 +272,8 @@ public class ProfileActivitynum2 extends AppCompatActivity {
 
     private void set_pic(Bitmap bit_map){
 
-        img_productadd = Functions.encode_base64(bit_map);
-        Bitmap bitmap = Functions.decodeBase64(img_productadd);
+        img_add = Functions.encode_base64(bit_map);
+        Bitmap bitmap = Functions.decodeBase64(img_add);
         Image.setImageBitmap(bitmap);
         photoChanged = true;
 
