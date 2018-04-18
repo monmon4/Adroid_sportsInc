@@ -92,14 +92,9 @@ public class ProfileActivitynum2 extends AppCompatActivity {
 
     //Uri to store the image uri
     private Uri filePath;
-    private int THUMBNAIL_SIZE = 150;
     private int Counter = 0;
 
-    PopupWindow verfication_popup_window;
     Dialog verfication_dialog;
-    private Context profile_Context;
-    private LinearLayout profile_ll;
-    private RelativeLayout profile_rl;
     Functions functions;
     private boolean noChange;
 
@@ -120,10 +115,6 @@ public class ProfileActivitynum2 extends AppCompatActivity {
         progressDialog.setMessage("Saving...");
         progressDialog.setCancelable(false);
         progressDialog.setCanceledOnTouchOutside(false);
-
-        profile_Context = getApplicationContext();
-        //profile_ll =  findViewById(R.id.profile_ll);
-        profile_rl =  findViewById(R.id.profile_rl);
 
         Name = findViewById(R.id.nameEditText_profile);
         Image = findViewById(R.id.imageView_profile);
@@ -255,23 +246,6 @@ public class ProfileActivitynum2 extends AppCompatActivity {
         startActivityForResult(Intent.createChooser(intent, "Select Picture"), PICK_IMAGE_REQUEST);
     }
 
-    /*@Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-
-        if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK && data != null && data.getData() != null) {
-            filePath = data.getData();
-            try {
-                bitmap = Bitmap_functions.getThumbnail(filePath,this,THUMBNAIL_SIZE);
-                Image.setImageBitmap(bitmap);
-
-                photoChanged = true;
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-    }*/
-
     protected void onActivityResult(int requestCode, int resultCode, Intent imageReturnedIntent) {
         super.onActivityResult(requestCode, resultCode, imageReturnedIntent);
         //Bitmap bitmap;
@@ -282,6 +256,7 @@ public class ProfileActivitynum2 extends AppCompatActivity {
                     path = getRealPathFromURI(selectedImage);
                     bitmap = functions.rotateBitmapOrientation(path);
                     set_pic(bitmap);
+                    photoChanged = true;
                 }
 
                 break;
@@ -291,6 +266,7 @@ public class ProfileActivitynum2 extends AppCompatActivity {
                     path = getRealPathFromURI(selectedImage);
                     bitmap = Functions.rotateBitmapOrientation(path);
                     set_pic(bitmap);
+                    photoChanged = true;
                 }
                 break;
         }
@@ -384,7 +360,6 @@ public class ProfileActivitynum2 extends AppCompatActivity {
     }
 
     private void editableProfile(boolean editable){
-        Log.d("ProfileStatus",String.valueOf(profileStatus));
         profileStatus = editable;
         enableProfile(editable);
         int visible = View.VISIBLE;
@@ -421,8 +396,6 @@ public class ProfileActivitynum2 extends AppCompatActivity {
         }else {
             // progressBar.setVisibility(View.GONE);
         }
-        //Gender.setText(globalVars.getPersonGender());
-        //DateOfBirth.setText(globalVars.getDate_of_birth());
     }
 
     private void changeProfilePassword() {
@@ -496,10 +469,8 @@ public class ProfileActivitynum2 extends AppCompatActivity {
             else
                 insertToDb();
         }
-        else {
-            progressDialog.dismiss();
-            editableProfile(false);
-            fillProfileData();
+        else if (!photoChanged){
+            dismissProgress();
         }
     }
 
@@ -525,7 +496,6 @@ public class ProfileActivitynum2 extends AppCompatActivity {
                 @Override
                 public void onResponse(JSONArray response) {
                     super.onResponse(response);
-                    Log.d(TAG,String.valueOf(response));
                 }
             }.execute(httpCall);
 
@@ -535,14 +505,11 @@ public class ProfileActivitynum2 extends AppCompatActivity {
     }
 
     private void insertToDb() {
-        progressDialog.show();
-
         try {
             JSONObject values = new JSONObject();
             values.put("name",NewName);
             values.put("phone",NewPhone);
             values.put("email",NewMail);
-            //values.put("ImageUrl",globalVars.getImgUrl());
 
             JSONObject where = new JSONObject();
             where.put("id",globalVars.getId());
@@ -571,7 +538,7 @@ public class ProfileActivitynum2 extends AppCompatActivity {
                     }else {
                         Toast.makeText(ProfileActivitynum2.this,"Edit Fail",Toast.LENGTH_SHORT).show();
                     }
-                    progressDialog.dismiss();
+                    dismissProgress();
                 }
             }.execute(httpCall);
 
@@ -582,8 +549,11 @@ public class ProfileActivitynum2 extends AppCompatActivity {
 
     private synchronized void dismissProgress() {
         Counter++;
-        if (Counter >= 2 || photoChanged == false || noChange == false)
+        if (Counter >= 2 || photoChanged == false || noChange == false) {
             progressDialog.dismiss();
+            editableProfile(false);
+            fillProfileData();
+        }
     }
 
     private void updatePassword(final String pass, final AlertDialog alertdialog) {
@@ -675,8 +645,6 @@ public class ProfileActivitynum2 extends AppCompatActivity {
         onBackPressed();
         return true;
     }
-
-
 
     @Override
     public void onSaveInstanceState(Bundle outState) {
