@@ -280,7 +280,7 @@ public class ProfileActivitynum2 extends AppCompatActivity {
                 if(resultCode == RESULT_OK){
                     Uri selectedImage = imageReturnedIntent.getData();
                     path = getRealPathFromURI(selectedImage);
-                    bitmap = functions.rotateBitmapOrientation(path);
+                    bitmap = Functions.rotateBitmapOrientation(path);
                     set_pic(bitmap);
                 }
 
