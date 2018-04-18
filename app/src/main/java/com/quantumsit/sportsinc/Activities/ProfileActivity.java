@@ -460,8 +460,6 @@ public class ProfileActivity extends AppCompatActivity {
     }
 
     private void insertToDb() {
-        progressDialog.show();
-
         try {
             JSONObject values = new JSONObject();
             values.put("name",NewName);
@@ -496,7 +494,7 @@ public class ProfileActivity extends AppCompatActivity {
                     }else {
                         Toast.makeText(ProfileActivity.this,"Edit Fail",Toast.LENGTH_SHORT).show();
                     }
-                    progressDialog.dismiss();
+                    dismissProgress();
                 }
             }.execute(httpCall);
 
@@ -507,8 +505,9 @@ public class ProfileActivity extends AppCompatActivity {
 
     private synchronized void dismissProgress() {
         Counter++;
-        if (Counter >= 2 || photoChanged == false || noChange == false)
+        if (Counter >= 2 || photoChanged == false || noChange == false) {
             progressDialog.dismiss();
+        }
     }
 
     private void updatePassword(final String pass, final AlertDialog alertdialog) {
