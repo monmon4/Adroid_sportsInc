@@ -152,7 +152,7 @@ public class ListViewExpandable_Adapter_CoursesDetails extends BaseExpandableLis
             @Override
             public void onClick(View view) {
                 int type = globalVars.getType();
-                if (trainee_names.size()!= 0 || globalVars.isParent()) {
+                /*if (trainee_names.size()!= 0 || globalVars.isParent()) {
                     open_popup(groupPosition);
                 } else if ( type == 0 || type == 6 ) {
                     ArrayList <BookingCourseEntity> bookingCourseEntity = globalVars.getBookingCourseEntities();
@@ -166,10 +166,19 @@ public class ListViewExpandable_Adapter_CoursesDetails extends BaseExpandableLis
                     }
                     context.startActivity(new Intent(context, ThePaymentActivity.class));
 
-                }  else if (type == 5) {
+                }else if (type == 5) {
                     globalVars.setClass_id(header_list.get(groupPosition).getClass_id());
                     globalVars.setCourse_id(courseEntity.getCourse_id());
                     context.startActivity(new Intent(context, BookingFirstFormActivity.class));
+                }*/
+
+                if(type == 5) {
+                    globalVars.setClass_id(header_list.get(groupPosition).getClass_id());
+                    globalVars.setCourse_id(courseEntity.getCourse_id());
+                    context.startActivity(new Intent(context, BookingFirstFormActivity.class));
+
+                } else {
+                    open_popup(groupPosition);
                 }
 
             }

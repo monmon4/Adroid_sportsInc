@@ -62,7 +62,10 @@ public class UserEntity  implements Serializable{
     }
 
     public String getImgUrl() {
-        return imgUrl;
+        if(imgUrl == null)
+            return "";
+        else
+            return imgUrl;
     }
 
     public void setImgUrl(String imgUrl) {
