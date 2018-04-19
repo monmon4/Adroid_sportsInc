@@ -249,6 +249,12 @@ public class BookingForthFormActivity extends AppCompatActivity {
 
         try {
             where_info.put("email",booking_info.getMail());
+
+            if (parent_id != -1 && globalVars.isParent()) {
+                where_info.put("parent_id",parent_id);
+                where_info.put("name",booking_info.getName());
+            }
+
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -376,7 +382,7 @@ public class BookingForthFormActivity extends AppCompatActivity {
                     if(response != null){
                         try {
                             int ID = response.getInt(0);
-                            if(parent_id!=-1)
+                            if(parent_id != -1 && globalVars.getMail() == booking_info.getMail())
                                 globalVars.setType(6);
                             insert_booking(ID);
                             check_trainee_info( ID);

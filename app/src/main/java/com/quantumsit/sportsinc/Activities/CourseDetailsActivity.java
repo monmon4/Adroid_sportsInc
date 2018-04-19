@@ -118,7 +118,7 @@ public class CourseDetailsActivity extends AppCompatActivity {
                     Log.d("Image Loading ","ERROR In Loading");
                 }
             });
-        } else {
+        } /*else {
             String name = myCourse.getCourseName();
             if(name.contains("Baby")){
                 levelImage.setImageResource(R.drawable.pic3);
@@ -137,7 +137,7 @@ public class CourseDetailsActivity extends AppCompatActivity {
             }else if (name.contains("Stroke")){
                 levelImage.setImageResource(R.drawable.stroke);
             }
-        }
+        }*/
         SessionsNum.setText(myCourse.getClasses_Num());
         durationOfSession.setText(myCourse.getClassDur());
         description.setText(myCourse.getDescription());
@@ -540,8 +540,13 @@ public class CourseDetailsActivity extends AppCompatActivity {
                         globalVars.setParent(false);
                         adapter_coursesDetails = new ListViewExpandable_Adapter_CoursesDetails(CourseDetailsActivity.this, header_list, child_list, myCourse, trainee_names);
                         adapter_coursesDetails.setLl(ll);
-                        check_course(myCourse);
+                        //check_course(myCourse);
                         trainee_names.clear();
+                        if(globalVars.getType() != 5) {
+                            trainee_names.add(new item_name_id(globalVars.getId(), "Me"));
+                        }
+                        fill_list_view(myCourse);
+
                     }
 
                 }
