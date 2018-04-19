@@ -20,6 +20,8 @@ public class BookingSecondFormActivity extends AppCompatActivity {
     StringBuilder illness = new StringBuilder();
     Booking_info booking_info;
 
+    boolean isActive;
+
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -90,6 +92,18 @@ public class BookingSecondFormActivity extends AppCompatActivity {
     public boolean onSupportNavigateUp() {
         onBackPressed();
         return true;
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        isActive = true;
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        isActive = false;
     }
 
 

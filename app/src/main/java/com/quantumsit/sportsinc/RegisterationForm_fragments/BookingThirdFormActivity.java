@@ -50,6 +50,8 @@ public class BookingThirdFormActivity extends AppCompatActivity {
     Functions functions;
     ProgressDialog progressDialog;
 
+    boolean isActive;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -396,5 +398,17 @@ public class BookingThirdFormActivity extends AppCompatActivity {
         intent.putExtra("booking_info", booking_info);
         intent.putExtra("parent_id", parent_id);
         startActivity(intent);
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        isActive = true;
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        isActive = false;
     }
 }
