@@ -325,7 +325,7 @@ public class BookingForthFormActivity extends AppCompatActivity {
                 super.onResponse(response);
 
                 if(response != null){
-
+                    insert_booking(the_id);
                 } else {
                     //show_toast("An error occurred");
                 }
@@ -384,8 +384,9 @@ public class BookingForthFormActivity extends AppCompatActivity {
                             int ID = response.getInt(0);
                             if(parent_id != -1 && globalVars.getMail() == booking_info.getMail())
                                 globalVars.setType(6);
-                            insert_booking(ID);
+
                             check_trainee_info( ID);
+                            insert_booking(ID);
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
@@ -472,9 +473,7 @@ public class BookingForthFormActivity extends AppCompatActivity {
                 super.onResponse(response);
 
                 if(response != null){
-                    Toast.makeText(BookingForthFormActivity.this, "Success", Toast.LENGTH_SHORT).show();
-                    startActivity(new Intent(BookingForthFormActivity.this, HomeActivity.class));
-                    finish();
+                    startHomeActivity();
 
                 } else {
                     insert_to_DB_info(id);
@@ -485,7 +484,7 @@ public class BookingForthFormActivity extends AppCompatActivity {
 
     }
 
-    private void insert_to_DB_info(int id){
+    private void insert_to_DB_info(final int id){
 
         SimpleDateFormat dateFormat = new SimpleDateFormat(
                 "yyyy-MM-dd HH:mm:ss", Locale.getDefault());
@@ -540,14 +539,12 @@ public class BookingForthFormActivity extends AppCompatActivity {
                     if(response != null){
 
 
-                            if(globalVars.getMail().trim().equals(booking_info.getMail().trim()))
-                                globalVars.setType(6);
-                            else if(parent_id !=-1)
-                                globalVars.setBooking_info(booking_info);
+                        if(globalVars.getMail().trim().equals(booking_info.getMail().trim()))
+                            globalVars.setType(6);
+                        else if(parent_id !=-1)
+                            globalVars.setBooking_info(booking_info);
 
-                            Toast.makeText(BookingForthFormActivity.this, "Success", Toast.LENGTH_SHORT).show();
-                            startActivity(new Intent(BookingForthFormActivity.this, HomeActivity.class));
-                            finish();
+                        startHomeActivity();
                     } else {
                         //show_toast("An error occurred");
                     }
@@ -565,6 +562,16 @@ public class BookingForthFormActivity extends AppCompatActivity {
     public boolean onSupportNavigateUp() {
         onBackPressed();
         return true;
+    }
+
+    private void startHomeActivity(){
+
+        Toast.makeText(BookingForthFormActivity.this, "Success", Toast.LENGTH_SHORT).show();
+
+        Intent intent = new Intent(BookingForthFormActivity.this, HomeActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(intent);
+        finish();
     }
 
 }

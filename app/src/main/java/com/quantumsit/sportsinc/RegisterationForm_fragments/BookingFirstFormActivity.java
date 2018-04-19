@@ -49,6 +49,8 @@ public class BookingFirstFormActivity extends AppCompatActivity {
 
     Booking_info booking_info;
 
+    static boolean isActive = false;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -59,6 +61,7 @@ public class BookingFirstFormActivity extends AppCompatActivity {
         getSupportActionBar().setTitle("Step1");
         globalVars = (GlobalVars) getApplication();
         booking_info = new Booking_info();
+        isActive = true;
 
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
 
@@ -327,5 +330,15 @@ public class BookingFirstFormActivity extends AppCompatActivity {
 
     }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+        isActive = true;
+    }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        isActive = false;
+    }
 }

@@ -275,6 +275,8 @@ public class ListViewExpandable_Adapter_CoursesDetails extends BaseExpandableLis
             @Override
             public void onClick(View view){
                 globalVars.setParent(true);
+                globalVars.setClass_id(header_list.get(groupPosition).getClass_id());
+                globalVars.setCourse_id(courseEntity.getCourse_id());
                 Intent intent = new Intent(context, BookingFirstFormActivity.class);
                 context.startActivity(intent);
                 popup_window.dismiss();
