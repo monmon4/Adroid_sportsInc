@@ -84,6 +84,13 @@
         <activity android:name=".RegisterationForm_fragments.BookingSecondFormActivity" />
         <activity android:name=".RegisterationForm_fragments.BookingThirdFormActivity" />
         <activity android:name=".RegisterationForm_fragments.BookingForthFormActivity" />
+        <activity android:name=".Activities.ThePaymentActivity" />
+        <activity android:name=".Activities.ForPaymentActivity" />
+        <activity android:name=".Activities.LevelsActivity"/>
+        <activity android:name=".Activities.ProfileActivitynum2"
+            android:windowSoftInputMode="stateAlwaysHidden" />
+
+
         <!--
             The API key for Google Maps-based APIs is defined as a string resource.
             (See the file "res/values/google_maps_api.xml").
@@ -122,11 +129,7 @@
             </intent-filter>
         </service>
         <!-- ./Firebase Notifications -->
-        <activity android:name=".Activities.ThePaymentActivity" />
-        <activity android:name=".Activities.ForPaymentActivity" />
-        <activity android:name=".Activities.LevelsActivity"/>
-        <activity android:name=".Activities.ProfileActivitynum2"
-            android:windowSoftInputMode="stateAlwaysHidden" />
+
     </application>
 
 </manifest>
