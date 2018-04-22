@@ -269,6 +269,7 @@ public class BookingForthFormActivity extends AppCompatActivity {
                     try {
                         JSONObject result = response.getJSONObject(0);
                         int the_id = result.getInt("id");
+                        Toast.makeText(BookingForthFormActivity.this, "This user already exists so will be updated", Toast.LENGTH_SHORT).show();
                         update_db(the_id);
                         insert_booking(the_id);
                         check_trainee_info(the_id);
@@ -473,7 +474,8 @@ public class BookingForthFormActivity extends AppCompatActivity {
                 super.onResponse(response);
 
                 if(response != null){
-                    startHomeActivity();
+                    update_DB_info(id);
+                    //startHomeActivity();
 
                 } else {
                     insert_to_DB_info(id);
@@ -544,6 +546,79 @@ public class BookingForthFormActivity extends AppCompatActivity {
                         else if(parent_id !=-1)
                             globalVars.setBooking_info(booking_info);
 
+                        startHomeActivity();
+                    } else {
+                        //show_toast("An error occurred");
+                    }
+
+                }
+            }.execute(httpCall);
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    private void update_DB_info(final int id){
+
+        SimpleDateFormat dateFormat = new SimpleDateFormat(
+                "yyyy-MM-dd HH:mm:ss", Locale.getDefault());
+        Date date = new Date();
+
+        if (hear_about_us.equals(getString(R.string.friends)))
+            hear_about_us = "0";
+
+        else if (hear_about_us.equals(getString(R.string.social_media)))
+            hear_about_us = "1";
+
+        else if(hear_about_us.equals(getString(R.string.brochures)))
+            hear_about_us = "2";
+
+        JSONObject info = new JSONObject();
+        JSONObject where = new JSONObject();
+        try {
+            where.put("user_id", id);
+            info.put("nationality", booking_info.getNationality());
+            info.put("date_register", dateFormat.format(date));
+            info.put("father_name",booking_info.getF_name());
+            info.put("father_phone",booking_info.getF_phone());
+            info.put("father_email",booking_info.getF_mail());
+            info.put("father_address",booking_info.getF_address());
+            info.put("father_nationality",booking_info.getF_nationality());
+            info.put("mother_name",booking_info.getM_name());
+            info.put("mother_phone",booking_info.getM_phone());
+            info.put("mother_email",booking_info.getM_mail());
+            info.put("mother_address",booking_info.getM_address());
+            info.put("mother_nationality",booking_info.getM_nationality());
+            info.put("E_name",E_firstName);
+            info.put("E_phone",E_firstPhone);
+            info.put("E_name1",E_secondName);
+            info.put("E_phone1",E_secondPhone);
+            info.put("medical_notes",booking_info.getMedical());
+            info.put("heard_of_us",hear_about_us);
+
+            HttpCall httpCall = new HttpCall();
+            httpCall.setMethodtype(HttpCall.POST);
+            httpCall.setUrl(Constants.updateData);
+            HashMap<String,String> params = new HashMap<>();
+            params.put("table","info_trainee");
+            params.put("where",where.toString());
+            params.put("values",info.toString());
+
+            httpCall.setParams(params);
+
+            //final String finalDate_of_birth = date_of_birth;
+            new HttpRequest(){
+                @Override
+                public void onResponse(JSONArray response) {
+                    super.onResponse(response);
+
+                    if(response != null){
+                        if(globalVars.getMail().trim().equals(booking_info.getMail().trim()))
+                            globalVars.setType(6);
+                        else if(parent_id !=-1)
+                            globalVars.setBooking_info(booking_info);
                         startHomeActivity();
                     } else {
                         //show_toast("An error occurred");
