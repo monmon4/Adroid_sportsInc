@@ -75,9 +75,9 @@ public class ThePaymentActivity extends AppCompatActivity {
                 String image = bookedCourses.get(i).getCourseEntity().getImageUrl();
                 String class_name = bookedCourses.get(i).getClass_name();
                 String trainee_name = bookedCourses.get(i).getTrainee_name();
-                String price = bookedCourses.get(i).getCourseEntity().getPrice();
+                String price= bookedCourses.get(i).getCourseEntity().getPrice();
                 String trainee_num = String.valueOf(trainee_name.split("\n").length);
-                int all_price = Integer.valueOf(price.trim()) * Integer.valueOf(trainee_num.trim());
+                int all_price = Integer.valueOf(price.replaceAll("\\D+","").trim()) * Integer.valueOf(trainee_num.trim());
 
                 list_items.add(new item_checkout(image, class_name, trainee_num
                         ,trainee_name, String.valueOf(all_price)));

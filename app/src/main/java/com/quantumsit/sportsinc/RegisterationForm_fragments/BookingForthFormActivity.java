@@ -5,6 +5,7 @@ import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.CheckBox;
@@ -37,6 +38,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Locale;
+import java.util.Random;
 
 public class BookingForthFormActivity extends AppCompatActivity {
 
@@ -269,20 +271,41 @@ public class BookingForthFormActivity extends AppCompatActivity {
                     try {
                         JSONObject result = response.getJSONObject(0);
                         int the_id = result.getInt("id");
+                        Toast.makeText(BookingForthFormActivity.this, "This user already exists so will be updated", Toast.LENGTH_SHORT).show();
                         update_db(the_id);
-                        insert_booking(the_id);
+                        //insert_booking(the_id);
                         check_trainee_info(the_id);
 
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
                 } else {
-                    insert_to_DB();
+                    String random_pass = generateRandomPass();
+                    insert_to_DB(random_pass);
                 }
             }
         }.execute(httpCall);
 
     }
+
+    private String generateRandomPass() {
+        Random generator = new Random();
+
+        Random random_num = new Random();
+        final int verfication_num = random_num.nextInt(9999999 - 1000) + 1000;
+
+        StringBuilder randomStringBuilder = new StringBuilder();
+        int randomLength = generator.nextInt(10);
+        char tempChar;
+        for (int i = 0; i < randomLength; i++){
+            tempChar = (char) (generator.nextInt(96) + 32);
+            randomStringBuilder.append(tempChar);
+        }
+
+        return String.valueOf(verfication_num);
+        //return randomStringBuilder.toString();
+    }
+
 
     private void update_db(final int the_id) {
 
@@ -307,6 +330,9 @@ public class BookingForthFormActivity extends AppCompatActivity {
             values.put("phone",booking_info.getPhone());
             if(parent_id != -1)
                 values.put("parent_id",parent_id);
+            else if(!globalVars.getMail().equals(booking_info.getMail()))
+                values.put("parent_id",globalVars.getId());
+
             values.put("email",booking_info.getMail());
             values.put("gender",booking_info.getGender());
             values.put("type",6);
@@ -325,6 +351,8 @@ public class BookingForthFormActivity extends AppCompatActivity {
                 super.onResponse(response);
 
                 if(response != null){
+                    if(globalVars.getMail() == booking_info.getMail())
+                        globalVars.setType(6);
                     insert_booking(the_id);
                 } else {
                     //show_toast("An error occurred");
@@ -335,7 +363,7 @@ public class BookingForthFormActivity extends AppCompatActivity {
 
     }
 
-    private void insert_to_DB() {
+    private void insert_to_DB(final String pass) {
 
         String date_of_birth = booking_info.getYear_of_birth() + "-" +
                 booking_info.getMonth_of_birth()+ "-" +
@@ -354,15 +382,19 @@ public class BookingForthFormActivity extends AppCompatActivity {
         JSONObject info = new JSONObject();
         try {
             info.put("name",booking_info.getName());
-            if (parent_id != -1) {
+
+            if (parent_id != -1)
                 info.put("parent_id",parent_id);
-            }
+            else if(!globalVars.getMail().equals(booking_info.getMail()))
+                    info.put("parent_id",globalVars.getId());
+
             info.put("phone",booking_info.getPhone());
             info.put("email",booking_info.getMail());
             info.put("gender",booking_info.getGender());
             info.put("type",6);
             info.put("date_of_birth",date_of_birth);
             info.put("address",booking_info.getAddress());
+            info.put("pass",pass);
 
             HttpCall httpCall = new HttpCall();
             httpCall.setMethodtype(HttpCall.POST);
@@ -382,9 +414,11 @@ public class BookingForthFormActivity extends AppCompatActivity {
                     if(response != null){
                         try {
                             int ID = response.getInt(0);
-                            if(parent_id != -1 && globalVars.getMail() == booking_info.getMail())
+                            if(globalVars.getMail() == booking_info.getMail())
                                 globalVars.setType(6);
 
+                            if(!booking_info.getMail().equals(""))
+                                send_random_pass(booking_info.getMail(), pass);
                             check_trainee_info( ID);
                             insert_booking(ID);
                         } catch (JSONException e) {
@@ -400,6 +434,29 @@ public class BookingForthFormActivity extends AppCompatActivity {
         } catch (JSONException e) {
             e.printStackTrace();
         }
+
+    }
+
+    private void send_random_pass (final String mail, final String pass){
+
+
+        HttpCall httpCall = new HttpCall();
+        httpCall.setMethodtype(HttpCall.POST);
+        httpCall.setUrl(Constants.sendMail);
+        HashMap<String,String> params = new HashMap<>();
+        Log.d("Verification","Mail: "+mail+" , code: "+pass);
+        params.put("email",mail);
+        params.put("code",pass);
+        httpCall.setParams(params);
+
+        new HttpRequest(){
+            @Override
+            public void onResponse(JSONArray response) {
+                super.onResponse(response);
+                Toast.makeText(BookingForthFormActivity.this, "A random password has been sent to:\n" + booking_info.getMail(), Toast.LENGTH_LONG).show();
+
+            }
+        }.execute(httpCall);
 
     }
 
@@ -473,7 +530,8 @@ public class BookingForthFormActivity extends AppCompatActivity {
                 super.onResponse(response);
 
                 if(response != null){
-                    startHomeActivity();
+                    update_DB_info(id);
+                    //startHomeActivity();
 
                 } else {
                     insert_to_DB_info(id);
@@ -544,6 +602,79 @@ public class BookingForthFormActivity extends AppCompatActivity {
                         else if(parent_id !=-1)
                             globalVars.setBooking_info(booking_info);
 
+                        startHomeActivity();
+                    } else {
+                        //show_toast("An error occurred");
+                    }
+
+                }
+            }.execute(httpCall);
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    private void update_DB_info(final int id){
+
+        SimpleDateFormat dateFormat = new SimpleDateFormat(
+                "yyyy-MM-dd HH:mm:ss", Locale.getDefault());
+        Date date = new Date();
+
+        if (hear_about_us.equals(getString(R.string.friends)))
+            hear_about_us = "0";
+
+        else if (hear_about_us.equals(getString(R.string.social_media)))
+            hear_about_us = "1";
+
+        else if(hear_about_us.equals(getString(R.string.brochures)))
+            hear_about_us = "2";
+
+        JSONObject info = new JSONObject();
+        JSONObject where = new JSONObject();
+        try {
+            where.put("user_id", id);
+            info.put("nationality", booking_info.getNationality());
+            info.put("date_register", dateFormat.format(date));
+            info.put("father_name",booking_info.getF_name());
+            info.put("father_phone",booking_info.getF_phone());
+            info.put("father_email",booking_info.getF_mail());
+            info.put("father_address",booking_info.getF_address());
+            info.put("father_nationality",booking_info.getF_nationality());
+            info.put("mother_name",booking_info.getM_name());
+            info.put("mother_phone",booking_info.getM_phone());
+            info.put("mother_email",booking_info.getM_mail());
+            info.put("mother_address",booking_info.getM_address());
+            info.put("mother_nationality",booking_info.getM_nationality());
+            info.put("E_name",E_firstName);
+            info.put("E_phone",E_firstPhone);
+            info.put("E_name1",E_secondName);
+            info.put("E_phone1",E_secondPhone);
+            info.put("medical_notes",booking_info.getMedical());
+            info.put("heard_of_us",hear_about_us);
+
+            HttpCall httpCall = new HttpCall();
+            httpCall.setMethodtype(HttpCall.POST);
+            httpCall.setUrl(Constants.updateData);
+            HashMap<String,String> params = new HashMap<>();
+            params.put("table","info_trainee");
+            params.put("where",where.toString());
+            params.put("values",info.toString());
+
+            httpCall.setParams(params);
+
+            //final String finalDate_of_birth = date_of_birth;
+            new HttpRequest(){
+                @Override
+                public void onResponse(JSONArray response) {
+                    super.onResponse(response);
+
+                    if(response != null){
+                        if(globalVars.getMail().trim().equals(booking_info.getMail().trim()))
+                            globalVars.setType(6);
+                        else if(parent_id !=-1)
+                            globalVars.setBooking_info(booking_info);
                         startHomeActivity();
                     } else {
                         //show_toast("An error occurred");
