@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -59,6 +60,7 @@ public class TraineeChildAdapter extends ArrayAdapter<UserEntity> {
 
         TextView nameView = view.findViewById(R.id.child_name);
         ImageView imageView = view.findViewById(R.id.child_image);
+        ImageButton removeImageButton = view.findViewById(R.id.removeImageButton);
         //final ProgressBar progressBar = (ProgressBar) view.findViewById(R.id.progressBar1);
         String ImageUrl = userEntity.getImgUrl();
         imageView.setImageResource(R.mipmap.ic_launcher_round);
@@ -81,6 +83,15 @@ public class TraineeChildAdapter extends ArrayAdapter<UserEntity> {
         if (globalVars.getPerson_id() == userEntity.getId())
             meString = " (me)";
         nameView.setText(userEntity.getName()+meString);
+
+        removeImageButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //////////////////////////////////////////////////
+                ////////////////////////////////////////////////
+                /////////////////////////////////////////////
+            }
+        });
         return  view;
     }
 }
