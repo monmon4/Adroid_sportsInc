@@ -31,7 +31,7 @@
 
         <LinearLayout
             android:id="@+id/allLayout_checkout"
-            android:visibility="gone"
+            android:visibility="visible"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical" >
@@ -84,9 +84,20 @@
 
                     <TextView
                         android:id="@+id/totalTextView_checkout"
-                        android:layout_width="match_parent"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="end|center"
+                        android:textColor="#f6846a"
+                        android:text = "33200" />
+
+                    <TextView
+                        android:id="@+id/currencyTextView_checkout"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:gravity="end|center"
+                        android:text = "@string/aed"
+                        android:layout_marginStart="5dp"
                         android:textColor="#f6846a" />
 
                 </LinearLayout>

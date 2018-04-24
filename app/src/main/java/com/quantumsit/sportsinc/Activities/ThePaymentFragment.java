@@ -219,7 +219,7 @@ public class ThePaymentFragment extends Fragment {
                     }
 
                     String trainee_num = String.valueOf(trainee_name.split("\n").length);
-                    int all_price = Integer.valueOf(price.trim()) * Integer.valueOf(trainee_num.trim());
+                    int all_price = Integer.valueOf(price.replaceAll("\\D+","").trim()) * Integer.valueOf(trainee_num.trim());
 
                     item_checkout item = new item_checkout(image, class_name, trainee_num
                             ,trainee_name, String.valueOf(all_price));
