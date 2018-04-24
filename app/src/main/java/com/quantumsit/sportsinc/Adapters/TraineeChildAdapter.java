@@ -1,7 +1,9 @@
 package com.quantumsit.sportsinc.Adapters;
 
+import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.util.Log;
@@ -16,6 +18,7 @@ import android.widget.TextView;
 
 import com.quantumsit.sportsinc.Aaa_data.Constants;
 import com.quantumsit.sportsinc.Aaa_data.GlobalVars;
+import com.quantumsit.sportsinc.Activities.Request_addActivity;
 import com.quantumsit.sportsinc.Backend.HttpCall;
 import com.quantumsit.sportsinc.Backend.HttpRequest;
 import com.quantumsit.sportsinc.Entities.UserEntity;
@@ -98,22 +101,41 @@ public class TraineeChildAdapter extends ArrayAdapter<UserEntity> {
 
         nameView.setText(userEntity.getName()+meString);
 
+        final View finalView = view;
         removeImageButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                removeChildTrainee(userEntity.getId());
-                userEntityList.remove(position);
-                TraineeChildAdapter.this.notifyDataSetChanged();
+                confirmRemove(finalView.getRootView().getContext() ,position);
             }
         });
         return  view;
     }
 
-    private void confirmRemove(int position) {
-        Dialog dialog = new Dialog(context);
-        removeChildTrainee(getItem(position).getId());
-        userEntityList.remove(position);
-        TraineeChildAdapter.this.notifyDataSetChanged();
+    private void confirmRemove(Context context ,final int position) {
+        final AlertDialog.Builder builder = new AlertDialog.Builder(context,
+                R.style.MyAlertDialogStyle);
+        builder.setTitle(context.getResources().getString(R.string.app_name));
+        builder.setCancelable(false);
+        builder.setMessage("     Are you sure?");
+        builder.setPositiveButton("Yes",
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        dialogInterface.dismiss();
+                        removeChildTrainee(getItem(position).getId());
+                        userEntityList.remove(position);
+                        TraineeChildAdapter.this.notifyDataSetChanged();
+                    }
+                });
+        builder.setNegativeButton("No",
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        dialogInterface.dismiss();
+                    }
+                });
+        builder.show();
+
     }
     private void removeChildTrainee(int id) {
         try {
