@@ -1,5 +1,6 @@
 package com.quantumsit.sportsinc.RegisterationForm_fragments;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
@@ -57,6 +58,7 @@ public class BookingForthFormActivity extends AppCompatActivity {
 
     Booking_info booking_info;
     GlobalVars globalVars;
+    ProgressDialog progressDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,6 +70,9 @@ public class BookingForthFormActivity extends AppCompatActivity {
         getSupportActionBar().setTitle("Step4");
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
         globalVars = (GlobalVars) getApplication();
+
+        progressDialog = new ProgressDialog(BookingForthFormActivity.this);
+        progressDialog.setMessage("Please wait ....");
 
         functions = new Functions(BookingForthFormActivity.this);
 
@@ -206,6 +211,7 @@ public class BookingForthFormActivity extends AppCompatActivity {
         }
 
         booking_info.setForth(E_firstName, E_firstPhone, E_secondName, E_secondPhone, hear_about_us);
+        progressDialog.show();
         check_mail();
 
     }
@@ -353,6 +359,7 @@ public class BookingForthFormActivity extends AppCompatActivity {
                 if(response != null){
                     if(globalVars.getMail() == booking_info.getMail())
                         globalVars.setType(6);
+                    check_trainee_info(the_id);
                     insert_booking(the_id);
                 } else {
                     //show_toast("An error occurred");
@@ -419,7 +426,7 @@ public class BookingForthFormActivity extends AppCompatActivity {
 
                             if(!booking_info.getMail().equals(""))
                                 send_random_pass(booking_info.getMail(), pass);
-                            check_trainee_info( ID);
+                            check_trainee_info(ID);
                             insert_booking(ID);
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -604,7 +611,8 @@ public class BookingForthFormActivity extends AppCompatActivity {
 
                         startHomeActivity();
                     } else {
-                        //show_toast("An error occurred");
+                        progressDialog.dismiss();
+                        Toast.makeText(BookingForthFormActivity.this,"Can't Save information please try again", Toast.LENGTH_SHORT);
                     }
 
                 }
@@ -677,7 +685,9 @@ public class BookingForthFormActivity extends AppCompatActivity {
                             globalVars.setBooking_info(booking_info);
                         startHomeActivity();
                     } else {
-                        //show_toast("An error occurred");
+                        progressDialog.dismiss();
+                        Toast.makeText(BookingForthFormActivity.this,"Can't Save information please try again", Toast.LENGTH_SHORT);
+
                     }
 
                 }
@@ -697,6 +707,7 @@ public class BookingForthFormActivity extends AppCompatActivity {
 
     private void startHomeActivity(){
 
+        progressDialog.dismiss();
         Toast.makeText(BookingForthFormActivity.this, "Success", Toast.LENGTH_SHORT).show();
 
         Intent intent = new Intent(BookingForthFormActivity.this, HomeActivity.class);
