@@ -258,7 +258,7 @@ public class BookingForthFormActivity extends AppCompatActivity {
         try {
             where_info.put("email",booking_info.getMail());
 
-            if (parent_id != -1 && globalVars.isParent()) {
+            if (parent_id != -1 && globalVars.isParent() && booking_info.getMail().equals("")) {
                 where_info.put("parent_id",parent_id);
                 where_info.put("name",booking_info.getName());
             }
@@ -277,10 +277,11 @@ public class BookingForthFormActivity extends AppCompatActivity {
                     try {
                         JSONObject result = response.getJSONObject(0);
                         int the_id = result.getInt("id");
+                        int the_type = result.getInt("type");
                         Toast.makeText(BookingForthFormActivity.this, "This user already exists so will be updated", Toast.LENGTH_SHORT).show();
-                        update_db(the_id);
+                        update_db(the_id, the_type);
                         //insert_booking(the_id);
-                        check_trainee_info(the_id);
+                        //check_trainee_info(the_id);
 
                     } catch (JSONException e) {
                         e.printStackTrace();
@@ -313,7 +314,7 @@ public class BookingForthFormActivity extends AppCompatActivity {
     }
 
 
-    private void update_db(final int the_id) {
+    private void update_db(final int the_id, final int type) {
 
         String date_of_birth = booking_info.getYear_of_birth() + "-" +
                 booking_info.getMonth_of_birth()+ "-" +
@@ -341,7 +342,9 @@ public class BookingForthFormActivity extends AppCompatActivity {
 
             values.put("email",booking_info.getMail());
             values.put("gender",booking_info.getGender());
-            values.put("type",6);
+            if (type == 5)
+                values.put("type",6);
+
             values.put("date_of_birth",date_of_birth);
             values.put("address",booking_info.getAddress());
         } catch (JSONException e) {

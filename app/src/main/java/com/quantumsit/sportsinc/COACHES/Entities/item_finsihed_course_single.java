@@ -27,7 +27,7 @@ public class item_finsihed_course_single implements Serializable{
     public item_finsihed_course_single(JSONObject jsonObject) {
         try {
             class_id = jsonObject.getInt("class_id");
-            class_name = "class" + jsonObject.getString("class_name");
+            class_name = "Session" + jsonObject.getString("class_name");
             coach_note = jsonObject.getString("class_note");
             String dateformate = jsonObject.getString("class_date");
             SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH);
