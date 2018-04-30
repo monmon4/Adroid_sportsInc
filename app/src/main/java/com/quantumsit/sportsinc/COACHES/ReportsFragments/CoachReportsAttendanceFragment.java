@@ -181,6 +181,9 @@ public class CoachReportsAttendanceFragment extends Fragment {
                 Calendar calendar = Calendar.getInstance();
                 calendar.set(Calendar.YEAR, year);
                 calendar.set(Calendar.MONTH, month);
+                if (month == Calendar.FEBRUARY)
+                    calendar.add(Calendar.MONTH, -1);
+
                 SimpleDateFormat dateFormat = new SimpleDateFormat("MMM ,yyyy");
 
                 levels_spinner.setText("");
