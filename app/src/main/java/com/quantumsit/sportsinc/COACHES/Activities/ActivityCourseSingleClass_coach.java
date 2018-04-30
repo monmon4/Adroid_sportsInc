@@ -11,6 +11,7 @@ import com.quantumsit.sportsinc.Backend.HttpCall;
 import com.quantumsit.sportsinc.Backend.HttpRequest;
 import com.quantumsit.sportsinc.COACHES.Adapter.ListView_Adapter_trainees_attendance_coach;
 import com.quantumsit.sportsinc.COACHES.Entities.item_finished_classes;
+import com.quantumsit.sportsinc.COACHES.Entities.item_finsihed_course_single;
 import com.quantumsit.sportsinc.CustomView.CustomLoadingView;
 import com.quantumsit.sportsinc.Entities.item_trainee_attendance;
 import com.quantumsit.sportsinc.R;
@@ -33,7 +34,7 @@ public class ActivityCourseSingleClass_coach extends AppCompatActivity {
     ArrayList<item_trainee_attendance> list_items;
 
   //  item_finsihed_course_single AdminClass;
-    item_finished_classes CoachClass;
+  item_finsihed_course_single CoachClass;
 
     TextView class_date_textView, course_name_textView, group_number_textView,
              pool_number_textView, coach_note_textView;
@@ -67,7 +68,7 @@ public class ActivityCourseSingleClass_coach extends AppCompatActivity {
 
        /* switch (UserType){
             case 1:*/
-        CoachClass = (item_finished_classes) getIntent().getSerializableExtra("finishedClass");
+        CoachClass = (item_finsihed_course_single) getIntent().getSerializableExtra("finishedClass");
                 /*break;
             case 2:
                 AdminClass = (item_finsihed_course_single) getIntent().getSerializableExtra("finishedClass");
@@ -100,7 +101,7 @@ public class ActivityCourseSingleClass_coach extends AppCompatActivity {
         /*switch (Type) {
             case 1:*/
         if (CoachClass !=null){
-            class_note = CoachClass.getClass_note();
+            class_note = CoachClass.getCoach_note();
             class_date = CoachClass.getClass_date();
             class_id = CoachClass.getClass_id();
         }
