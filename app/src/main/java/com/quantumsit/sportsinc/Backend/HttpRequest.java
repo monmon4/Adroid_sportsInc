@@ -43,8 +43,8 @@ public class HttpRequest extends AsyncTask<HttpCall, String, JSONArray> {
             String dataParams = getDataString(httpCall.getParams(), httpCall.getMethodtype());
             URL url = new URL(httpCall.getMethodtype() == HttpCall.GET ? httpCall.getUrl() + dataParams : httpCall.getUrl());
             Log.d(TAG,"URL :: "+String.valueOf(url));
+            Log.d(TAG,"params :: "+String.valueOf(dataParams));
             urlConnection = (HttpURLConnection) url.openConnection();
-            Log.d(TAG,"Connected");
             urlConnection.setRequestMethod(httpCall.getMethodtype() == HttpCall.GET ? "GET":"POST");
             urlConnection.setReadTimeout(10000 /* milliseconds */);
             urlConnection.setConnectTimeout(15000 /* milliseconds */);
@@ -66,11 +66,8 @@ public class HttpRequest extends AsyncTask<HttpCall, String, JSONArray> {
                 }
                 Log.d(TAG,"Response:"+String.valueOf(response));
                 JSONTokener tokener = new JSONTokener(response.toString());
-                Log.d(TAG,"Response:"+String.valueOf(response));
                 JSONObject data = new JSONObject(tokener);
-                Log.d(TAG,String.valueOf(data));
                 object = data.getJSONArray("data");
-                Log.d(TAG,String.valueOf(object));
             }
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();

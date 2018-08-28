@@ -139,6 +139,10 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void checkMail() {
+        if (!checkConnection()){
+            show_toast("No internet connection, try again...");
+            return;
+        }
 
         JSONObject where_info = new JSONObject();
 
@@ -174,6 +178,8 @@ public class LoginActivity extends AppCompatActivity {
                             received_type = result.getInt(getString(R.string.select_users_type));
                             received_phone = result.getString(getString(R.string.select_users_phone));
                             received_date_of_birth = result.getString(getString(R.string.select_users_birthdate));
+                            globalVars.settAll(received_name,received_imgUrl,received_phone,"",mail,
+                                    received_id,received_type,received_gender,received_date_of_birth);
                             verfication();
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -189,6 +195,10 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void verfication(){
+        if (!checkConnection()){
+            show_toast("No internet connection, try again...");
+            return;
+        }
         progressDialog.dismiss();
         Random random_num = new Random();
         final int verfication_num = random_num.nextInt(9999 - 1000) + 1000;
@@ -270,10 +280,16 @@ public class LoginActivity extends AppCompatActivity {
                     //Write your Logic. It will never dismiss the dialog unless your condition satisifies
                     String pass = NewPassword.getText().toString();
                     String Confir = ConfirmPassword.getText().toString();
-                    if (!TextUtils.isEmpty(NewPassword.getText()) &&pass.equals(Confir)){
-                        updatePassword(pass,alertdialog);
-                    }
-
+                        if (!TextUtils.isEmpty(NewPassword.getText())){
+                            if (!pass.equals(Confir)){
+                                show_toast("The confirm password is incorrect.");
+                                return;
+                            }
+                            updatePassword(pass,alertdialog);
+                        }
+                        else {
+                            show_toast("please enter the new password.");
+                        }
                     }
                 });
             }
@@ -283,6 +299,10 @@ public class LoginActivity extends AppCompatActivity {
 
     private void updatePassword(final String pass, final AlertDialog alertdialog) {
         try {
+            if (!checkConnection()){
+                show_toast("No internet connection, try again...");
+                return;
+            }
             JSONObject values = new JSONObject();
             values.put("pass",pass);
 
